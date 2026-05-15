@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-202: Zscaler for Users &mdash; Engineer &middot; Lab Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html.pt-init body{opacity:0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#eef4ff;--surface:#fff;--border:#bfdbfe;--border-dim:#dbeafe;
+  --text:#0d1a2e;--text-soft:#1e3a5c;--text-muted:#5a7a9a;
+  --blue:#1a6dcc;--blue-glow:rgba(26,109,204,0.07);
+}
+body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);}
+header{background:#0d1a2e;padding:28px 40px 24px;border-bottom:3px solid #1a3a6e;}
+.breadcrumb{font-size:11px;color:#93c5fd;margin-bottom:10px;}
+.breadcrumb a{color:#93c5fd;text-decoration:none;}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:0.14em;color:#93c5fd;margin-bottom:10px;}
+header h1{font-family:'Fraunces',serif;font-size:2rem;color:#fff;}
+header h1 em{color:#93c5fd;font-style:italic;}
+.header-desc{font-size:14px;color:rgba(147,197,253,0.75);margin-top:10px;line-height:1.6;max-width:620px;}
+.hub-main{max-width:1100px;margin:40px auto;padding:0 40px 60px;}
+.phase-section{margin-bottom:40px;}
+.phase-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;}
+.phase-chip{font-size:9px;font-weight:700;letter-spacing:0.12em;padding:4px 12px;border-radius:20px;white-space:nowrap;margin-top:3px;}
+.phase-title{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:3px;}
+.phase-desc{font-size:13px;color:var(--text-muted);}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.lab-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;display:block;transition:box-shadow 0.15s,transform 0.15s;border-left:3px solid var(--blue);}
+.lab-card:hover{box-shadow:0 4px 20px rgba(26,109,204,0.12);transform:translateY(-1px);text-decoration:none;}
+.lab-card-eyebrow{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.lab-num-badge{color:#fff;font-size:9px;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:12px;}
+.lab-time{font-size:11px;color:var(--text-muted);margin-left:auto;}
+.lab-card-title{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.3;}
+.lab-card-desc{font-size:12.5px;color:var(--text-muted);line-height:1.6;margin-bottom:12px;}
+.lab-card-cta{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:0.08em;}
+footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display:flex;justify-content:space-between;align-items:center;opacity:0.85;}
+@media(max-width:600px){.hub-main{padding:0 16px 40px;}header{padding:20px 16px 16px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> &rsaquo; EDU-202</div>
+  <div class="eyebrow">EDU-202 &middot; ZSCALER FOR USERS &mdash; ENGINEER</div>
+  <h1>Zscaler for Users: <em>Engineer</em></h1>
+  <div class="header-desc">16 hands-on labs covering ZIdentity, ZPA Browser Access, Log Streaming, Firewall, SSL Inspection, Sandbox, Browser Isolation, Deception, Unified DLP, ZWA, MITRE ATT&amp;CK / NIST CSF risk analysis, ZDX monitoring, and OneAPI automation.</div>
+</header>
+<div class="hub-main">
+  
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#1a6dcc;color:#fff;">Labs 0&ndash;2</span>
+    <div>
+      <div class="phase-title">Phase 1 &mdash; Setup</div>
+      <div class="phase-desc">Environment orientation, ZIdentity, and ZCC enrollment.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab0.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a6dcc;">LAB 0</span>
+    
+    <span class="lab-time">~10 min</span>
+  </div>
+  <div class="lab-card-title">About the Lab Environment</div>
+  <div class="lab-card-desc">Review the lab topology, virtual machines, and credential reference before starting the hands-on labs.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab1.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a6dcc;">LAB 1</span>
+    
+    <span class="lab-time">~15 min</span>
+  </div>
+  <div class="lab-card-title">Connect to the Lab Environment</div>
+  <div class="lab-card-desc">Start the Skytap lab pod, connect to the Corp: Client PC, and log into ZIdentity to verify ZCC enrollment.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab2.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a6dcc;">LAB 2</span>
+    
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">Configuring ZIdentity</div>
+  <div class="lab-card-desc">Review user groups, service and admin entitlements, and ZIdentity settings for the Safemarch tenant.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#1a7c4a;color:#fff;">Labs 3&ndash;4</span>
+    <div>
+      <div class="phase-title">Phase 2 &mdash; Connectivity</div>
+      <div class="phase-desc">Browser Access for ZPA and ZIA log streaming to SIEM.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab3.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a7c4a;">LAB 3</span>
+    
+    <span class="lab-time">~35 min</span>
+  </div>
+  <div class="lab-card-title">Browser Access with ZPA</div>
+  <div class="lab-card-desc">Enable clientless access to the internal HVAC application for third-party users using ZPA Browser Access and a signed certificate.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab4.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a7c4a;">LAB 4</span>
+    
+    <span class="lab-time">~20 min</span>
+  </div>
+  <div class="lab-card-title">Log Streaming</div>
+  <div class="lab-card-desc">Configure ZIA and ZPA log streaming to forward user activity logs to the SIEM server via syslog.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#b45309;color:#fff;">Labs 5&ndash;8</span>
+    <div>
+      <div class="phase-title">Phase 3 &mdash; Security Controls</div>
+      <div class="phase-desc">Firewall filtering, SSL inspection, sandbox, browser isolation.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab5.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 5</span>
+    
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">Firewall Filtering</div>
+  <div class="lab-card-desc">Enable Z-Tunnel 2.0 to intercept non-web traffic, then create explicit Allow rules for ICMP and SSH with a default Block/Drop rule.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab6.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 6</span>
+    
+    <span class="lab-time">~20 min</span>
+  </div>
+  <div class="lab-card-title">SSL Inspection</div>
+  <div class="lab-card-desc">Create an SSL Inspection rule to decrypt and inspect HTTPS traffic, then verify inspection by checking the certificate issuer.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab7.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 7</span>
+    
+    <span class="lab-time">~20 min</span>
+  </div>
+  <div class="lab-card-title">Sandbox</div>
+  <div class="lab-card-desc">Configure a Sandbox catch-all rule to quarantine first-time unknown files and block subsequent detections.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab8.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 8</span>
+    
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">Browser Isolation</div>
+  <div class="lab-card-desc">Create an Isolation Profile and configure URL Filtering and Cloud App Control rules to isolate risky browsing sessions.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#5c35cc;color:#fff;">Labs 9&ndash;10</span>
+    <div>
+      <div class="phase-title">Phase 4 &mdash; Threats & Data</div>
+      <div class="phase-desc">Deception technology (SDC) and Unified DLP.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab9.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#5c35cc;">LAB 9</span>
+    <span style="background:rgba(26,109,204,0.12);border:1px solid #bfdbfe;color:#1a6dcc;font-size:9px;font-weight:700;letter-spacing:0.1em;padding:2px 8px;border-radius:12px;text-transform:uppercase;margin-left:6px;">SDC</span>
+    <span class="lab-time">~20 min</span>
+  </div>
+  <div class="lab-card-title">Deception</div>
+  <div class="lab-card-desc">Use the SDC Deception tenant to generate recon activity against decoy sites and investigate detections in ThreatParse.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab10.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#5c35cc;">LAB 10</span>
+    
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">Unified DLP</div>
+  <div class="lab-card-desc">Create a DLP engine for credit card data detection and configure a blocking DLP rule with a custom user notification.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#d97706;color:#fff;">Labs 11&ndash;14</span>
+    <div>
+      <div class="phase-title">Phase 5 &mdash; Automation & Operations</div>
+      <div class="phase-desc">ZWA incident management, MITRE risk analysis, ZDX monitoring.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab11.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#d97706;">LAB 11</span>
+    <span style="background:rgba(26,109,204,0.12);border:1px solid #bfdbfe;color:#1a6dcc;font-size:9px;font-weight:700;letter-spacing:0.1em;padding:2px 8px;border-radius:12px;text-transform:uppercase;margin-left:6px;">SDC</span>
+    <span class="lab-time">~35 min</span>
+  </div>
+  <div class="lab-card-title">Manage Incidents with ZWA</div>
+  <div class="lab-card-desc">Explore the ZWA portal to view DLP incidents, modify metadata, test user notification workflows, and configure automated workflows.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab12.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#d97706;">LAB 12</span>
+    <span style="background:rgba(26,109,204,0.12);border:1px solid #bfdbfe;color:#1a6dcc;font-size:9px;font-weight:700;letter-spacing:0.1em;padding:2px 8px;border-radius:12px;text-transform:uppercase;margin-left:6px;">SDC</span>
+    <span class="lab-time">~20 min</span>
+  </div>
+  <div class="lab-card-title">Analyzing Risk with MITRE ATT&CK and NIST CSF</div>
+  <div class="lab-card-desc">Use Risk360 to explore the MITRE ATT&CK and NIST CSF frameworks, review TTP coverage, and identify misconfigured Zscaler protections.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab13.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#d97706;">LAB 13</span>
+    
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">Configuring Cloud Applications Monitoring</div>
+  <div class="lab-card-desc">Create a custom ZDX application and configure Web and Cloud Path probes to monitor mail.google.com performance.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab14.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#d97706;">LAB 14</span>
+    
+    <span class="lab-time">~30 min</span>
+  </div>
+  <div class="lab-card-title">ZDX — Configure Alerts & Diagnostics</div>
+  <div class="lab-card-desc">Create an alert rule for the Mail_server application and configure a Deep Tracing diagnostic session for the student user.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#1a6dcc;color:#fff;">Labs 15&ndash;16</span>
+    <div>
+      <div class="phase-title">Phase 6 &mdash; Advanced & Capstone</div>
+      <div class="phase-desc">OneAPI automation and full Capstone deployment project.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab15.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a6dcc;">LAB 15</span>
+    
+    <span class="lab-time">~35 min</span>
+  </div>
+  <div class="lab-card-title">Adding API Clients</div>
+  <div class="lab-card-desc">Create a ZIdentity API Client, authenticate via POSTMAN, test ZCC and ZPA endpoints, and create an App Connector Group via the OneAPI.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab16.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a6dcc;">LAB 16</span>
+    
+    <span class="lab-time">~60 min</span>
+  </div>
+  <div class="lab-card-title">Capstone Project</div>
+  <div class="lab-card-desc">Apply identity, access control, cyberthreat, data protection, and automation skills to a real-world Safemarch deployment scenario.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+</div>
+<footer>
+  <span>EDU-202 &middot; Zscaler for Users &mdash; Engineer &middot; Hands-On Lab Guide</span>
+  <span>Lab Hub &middot; 17 Labs</span>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.transition='opacity 0.3s ease';
+  document.body.style.opacity='1';
+  sessionStorage.setItem('pt','1');
+});
+</script>
+</body>
+</html>

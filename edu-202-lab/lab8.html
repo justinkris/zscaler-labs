@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 1: Connect to the Lab Environment — EDU-200</title>
+<title>Lab 8: Browser Isolation &mdash; EDU-202</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,8 +23,6 @@ html.pt-init body{opacity:0;}
 body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
 a{color:var(--blue);text-decoration:none;}
 a:hover{text-decoration:underline;}
-
-/* HEADER */
 header{background:#0d1a2e;padding:28px 40px 24px;border-bottom:3px solid #1a3a6e;}
 .breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}
 .breadcrumb a{color:#93c5fd;}
@@ -36,8 +34,6 @@ header h1{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:#fff
 header h1 em{color:#93c5fd;font-style:italic;}
 .motivation-banner{background:rgba(147,197,253,0.08);border-left:3px solid #93c5fd;padding:12px 20px;margin-top:16px;border-radius:0 8px 8px 0;}
 .motivation-banner p{font-family:'Fraunces',serif;font-size:1rem;color:#93c5fd;font-style:italic;line-height:1.5;}
-
-/* TOP PANELS */
 .top-panels{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);}
 .top-panels .qpanel{border-bottom:none;border-right:1px solid var(--border);}
 .top-panels .qpanel-header{padding-left:32px;padding-right:32px;}
@@ -60,39 +56,22 @@ header h1 em{color:#93c5fd;font-style:italic;}
 .notes-panel-chevron{margin-left:auto;font-size:13px;color:var(--text-muted);}
 .notes-panel-body{display:none;padding:0 32px 22px;}
 .notes-panel-body.open{display:block;}
-
-/* SECTION NAV */
-.section-nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;display:flex;gap:4px;overflow-x:auto;position:sticky;top:0;z-index:50;}
-.section-nav::-webkit-scrollbar{height:3px;}
-.section-nav::-webkit-scrollbar-thumb{background:var(--border);}
-.snav-btn{background:none;border:none;border-bottom:2px solid transparent;padding:12px 14px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;white-space:nowrap;font-family:'Epilogue',sans-serif;transition:color 0.15s,border-color 0.15s;}
-.snav-btn:hover{color:var(--blue);}
-.snav-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
-
-/* MAIN LAYOUT */
 main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:0 auto;padding:32px 40px;align-items:start;}
 .content-col{min-width:0;}
 .sidebar{position:sticky;top:var(--config-h,52px);padding-left:32px;}
-
-/* SECTION BLOCKS */
 .section-block{margin-bottom:40px;}
 .section-block h2{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;color:var(--text);margin-bottom:6px;padding-bottom:8px;border-bottom:2px solid var(--blue);}
 .section-block h3{font-family:'Epilogue',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin:20px 0 8px;padding:8px 12px;background:var(--surface-2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;}
-.section-block h4{font-size:0.875rem;font-weight:700;color:var(--text);margin:16px 0 6px;}
 .section-block p{font-size:14px;color:var(--text-soft);line-height:1.75;margin-bottom:10px;}
 .section-block ul,.section-block ol{padding-left:20px;margin-bottom:10px;}
 .section-block li{font-size:14px;color:var(--text-soft);line-height:1.75;margin-bottom:4px;}
 .section-block strong{color:var(--text);font-weight:700;}
 .section-block code{font-family:'SF Mono','Fira Code',monospace;background:var(--surface-2);border:1px solid var(--border-dim);padding:1px 6px;border-radius:4px;font-size:12.5px;color:var(--blue-deep);}
-
-/* LAB HEADER CARD */
 .lab-header-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:24px;border-top:3px solid var(--blue);}
 .lab-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-glow);border:1px solid var(--blue-dim);color:var(--blue);font-size:10px;font-weight:700;letter-spacing:0.12em;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
 .lab-meta{display:flex;gap:20px;flex-wrap:wrap;margin-top:10px;}
 .lab-meta-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);}
 .lab-meta-item strong{color:var(--text);font-weight:600;}
-
-/* TASK STEPS */
 .task-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin:12px 0;}
 .task-block h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .task-num{background:var(--blue);color:#fff;font-size:10px;font-weight:700;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -104,8 +83,6 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .sub-steps li{font-size:13px;color:var(--text-soft);padding:4px 0;border-bottom:1px dashed var(--border-dim);line-height:1.6;}
 .sub-steps li:last-child{border-bottom:none;}
 .sub-steps li::before{content:'○';color:var(--text-muted);margin-right:8px;font-size:10px;}
-
-/* NOTE / WARNING CALLOUT */
 .callout{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13px;line-height:1.65;}
 .callout-note{background:var(--blue-glow);border:1px solid var(--blue-dim);border-left:3px solid var(--blue);}
 .callout-note strong{color:var(--blue);}
@@ -114,40 +91,32 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .callout-success{background:var(--green-light);border:1px solid var(--green-border);border-left:3px solid var(--green);}
 .callout-success strong{color:var(--green);}
 .callout p{margin:0;color:var(--text-soft);}
-
-/* CONFIG TABLE */
+.callout-sdc{background:#0d1a2e;border:1px solid #1a3a6e;border-left:3px solid #93c5fd;border-radius:8px;padding:12px 16px;margin:12px 0;font-size:13px;line-height:1.65;}
+.callout-sdc strong{color:#93c5fd;}
+.callout-sdc p{margin:0;color:#b0c8e8;}
 .config-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
 .config-table th{background:#0d1a2e;color:#93c5fd;font-size:10px;font-weight:700;letter-spacing:0.1em;padding:8px 12px;text-align:left;}
 .config-table td{padding:8px 12px;border-bottom:1px solid var(--border-dim);color:var(--text-soft);}
 .config-table tr:last-child td{border-bottom:none;}
 .config-table td:first-child{font-weight:600;color:var(--text);width:42%;}
 .config-table tr:nth-child(even) td{background:var(--surface-2);}
-
-/* CREDENTIALS TABLE */
 .creds-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
 .creds-table th{background:#0d1a2e;color:#93c5fd;font-size:10px;font-weight:700;letter-spacing:0.1em;padding:8px 12px;text-align:left;}
 .creds-table td{padding:8px 12px;border-bottom:1px solid var(--border-dim);color:var(--text-soft);vertical-align:top;}
 .creds-table tr:last-child td{border-bottom:none;}
 .creds-table tr:nth-child(even) td{background:var(--surface-2);}
 .creds-table .section-row td{background:#1a2e4a;color:#93c5fd;font-size:10px;font-weight:700;letter-spacing:0.1em;}
-
-/* SCREENSHOT EMBED */
 .screenshot-embed{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;margin:14px 0;text-align:center;}
 .screenshot-embed img{max-width:100%;border-radius:6px;border:1px solid var(--border-dim);display:block;margin:0 auto 10px;}
 .screenshot-caption{font-size:12px;color:var(--text-muted);font-style:italic;line-height:1.55;}
-/* Size-capping classes for small UI screenshots (dialogs, menus, dropdowns) */
 .screenshot-embed.dialog img{max-width:420px;}
 .screenshot-embed.narrow img{max-width:560px;}
 .screenshot-embed.menu img{max-width:320px;}
-
-/* MENTAL NOTE */
 .mental-note-block{border-radius:10px;padding:12px 16px;margin:16px 0;display:flex;gap:10px;align-items:flex-start;background:rgba(26,109,204,0.07);border:1px solid var(--border);}
 .mental-note-block-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
 .mental-note-block-inner{flex:1;}
 .mental-note-block-label{font-size:9px;font-weight:700;letter-spacing:0.16em;color:var(--blue);margin-bottom:3px;}
 .mental-note-block-text{font-size:13px;font-weight:600;line-height:1.55;color:var(--text);}
-
-/* SOCRATIC */
 .socratic-block{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;margin-bottom:16px;border-top:3px solid var(--blue);}
 .socratic-header{display:flex;align-items:center;gap:8px;margin-bottom:0;cursor:pointer;user-select:none;}
 .socratic-header::after{content:'▸ Expand';margin-left:auto;font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);font-family:'Epilogue',sans-serif;}
@@ -181,8 +150,6 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .model-answer-item:last-child{border-bottom:none;padding-bottom:0;}
 .model-answer-q{font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--text-muted);margin-bottom:4px;}
 .model-answer-text{font-size:13px;color:var(--text-soft);line-height:1.7;}
-
-/* LESSON TOOLS */
 .lesson-tools{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-top:16px;}
 .lesson-tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .tool-label{font-size:9px;font-weight:700;letter-spacing:0.16em;color:var(--text-muted);margin-bottom:6px;}
@@ -191,8 +158,6 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .tool-row{margin-top:6px;text-align:right;}
 .btn-add-q{background:#0d1a2e;color:#93c5fd;border:none;border-radius:8px;padding:7px 16px;font-size:11px;font-weight:600;letter-spacing:0.08em;cursor:pointer;font-family:'Epilogue',sans-serif;}
 .btn-add-q:hover{opacity:0.85;}
-
-/* Q PANEL LIST */
 .no-questions{font-size:13px;color:var(--text-muted);padding:12px 0;}
 .q-group{margin-bottom:14px;}
 .q-group-label{font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);padding:4px 0;border-bottom:1px solid var(--border-dim);margin-bottom:6px;}
@@ -202,13 +167,8 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .q-text{font-size:13px;color:var(--text-soft);flex:1;line-height:1.55;}
 .q-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:11px;padding:0 4px;flex-shrink:0;}
 .q-del:hover{color:var(--red);}
-
-/* SIDEBAR */
 .sidebar-section{margin-bottom:22px;}
 .sidebar-label{font-size:10px;font-weight:700;letter-spacing:0.14em;color:var(--text-muted);margin-bottom:8px;}
-.ssnav{display:flex;flex-direction:column;gap:2px;margin-top:4px;}
-.ssnav-item{font-size:12px;color:var(--text-soft);padding:6px 10px;border-radius:6px;text-decoration:none;line-height:1.4;display:block;transition:background 0.15s,color 0.15s;}
-.ssnav-item:hover,.ssnav-item.active{background:var(--blue-glow);color:var(--blue);}
 .hub-link{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--blue);text-decoration:none;transition:background 0.15s;}
 .hub-link:hover{background:var(--surface-2);text-decoration:none;}
 .progress-list{list-style:none;padding:0;}
@@ -226,8 +186,6 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .qr-item:last-child{border-bottom:none;}
 .qr-term{font-size:11px;font-weight:700;color:#93c5fd;margin-bottom:2px;}
 .qr-def{font-size:12px;color:rgba(147,197,253,0.7);line-height:1.5;}
-
-/* PAGE NAV */
 .page-nav{display:flex;border-top:1px solid var(--border);background:var(--surface);position:fixed;bottom:0;left:0;right:0;z-index:150;box-shadow:0 -2px 14px rgba(13,26,46,0.07);}
 .page-nav-btn{flex:0 0 210px;display:flex;flex-direction:column;gap:2px;padding:9px 18px;text-decoration:none;transition:background 0.15s;}.page-nav-message{flex:1;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:11.5px;font-style:italic;color:var(--text-muted);padding:0 12px;text-align:center;border-left:1px solid var(--border-dim);border-right:1px solid var(--border-dim);line-height:1.4;}
 .page-nav-btn:hover:not(.page-nav-disabled){background:var(--surface-2);}
@@ -236,17 +194,7 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .page-nav-disabled{opacity:0.3;pointer-events:none;}
 .page-nav-label{font-size:10px;font-weight:600;letter-spacing:0.14em;color:var(--text-muted);display:block;}
 .page-nav-title{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--blue);display:block;}
-
-/* FOOTER */
 footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display:flex;justify-content:space-between;align-items:center;opacity:0.85;margin-bottom:48px;}
-
-/* PROMPT TOGGLE */
-.prompt-toggle{background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:600;letter-spacing:0.08em;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:'Epilogue',sans-serif;text-transform:uppercase;}
-.prompt-toggle:hover{color:var(--text);border-color:var(--text);}
-.prompt-content{margin-top:10px;padding:10px 14px;background:rgba(0,0,0,0.04);border-radius:8px;font-size:11.5px;color:var(--text-muted);font-style:italic;line-height:1.65;text-align:left;}
-.prompt-content[hidden]{display:none;}
-
-/* CONFIG PANEL */
 .config-panel{background:#0d1a2e;color:#e2eaf4;padding:0 40px;position:sticky;top:0;z-index:200;border-bottom:2px solid #1a6dcc;box-shadow:0 4px 16px rgba(13,26,46,0.4);}
 .config-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;cursor:pointer;user-select:none;}
 .config-toggle-title{font-size:10px;letter-spacing:0.16em;color:#93c5fd;font-weight:700;text-transform:uppercase;}
@@ -276,39 +224,39 @@ footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display
 .config-derived span{display:inline-flex;gap:6px;align-items:center;}
 .config-derived strong{color:#93c5fd;font-weight:500;letter-spacing:0.04em;}
 .config-derived code{background:#0a1220;color:#e2eaf4;padding:2px 8px;border-radius:4px;font-family:'Epilogue',sans-serif;font-size:11px;}
-/* VARIABLE SPANS */
 .var{background:rgba(147,197,253,0.1);color:#93c5fd;border:1px dashed #1a3a6e;padding:1px 6px;border-radius:4px;font-family:'Epilogue',sans-serif;font-size:0.92em;font-weight:600;}
 .var.filled{background:var(--green-light);color:var(--green);border:1px solid var(--green-border);}
-/* COPY INLINE BUTTON */
 .copy-inline{display:inline-flex;align-items:center;background:none;border:1px solid transparent;color:var(--text-muted);font-size:9px;cursor:pointer;padding:0 3px;margin-left:3px;vertical-align:middle;border-radius:3px;line-height:1.4;font-family:'Epilogue',sans-serif;opacity:0.35;transition:opacity 0.15s,color 0.15s,border-color 0.15s,background 0.15s;}
 .copy-inline:hover{opacity:1;color:var(--blue);border-color:var(--blue-dim);background:var(--blue-glow);}
 .copy-inline.copied{color:var(--green)!important;border-color:var(--green-border)!important;background:var(--green-light)!important;opacity:1!important;}
 @media(max-width:1100px){main{grid-template-columns:1fr;}.sidebar{position:static;padding-left:0;margin-top:32px;}}
-@media(max-width:900px){.top-panels{grid-template-columns:1fr;}.lesson-tools-grid{grid-template-columns:1fr;}header{padding:20px 20px 16px;}.section-nav{padding:0 16px;}main{padding:20px 16px;}}
+@media(max-width:900px){.top-panels{grid-template-columns:1fr;}.lesson-tools-grid{grid-template-columns:1fr;}header{padding:20px 20px 16px;}main{padding:20px 16px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-200</a> › Lab 1</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> &rsaquo; <a href="index.html">EDU-202</a> &rsaquo; Lab 8</div>
   <div class="header-top">
-    <span class="eyebrow-chip">Lab 1 · EDU-200</span>
+    <span class="eyebrow-chip">Lab 8 &middot; EDU-202</span>
+    
     <span class="header-dot"></span>
   </div>
-  <h1>Connect to the Lab Environment</h1>
+  <h1>Browser Isolation</h1>
   <div class="motivation-banner">
-    <p>Access the Skytap virtual environment, start the Corp: Client PC, and log into the Experience Center admin console for the first time.</p>
+    <p>Create an Isolation Profile and configure URL Filtering and Cloud App Control rules to isolate risky browsing sessions.</p>
   </div>
 </header>
+
 
 <div class="config-panel" id="config-panel">
   <div class="config-toggle-row" onclick="toggleConfig()">
     <div style="display:flex;align-items:center;gap:0;">
-      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
       <span class="config-toggle-summary" id="config-toggle-summary"></span>
     </div>
     <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
-      <span class="chevron">▲</span> Collapse
+      <span class="chevron">&#9650;</span> Collapse
     </button>
   </div>
   <div class="config-body" id="config-body">
@@ -316,7 +264,7 @@ footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display
       <div class="config-field">
         <label for="fqdn-input">Student FQDN</label>
         <div class="config-field-row">
-          <input type="text" id="fqdn-input" placeholder="zs9901.labtenant.com" autocomplete="off">
+          <input type="text" id="fqdn-input" placeholder="zs9901.safemarch.com" autocomplete="off">
           <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
         </div>
       </div>
@@ -334,302 +282,240 @@ footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display
     </div>
     <div class="config-derived" id="config-derived">
       <span><strong>Student admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
-      <span><strong>Joe:</strong> <code id="d-joe">joe@&lt;Student FQDN&gt;</code></span>
-      <span><strong>Bev:</strong> <code id="d-bev">bev@&lt;Student FQDN&gt;</code></span>
       <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
     </div>
   </div>
 </div>
 
+
+
 <div class="top-panels">
-  <div class="qpanel" id="qpanel">
-    <button class="qpanel-header" onclick="toggleQPanel()" id="qpanel-header">
+  <div class="qpanel">
+    <button class="qpanel-header" id="qpanel-header" onclick="toggleQPanel()">
       <span class="qpanel-title">MY QUESTIONS</span>
       <span class="qpanel-count" id="qpanel-count">0</span>
-      <span class="qpanel-hint">— click to expand</span>
-      <span class="qpanel-chevron" id="qpanel-chevron">▾</span>
+      <span class="qpanel-hint" id="qpanel-hint">&#8212; click to expand</span>
+      <span class="qpanel-chevron" id="qpanel-chevron">&#9662;</span>
     </button>
-    <div class="qpanel-body" id="qpanel-body"></div>
+    <div class="qpanel-body" id="qpanel-body">
+      <p class="no-questions">No questions yet. Add one below each section.</p>
+    </div>
   </div>
-  <div class="notes-panel" id="notes-panel">
-    <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
+  <div class="notes-panel">
+    <button class="notes-panel-header" id="notes-panel-header" onclick="toggleNotesPanel()">
       <span class="notes-panel-title">MY NOTES</span>
       <span class="notes-panel-count" id="notes-panel-count">0</span>
-      <span class="notes-panel-hint">— click to expand</span>
-      <span class="notes-panel-chevron" id="notes-panel-chevron">▾</span>
+      <span class="notes-panel-hint">&#8212; click to expand</span>
+      <span class="notes-panel-chevron" id="notes-panel-chevron">&#9662;</span>
     </button>
-    <div class="notes-panel-body" id="notes-panel-body"></div>
+    <div class="notes-panel-body" id="notes-panel-body">
+      <p class="no-questions">No notes yet. Add one below each section.</p>
+    </div>
   </div>
 </div>
+
 
 <main>
   <div class="content-col">
+    <div class="section-block" id="section-lab8">
 
-    <!-- ═══════════════════════════════════════════ LAB 1 ═══════════════════════════════════════════ -->
-    <div class="socratic-block" id="soc-lab1">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · CONNECTING TO THE LAB</span>
+      
+<div class="socratic-block" id="soc-lab8">
+  <div class="socratic-header">
+    <span class="socratic-icon">&#128161;</span>
+    <span class="socratic-label">THINK FIRST &middot; BROWSER ISOLATION</span>
+  </div>
+  <p class="socratic-insight">Browser Isolation renders web pages in a remote cloud browser and streams pixels to the user's local browser. No files are downloaded, no scripts execute locally — the endpoint is protected even from zero-day exploits in the web content.</p>
+  <ul class="socratic-questions">
+    <li>The "Render Only" isolation profile disables clipboard, upload, and download. In what business scenario would you create a profile that allows clipboard but not upload/download?</li>
+    <li>A user visits an isolated social media site and sees it is "read-only." They call IT saying the site is broken. How do you explain what is happening and why?</li>
+    <li>Browser Isolation increases latency compared to direct browsing. What architectural factor determines how much latency is added?</li>
+  </ul>
+  <div class="answer-area" data-section="lab8-think">
+    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+    <div class="answer-buttons">
+      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+    </div>
+    <div class="model-answers" style="display:none;">
+      <div class="model-answer-item">
+        <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
+        <div class="model-answer-text">A legitimate use case: contractors who need to copy job reference numbers or customer IDs from a partner portal into your internal CRM. They need clipboard access (read) to avoid re-typing, but should not be able to upload files from the endpoint to the partner portal. A "Clipboard Read Only" profile balances productivity with data protection.</div>
       </div>
-      <p class="socratic-insight">Before any configuration can begin, you need a working connection to both the Skytap VM environment and the Zscaler Experience Center. These are two separate systems: Skytap gives you the VMs; the Experience Center is the Zscaler management console. Understanding how credentials flow between them prevents login confusion later.</p>
-      <ul class="socratic-questions">
-        <li>Your admin password for the Experience Center is the same as the VM passwords in this lab. Why is this a convenience for a lab environment but a security risk in production?</li>
-        <li>The VM clipboard in Skytap exists because your local machine and the VM have separate clipboard contexts. What does this tell you about the network isolation of the Skytap environment — can the VM directly reach the internet on its own?</li>
-        <li>You are forced to change the Experience Center admin password on first login. Why does Zscaler enforce this, and what would happen if you forgot the new password mid-lab?</li>
-      </ul>
-      <div class="answer-area" data-section="lab1-connect">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">Sharing a single password across all accounts simplifies lab setup and reset scripts, since everything can be reset to one known value. In production this violates least-privilege — a compromised user password would also unlock admin console access, collapsing the separation between end-user credentials and administrative credentials.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">The VM clipboard bridge is needed precisely because the Skytap VM runs in an isolated virtual network. It cannot freely access the internet independently — that's the point of the lab: all internet traffic must be forwarded through ZCC to Zscaler. Without ZCC configured, the VM's internet access may be limited or none at all.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">Zscaler enforces a password change on first login to prevent labs or demos from being accessed with default vendor-set credentials, which are well-known and searchable. If you forget the new password mid-lab, you'd need to use the Zscaler emergency access account (if configured) or contact the instructor to reset the pod — there's no self-service recovery in a lab tenant.</div>
-          </div>
-        </div>
+      <div class="model-answer-item">
+        <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
+        <div class="model-answer-text">ZIA is protecting you by routing your access to this site through a remote cloud browser. The page is rendered on Zscaler's infrastructure — only a visual stream reaches your computer, so nothing harmful can be downloaded or executed. Some interactive features may behave differently because the site is running in a controlled remote environment, not locally.</div>
+      </div>
+      <div class="model-answer-item">
+        <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
+        <div class="model-answer-text">The primary factor is the geographic distance between the user's location and the Zscaler cloud browser node (data centre). Zscaler routes the isolated session to the nearest node, but if the user is geographically far from any node, the round-trip for each rendered frame increases. Additional factors: the site's own page load time, network bandwidth, and frame compression settings.</div>
       </div>
     </div>
-
-    <div class="section-block" id="section-lab1">
-      <h2>Lab 1: Connect to the Virtual Lab Environment</h2>
-
-      <div class="lab-header-card">
-        <div class="lab-badge">LAB 1</div>
-        <p><strong>Scenario:</strong> As the Zscaler administrator, you need to establish a functional, pre-configured environment (the Virtual Lab) that mirrors the Lab tenant's potential production setup — and access its core management console (Experience Center) before you can begin configuration tasks.</p>
-        <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Objectives:</strong> Connect to Skytap; sign in to Experience Center; use VM clipboard</div>
-          <div class="lab-meta-item"><strong>Time:</strong> ~10 minutes</div>
-        </div>
-      </div>
-
-      <h3>Task 1.1: Verify Lab Access</h3>
-      <div class="task-block">
-        <h4><span class="task-num">1</span> Start and connect to your Skytap pod</h4>
-        <ol class="step-list">
-          <li>Click the <strong>Skytap Portal URL</strong> provided in your access instructions.</li>
-          <li>Ensure the checkbox is checked to <strong>select all VMs</strong>.</li>
-          <li>If machines have not already started, click the <strong>Play</strong> button. All VMs will launch.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab1-skytap-vms-running.png" alt="Skytap portal showing all three VMs running: Corp App Connector, Corp Client PC, Corp Win Svr 2016">
-        <div class="screenshot-caption">All three VMs should show "Running" status. VMs start in stages — wait a few minutes for all to be ready.</div>
-      </div>
-      <div class="callout callout-note">
-        <p><strong>Note:</strong> VMs in the environment are set to start in stages, so the whole process will take a few minutes.</p>
-      </div>
-
-      <h3>Task 1.2: Sign In to the Experience Center Landing Page</h3>
-      <div class="callout callout-note">
-        <p><strong>Note:</strong> Throughout this lab guide, <span class="var var-fqdn">&lt;Student FQDN&gt;</span> represents the domain assigned to your tenant. For example, if your admin username is <strong>student@zs9901.labtenant.com</strong>, then your Student FQDN is <strong>zs9901.labtenant.com</strong>.</p>
-      </div>
-
-      <div class="task-block">
-        <h4><span class="task-num">1</span> Login to the Corp: Client PC as the local Student User</h4>
-        <ol class="step-list">
-          <li>Launch the <strong>Corp: Client PC</strong> from the Skytap portal.</li>
-          <li>Click the <strong>Ctrl-Alt-Del</strong> icon in the Skytap Toolbar.</li>
-          <li>Click the <strong>Credential (keys)</strong> icon in the Skytap Toolbar.</li>
-          <li>Click the <strong>Insert Credentials</strong> icon next to the password field for the <strong>student</strong> username.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab1-client-pc-login.png" alt="Skytap toolbar showing the credential insert icon next to the student login">
-        <div class="screenshot-caption">Use the Skytap Credential (keys) icon to auto-fill the student password — avoids clipboard issues at the Windows lock screen.</div>
-      </div>
-
-      <div class="task-block">
-        <h4><span class="task-num">2</span> Open Experience Center and sign in</h4>
-        <ol class="step-list">
-          <li>In a browser window, open the Experience Center Landing Page: <code>https://console.zscaler.com/</code></li>
-          <li>You will be redirected to the ZIdentity login page. Authenticate with:
-            <ul class="sub-steps">
-              <li>Username: <code class="d-username-student">student@&lt;Student FQDN&gt;</code></li>
-              <li>Password: as provided in the Lab Access Instructions (<span class="var var-pass">&lt;Session Password&gt;</span>)</li>
-              <li>Click <strong>Sign in</strong></li>
-            </ul>
-          </li>
-          <li>You will be prompted to change your password. Set a new password and remember it for all remaining labs.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed dialog">
-        <img src="screenshots/lab1-experience-center-password-reset.png" alt="ZIdentity success screen showing password has been reset successfully">
-        <div class="screenshot-caption">Successful password reset — click Re-Login and sign in again with your new password.</div>
-      </div>
-
-      <h3>Task 1.3: Use the Lab Clipboard</h3>
-      <p>During these labs, you will frequently copy commands, URLs, and configuration values from the lab guide into the virtual machines.</p>
-      <div class="task-block">
-        <h4><span class="task-num">1</span> Use the clipboard icon in the lab interface</h4>
-        <ol class="step-list">
-          <li>Click the <strong>clipboard icon</strong> in the Skytap toolbar.</li>
-          <li>Paste text into the <strong>Copy/paste</strong> field. The VM clipboard will be populated.</li>
-          <li>Inside the VM, use <strong>Ctrl+V</strong> (or right-click &gt; Paste) to paste.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab1-vm-clipboard.png" alt="VM Clipboard dialog showing Copy/paste field with instructions for host-to-VM and VM-to-host transfer">
-        <div class="screenshot-caption">The VM Clipboard bridges your local clipboard with the Skytap VM. On Mac, use Cmd+V locally but Ctrl+V inside the VM.</div>
-      </div>
-      <div class="callout callout-note">
-        <p><strong>Note:</strong> Even if you are on a Mac, the virtual machine is running Windows, so use <strong>Ctrl+V</strong> (not Cmd+V) inside the VM.</p>
-      </div>
-
-      <div class="mental-note-block">
-        <div class="mental-note-block-icon">🧠</div>
-        <div class="mental-note-block-inner">
-          <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Three steps every lab begins with: (1) Start Skytap pod, wait for all VMs Running. (2) Log into Corp: Client PC as <code>student</code>. (3) Open <code>https://console.zscaler.com/</code> and authenticate as <code class="d-username-student">student@&lt;Student FQDN&gt;</code>. The Experience Center password you set in Lab 1 is used for all subsequent labs.</div>
-        </div>
-      </div>
-
-      <div class="lesson-tools">
-        <div class="lesson-tools-grid">
-          <div>
-            <div class="tool-label">ASK A QUESTION</div>
-            <textarea class="tool-textarea" id="q-lab1" placeholder="What are you unsure about?" rows="3"></textarea>
-            <div class="tool-row"><button class="btn-add-q" onclick="addQuestion('lab1','Lab 1: Connect')">Add Question</button></div>
-          </div>
-          <div>
-            <div class="tool-label">ADD A NOTE</div>
-            <textarea class="tool-textarea" id="note-lab1" placeholder="Write a note for this section..." rows="3"></textarea>
-            <div class="tool-row"><button class="btn-add-q" onclick="addNote('lab1')">+ Add Note</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /content-col -->
-
-  <aside class="sidebar">
-    <div class="sidebar-section">
-      <a href="index.html" class="hub-link">← EDU-200 Lab Hub</a>
-    </div>
-
-    <div class="sidebar-section">
-      <div class="sidebar-label">LAB PROGRESS</div>
-      <ul class="progress-list">
-        <li class="progress-item"><input type="checkbox" id="chk-lab1" onchange="toggleDone(this)"><label for="chk-lab1">Lab 1: Connected to Skytap + Experience Center</label></li>
-      </ul>
-    </div>
-
-    <div class="quick-ref" id="quick-ref">
-      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">▲</span></div>
-      <div class="qr-body">
-      <div class="qr-item">
-        <div class="qr-term">Student FQDN</div>
-        <div class="qr-def">Your unique tenant domain, e.g. zs9901.labtenant.com. Used in all login IDs.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Experience Center</div>
-        <div class="qr-def">console.zscaler.com — unified admin portal for ZIA, ZPA, ZDX, ZIdentity.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">ZCC</div>
-        <div class="qr-def">Zscaler Client Connector — endpoint agent that tunnels all traffic to the ZTE.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Z-Tunnel 2.0</div>
-        <div class="qr-def">Network-layer tunnel that intercepts all IP protocols. Required for Cloud Firewall.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Service Entitlement</div>
-        <div class="qr-def">Grants a user access to use a Zscaler service (ZIA, ZPA, ZDX) via ZCC.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Admin Entitlement</div>
-        <div class="qr-def">Grants a user access to configure a service in the admin console, with a specific role.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">SyncZPA</div>
-        <div class="qr-def">User attribute (value: Zscaler) that syncs the user into ZPA's identity store for policy use.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Forwarding Profile</div>
-        <div class="qr-def">Defines tunnel type/version and forwarding action per network context (on/off/VPN trusted).</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Cloud App Control</div>
-        <div class="qr-def">Application-layer policy that identifies apps by DPI (e.g., WhatsApp) regardless of port. Separate from Firewall Filtering.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">SSL Inspection</div>
-        <div class="qr-def">Trusted MitM: ZIA decrypts → inspects → re-encrypts using Zscaler CA. Requires Zscaler Root CA trusted on endpoint.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Cert Pinning Bypass</div>
-        <div class="qr-def">"Do Not Inspect" SSL rule for apps that verify server cert fingerprints (e.g., Threema). Must be above the Inspect All rule.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">DLP Engine</div>
-        <div class="qr-def">Defines what sensitive content looks like (dictionary patterns + thresholds). Paired with a DLP Rule to define the action.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">App Connector</div>
-        <div class="qr-def">ZPA software in the data centre that makes outbound TLS tunnels to ZPA cloud. No inbound firewall rules required.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Provisioning Key</div>
-        <div class="qr-def">One-time key placed at /opt/zscaler/var/provision_key. Authorises a new connector to join a specific connector group.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">App Segment</div>
-        <div class="qr-def">ZPA object defining a private resource by domain/IP + port. Together with an Access Policy, enables ZPA access.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">SIPA</div>
-        <div class="qr-def">Secure Internet and Private Access — routes ZPA App Connector internet traffic through ZIA for consistent egress IP + policy.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">ZDX Score</div>
-        <div class="qr-def">0–100 composite metric of end-to-end digital experience. 0 = worst, 100 = best. &lt;50 = Poor, 50–79 = Okay, 80+ = Good.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">Y-Engine</div>
-        <div class="qr-def">ZDX ML engine that analyses probe data to identify root-cause factors (Wi-Fi, DNS, TCP, server response) and ranks their contribution.</div>
-      </div>
-      <div class="qr-item">
-        <div class="qr-term">ZDX Probe</div>
-        <div class="qr-def">Synthetic background test run by ZCC that measures DNS Time, TCP Connect, Server Response, and Page Fetch Time continuously.</div>
-      </div>
-      </div><!-- /qr-body -->
-    </div>
-  </aside>
-</main>
-
-<div class="page-nav">
-  <a class="page-nav-btn page-nav-prev" href="lab0.html">
-    <span class="page-nav-label">← PREVIOUS</span>
-    <span class="page-nav-title">Lab 0: About</span>
-  </a>
-  <div class="page-nav-message">First connection made. The rest is just configuration.</div>
-  <a class="page-nav-btn page-nav-next" href="lab2.html">
-    <span class="page-nav-label">NEXT →</span>
-    <span class="page-nav-title">Lab 2: Users</span>
-  </a>
+  </div>
 </div>
 
+
+      
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 8</div>
+        <p><strong>Scenario:</strong> Safemarch wants to allow access to social media and risky news sites, but in a "read-only" isolated mode where users cannot download files, copy content, or upload data. Configure Browser Isolation with a Render Only profile.</p>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~25 minutes</div>
+        </div>
+      </div>
+
+      <h3>Task 8.1 — Create an Isolation Profile</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Configure the Render Only isolation profile</h4>
+        <ol class="step-list">
+          <li>In ZIA Admin Portal, navigate to <strong>Policy &gt; Browser Isolation &gt; Isolation Profiles</strong>.</li>
+          <li>Click <strong>+ Add Isolation Profile</strong>.</li>
+          <li>Configure:
+            <ul class="sub-steps">
+              <li><strong>Profile Name:</strong> <code>Render-Only</code></li>
+              <li><strong>Allow Download:</strong> Disabled</li>
+              <li><strong>Allow Upload:</strong> Disabled</li>
+              <li><strong>Allow Clipboard:</strong> Disabled</li>
+              <li><strong>Allow Printing:</strong> Disabled</li>
+            </ul>
+          </li>
+          <li>Click <strong>Save</strong>.</li>
+        </ol>
+      </div>
+
+      <h3>Task 8.2 — Create URL Filtering Isolation Rule</h3>
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Apply isolation to risky URL categories</h4>
+        <ol class="step-list">
+          <li>In ZIA Admin Portal, navigate to <strong>Policy &gt; URL &amp; Cloud App Control &gt; URL Filtering</strong>.</li>
+          <li>Click <strong>+ Add URL Filtering Rule</strong>.</li>
+          <li>Configure:
+            <ul class="sub-steps">
+              <li><strong>Name:</strong> <code>Isolate-Social-Media</code></li>
+              <li><strong>URL Categories:</strong> Social Networking, News and Media</li>
+              <li><strong>Action:</strong> Isolate</li>
+              <li><strong>Isolation Profile:</strong> Render-Only</li>
+            </ul>
+          </li>
+          <li>Click <strong>Save</strong> and <strong>Activate</strong>.</li>
+        </ol>
+      </div>
+
+      <h3>Task 8.3 — Create Cloud App Control Isolation Rule</h3>
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Isolate specific social apps via Cloud App Control</h4>
+        <ol class="step-list">
+          <li>Navigate to <strong>Policy &gt; URL &amp; Cloud App Control &gt; Cloud App Control</strong>.</li>
+          <li>Click <strong>+ Add Cloud App Control Rule</strong>.</li>
+          <li>Configure:
+            <ul class="sub-steps">
+              <li><strong>Name:</strong> <code>Isolate-Twitter-Reddit</code></li>
+              <li><strong>Applications:</strong> Twitter/X, Reddit</li>
+              <li><strong>Action:</strong> Isolate</li>
+              <li><strong>Isolation Profile:</strong> Render-Only</li>
+            </ul>
+          </li>
+          <li>Click <strong>Save</strong> and <strong>Activate</strong>.</li>
+        </ol>
+      </div>
+
+      <h3>Task 8.4 — Test Browser Isolation</h3>
+      <div class="task-block">
+        <h4><span class="task-num">4</span> Visit an isolated site and verify restrictions</h4>
+        <ol class="step-list">
+          <li>On the Corp: Client PC, open a browser and navigate to <code>https://www.reddit.com</code>.</li>
+          <li>The page loads in isolation mode — a Zscaler isolation indicator may be visible.</li>
+          <li>Attempt to right-click and copy text — verify clipboard is blocked.</li>
+          <li>Attempt to download an image — verify download is blocked.</li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Result:</strong> Reddit loads in a remote browser session. Downloads, clipboard, and uploads are all disabled. The user can read but not extract content.</p>
+        </div>
+      </div>
+    
+
+      
+<div class="mental-note-block">
+  <div class="mental-note-block-icon">&#129504;</div>
+  <div class="mental-note-block-inner">
+    <div class="mental-note-block-label">MENTAL NOTE</div>
+    <div class="mental-note-block-text">Browser Isolation pipeline: User browser → ZIA → Cloud Browser (renders page) → pixel stream back to user. "Render Only" profile: no clipboard, no download, no upload, no printing. Configure: (1) Create Isolation Profile in ZIA. (2) Create URL Filtering rule with Action: Isolate, targeting the URL categories or specific sites. (3) Optionally create Cloud App Control rule to isolate specific apps.</div>
+  </div>
+</div>
+
+
+      
+<div class="lesson-tools">
+  <div class="lesson-tools-grid">
+    <div>
+      <div class="tool-label">ASK A QUESTION</div>
+      <textarea class="tool-textarea" id="q-lab8" placeholder="What are you unsure about?" rows="3"></textarea>
+      <div class="tool-row"><button class="btn-add-q" onclick="addQuestion('lab8','Lab 8: Browser Isolation')">Add Question</button></div>
+    </div>
+    <div>
+      <div class="tool-label">ADD A NOTE</div>
+      <textarea class="tool-textarea" id="note-lab8" placeholder="Write a note for this section..." rows="3"></textarea>
+      <div class="tool-row"><button class="btn-add-q" onclick="addNote('lab8')">+ Add Note</button></div>
+    </div>
+  </div>
+</div>
+
+
+    </div>
+  </div>
+
+  
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <a href="index.html" class="hub-link">&#8592; EDU-202 Lab Hub</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">LAB PROGRESS</div>
+    <ul class="progress-list">
+      <li class="progress-item"><input type="checkbox" id="chk-lab8-profile" onchange="toggleDone(this)"><label for="chk-lab8-profile">Isolation Profile "Render Only" created</label></li>
+<li class="progress-item"><input type="checkbox" id="chk-lab8-url" onchange="toggleDone(this)"><label for="chk-lab8-url">URL Filtering rule with Action: Isolate created</label></li>
+<li class="progress-item"><input type="checkbox" id="chk-lab8-cac" onchange="toggleDone(this)"><label for="chk-lab8-cac">Cloud App Control rule for social media created</label></li>
+<li class="progress-item"><input type="checkbox" id="chk-lab8-test" onchange="toggleDone(this)"><label for="chk-lab8-test">Browser isolation tested — controls enforced</label></li>
+    </ul>
+  </div>
+  
+<div class="quick-ref" id="quick-ref">
+  <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">&#9650;</span></div>
+  <div class="qr-body">
+    <div class="qr-item"><div class="qr-term">ZIdentity</div><div class="qr-def">Zscaler's cloud IdP — authenticates users and authorizes service + admin entitlements for ZIA, ZPA, ZDX, ZCC, and ZWA.</div></div>
+    <div class="qr-item"><div class="qr-term">Student FQDN</div><div class="qr-def">Your unique tenant domain, e.g. zs9901.safemarch.com. All login IDs are username@FQDN.</div></div>
+    <div class="qr-item"><div class="qr-term">ZCC</div><div class="qr-def">Zscaler Client Connector — endpoint agent that tunnels traffic through ZTE. Required for ZIA, ZPA private access, and ZDX monitoring.</div></div>
+    <div class="qr-item"><div class="qr-term">Z-Tunnel 2.0</div><div class="qr-def">Network-layer tunnel intercepting all IP protocols. Required for Cloud Firewall Filtering of non-web traffic.</div></div>
+    <div class="qr-item"><div class="qr-term">Browser Access</div><div class="qr-def">ZPA feature enabling access to internal web apps without ZCC. Traffic goes through Zscaler cloud via CNAME DNS redirect.</div></div>
+    <div class="qr-item"><div class="qr-term">App Connector</div><div class="qr-def">ZPA software in the data centre making outbound TLS tunnels to ZPA cloud. No inbound firewall rules needed.</div></div>
+    <div class="qr-item"><div class="qr-term">App Segment</div><div class="qr-def">ZPA object defining a private resource (domain/IP + ports). Paired with Access Policy to enable ZPA access.</div></div>
+    <div class="qr-item"><div class="qr-term">SSL Inspection</div><div class="qr-def">Trusted MitM: ZIA decrypts, inspects, re-encrypts using Zscaler CA. Certificate Issuer changes to "Zscaler Intermediate Root CA".</div></div>
+    <div class="qr-item"><div class="qr-term">DLP Engine</div><div class="qr-def">Defines what sensitive content looks like (dictionaries + threshold). Paired with a DLP Rule that defines the action (Block/Allow).</div></div>
+    <div class="qr-item"><div class="qr-term">ZWA</div><div class="qr-def">Zscaler Workflow Automation — DLP incident management portal with escalation, notification, and automated workflow templates.</div></div>
+    <div class="qr-item"><div class="qr-term">Risk360 / MITRE ATT&CK</div><div class="qr-def">Risk360 maps TTPs from MITRE ATT&CK and NIST CSF to your Zscaler configurations, showing coverage and misconfiguration gaps.</div></div>
+    <div class="qr-item"><div class="qr-term">ZDX Score</div><div class="qr-def">0–100 composite metric: 0=worst, 100=best. Probes measure DNS time, TCP connect, server response, page fetch time continuously.</div></div>
+    <div class="qr-item"><div class="qr-term">OneAPI</div><div class="qr-def">Unified gateway for all Zscaler REST APIs (ZIA, ZPA, ZDX, ZCC, ZIdentity). OAuth 2.0 via ZIdentity API Clients.</div></div>
+    <div class="qr-item"><div class="qr-term">SDC</div><div class="qr-def">Solutions Demo Center — shared Zscaler tenants with pre-configured data. Used for Labs 9 (Deception), 11 (ZWA), 12 (Risk360).</div></div>
+    <div class="qr-item"><div class="qr-term">Log Streaming</div><div class="qr-def">Pushes ZIA/ZPA log records to SIEM in real time via syslog or HTTPS. Requires NSS VM for ZIA, native for ZPA.</div></div>
+  </div>
+</div>
+
+</aside>
+
+
+</main>
+
+<div class="page-nav"><a class="page-nav-btn page-nav-prev" href="lab7.html"><span class="page-nav-label">&#8592; PREVIOUS</span><span class="page-nav-title">Lab 7: Sandbox</span></a><div class="page-nav-message">Remote browser, local safety. Isolation is elegantly paranoid.</div><a class="page-nav-btn page-nav-next" href="lab9.html"><span class="page-nav-label">NEXT &#8594;</span><span class="page-nav-title">Lab 9: Deception</span></a></div>
+
 <footer>
-  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Centre</span>
-  <span>Lab 1: Connect</span>
+  <span>EDU-202 &middot; Zscaler for Users &mdash; Engineer &middot; Hands-On Lab Guide</span>
+  <span>Lab 8: Browser Isolation</span>
 </footer>
 
 <script>
 
-/* ══════════════════════════════════════════════════
-   CONFIG PANEL
-══════════════════════════════════════════════════ */
-const CONFIG_KEY='edu200-expc-lab-config';
+const CONFIG_KEY='edu202-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu202-config-collapsed';
 
 function updateSidebarOffset(){
   var h=document.getElementById('config-panel').offsetHeight;
@@ -640,130 +526,84 @@ function toggleConfig(){
   var btn=document.getElementById('config-toggle-btn');
   var collapsed=panel.classList.toggle('collapsed');
   btn.innerHTML=collapsed
-    ?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand'
-    :'<span class="chevron">▲</span> Collapse';
-  try{localStorage.setItem('edu200-config-collapsed',collapsed?'1':'0');}catch(e){}
+    ?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand'
+    :'<span class="chevron">&#9650;</span> Collapse';
+  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
   updateSidebarOffset();
 }
-
 function updateToggleSummary(){
   var fqdn=document.getElementById('fqdn-input').value.trim();
   var s=document.getElementById('config-toggle-summary');
-  s.textContent=fqdn?' — '+fqdn:'';
+  s.textContent=fqdn?' &#8212; '+fqdn:'';
 }
-
 function loadConfig(){
   try{
     var saved=localStorage.getItem(CONFIG_KEY);
-    if(saved){
-      var cfg=JSON.parse(saved);
-      document.getElementById('fqdn-input').value=cfg.fqdn||'';
-      document.getElementById('pass-input').value=cfg.pass||'';
-    }
-    if(localStorage.getItem('edu200-config-collapsed')==='1'){
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('fqdn-input').value=cfg.fqdn||'';document.getElementById('pass-input').value=cfg.pass||'';}
+    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){
       var panel=document.getElementById('config-panel');
       var btn=document.getElementById('config-toggle-btn');
       panel.classList.add('collapsed');
-      btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';
+      btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';
     }
   }catch(e){}
   applyConfig();
 }
-
 function saveConfig(){
-  var cfg={
-    fqdn:document.getElementById('fqdn-input').value.trim(),
-    pass:document.getElementById('pass-input').value.trim()
-  };
+  var cfg={fqdn:document.getElementById('fqdn-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
   try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
-  applyConfig();
-  updateToggleSummary();
-  var btn=document.querySelector('.config-btn');
-  var orig=btn.textContent;
+  applyConfig();updateToggleSummary();
+  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
   btn.textContent='✓ Saved';btn.style.background='var(--green)';
   setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
 }
-
 function clearConfig(){
-  document.getElementById('fqdn-input').value='';
-  document.getElementById('pass-input').value='';
+  document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';
   try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
-  applyConfig();
-  updateToggleSummary();
+  applyConfig();updateToggleSummary();
 }
-
 function applyConfig(){
   var fqdn=document.getElementById('fqdn-input').value.trim();
   var pass=document.getElementById('pass-input').value.trim();
   var studentId=fqdn?fqdn.split('.')[0]:'';
-
-  // Student FQDN spans
   document.querySelectorAll('.var-fqdn').forEach(function(el){
     if(fqdn){el.textContent=fqdn;el.classList.add('filled');}
     else{el.textContent='<Student FQDN>';el.classList.remove('filled');}
   });
-
-  // Session password spans
   document.querySelectorAll('.var-pass').forEach(function(el){
     if(pass){el.textContent=pass;el.classList.add('filled');}
     else{el.textContent='<Session Password>';el.classList.remove('filled');}
   });
-
-  // Derived usernames
   var studentUser=fqdn?'student@'+fqdn:'student@<Student FQDN>';
-  var joeUser=fqdn?'joe@'+fqdn:'joe@<Student FQDN>';
-  var bevUser=fqdn?'bev@'+fqdn:'bev@<Student FQDN>';
-
   document.querySelectorAll('.d-username-student').forEach(function(el){el.textContent=studentUser;});
-  document.querySelectorAll('.d-username-joe').forEach(function(el){el.textContent=joeUser;});
-  document.querySelectorAll('.d-username-bev').forEach(function(el){el.textContent=bevUser;});
-
-  // Derived strip
   document.getElementById('d-student').textContent=studentUser;
-  document.getElementById('d-joe').textContent=joeUser;
-  document.getElementById('d-bev').textContent=bevUser;
   document.getElementById('d-id').textContent=studentId||'<Student ID>';
 }
-
 function copyConfigField(id,btn){
-  var val=document.getElementById(id).value.trim();
-  if(!val)return;
+  var val=document.getElementById(id).value.trim();if(!val)return;
   navigator.clipboard.writeText(val).then(function(){
-    var orig=btn.textContent;
-    btn.textContent='✓';btn.classList.add('copied');
+    var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');
     setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);
   }).catch(function(){});
 }
-
-// Live wiring
 ['fqdn-input','pass-input'].forEach(function(id){
   document.getElementById(id).addEventListener('input',applyConfig);
 });
 
-const PAGE_KEY='edu-200-lab-lab1';
-const SECTIONS={
-  'lab0':'Lab 0: About',
-  'lab1':'Lab 1: Connect',
-  'lab2':'Lab 2: Users & Entitlements',
-  'lab3':'Lab 3: ZCC Traffic Forwarding'
-};
+const PAGE_KEY='edu-202-lab-lab8';
+const SECTIONS={'lab8': 'Lab 8: Browser Isolation'};
 
-// Socratic collapse
 document.querySelectorAll('.socratic-header').forEach(function(h){
   h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});
 });
-
-// Socratic answer mechanics
 function saveSocAnswer(btn){
   var area=btn.closest('.answer-area');
   var ta=area.querySelector('.answer-textarea');
   if(!ta.value.trim()){ta.focus();return;}
   var key=PAGE_KEY+'-socans-'+area.dataset.section;
   try{localStorage.setItem(key,ta.value);}catch(e){}
-  ta.disabled=true;
-  btn.textContent='✓ Answer saved';btn.disabled=true;
-  var sb=area.querySelector('.btn-see-answer');
-  sb.disabled=false;sb.textContent='💡 See Model Answer';
+  ta.disabled=true;btn.textContent='✓ Answer saved';btn.disabled=true;
+  var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';
 }
 function revealSocAnswer(btn){
   if(btn.disabled)return;
@@ -772,30 +612,12 @@ function revealSocAnswer(btn){
   ans.style.display=hidden?'block':'none';
   btn.textContent=hidden?'▲ Hide Model Answer':'💡 See Model Answer';
 }
-
-// Prompt toggle
-function togglePrompt(btn){
-  var c=btn.nextElementSibling;
-  var h=c.hasAttribute('hidden');
-  if(h){c.removeAttribute('hidden');btn.textContent='▴ Hide image generation prompt';}
-  else{c.setAttribute('hidden','');btn.textContent='▾ Show image generation prompt';}
-}
-
-// Section nav
-function navTo(id){
-  var el=document.getElementById(id);
-  if(!el)return;
-  el.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-// Q Panel
 function getQArr(){return JSON.parse(localStorage.getItem(PAGE_KEY+'-questions')||'[]');}
 function saveQArr(qs){localStorage.setItem(PAGE_KEY+'-questions',JSON.stringify(qs));}
 function addQuestion(key,sectionName){
   var ta=document.getElementById('q-'+key);
   var text=ta.value.trim();if(!text){ta.focus();return;}
-  var qs=getQArr();
-  qs.push({id:Date.now(),section:key,sectionName:sectionName,text:text});
+  var qs=getQArr();qs.push({id:Date.now(),section:key,sectionName:sectionName,text:text});
   saveQArr(qs);ta.value='';renderQPanel();
   if(!document.getElementById('qpanel-body').classList.contains('open'))toggleQPanel();
 }
@@ -806,7 +628,7 @@ function toggleQPanel(){
   var chevron=document.getElementById('qpanel-chevron');
   var open=body.classList.toggle('open');
   header.classList.toggle('open',open);
-  chevron.textContent=open?'▴':'▾';
+  chevron.textContent=open?'▲':'▼';
   localStorage.setItem(PAGE_KEY+'-qpanel-open',open);
 }
 function renderQPanel(){
@@ -816,33 +638,24 @@ function renderQPanel(){
   var hint=document.querySelector('.qpanel-hint');
   if(hint)hint.textContent=qs.length?'— '+qs.length+' question'+(qs.length>1?'s':'')+', click to expand':'— click to expand';
   var body=document.getElementById('qpanel-body');if(!body)return;
-  if(!qs.length){body.innerHTML='<p class="no-questions">No questions yet. Add one below each section.</p>';return;}
-  var groups={};
-  Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
+  if(!qs.length){body.innerHTML='<p class="no-questions">No questions yet.</p>';return;}
+  var groups={};Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
   qs.forEach(function(q){if(groups[q.section])groups[q.section].push(q);});
   var html='';var num=0;
   Object.entries(groups).forEach(function(e){
-    var key=e[0];var items=e[1];
-    if(!items.length)return;
+    var key=e[0];var items=e[1];if(!items.length)return;
     html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
-    items.forEach(function(q){
-      num++;
-      html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteQuestion('+q.id+')" title="Remove">✕</button></div>';
-    });
+    items.forEach(function(q){num++;html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteQuestion('+q.id+')" title="Remove">&#10005;</button></div>';});
     html+='</div>';
   });
   body.innerHTML=html;
 }
-
-// Notes Panel
 function getNotesArr(){return JSON.parse(localStorage.getItem(PAGE_KEY+'-notes')||'[]');}
 function saveNotesArr(ns){localStorage.setItem(PAGE_KEY+'-notes',JSON.stringify(ns));}
 function addNote(key){
   var ta=document.getElementById('note-'+key);
   var text=ta.value.trim();if(!text){ta.focus();return;}
-  var ns=getNotesArr();
-  var name=SECTIONS[key]||key;
-  ns.push({id:Date.now(),section:key,sectionName:name,text:text});
+  var ns=getNotesArr();ns.push({id:Date.now(),section:key,sectionName:SECTIONS[key]||key,text:text});
   saveNotesArr(ns);ta.value='';renderNotesPanel();
   if(!document.getElementById('notes-panel-body').classList.contains('open'))toggleNotesPanel();
 }
@@ -853,37 +666,28 @@ function toggleNotesPanel(){
   var chevron=document.getElementById('notes-panel-chevron');
   var open=body.classList.toggle('open');
   header.classList.toggle('open',open);
-  chevron.textContent=open?'▴':'▾';
+  chevron.textContent=open?'▲':'▼';
   localStorage.setItem(PAGE_KEY+'-notes-panel-open',open);
 }
 function renderNotesPanel(){
   var ns=getNotesArr();
   var count=document.getElementById('notes-panel-count');
   if(count){count.textContent=ns.length;count.style.display=ns.length?'inline':'none';}
-  var hint=document.querySelector('.notes-panel-hint');
-  if(hint)hint.textContent=ns.length?'— '+ns.length+' note'+(ns.length>1?'s':'')+', click to expand':'— click to expand';
   var body=document.getElementById('notes-panel-body');if(!body)return;
-  if(!ns.length){body.innerHTML='<p class="no-questions">No notes yet. Add one below each section.</p>';return;}
-  var groups={};
-  Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
+  if(!ns.length){body.innerHTML='<p class="no-questions">No notes yet.</p>';return;}
+  var groups={};Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
   ns.forEach(function(n){if(groups[n.section])groups[n.section].push(n);});
   var html='';var num=0;
   Object.entries(groups).forEach(function(e){
-    var key=e[0];var items=e[1];
-    if(!items.length)return;
+    var key=e[0];var items=e[1];if(!items.length)return;
     html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
-    items.forEach(function(n){
-      num++;
-      html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteNote('+n.id+')" title="Remove">✕</button></div>';
-    });
+    items.forEach(function(n){num++;html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteNote('+n.id+')" title="Remove">&#10005;</button></div>';});
     html+='</div>';
   });
   body.innerHTML=html;
 }
-
-// Progress checklist
 function toggleDone(cb){
-  localStorage.setItem(PAGE_KEY+'-chk-'+cb.id, cb.checked);
+  localStorage.setItem(PAGE_KEY+'-chk-'+cb.id,cb.checked);
   cb.closest('.progress-item').classList.toggle('done',cb.checked);
 }
 function initChecks(){
@@ -892,40 +696,6 @@ function initChecks(){
     if(saved==='true'){cb.checked=true;cb.closest('.progress-item').classList.add('done');}
   });
 }
-
-// Sidebar scroll highlight
-(function(){
-  var items=document.querySelectorAll('.ssnav-item');
-  if(!items.length)return;
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      var lnk=document.querySelector('.ssnav-item[href="#'+e.target.id+'"]');
-      if(lnk)lnk.classList.toggle('active',e.isIntersecting);
-    });
-  },{rootMargin:'-10% 0% -70% 0%'});
-  document.querySelectorAll('.section-block[id]').forEach(function(el){obs.observe(el);});
-})();
-
-// Section nav active tab
-(function(){
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        var id=e.target.id;
-        document.querySelectorAll('.snav-btn').forEach(function(b){b.classList.remove('active');});
-        var mapping={'section-lab0':0,'section-lab1':1,'section-lab2':2,'section-lab3':3,'section-lab4':4,'section-lab5':5,'section-lab6':6,'section-lab7':7,'section-lab8':8,'section-lab9':9,'section-lab10':10,'section-lab11':11,'section-lab12':12,'section-lab13':13,'section-lab14':14,'section-lab15':15,'section-lab16':16};
-        var idx=mapping[id];
-        if(idx!==undefined){
-          var btns=document.querySelectorAll('.snav-btn');
-          if(btns[idx])btns[idx].classList.add('active');
-        }
-      }
-    });
-  },{rootMargin:'-10% 0% -60% 0%'});
-  document.querySelectorAll('.section-block[id]').forEach(function(el){obs.observe(el);});
-})();
-
-// Copy buttons — injected on all inline code in step lists, sub-steps, and tables
 function copyToClipboard(text,btn){
   navigator.clipboard.writeText(text).then(function(){
     btn.classList.add('copied');btn.textContent='✓';
@@ -933,32 +703,18 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var selectors=[
-    '.step-list > li code',
-    '.sub-steps li code',
-    '.config-table td code',
-    '.creds-table td code',
-    '.task-block code'
-  ];
-  document.querySelectorAll(selectors.join(',')).forEach(function(code){
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
     var text=code.textContent.trim();
-    if(text.length<2)return;
-    if(/^(Ctrl|Cmd|Alt)\+/.test(text))return;
+    if(text.length<2||/^(Ctrl|Cmd|Alt)\+/.test(text))return;
     var btn=document.createElement('button');
-    btn.className='copy-inline';
-    btn.title='Copy';
-    btn.textContent='⎘';
-    btn.addEventListener('click',function(e){
-      e.stopPropagation();
-      copyToClipboard(code.textContent.trim(),btn);
-    });
+    btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
     code.after(btn);
   });
 }
-
-// Page transition
 document.addEventListener('DOMContentLoaded',function(){
   loadConfig();updateToggleSummary();updateSidebarOffset();
   renderQPanel();renderNotesPanel();initChecks();
@@ -966,27 +722,24 @@ document.addEventListener('DOMContentLoaded',function(){
   if(localStorage.getItem(PAGE_KEY+'-qpanel-open')==='true'){
     document.getElementById('qpanel-body').classList.add('open');
     document.getElementById('qpanel-header').classList.add('open');
-    document.getElementById('qpanel-chevron').textContent='▴';
+    document.getElementById('qpanel-chevron').textContent='▲';
   }
   if(localStorage.getItem(PAGE_KEY+'-notes-panel-open')==='true'){
     document.getElementById('notes-panel-body').classList.add('open');
     document.getElementById('notes-panel-header').classList.add('open');
-    document.getElementById('notes-panel-chevron').textContent='▴';
+    document.getElementById('notes-panel-chevron').textContent='▲';
   }
-  // Rehydrate Socratic answers
   document.querySelectorAll('.answer-area').forEach(function(area){
     var key=PAGE_KEY+'-socans-'+area.dataset.section;
     try{
       var saved=localStorage.getItem(key);
       if(saved){
-        var ta=area.querySelector('.answer-textarea');
-        ta.value=saved;ta.disabled=true;
+        var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;
         var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;
         var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';
       }
     }catch(e){}
   });
-  // Page transition fade in
   document.body.style.transition='opacity 0.3s ease';
   document.body.style.opacity='1';
   sessionStorage.setItem('pt','1');

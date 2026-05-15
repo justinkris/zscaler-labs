@@ -228,8 +228,8 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .qr-def{font-size:12px;color:rgba(147,197,253,0.7);line-height:1.5;}
 
 /* PAGE NAV */
-.page-nav{display:flex;border-top:2px solid var(--border);background:var(--surface);}
-.page-nav-btn{flex:1;display:flex;flex-direction:column;gap:4px;padding:16px 28px;text-decoration:none;transition:background 0.15s;}
+.page-nav{display:flex;border-top:1px solid var(--border);background:var(--surface);position:fixed;bottom:0;left:0;right:0;z-index:150;box-shadow:0 -2px 14px rgba(13,26,46,0.07);}
+.page-nav-btn{flex:0 0 210px;display:flex;flex-direction:column;gap:2px;padding:9px 18px;text-decoration:none;transition:background 0.15s;}.page-nav-message{flex:1;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:11.5px;font-style:italic;color:var(--text-muted);padding:0 12px;text-align:center;border-left:1px solid var(--border-dim);border-right:1px solid var(--border-dim);line-height:1.4;}
 .page-nav-btn:hover:not(.page-nav-disabled){background:var(--surface-2);}
 .page-nav-prev{border-right:1px solid var(--border);}
 .page-nav-next{text-align:right;}
@@ -238,7 +238,7 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .page-nav-title{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--blue);display:block;}
 
 /* FOOTER */
-footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display:flex;justify-content:space-between;align-items:center;opacity:0.85;}
+footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display:flex;justify-content:space-between;align-items:center;opacity:0.85;margin-bottom:48px;}
 
 /* PROMPT TOGGLE */
 .prompt-toggle{background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:10px;font-weight:600;letter-spacing:0.08em;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:'Epilogue',sans-serif;text-transform:uppercase;}
@@ -762,6 +762,7 @@ footer{background:#0d1a2e;color:#93c5fd;padding:16px 40px;font-size:12px;display
     <span class="page-nav-label">← PREVIOUS</span>
     <span class="page-nav-title">Lab 9: ZPA Infrastructure</span>
   </a>
+  <div class="page-nav-message">Every app segment is an attack surface you&rsquo;ve shrunk.</div>
   <a class="page-nav-btn page-nav-next" href="lab11.html">
     <span class="page-nav-label">NEXT →</span>
     <span class="page-nav-title">Lab 11: Troubleshoot ZPA</span>
