@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-200 Hands-On Lab Guide — Experience Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html.pt-init body{opacity:0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#eef4ff;--surface:#fff;--surface-2:#f5f8ff;--border:#bfdbfe;--border-dim:#dbeafe;
+  --text:#0d1a2e;--text-soft:#1e3a5c;--text-muted:#5a7a9a;
+  --blue:#1a6dcc;--blue-glow:rgba(26,109,204,0.07);--blue-dim:#bfdbfe;--blue-deep:#0f3d7a;
+  --green:#1a7c4a;--green-light:#d4f0e0;--green-border:#a7e0c0;
+  --amber:#b45309;--amber-light:#fef9c3;--amber-border:#fde68a;
+  --purple:#5c35cc;--purple-light:#ece8ff;--purple-border:#c8bbff;
+}
+body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
+a{color:var(--blue);text-decoration:none;}
+
+/* Header */
+header{background:#0d1a2e;padding:32px 48px 28px;border-bottom:3px solid #1a3a6e;}
+.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}
+.breadcrumb a{color:#93c5fd;}
+.header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.eyebrow-chip{display:inline-block;font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;background:rgba(147,197,253,0.12);color:#93c5fd;border:1px solid rgba(147,197,253,0.25);padding:3px 10px;border-radius:20px;}
+h1{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:10px;}
+h1 em{font-style:italic;color:#93c5fd;}
+.motivation-banner{background:rgba(26,109,204,0.12);border:1px solid rgba(26,109,204,0.2);border-radius:8px;padding:12px 18px;margin-top:14px;max-width:760px;}
+.motivation-banner p{font-size:13px;color:#c8ddf8;line-height:1.6;}
+
+/* Main layout */
+.hub-main{max-width:1200px;margin:0 auto;padding:40px 40px 80px;}
+
+/* Phase sections */
+.phase-section{margin-bottom:48px;}
+.phase-header{margin-bottom:20px;}
+.phase-label{display:inline-block;font-size:9px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;background:var(--blue-glow);color:var(--blue);border:1px solid var(--blue-dim);padding:2px 10px;border-radius:20px;margin-bottom:6px;}
+.phase-title{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:3px;}
+.phase-range{font-size:12px;color:var(--text-muted);}
+
+/* Lab cards grid */
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.lab-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;transition:box-shadow 0.15s,border-color 0.15s,transform 0.15s;cursor:pointer;}
+.lab-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(26,109,204,0.12);transform:translateY(-2px);text-decoration:none;}
+.lab-card-header{display:flex;align-items:center;gap:8px;}
+.lab-card-num{font-size:9px;letter-spacing:0.16em;font-weight:700;text-transform:uppercase;background:var(--blue-glow);color:var(--blue);border:1px solid var(--blue-dim);padding:2px 10px;border-radius:20px;}
+.lab-card-badge{font-size:9px;letter-spacing:0.12em;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:20px;}
+.lab-card-badge.sdc{background:rgba(92,53,204,0.1);color:#7c5ce8;border:1px solid var(--purple-border);}
+.lab-card-badge.optional{background:rgba(180,83,9,0.08);color:var(--amber);border:1px solid var(--amber-border);}
+.lab-card-time{margin-left:auto;font-size:11px;color:var(--text-muted);white-space:nowrap;}
+.lab-card-title{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--text);line-height:1.3;}
+.lab-card-desc{font-size:12.5px;color:var(--text-muted);line-height:1.55;flex:1;}
+.lab-card-cta{font-size:11px;font-weight:700;letter-spacing:0.06em;color:var(--blue);margin-top:4px;}
+.lab-card:hover .lab-card-cta{color:var(--blue-deep);}
+
+/* SDC + Optional sections styling */
+.phase-section:has(.sdc) .phase-label{background:rgba(92,53,204,0.1);color:#7c5ce8;border-color:var(--purple-border);}
+.phase-section:has(.sdc) .phase-title{color:var(--text);}
+
+/* Footer */
+footer{background:#0d1a2e;color:#5a7a9a;font-size:11px;padding:16px 48px;display:flex;justify-content:space-between;align-items:center;letter-spacing:0.04em;}
+
+@media(max-width:900px){.hub-main{padding:24px 20px 60px;}header{padding:24px 20px 20px;}footer{padding:12px 20px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › EDU-200</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">EDU-200 · Hands-On Lab</span>
+  </div>
+  <h1>Zscaler for Users — <em>Administrator</em></h1>
+  <div class="motivation-banner">
+    <p>17 hands-on labs covering ZIA policies, ZPA private access, and ZDX digital experience monitoring — in a live Skytap environment with your own tenant.</p>
+  </div>
+</header>
+
+<div class="hub-main">
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label">SETUP</span>
+      <div class="phase-title">Lab Setup</div>
+      <div class="phase-range">Labs 0–3 · Foundation: environment, users, and ZCC traffic forwarding</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab0.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 0</span>
+          
+          <span class="lab-card-time">~5 min</span>
+        </div>
+        <div class="lab-card-title">About the EDU-200 Hands-On Lab</div>
+        <div class="lab-card-desc">Explore the lab topology, three VMs, and credential structure. Learn how the Skytap environment is organised before you start configuring.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab1.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 1</span>
+          
+          <span class="lab-card-time">~20 min</span>
+        </div>
+        <div class="lab-card-title">Connect to the Lab Environment</div>
+        <div class="lab-card-desc">Access the Skytap virtual environment, start the Corp: Client PC, and log into the Experience Center admin console for the first time.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab2.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 2</span>
+          
+          <span class="lab-card-time">~30 min</span>
+        </div>
+        <div class="lab-card-title">Users, Groups & Entitlements</div>
+        <div class="lab-card-desc">Create departments, groups, and lab users (Joe and Bev). Assign ZIA, ZPA, and ZDX service entitlements and validate login.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab3.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 3</span>
+          
+          <span class="lab-card-time">~25 min</span>
+        </div>
+        <div class="lab-card-title">ZCC Traffic Forwarding</div>
+        <div class="lab-card-desc">Configure a Forwarding Profile with Z-Tunnel 2.0 and a Windows App Profile. Verify ZCC shows ZIA, ZPA, and ZDX all active.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label">ZIA POLICIES</span>
+      <div class="phase-title">ZIA Policies</div>
+      <div class="phase-range">Labs 4–8 · Firewall, SSL Inspection, Content Filtering, DNS Security, and DLP</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab4.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 4</span>
+          
+          <span class="lab-card-time">~25 min</span>
+        </div>
+        <div class="lab-card-title">Configure Firewall Filtering Policy</div>
+        <div class="lab-card-desc">Verify the default Block and Drop rule, add an Allow rule for ICMP and SSH above it, then block WhatsApp using Cloud App Control.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab5.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 5</span>
+          
+          <span class="lab-card-time">~30 min</span>
+        </div>
+        <div class="lab-card-title">Configure SSL Inspection Policies</div>
+        <div class="lab-card-desc">Enable Inspect All, verify the Zscaler CA is trusted, add a cert-pinning bypass for Threema, and confirm inspection in Web Insights logs.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab6.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 6</span>
+          
+          <span class="lab-card-time">~25 min</span>
+        </div>
+        <div class="lab-card-title">Configure Content Filtering & Access Control</div>
+        <div class="lab-card-desc">Review threat protection settings, block Gambling and Adult URL categories, test the block page, then allow YouTube via Cloud App Control.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab7.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 7</span>
+          
+          <span class="lab-card-time">~20 min</span>
+        </div>
+        <div class="lab-card-title">Configure DNS Security</div>
+        <div class="lab-card-desc">Add a wildcard DNS domain to the App Profile for ZPA, create a DNS Control block rule for Gambling, verify with nslookup and DNS Insights.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab8.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 8</span>
+          
+          <span class="lab-card-time">~15 min</span>
+        </div>
+        <div class="lab-card-title">Enforce Policy with Unified DLP</div>
+        <div class="lab-card-desc">Build a DLP Engine from credit card dictionary patterns, create a Block+Notify rule, then test with a file upload containing synthetic sensitive data.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label">ZPA</span>
+      <div class="phase-title">ZPA Private Access</div>
+      <div class="phase-range">Labs 9–13 · App Connectors, App Segments, Troubleshooting, SIPA, and RDP</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab9.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 9</span>
+          
+          <span class="lab-card-time">~25 min</span>
+        </div>
+        <div class="lab-card-title">Provision ZPA Infrastructure</div>
+        <div class="lab-card-desc">Create an App Connector Group and Provisioning Key, then activate the Corp: App Connector VM using WinSCP and terminal commands.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab10.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 10</span>
+          
+          <span class="lab-card-time">~30 min</span>
+        </div>
+        <div class="lab-card-title">ZPA App Segments & Discovery</div>
+        <div class="lab-card-desc">Create a wildcard Discovery segment, view discovered apps in analytics, build the Intranet segment with access policy, then enable ICMP.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab11.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 11</span>
+          
+          <span class="lab-card-time">~25 min</span>
+        </div>
+        <div class="lab-card-title">Troubleshoot ZPA Access for Joe</div>
+        <div class="lab-card-desc">Login as Joe to find Private Access missing in ZCC, identify the missing ZPA service entitlement in ZIdentity, assign it, and verify access.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab12.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 12</span>
+          
+          <span class="lab-card-time">~30 min</span>
+        </div>
+        <div class="lab-card-title">Traffic Forwarding through SIPA</div>
+        <div class="lab-card-desc">Configure SIPA in ZPA and a forwarding rule in ZIA to route App Connector internet traffic through ZIA. Verify the egress IP changes to a Zscaler service edge.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab13.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 13</span>
+          <span class="lab-card-badge optional">Optional</span>
+          <span class="lab-card-time">~10 min</span>
+        </div>
+        <div class="lab-card-title">Access Internal App via RDP</div>
+        <div class="lab-card-desc">Add port 3389 to the Intranet app segment, connect via Remote Desktop through ZPA, and verify the session in netstat and ZPA analytics.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label">ZDX</span>
+      <div class="phase-title">ZDX Digital Experience</div>
+      <div class="phase-range">Labs 14–16 · Dashboards, Wi-Fi troubleshooting, and DNS troubleshooting</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab14.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 14</span>
+          <span class="lab-card-badge sdc">SDC</span>
+          <span class="lab-card-time">~20 min</span>
+        </div>
+        <div class="lab-card-title">Navigate ZDX Dashboards</div>
+        <div class="lab-card-desc">Using the Solutions Demo Center, explore the Performance, Incidents, Wi-Fi, Application Overview, and User Overview ZDX dashboards.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab15.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 15</span>
+          <span class="lab-card-badge sdc">SDC</span>
+          <span class="lab-card-time">~15 min</span>
+        </div>
+        <div class="lab-card-title">Troubleshoot Poor Wi-Fi</div>
+        <div class="lab-card-desc">Find Curtis Hardwick in ZDX, analyse his ZDX score, confirm Wi-Fi as the root cause, view the Hop View, and trace a 5GHz→2.4GHz SSID change event.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab16.html">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB 16</span>
+          <span class="lab-card-badge sdc">SDC</span>
+          <span class="lab-card-time">~15 min</span>
+        </div>
+        <div class="lab-card-title">Troubleshoot Slow DNS</div>
+        <div class="lab-card-desc">Use ZDX Copilot to surface Linda Lucas, analyse her consistently poor all-apps score, isolate 3000ms DNS Time in web probe metrics, and confirm with Y-Engine.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Centre</span>
+  <span>Labs 0–16</span>
+</footer>
+
+<script>
+document.body.style.transition='opacity 0.3s ease';
+document.body.style.opacity='1';
+sessionStorage.setItem('pt','1');
+</script>
+</body>
+</html>
