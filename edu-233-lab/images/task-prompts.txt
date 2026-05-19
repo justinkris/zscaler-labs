@@ -1,0 +1,165 @@
+EDU-233 Task Banner Image Prompts
+========================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff.
+  NO TEXT anywhere — no words, no letters, no numbers, no labels. Pure visual only.
+  Recommended dimensions: 1200 x 300 px.
+
+────────────────────────────────────────────────
+
+lab0-task1.png — Lab 0 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: a virtual machine control panel with a play button and green VM status lights. Two network nodes connected by a dashed line. Navy sky-blue palette.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab0-task2.png — Lab 0 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: a ZCC shield icon with authentication checkmarks. User badge connecting to cloud. Navy and green accent.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab0-task3.png — Lab 0 Task 3
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: an IP address lookup showing a Zscaler Inc. result. Browser window displaying cloud routing confirmation. Sky-blue and navy.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab1-task1.png — Lab 1 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: a ZIA admin portal login form with padlock. TLS inspection beam scanning HTTPS traffic. Amber and navy.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab2-task1.png — Lab 2 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: isolation profile cards in a list with eye-icon review button. PAC file scroll and root certificate icon visible. Navy and sky-blue.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab3-task1.png — Lab 3 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: smart isolate toggle switch surrounded by AI/ML neural network nodes. Browser icon with isolation container. Navy and amber.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab3-task2.png — Lab 3 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: suspicious bank website rendered in read-only isolation mode. Text cursor blocked with an X. Isolation banner at top. Red and navy accent.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab4-task1.png — Lab 4 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: URL filtering policy table with an Isolate action row highlighted. News category tag and isolation profile label. Amber and navy.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab4-task2.png — Lab 4 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: BBC news website in isolation frame with Copy-Print-Watermark badge. One-way clipboard arrows (out only). Watermark stamp overlay.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab5-task1.png — Lab 5 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Cloud App Control policy list with shopping cart app icons and Isolate action badge. Application signature scanner graphic.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab5-task2.png — Lab 5 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Costco shopping cart in isolation container. Confidential badge. Clipboard with crossed-out arrows. Watermark diagonal text.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab6-task1.png — Lab 6 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Web Insights log table with Road Warrior and Cloud Browser location tags. Filter chips applied. Amber and navy palette.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab7-task1.png — Lab 7 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Isolation Profile security settings panel showing read-only and office-file-viewing toggles. Print icon with checkmark.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab7-task2.png — Lab 7 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Word document downloading into Protected Storage vault. PDFTron PDF conversion arrows. Isolation container frame.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab8-task1.png — Lab 8 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Sandbox policy rule showing Quarantine and Isolate action. File types checklist (Excel, Word, PDF). Isolation profile badge.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab8-task2.png — Lab 8 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: sandbox analysis spinner on a spreadsheet in Protected Storage. Web Insights log with MD5 hash link. MITRE ATT&CK shield.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab9-task1.png — Lab 9 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: isolation profile panel showing Browser-In-Browser toggle selected. Native vs BiB mode comparison icons.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab9-task2.png — Lab 9 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Sky Sports website displayed inside a browser with an editable URL bar visible at the top. Tab icons and navigation controls in the isolation browser chrome.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab10-task1.png — Lab 10 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: ZPA isolation profile showing Traffic Forwarded to ZIA toggle enabled. Cloud and ZPA node connected by arrow.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab10-task2.png — Lab 10 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: App Segment card showing office.thezerotrustexchange.com aliasing myapps.microsoft.com. Browser Access badge and domain mapping arrows.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab10-task3.png — Lab 10 Task 3
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Access Policy and Isolation Policy stacked cards. BYOD badge. Web Browser and Client Connector icons. Isolation profile label.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab10-task4.png — Lab 10 Task 4
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: User Portal tile grid with M365 app tile highlighted. Portal link configuration panel showing domain field.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab10-task5.png — Lab 10 Task 5
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: CNAME record diagram. Office hostname aliasing to a ZPA load balancer address. DNS resolution arrows.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab10-task6.png — Lab 10 Task 6
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: two paths shown side by side. Left: unmanaged laptop blocked by IdP shield (red X). Right: User Portal tile granting isolated M365 access (green check).
+No text, no words, no letters, no labels anywhere in the image.
+
+lab11-task1.png — Lab 11 Task 1
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: Browser Access app list with Gitlab entry expanded showing CNAME and wildcard certificate details. ZPA shield and connector chain.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab11-task2.png — Lab 11 Task 2
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+Flat cartoon: unmanaged device connecting to User Portal, clicking Gitlab tile, entering isolated Gitlab login screen. nslookup terminal window in corner.
+No text, no words, no letters, no labels anywhere in the image.

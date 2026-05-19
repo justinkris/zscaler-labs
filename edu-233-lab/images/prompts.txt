@@ -1,0 +1,81 @@
+EDU-233 Lab Hero Image Prompts
+========================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff.
+  NO TEXT anywhere — no words, no letters, no numbers, no labels. Pure visual only.
+  Recommended dimensions: 1200 x 400 px.
+
+────────────────────────────────────────────────
+
+lab0-hero.png — Lab 0: Connecting to the Virtual Lab
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a virtual machine dashboard showing green status indicators and a network topology with cloud icons connected by dotted lines. A person at a laptop with a shield icon connecting to a Zscaler cloud node. Navy and sky-blue palette.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab1-hero.png — Lab 1: Securing Access to Internet
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a padlock being opened by an X-ray beam, revealing a TLS certificate scroll inside an HTTPS packet. Digital inspection rays emanate from a cloud proxy node. Navy, sky-blue, and amber accent.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab2-hero.png — Lab 2: Managing Browser Isolation Basics
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of layered isolation profile templates stacked like cards, each labelled with security control icons: clipboard, printer, download arrow, watermark stamp. A configuration gear overlays the stack.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab3-hero.png — Lab 3: Managing One-click Smart Browser Isolation
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a suspicious webpage caught in a net, displayed inside a remote browser container floating in a cloud. AI neural network nodes surround the container, analysing the page. Navy and sky-blue.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab4-hero.png — Lab 4: Using Isolate Action in URL Filtering Policies
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a news website headline rendered inside a floating isolated browser frame, with a watermark stamp overlay and a clipboard bridge showing one-way arrows (out only). URL filter shield icon on the left.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab5-hero.png — Lab 5: Using Isolate Action in Cloud Application Control Policies
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a shopping cart icon inside an isolated browser container, surrounded by security control icons (clipboard crossed out, printer, shield). A cloud app fingerprint scanner identifies the application.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab6-hero.png — Lab 6: Inspecting Cloud Browser Isolation Logs
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of log entries as scrolling file cards streaming from a cloud node into a magnifying glass. Two location tags are visible: a globe labelled Road Warrior and a cloud browser container. Amber and navy.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab7-hero.png — Lab 7: Applying Document Isolation Controls
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a Word document being converted into a flat PDF inside an isolation container. Macros and script symbols are shown being stripped away. A Protected Storage vault holds the resulting PDF.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab8-hero.png — Lab 8: Protecting Against Zero Day Threats with Cloud Sandbox + Isolation
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a suspicious spreadsheet file being quarantined in a Sandbox laboratory flask, while its PDF shadow is immediately viewable by a user in an isolated browser. MITRE ATT&CK shield in the corner.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab9-hero.png — Lab 9: Managing Browser-In-Browser Isolation Experience
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a browser-within-a-browser: an outer browser window contains a complete inner browser window with its own URL bar and tabs. A SOC analyst icon operates the inner browser from a safe distance.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab10-hero.png — Lab 10: Securing Access to SaaS Apps from BYO/Unmanaged Devices via ZPA
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of an unmanaged laptop (no ZCC badge) connecting to a User Portal tile grid showing SaaS app logos, all routed through a ZPA shield node. The connection is wrapped in an isolation frame.
+No text, no words, no letters, no labels anywhere in the image.
+
+lab11-hero.png — Lab 11: Securing Access to Private Applications from Unmanaged Devices via ZPA Isolation
+----------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff (pale sky-blue).
+A flat cartoon illustration of a private Gitlab server icon accessible only through a ZPA app connector chain and isolation container. An unmanaged device on the left sees only a pixel stream; the actual server is shielded on the right.
+No text, no words, no letters, no labels anywhere in the image.

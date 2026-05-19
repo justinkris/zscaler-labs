@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-233 Lab 9: Managing Browser-In-Browser Isolation Experience</title>
+<style>html.pt-init body{opacity:0;transition:opacity 0.18s;}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-233 Hub</a> &rsaquo; <a href="lab8.html">Lab 8</a> &rsaquo; Lab 9</div>
+  <div class="lab-eyebrow">
+    <span class="lab-chip">LAB 9</span>
+  </div>
+  <h1>Managing Browser-In-Browser Isolation Experience</h1>
+  <p class="lab-motivation">Configure and test the Browser-In-Browser isolation experience, which exposes the full isolated browser UI including an editable URL bar — designed for SOC and incident response investigation workflows.</p>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="ptcb57" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#8856;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#8856;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Admin User ID:</strong> <code id="d-admin">&lt;prefix&gt;-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>Marketing User:</strong> <code id="d-mkt">&lt;prefix&gt;-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor User:</strong> <code id="d-con">&lt;prefix&gt;-CON@thezerotrustexchange.com</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel" id="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel()" id="qpanel-header">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="qpanel-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron" id="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="qpanel-body"></div>
+  </div>
+  <div class="notes-panel" id="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-count" id="notes-panel-count">0</span>
+      <span class="notes-panel-hint">&mdash; click to expand</span>
+      <span class="notes-panel-chevron" id="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="notes-panel-body"></div>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+    <div class="section-block" id="section-lab9">
+      <h2>Lab 9: Managing Browser-In-Browser Isolation Experience</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 9</div>
+        <p><strong>Scenario:</strong> In some situations, SOC or incident response teams need to investigate URLs in a fully isolated environment with the ability to navigate freely. The Browser-In-Browser (BiB) experience provides access to the complete isolated browser UI, including an editable URL bar, new tab functionality, and full browser controls — while still enforcing all ZIA policies on traffic from the isolation container.</p>
+        <figure class="lab-hero">
+          <img src="images/lab9-hero.png" alt="Lab 9 &mdash; Managing Browser-In-Browser Isolation Experience" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab9">
+        <div class="socratic-header">
+          <span class="socratic-icon">&#128161;</span>
+          <span class="socratic-label">THINK FIRST &middot; BROWSER-IN-BROWSER EXPERIENCE</span>
+        </div>
+        <p class="socratic-insight">BiB is not less secure — it is differently scoped. All traffic from the isolated browser still passes through ZIA. The editable URL bar lets SOC analysts navigate to any URL for investigation, but ZIA policies still block blocked categories from within the isolation container.</p>
+        <ul class="socratic-questions">
+          <li>The Browser-In-Browser experience exposes an editable URL bar. A user tries to navigate to gambling.com from within the BiB isolated session. What happens, and why?</li>
+          <li>The default isolation experience is "Native browser experience" — the isolated page appears in the user's own browser without a visible isolation URL bar. When would you choose BiB over native experience?</li>
+          <li>BiB is described as useful for SOC investigation workflows. What specific investigation tasks does BiB enable that a normal isolated session cannot?</li>
+        </ul>
+        <div class="answer-area" data-section="lab9-topic">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">The user is blocked. All traffic from the BiB container — including URLs the user types into the editable bar — passes through ZIA and is evaluated against all policies. Gambling.com is in a blocked URL category. The isolation container acts as just another ZIA client; its outbound traffic is inspected and policy-enforced the same as any endpoint.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Native browser experience is appropriate for standard users — it is transparent and familiar. BiB is appropriate for security analysts and IT staff who need to investigate specific URLs in a fully controlled browser, browse to related infrastructure, or test policy responses. Exposing the isolation URL bar to general users creates confusion and potential social engineering risk (users think they can navigate freely without restrictions).</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">BiB enables: (1) navigating to a suspicious URL to observe its behaviour in isolation, (2) following redirect chains from phishing links, (3) clicking through multi-step attack flows (e.g., drive-by download sequences), (4) testing ZIA policy responses to specific URLs — all without any risk to the analyst's endpoint, since execution is fully contained in the remote browser.</div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Task 9.1: Review the Browser-In-Browser Isolation Profile</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Inspect the TZTE BiB Isolation Profile</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin Portal, navigate to <strong>Administration &rsaquo; Browser Isolation</strong>.</li>
+          <li>Click the <strong>eye icon</strong> next to the <strong>TZTE BiB</strong> profile.</li>
+          <li>Click <strong>Next</strong> repeatedly until you reach the <strong>Isolation Experience</strong> tab.</li>
+          <li>Note that <strong>Isolation Experience</strong> is set to <strong>Browser-in-browser experience</strong>.</li>
+          <li>Click <strong>Close</strong>.</li>
+        </ol>
+      </div>
+      <div class="callout callout-note">
+        <p><strong>Note:</strong> The configurable Isolation Experience options are: "Native browser experience" (transparent, no visible isolation bar) and "Browser-in-browser experience" (full isolated browser UI with editable URL bar).</p>
+      </div>
+      <div class="section-qa" data-section="t9-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 9.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab9-task1.png" alt="Task 9.1: Review the Browser-In-Browser Isolation Profile" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t9-1" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t9-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t9-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t9-1" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t9-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t9-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 9.2: Test Browser-In-Browser Experience</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Access a Sports Site in BiB Mode</h4>
+        <ol class="step-list">
+          <li>On the <strong>Client PC</strong> VM, navigate to <code>https://www.skysports.com</code> or any sports website.</li>
+          <li>The site loads in isolation and the original <strong>URL bar of the isolated browser is visible</strong> at the top of the page.</li>
+          <li>Observe that you can edit the URL in the isolation browser's address bar.</li>
+          <li>Click the <strong>+ (new tab)</strong> icon next to the URL bar to open a new tab within the isolated browser.</li>
+        </ol>
+      </div>
+      <div class="callout callout-note">
+        <p><strong>Note:</strong> All traffic from within the BiB session is processed by ZIA. If you navigate to a blocked category (e.g., www.gambling.com) from the isolated URL bar, you will see a ZIA block page — the isolation container is not a bypass mechanism.</p>
+      </div>
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Review the Isolate Sports Policy (Optional)</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin Portal, go to <strong>Policy &rsaquo; URL &amp; Cloud Application Control &rsaquo; URL Filtering Policy</strong>.</li>
+          <li>Locate the <strong>Isolate Sports</strong> policy and review its settings.</li>
+          <li>Note the URL category, Isolate action, and Isolation Profile used for sports sites.</li>
+        </ol>
+      </div>
+      <div class="section-qa" data-section="t9-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 9.2</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab9-task2.png" alt="Task 9.2: Test Browser-In-Browser Experience" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t9-2" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t9-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t9-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t9-2" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t9-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t9-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">&#129504;</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">BiB exposes the full isolated browser UI — including an editable URL bar. It is designed for SOC investigation, not general users. Critically: all BiB traffic still traverses ZIA and is policy-enforced. BiB is a different experience, not a bypass. ZIA blocks still apply from within the container.</div>
+        </div>
+      </div>
+
+      <div class="lesson-tools">
+        <div class="lesson-tool-block">
+          <div class="lesson-tool-label">Ask a Question</div>
+          <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Something you&rsquo;re not sure about&hellip;"></textarea>
+          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+          <div id="q-list" style="margin-top:10px;"></div>
+        </div>
+        <div class="lesson-tool-block">
+          <div class="lesson-tool-label">Add a Note</div>
+          <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaway from this lab&hellip;"></textarea>
+          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+          <div id="n-list" style="margin-top:10px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&larr; Back to Hub</a>
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">LAB 9 PROGRESS</div>      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab9-t1" onchange="saveChecklist(this)">
+        <span>Reviewed TZTE BiB profile Isolation Experience setting</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab9-t2" onchange="saveChecklist(this)">
+        <span>Sports site loaded in BiB mode</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab9-t3" onchange="saveChecklist(this)">
+        <span>Confirmed editable URL bar visible</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab9-t4" onchange="saveChecklist(this)">
+        <span>Verified new tab functionality in isolated browser</span>
+      </label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">Browser-In-Browser (BiB)</div>
+          <div class="qr-def">Isolation experience that displays the full isolated browser UI with an editable URL bar — for SOC/investigation use.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Native Browser Experience</div>
+          <div class="qr-def">Default isolation mode: the isolated page appears in the user's browser with no visible isolation chrome.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Isolation Container</div>
+          <div class="qr-def">The remote browser instance, hosted in a Zscaler data centre, that fetches and renders the page for the user.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab8.html"><span class="page-nav-label">&larr; PREVIOUS</span><span class="page-nav-title">Lab 8: Sandbox + Isolation</span></a>
+  <div class="page-nav-message">An entire isolated browser in a tab. SOC teams, this one&rsquo;s for you.</div>
+  <a class="page-nav-btn page-nav-next" href="lab10.html"><span class="page-nav-label">NEXT &rarr;</span><span class="page-nav-title">Lab 10: ZPA SaaS BYOD</span></a>
+</div>
+
+<footer>
+  <span>EDU-233 &middot; Zscaler Browser Isolation &middot; Lab 9</span>
+</footer>
+
+<script>
+const CONFIG_KEY='edu233-expc-lab-config';
+const PAGE_KEY='edu233-lab-lab9';
+
+// ── Page transition ────────────────────────────────────────────────────────
+document.documentElement.classList.add('pt-init');
+window.addEventListener('pageshow', () => document.body.style.opacity = '1');
+function navTo(url) {
+  document.body.style.opacity = '0';
+  setTimeout(() => { window.location.href = url; }, 180);
+}
+document.querySelectorAll('a[href]').forEach(a => {
+  const h = a.getAttribute('href');
+  if (!h.startsWith('#') && !h.startsWith('http') && !h.startsWith('mailto')) {
+    a.addEventListener('click', e => { e.preventDefault(); navTo(h); });
+  }
+});
+
+// ── Config panel ───────────────────────────────────────────────────────────
+function toggleConfig() {
+  const body = document.getElementById('config-body');
+  const btn  = document.getElementById('config-toggle-btn');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  btn.innerHTML = open ? '<span class="chevron">&#9660;</span> Expand' : '<span class="chevron">&#9650;</span> Collapse';
+}
+function collapseConfig() {
+  document.getElementById('config-body').style.display = 'none';
+  document.getElementById('config-toggle-btn').innerHTML = '<span class="chevron">&#9660;</span> Expand';
+}
+function saveConfig() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const pass   = document.getElementById('pass-input').value.trim();
+  localStorage.setItem(CONFIG_KEY, JSON.stringify({prefix, pass}));
+  applyConfig();
+  updateConfigSummary();
+  collapseConfig();
+}
+function clearConfig() {
+  localStorage.removeItem(CONFIG_KEY);
+  document.getElementById('prefix-input').value = '';
+  document.getElementById('pass-input').value   = '';
+  applyConfig();
+  updateConfigSummary();
+}
+function loadConfig() {
+  const s = localStorage.getItem(CONFIG_KEY);
+  if (!s) return;
+  const c = JSON.parse(s);
+  if (c.prefix) document.getElementById('prefix-input').value = c.prefix;
+  if (c.pass)   document.getElementById('pass-input').value   = c.pass;
+  applyConfig();
+}
+function applyConfig() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const pass   = document.getElementById('pass-input').value.trim();
+  const admin  = prefix ? prefix+'-ADMIN@thezerotrustexchange.com' : '<prefix>-ADMIN@thezerotrustexchange.com';
+  const mkt    = prefix ? prefix+'-MKT@thezerotrustexchange.com'   : '<prefix>-MKT@thezerotrustexchange.com';
+  const con    = prefix ? prefix+'-CON@thezerotrustexchange.com'   : '<prefix>-CON@thezerotrustexchange.com';
+  document.getElementById('d-admin').textContent = admin;
+  document.getElementById('d-mkt').textContent   = mkt;
+  document.getElementById('d-con').textContent   = con;
+  document.querySelectorAll('code.d-username-admin').forEach(el => el.textContent = admin);
+  document.querySelectorAll('code.d-username-mkt').forEach(el   => el.textContent = mkt);
+  document.querySelectorAll('code.d-username-con').forEach(el   => el.textContent = con);
+  document.querySelectorAll('span.var-pass').forEach(el => el.textContent = pass || '<Session Password>');
+  updateConfigSummary();
+}
+function updateConfigSummary() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const s = document.getElementById('config-toggle-summary');
+  s.textContent = prefix ? ' — ' + prefix : '';
+}
+function copyConfigField(id, btn) {
+  const val = document.getElementById(id).value;
+  navigator.clipboard.writeText(val).then(() => { btn.textContent='&#10003;'; setTimeout(()=>btn.textContent='&#8856;',1500); });
+}
+
+// ── Copy buttons on inline code ────────────────────────────────────────────
+function injectCopyButtons() {
+  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+    if (el.querySelector('.copy-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn'; btn.title = 'Copy';
+    btn.innerHTML = '&#8856;';
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(el.textContent.replace('&#8856;','').trim()).then(()=>{
+        btn.innerHTML='&#10003;'; setTimeout(()=>btn.innerHTML='&#8856;',1500);
+      });
+    };
+    el.appendChild(btn);
+  });
+}
+
+// ── Q-Panel ────────────────────────────────────────────────────────────────
+function toggleQPanel() {
+  const b = document.getElementById('qpanel-body');
+  const open = b.style.display !== 'none';
+  b.style.display = open ? 'none' : 'block';
+  document.getElementById('qpanel-chevron').textContent = open ? '&#9662;' : '&#9652;';
+  document.getElementById('qpanel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+}
+function toggleNotesPanel() {
+  const b = document.getElementById('notes-panel-body');
+  const open = b.style.display !== 'none';
+  b.style.display = open ? 'none' : 'block';
+  document.getElementById('notes-panel-chevron').textContent = open ? '&#9662;' : '&#9652;';
+  document.getElementById('notes-panel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+}
+
+// ── Section Q&A ────────────────────────────────────────────────────────────
+const SQ_KEY = PAGE_KEY+'-sq', SN_KEY = PAGE_KEY+'-sn';
+function toggleSectionQA(btn) {
+  const body = btn.nextElementSibling;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  btn.querySelector('.section-qa-chevron').textContent = open ? '&#9662;' : '&#9652;';
+}
+function saveSectionQ(id, btn) {
+  const ta = document.getElementById('sq-'+id);
+  const val = ta.value.trim(); if (!val) return;
+  const store = JSON.parse(localStorage.getItem(SQ_KEY)||'{}');
+  store[id] = store[id]||[]; store[id].push(val);
+  localStorage.setItem(SQ_KEY, JSON.stringify(store));
+  ta.value=''; renderSectionList('sq-list-'+id, store[id]);
+  btn.textContent='Saved!'; setTimeout(()=>btn.textContent='Save',1200);
+}
+function saveSectionN(id, btn) {
+  const ta = document.getElementById('sn-'+id);
+  const val = ta.value.trim(); if (!val) return;
+  const store = JSON.parse(localStorage.getItem(SN_KEY)||'{}');
+  store[id] = store[id]||[]; store[id].push(val);
+  localStorage.setItem(SN_KEY, JSON.stringify(store));
+  ta.value=''; renderSectionList('sn-list-'+id, store[id]);
+  btn.textContent='Saved!'; setTimeout(()=>btn.textContent='Save',1200);
+}
+function renderSectionList(listId, items) {
+  const el = document.getElementById(listId); if (!el) return;
+  el.innerHTML = items.map(t=>'<div class="section-qa-entry">'+t+'</div>').join('');
+}
+function loadSectionQAs() {
+  const sq = JSON.parse(localStorage.getItem(SQ_KEY)||'{}');
+  const sn = JSON.parse(localStorage.getItem(SN_KEY)||'{}');
+  Object.keys(sq).forEach(id => renderSectionList('sq-list-'+id, sq[id]));
+  Object.keys(sn).forEach(id => renderSectionList('sn-list-'+id, sn[id]));
+}
+
+// ── Checklist ──────────────────────────────────────────────────────────────
+const CK_KEY = PAGE_KEY+'-ck';
+function saveChecklist(cb) {
+  const store = JSON.parse(localStorage.getItem(CK_KEY)||'{}');
+  store[cb.dataset.key] = cb.checked;
+  localStorage.setItem(CK_KEY, JSON.stringify(store));
+}
+function loadChecklist() {
+  const store = JSON.parse(localStorage.getItem(CK_KEY)||'{}');
+  document.querySelectorAll('.checklist-cb').forEach(cb => {
+    if (store[cb.dataset.key]) cb.checked = true;
+  });
+}
+
+// ── Socratic ───────────────────────────────────────────────────────────────
+const SOC_KEY = PAGE_KEY+'-soc';
+function saveSocAnswer(btn) {
+  const area = btn.closest('.answer-area');
+  const ta   = area.querySelector('.answer-textarea');
+  if (!ta.value.trim()) return;
+  const seeBtn = area.querySelector('.btn-see-answer');
+  seeBtn.disabled = false;
+  btn.textContent = 'Answer saved ✓';
+  btn.disabled = true;
+  const store = JSON.parse(localStorage.getItem(SOC_KEY)||'{}');
+  store[area.dataset.section] = ta.value.trim();
+  localStorage.setItem(SOC_KEY, JSON.stringify(store));
+}
+function revealSocAnswer(btn) {
+  const area = btn.closest('.answer-area');
+  area.querySelector('.model-answers').style.display = 'block';
+  btn.textContent = 'Model answers revealed';
+  btn.disabled = true;
+}
+function loadSocAnswers() {
+  const store = JSON.parse(localStorage.getItem(SOC_KEY)||'{}');
+  document.querySelectorAll('.answer-area').forEach(area => {
+    const saved = store[area.dataset.section];
+    if (saved) {
+      area.querySelector('.answer-textarea').value = saved;
+      const addBtn = area.querySelector('.btn-add-answer');
+      addBtn.textContent = 'Answer saved ✓'; addBtn.disabled = true;
+      area.querySelector('.btn-see-answer').disabled = false;
+    }
+  });
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadConfig();
+  loadChecklist();
+  loadSectionQAs();
+  loadSocAnswers();
+  injectCopyButtons();
+  document.getElementById('qpanel-body').style.display   = 'none';
+  document.getElementById('notes-panel-body').style.display = 'none';
+});
+</script>
+</body>
+</html>

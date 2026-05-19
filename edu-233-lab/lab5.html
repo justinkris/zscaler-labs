@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-233 Lab 5: Using Isolate Action in Cloud Application Control Policies</title>
+<style>html.pt-init body{opacity:0;transition:opacity 0.18s;}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-233 Hub</a> &rsaquo; <a href="lab4.html">Lab 4</a> &rsaquo; Lab 5</div>
+  <div class="lab-eyebrow">
+    <span class="lab-chip">LAB 5</span>
+  </div>
+  <h1>Using Isolate Action in Cloud Application Control Policies</h1>
+  <p class="lab-motivation">Review and test the Isolate action in Cloud Application Control policies to isolate specific sanctioned or risky cloud applications by application identity rather than URL category.</p>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="ptcb57" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#8856;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#8856;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Admin User ID:</strong> <code id="d-admin">&lt;prefix&gt;-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>Marketing User:</strong> <code id="d-mkt">&lt;prefix&gt;-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor User:</strong> <code id="d-con">&lt;prefix&gt;-CON@thezerotrustexchange.com</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel" id="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel()" id="qpanel-header">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="qpanel-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron" id="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="qpanel-body"></div>
+  </div>
+  <div class="notes-panel" id="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-count" id="notes-panel-count">0</span>
+      <span class="notes-panel-hint">&mdash; click to expand</span>
+      <span class="notes-panel-chevron" id="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="notes-panel-body"></div>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+    <div class="section-block" id="section-lab5">
+      <h2>Lab 5: Using Isolate Action in Cloud Application Control Policies</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 5</div>
+        <p><strong>Scenario:</strong> Cloud App Control policies classify traffic by cloud application identity (not just URL category) and can apply the Isolate action. This allows organisations to isolate high-risk consumer applications — like online shopping sites — while still giving users access, using a stricter Isolation Profile than the URL filtering approach.</p>
+        <figure class="lab-hero">
+          <img src="images/lab5-hero.png" alt="Lab 5 &mdash; Using Isolate Action in Cloud Application Control Policies" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab5">
+        <div class="socratic-header">
+          <span class="socratic-icon">&#128161;</span>
+          <span class="socratic-label">THINK FIRST &middot; CLOUD APP ISOLATION</span>
+        </div>
+        <p class="socratic-insight">URL categories group broadly (e.g., "Shopping"). Cloud App Control identifies specific applications (e.g., "Costco," "Amazon") by their traffic signatures, enabling more granular isolation decisions than category-level URL filtering.</p>
+        <ul class="socratic-questions">
+          <li>Cloud App Control identifies traffic by application identity rather than URL category. What can Cloud App Control detect that URL Filtering cannot, and why does this matter for isolation policy?</li>
+          <li>The Consumer / Online Shopping Cloud App Control policy uses the "Confidential" Isolation Profile. This profile blocks copy/paste and file transfers. Why is a stricter profile used for shopping sites compared to the news sites in Lab 4?</li>
+          <li>A user accesses amazon.com, which is matched by the Consumer / Online Shopping policy. Later they navigate to amazon.com/aws, which is a SaaS/business service. Should both be isolated? How would you handle this?</li>
+        </ul>
+        <div class="answer-area" data-section="lab5-topic">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Cloud App Control uses application signatures — URL patterns, API endpoints, request headers, and TLS fingerprints — to identify specific apps regardless of category. A shopping site might be categorised generically as "Business and Economy" but Cloud App Control can identify it as "Amazon" specifically. This enables policies like "allow Amazon for work orders but isolate consumer shopping" that URL categories cannot express.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">News sites are primarily read-only content consumption — copy and print are reasonable. Shopping sites pose higher data exfiltration risk (users might copy corporate credit card details into the isolated session, or merchants could exfiltrate clipboard content). The Confidential profile prevents both inbound and outbound clipboard access and file transfers, reducing the attack surface for consumer apps.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">You would split the Cloud App Control rule: create a separate policy that matches AWS-specific application signatures and applies an Allow or less restrictive Isolate action. Cloud App Control can differentiate between amazon.com (consumer) and aws.amazon.com / console.aws.amazon.com (business service) using its app identification engine.</div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Task 5.1: Review Cloud App Control Policies with Isolate as Action</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Inspect the Consumer / Online Shopping Policy</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin Portal, go to <strong>Policy &rsaquo; URL &amp; Cloud Application Control &rsaquo; Cloud App Control Policy</strong>.</li>
+          <li>Scroll through the list and locate the <strong>Consumer / Online Shopping</strong> policy.</li>
+          <li>Click the <strong>eye icon</strong> to review its settings.</li>
+          <li>Note the <strong>Applications</strong> listed (IKEA, Best Buy, Wayfair, Costco, etc.), <strong>Action: Isolate</strong>, and <strong>Isolation Profile: Confidential</strong>.</li>
+        </ol>
+      </div>
+      <div class="section-qa" data-section="t5-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 5.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task1.png" alt="Task 5.1: Review Cloud App Control Policies with Isolate as Action" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t5-1" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t5-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t5-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t5-1" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t5-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t5-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 5.2: Test Isolate as an Action in Cloud App Control Policies</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Access a Shopping Site in Isolation</h4>
+        <ol class="step-list">
+          <li>On the <strong>Client PC</strong> VM, open a browser and navigate to <code>https://www.costco.com</code>.</li>
+          <li>Observe that Costco loads in isolation with the isolation banner.</li>
+          <li>With the <strong>Confidential</strong> Isolation Profile active, you <strong>cannot</strong>: copy/paste, upload or download files, or render Office files.</li>
+          <li>The page is watermarked with your user identity and timestamp.</li>
+          <li>Verify that you <strong>can</strong> type text on the page (text input is not restricted in this profile).</li>
+        </ol>
+      </div>
+      <div class="section-qa" data-section="t5-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 5.2</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task2.png" alt="Task 5.2: Test Isolate as an Action in Cloud App Control Policies" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t5-2" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t5-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t5-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t5-2" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t5-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t5-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">&#129504;</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">Cloud App Control Isolation targets specific applications by identity, not broad categories. The Confidential profile enforces maximum data control: no clipboard access in either direction, no file transfers, no Office rendering — appropriate for consumer apps where exfiltration risk is high.</div>
+        </div>
+      </div>
+
+      <div class="lesson-tools">
+        <div class="lesson-tool-block">
+          <div class="lesson-tool-label">Ask a Question</div>
+          <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Something you&rsquo;re not sure about&hellip;"></textarea>
+          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+          <div id="q-list" style="margin-top:10px;"></div>
+        </div>
+        <div class="lesson-tool-block">
+          <div class="lesson-tool-label">Add a Note</div>
+          <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaway from this lab&hellip;"></textarea>
+          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+          <div id="n-list" style="margin-top:10px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&larr; Back to Hub</a>
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">LAB 5 PROGRESS</div>      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab5-t1" onchange="saveChecklist(this)">
+        <span>Reviewed Consumer/Online Shopping Cloud App policy</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab5-t2" onchange="saveChecklist(this)">
+        <span>costco.com confirmed in isolation</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab5-t3" onchange="saveChecklist(this)">
+        <span>Verified: Confidential profile controls active (no copy/paste)</span>
+      </label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">Cloud App Control</div>
+          <div class="qr-def">Policy engine that identifies traffic by application signature rather than URL category.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Confidential Profile</div>
+          <div class="qr-def">Maximum-restriction isolation profile: no clipboard, no file transfers, watermarked — for high-risk consumer apps.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Application Identity</div>
+          <div class="qr-def">Zscaler's per-app signature database used by Cloud App Control to identify specific cloud services.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab4.html"><span class="page-nav-label">&larr; PREVIOUS</span><span class="page-nav-title">Lab 4: URL Isolate</span></a>
+  <div class="page-nav-message">Same website, completely different risk posture. Isolation Profile is the lever.</div>
+  <a class="page-nav-btn page-nav-next" href="lab6.html"><span class="page-nav-label">NEXT &rarr;</span><span class="page-nav-title">Lab 6: BI Logs</span></a>
+</div>
+
+<footer>
+  <span>EDU-233 &middot; Zscaler Browser Isolation &middot; Lab 5</span>
+</footer>
+
+<script>
+const CONFIG_KEY='edu233-expc-lab-config';
+const PAGE_KEY='edu233-lab-lab5';
+
+// ── Page transition ────────────────────────────────────────────────────────
+document.documentElement.classList.add('pt-init');
+window.addEventListener('pageshow', () => document.body.style.opacity = '1');
+function navTo(url) {
+  document.body.style.opacity = '0';
+  setTimeout(() => { window.location.href = url; }, 180);
+}
+document.querySelectorAll('a[href]').forEach(a => {
+  const h = a.getAttribute('href');
+  if (!h.startsWith('#') && !h.startsWith('http') && !h.startsWith('mailto')) {
+    a.addEventListener('click', e => { e.preventDefault(); navTo(h); });
+  }
+});
+
+// ── Config panel ───────────────────────────────────────────────────────────
+function toggleConfig() {
+  const body = document.getElementById('config-body');
+  const btn  = document.getElementById('config-toggle-btn');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  btn.innerHTML = open ? '<span class="chevron">&#9660;</span> Expand' : '<span class="chevron">&#9650;</span> Collapse';
+}
+function collapseConfig() {
+  document.getElementById('config-body').style.display = 'none';
+  document.getElementById('config-toggle-btn').innerHTML = '<span class="chevron">&#9660;</span> Expand';
+}
+function saveConfig() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const pass   = document.getElementById('pass-input').value.trim();
+  localStorage.setItem(CONFIG_KEY, JSON.stringify({prefix, pass}));
+  applyConfig();
+  updateConfigSummary();
+  collapseConfig();
+}
+function clearConfig() {
+  localStorage.removeItem(CONFIG_KEY);
+  document.getElementById('prefix-input').value = '';
+  document.getElementById('pass-input').value   = '';
+  applyConfig();
+  updateConfigSummary();
+}
+function loadConfig() {
+  const s = localStorage.getItem(CONFIG_KEY);
+  if (!s) return;
+  const c = JSON.parse(s);
+  if (c.prefix) document.getElementById('prefix-input').value = c.prefix;
+  if (c.pass)   document.getElementById('pass-input').value   = c.pass;
+  applyConfig();
+}
+function applyConfig() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const pass   = document.getElementById('pass-input').value.trim();
+  const admin  = prefix ? prefix+'-ADMIN@thezerotrustexchange.com' : '<prefix>-ADMIN@thezerotrustexchange.com';
+  const mkt    = prefix ? prefix+'-MKT@thezerotrustexchange.com'   : '<prefix>-MKT@thezerotrustexchange.com';
+  const con    = prefix ? prefix+'-CON@thezerotrustexchange.com'   : '<prefix>-CON@thezerotrustexchange.com';
+  document.getElementById('d-admin').textContent = admin;
+  document.getElementById('d-mkt').textContent   = mkt;
+  document.getElementById('d-con').textContent   = con;
+  document.querySelectorAll('code.d-username-admin').forEach(el => el.textContent = admin);
+  document.querySelectorAll('code.d-username-mkt').forEach(el   => el.textContent = mkt);
+  document.querySelectorAll('code.d-username-con').forEach(el   => el.textContent = con);
+  document.querySelectorAll('span.var-pass').forEach(el => el.textContent = pass || '<Session Password>');
+  updateConfigSummary();
+}
+function updateConfigSummary() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const s = document.getElementById('config-toggle-summary');
+  s.textContent = prefix ? ' — ' + prefix : '';
+}
+function copyConfigField(id, btn) {
+  const val = document.getElementById(id).value;
+  navigator.clipboard.writeText(val).then(() => { btn.textContent='&#10003;'; setTimeout(()=>btn.textContent='&#8856;',1500); });
+}
+
+// ── Copy buttons on inline code ────────────────────────────────────────────
+function injectCopyButtons() {
+  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+    if (el.querySelector('.copy-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn'; btn.title = 'Copy';
+    btn.innerHTML = '&#8856;';
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(el.textContent.replace('&#8856;','').trim()).then(()=>{
+        btn.innerHTML='&#10003;'; setTimeout(()=>btn.innerHTML='&#8856;',1500);
+      });
+    };
+    el.appendChild(btn);
+  });
+}
+
+// ── Q-Panel ────────────────────────────────────────────────────────────────
+function toggleQPanel() {
+  const b = document.getElementById('qpanel-body');
+  const open = b.style.display !== 'none';
+  b.style.display = open ? 'none' : 'block';
+  document.getElementById('qpanel-chevron').textContent = open ? '&#9662;' : '&#9652;';
+  document.getElementById('qpanel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+}
+function toggleNotesPanel() {
+  const b = document.getElementById('notes-panel-body');
+  const open = b.style.display !== 'none';
+  b.style.display = open ? 'none' : 'block';
+  document.getElementById('notes-panel-chevron').textContent = open ? '&#9662;' : '&#9652;';
+  document.getElementById('notes-panel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+}
+
+// ── Section Q&A ────────────────────────────────────────────────────────────
+const SQ_KEY = PAGE_KEY+'-sq', SN_KEY = PAGE_KEY+'-sn';
+function toggleSectionQA(btn) {
+  const body = btn.nextElementSibling;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  btn.querySelector('.section-qa-chevron').textContent = open ? '&#9662;' : '&#9652;';
+}
+function saveSectionQ(id, btn) {
+  const ta = document.getElementById('sq-'+id);
+  const val = ta.value.trim(); if (!val) return;
+  const store = JSON.parse(localStorage.getItem(SQ_KEY)||'{}');
+  store[id] = store[id]||[]; store[id].push(val);
+  localStorage.setItem(SQ_KEY, JSON.stringify(store));
+  ta.value=''; renderSectionList('sq-list-'+id, store[id]);
+  btn.textContent='Saved!'; setTimeout(()=>btn.textContent='Save',1200);
+}
+function saveSectionN(id, btn) {
+  const ta = document.getElementById('sn-'+id);
+  const val = ta.value.trim(); if (!val) return;
+  const store = JSON.parse(localStorage.getItem(SN_KEY)||'{}');
+  store[id] = store[id]||[]; store[id].push(val);
+  localStorage.setItem(SN_KEY, JSON.stringify(store));
+  ta.value=''; renderSectionList('sn-list-'+id, store[id]);
+  btn.textContent='Saved!'; setTimeout(()=>btn.textContent='Save',1200);
+}
+function renderSectionList(listId, items) {
+  const el = document.getElementById(listId); if (!el) return;
+  el.innerHTML = items.map(t=>'<div class="section-qa-entry">'+t+'</div>').join('');
+}
+function loadSectionQAs() {
+  const sq = JSON.parse(localStorage.getItem(SQ_KEY)||'{}');
+  const sn = JSON.parse(localStorage.getItem(SN_KEY)||'{}');
+  Object.keys(sq).forEach(id => renderSectionList('sq-list-'+id, sq[id]));
+  Object.keys(sn).forEach(id => renderSectionList('sn-list-'+id, sn[id]));
+}
+
+// ── Checklist ──────────────────────────────────────────────────────────────
+const CK_KEY = PAGE_KEY+'-ck';
+function saveChecklist(cb) {
+  const store = JSON.parse(localStorage.getItem(CK_KEY)||'{}');
+  store[cb.dataset.key] = cb.checked;
+  localStorage.setItem(CK_KEY, JSON.stringify(store));
+}
+function loadChecklist() {
+  const store = JSON.parse(localStorage.getItem(CK_KEY)||'{}');
+  document.querySelectorAll('.checklist-cb').forEach(cb => {
+    if (store[cb.dataset.key]) cb.checked = true;
+  });
+}
+
+// ── Socratic ───────────────────────────────────────────────────────────────
+const SOC_KEY = PAGE_KEY+'-soc';
+function saveSocAnswer(btn) {
+  const area = btn.closest('.answer-area');
+  const ta   = area.querySelector('.answer-textarea');
+  if (!ta.value.trim()) return;
+  const seeBtn = area.querySelector('.btn-see-answer');
+  seeBtn.disabled = false;
+  btn.textContent = 'Answer saved ✓';
+  btn.disabled = true;
+  const store = JSON.parse(localStorage.getItem(SOC_KEY)||'{}');
+  store[area.dataset.section] = ta.value.trim();
+  localStorage.setItem(SOC_KEY, JSON.stringify(store));
+}
+function revealSocAnswer(btn) {
+  const area = btn.closest('.answer-area');
+  area.querySelector('.model-answers').style.display = 'block';
+  btn.textContent = 'Model answers revealed';
+  btn.disabled = true;
+}
+function loadSocAnswers() {
+  const store = JSON.parse(localStorage.getItem(SOC_KEY)||'{}');
+  document.querySelectorAll('.answer-area').forEach(area => {
+    const saved = store[area.dataset.section];
+    if (saved) {
+      area.querySelector('.answer-textarea').value = saved;
+      const addBtn = area.querySelector('.btn-add-answer');
+      addBtn.textContent = 'Answer saved ✓'; addBtn.disabled = true;
+      area.querySelector('.btn-see-answer').disabled = false;
+    }
+  });
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadConfig();
+  loadChecklist();
+  loadSectionQAs();
+  loadSocAnswers();
+  injectCopyButtons();
+  document.getElementById('qpanel-body').style.display   = 'none';
+  document.getElementById('notes-panel-body').style.display = 'none';
+});
+</script>
+</body>
+</html>

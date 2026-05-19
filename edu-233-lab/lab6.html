@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-233 Lab 6: Inspecting Cloud Browser Isolation Logs</title>
+<style>html.pt-init body{opacity:0;transition:opacity 0.18s;}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-233 Hub</a> &rsaquo; <a href="lab5.html">Lab 5</a> &rsaquo; Lab 6</div>
+  <div class="lab-eyebrow">
+    <span class="lab-chip">LAB 6</span>
+  </div>
+  <h1>Inspecting Cloud Browser Isolation Logs</h1>
+  <p class="lab-motivation">Use ZIA Analytics &rsaquo; Web Insights to find isolation log entries, understand the two-location model (Road Warrior + Cloud Browser), and correlate user actions with isolation events.</p>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="ptcb57" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#8856;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#8856;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Admin User ID:</strong> <code id="d-admin">&lt;prefix&gt;-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>Marketing User:</strong> <code id="d-mkt">&lt;prefix&gt;-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor User:</strong> <code id="d-con">&lt;prefix&gt;-CON@thezerotrustexchange.com</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel" id="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel()" id="qpanel-header">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="qpanel-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron" id="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="qpanel-body"></div>
+  </div>
+  <div class="notes-panel" id="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-count" id="notes-panel-count">0</span>
+      <span class="notes-panel-hint">&mdash; click to expand</span>
+      <span class="notes-panel-chevron" id="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="notes-panel-body"></div>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+    <div class="section-block" id="section-lab6">
+      <h2>Lab 6: Inspecting Cloud Browser Isolation Logs</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 6</div>
+        <p><strong>Scenario:</strong> When a URL Filtering or Cloud App Control policy isolates a session, ZIA logs two location categories: Road Warrior (the user's request to ZIA) and Cloud Browser (the isolated container's subsequent requests). Understanding this dual-log model is essential for accurate troubleshooting and billing analysis.</p>
+        <figure class="lab-hero">
+          <img src="images/lab6-hero.png" alt="Lab 6 &mdash; Inspecting Cloud Browser Isolation Logs" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~25 minutes</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab6">
+        <div class="socratic-header">
+          <span class="socratic-icon">&#128161;</span>
+          <span class="socratic-label">THINK FIRST &middot; ISOLATION LOG ANALYSIS</span>
+        </div>
+        <p class="socratic-insight">Every isolated session produces at least two log entries: one from the user's device (Road Warrior) showing the isolation trigger, and one or more from the Cloud Browser container (Cloud Browser location) showing the actual page traffic. Filtering only on Road Warrior hides the full picture.</p>
+        <ul class="socratic-questions">
+          <li>An isolated bbc.com session produces entries with Location: Road Warrior AND Location: Cloud Browser. Why are there two location types, and what does each represent?</li>
+          <li>In the Road Warrior log entry for bbc.com, the Policy Action shows "Allowed for Isolation." Why is the action "Allowed" and not "Isolated" — what does this wording tell you about how Zscaler processes the request?</li>
+          <li>A user reports they visited bbc.com but the logs show only Road Warrior entries and no Cloud Browser entries. What does this indicate?</li>
+        </ul>
+        <div class="answer-area" data-section="lab6-topic">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Road Warrior entries represent the user's initial HTTP request from their device to ZIA. When the URL Filtering policy matches "Isolate," ZIA responds by launching an isolated container and redirecting the browser to it. Cloud Browser entries represent the traffic generated by that isolated container as it fetches bbc.com and subsequent page resources. They appear under the Cloud Browser location because the container itself is a Zscaler-managed instance.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">"Allowed for Isolation" means ZIA allowed the traffic to proceed — but into an isolated container rather than directly to the browser. The word "Allowed" distinguishes it from "Blocked" actions. The isolation itself is a form of conditional access, not a block. This terminology is important for interpreting reports: "Allowed for Isolation" is not a policy miss — it is the intended action.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">The absence of Cloud Browser entries typically means the isolated session never fully established. Possible causes: the isolation container failed to launch (check ZIA health), the user closed the tab immediately before the container connected, or SSL inspection was not active and the request was passed through uninspected.</div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Task 6.1: Review Isolation Log Details</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Filter Logs for Road Warrior Isolation Events</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin Portal, go to <strong>Analytics &rsaquo; Web Insights</strong>.</li>
+          <li>Click the <strong>Logs</strong> tab.</li>
+          <li>Under <strong>Timeframe</strong>, select <strong>Current Day</strong>.</li>
+          <li>Under <strong>Select Filters</strong>, click <strong>Add Filter</strong> and type <strong>loc</strong> to find <strong>Location</strong>.</li>
+          <li>Select <strong>Road Warrior</strong> and click <strong>Done</strong>.</li>
+          <li>Click <strong>Add Filter</strong> again, type <strong>URL Search</strong>, change Domain to <strong>Host</strong>, select <strong>Contains</strong>, and type <code>bbc.com</code>.</li>
+          <li>Click <strong>Apply Filters</strong> and review the log entries. Note the <strong>Policy Action: Allowed for Isolation</strong> column.</li>
+        </ol>
+      </div>
+      <div class="callout callout-note">
+        <p><strong>Note:</strong> Log entries may take a few minutes to appear after your Lab 4 test. If no entries show for bbc.com, re-run the Lab 4 test and wait 2-3 minutes.</p>
+      </div>
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Add Cloud Browser to the Location Filter</h4>
+        <ol class="step-list">
+          <li>Click the <strong>Location</strong> filter and add <strong>Cloud Browser</strong> to the selection (keeping Road Warrior selected).</li>
+          <li>Click <strong>Apply Filters</strong>.</li>
+          <li>Review the expanded log. Cloud Browser entries show the traffic generated by the isolated container itself — all the page resources bbc.com loaded.</li>
+        </ol>
+      </div>
+      <div class="callout callout-note">
+        <p><strong>Note:</strong> The combined Road Warrior + Cloud Browser view shows the complete isolation flow: the trigger request (Road Warrior) and all subsequent container activity (Cloud Browser). Cloud Browser entries show Action: Allowed because they are normal outbound requests from the container.</p>
+      </div>
+      <div class="section-qa" data-section="t6-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 6.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab6-task1.png" alt="Task 6.1: Review Isolation Log Details" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-1" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-1" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">&#129504;</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">Every isolated session has two log footprints: Road Warrior (the trigger) and Cloud Browser (the container traffic). Road Warrior entries show "Allowed for Isolation" — the isolation action. Cloud Browser entries show what the container fetched. You need both to understand the full session. Filter on Road Warrior only to find isolation triggers; add Cloud Browser to see the full picture.</div>
+        </div>
+      </div>
+
+      <div class="lesson-tools">
+        <div class="lesson-tool-block">
+          <div class="lesson-tool-label">Ask a Question</div>
+          <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Something you&rsquo;re not sure about&hellip;"></textarea>
+          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+          <div id="q-list" style="margin-top:10px;"></div>
+        </div>
+        <div class="lesson-tool-block">
+          <div class="lesson-tool-label">Add a Note</div>
+          <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaway from this lab&hellip;"></textarea>
+          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+          <div id="n-list" style="margin-top:10px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&larr; Back to Hub</a>
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">LAB 6 PROGRESS</div>      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab6-t1" onchange="saveChecklist(this)">
+        <span>Opened Web Insights Logs</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab6-t2" onchange="saveChecklist(this)">
+        <span>Filtered by Road Warrior + bbc.com host</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab6-t3" onchange="saveChecklist(this)">
+        <span>Confirmed Allowed for Isolation policy action</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" class="checklist-cb" data-key="lab6-t4" onchange="saveChecklist(this)">
+        <span>Added Cloud Browser to location filter and reviewed full logs</span>
+      </label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">Road Warrior</div>
+          <div class="qr-def">ZIA location type representing traffic from an off-network device via ZCC.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Cloud Browser</div>
+          <div class="qr-def">ZIA location type representing traffic from a Browser Isolation container launched by ZIA.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Allowed for Isolation</div>
+          <div class="qr-def">Policy action in logs indicating the request was redirected into an isolation container — not blocked, not allowed directly.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab5.html"><span class="page-nav-label">&larr; PREVIOUS</span><span class="page-nav-title">Lab 5: App Control Isolate</span></a>
+  <div class="page-nav-message">The logs tell the whole story &mdash; Road Warrior triggers, Cloud Browser delivers.</div>
+  <a class="page-nav-btn page-nav-next" href="lab7.html"><span class="page-nav-label">NEXT &rarr;</span><span class="page-nav-title">Lab 7: Document Isolation</span></a>
+</div>
+
+<footer>
+  <span>EDU-233 &middot; Zscaler Browser Isolation &middot; Lab 6</span>
+</footer>
+
+<script>
+const CONFIG_KEY='edu233-expc-lab-config';
+const PAGE_KEY='edu233-lab-lab6';
+
+// ── Page transition ────────────────────────────────────────────────────────
+document.documentElement.classList.add('pt-init');
+window.addEventListener('pageshow', () => document.body.style.opacity = '1');
+function navTo(url) {
+  document.body.style.opacity = '0';
+  setTimeout(() => { window.location.href = url; }, 180);
+}
+document.querySelectorAll('a[href]').forEach(a => {
+  const h = a.getAttribute('href');
+  if (!h.startsWith('#') && !h.startsWith('http') && !h.startsWith('mailto')) {
+    a.addEventListener('click', e => { e.preventDefault(); navTo(h); });
+  }
+});
+
+// ── Config panel ───────────────────────────────────────────────────────────
+function toggleConfig() {
+  const body = document.getElementById('config-body');
+  const btn  = document.getElementById('config-toggle-btn');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  btn.innerHTML = open ? '<span class="chevron">&#9660;</span> Expand' : '<span class="chevron">&#9650;</span> Collapse';
+}
+function collapseConfig() {
+  document.getElementById('config-body').style.display = 'none';
+  document.getElementById('config-toggle-btn').innerHTML = '<span class="chevron">&#9660;</span> Expand';
+}
+function saveConfig() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const pass   = document.getElementById('pass-input').value.trim();
+  localStorage.setItem(CONFIG_KEY, JSON.stringify({prefix, pass}));
+  applyConfig();
+  updateConfigSummary();
+  collapseConfig();
+}
+function clearConfig() {
+  localStorage.removeItem(CONFIG_KEY);
+  document.getElementById('prefix-input').value = '';
+  document.getElementById('pass-input').value   = '';
+  applyConfig();
+  updateConfigSummary();
+}
+function loadConfig() {
+  const s = localStorage.getItem(CONFIG_KEY);
+  if (!s) return;
+  const c = JSON.parse(s);
+  if (c.prefix) document.getElementById('prefix-input').value = c.prefix;
+  if (c.pass)   document.getElementById('pass-input').value   = c.pass;
+  applyConfig();
+}
+function applyConfig() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const pass   = document.getElementById('pass-input').value.trim();
+  const admin  = prefix ? prefix+'-ADMIN@thezerotrustexchange.com' : '<prefix>-ADMIN@thezerotrustexchange.com';
+  const mkt    = prefix ? prefix+'-MKT@thezerotrustexchange.com'   : '<prefix>-MKT@thezerotrustexchange.com';
+  const con    = prefix ? prefix+'-CON@thezerotrustexchange.com'   : '<prefix>-CON@thezerotrustexchange.com';
+  document.getElementById('d-admin').textContent = admin;
+  document.getElementById('d-mkt').textContent   = mkt;
+  document.getElementById('d-con').textContent   = con;
+  document.querySelectorAll('code.d-username-admin').forEach(el => el.textContent = admin);
+  document.querySelectorAll('code.d-username-mkt').forEach(el   => el.textContent = mkt);
+  document.querySelectorAll('code.d-username-con').forEach(el   => el.textContent = con);
+  document.querySelectorAll('span.var-pass').forEach(el => el.textContent = pass || '<Session Password>');
+  updateConfigSummary();
+}
+function updateConfigSummary() {
+  const prefix = document.getElementById('prefix-input').value.trim();
+  const s = document.getElementById('config-toggle-summary');
+  s.textContent = prefix ? ' — ' + prefix : '';
+}
+function copyConfigField(id, btn) {
+  const val = document.getElementById(id).value;
+  navigator.clipboard.writeText(val).then(() => { btn.textContent='&#10003;'; setTimeout(()=>btn.textContent='&#8856;',1500); });
+}
+
+// ── Copy buttons on inline code ────────────────────────────────────────────
+function injectCopyButtons() {
+  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+    if (el.querySelector('.copy-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn'; btn.title = 'Copy';
+    btn.innerHTML = '&#8856;';
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(el.textContent.replace('&#8856;','').trim()).then(()=>{
+        btn.innerHTML='&#10003;'; setTimeout(()=>btn.innerHTML='&#8856;',1500);
+      });
+    };
+    el.appendChild(btn);
+  });
+}
+
+// ── Q-Panel ────────────────────────────────────────────────────────────────
+function toggleQPanel() {
+  const b = document.getElementById('qpanel-body');
+  const open = b.style.display !== 'none';
+  b.style.display = open ? 'none' : 'block';
+  document.getElementById('qpanel-chevron').textContent = open ? '&#9662;' : '&#9652;';
+  document.getElementById('qpanel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+}
+function toggleNotesPanel() {
+  const b = document.getElementById('notes-panel-body');
+  const open = b.style.display !== 'none';
+  b.style.display = open ? 'none' : 'block';
+  document.getElementById('notes-panel-chevron').textContent = open ? '&#9662;' : '&#9652;';
+  document.getElementById('notes-panel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+}
+
+// ── Section Q&A ────────────────────────────────────────────────────────────
+const SQ_KEY = PAGE_KEY+'-sq', SN_KEY = PAGE_KEY+'-sn';
+function toggleSectionQA(btn) {
+  const body = btn.nextElementSibling;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  btn.querySelector('.section-qa-chevron').textContent = open ? '&#9662;' : '&#9652;';
+}
+function saveSectionQ(id, btn) {
+  const ta = document.getElementById('sq-'+id);
+  const val = ta.value.trim(); if (!val) return;
+  const store = JSON.parse(localStorage.getItem(SQ_KEY)||'{}');
+  store[id] = store[id]||[]; store[id].push(val);
+  localStorage.setItem(SQ_KEY, JSON.stringify(store));
+  ta.value=''; renderSectionList('sq-list-'+id, store[id]);
+  btn.textContent='Saved!'; setTimeout(()=>btn.textContent='Save',1200);
+}
+function saveSectionN(id, btn) {
+  const ta = document.getElementById('sn-'+id);
+  const val = ta.value.trim(); if (!val) return;
+  const store = JSON.parse(localStorage.getItem(SN_KEY)||'{}');
+  store[id] = store[id]||[]; store[id].push(val);
+  localStorage.setItem(SN_KEY, JSON.stringify(store));
+  ta.value=''; renderSectionList('sn-list-'+id, store[id]);
+  btn.textContent='Saved!'; setTimeout(()=>btn.textContent='Save',1200);
+}
+function renderSectionList(listId, items) {
+  const el = document.getElementById(listId); if (!el) return;
+  el.innerHTML = items.map(t=>'<div class="section-qa-entry">'+t+'</div>').join('');
+}
+function loadSectionQAs() {
+  const sq = JSON.parse(localStorage.getItem(SQ_KEY)||'{}');
+  const sn = JSON.parse(localStorage.getItem(SN_KEY)||'{}');
+  Object.keys(sq).forEach(id => renderSectionList('sq-list-'+id, sq[id]));
+  Object.keys(sn).forEach(id => renderSectionList('sn-list-'+id, sn[id]));
+}
+
+// ── Checklist ──────────────────────────────────────────────────────────────
+const CK_KEY = PAGE_KEY+'-ck';
+function saveChecklist(cb) {
+  const store = JSON.parse(localStorage.getItem(CK_KEY)||'{}');
+  store[cb.dataset.key] = cb.checked;
+  localStorage.setItem(CK_KEY, JSON.stringify(store));
+}
+function loadChecklist() {
+  const store = JSON.parse(localStorage.getItem(CK_KEY)||'{}');
+  document.querySelectorAll('.checklist-cb').forEach(cb => {
+    if (store[cb.dataset.key]) cb.checked = true;
+  });
+}
+
+// ── Socratic ───────────────────────────────────────────────────────────────
+const SOC_KEY = PAGE_KEY+'-soc';
+function saveSocAnswer(btn) {
+  const area = btn.closest('.answer-area');
+  const ta   = area.querySelector('.answer-textarea');
+  if (!ta.value.trim()) return;
+  const seeBtn = area.querySelector('.btn-see-answer');
+  seeBtn.disabled = false;
+  btn.textContent = 'Answer saved ✓';
+  btn.disabled = true;
+  const store = JSON.parse(localStorage.getItem(SOC_KEY)||'{}');
+  store[area.dataset.section] = ta.value.trim();
+  localStorage.setItem(SOC_KEY, JSON.stringify(store));
+}
+function revealSocAnswer(btn) {
+  const area = btn.closest('.answer-area');
+  area.querySelector('.model-answers').style.display = 'block';
+  btn.textContent = 'Model answers revealed';
+  btn.disabled = true;
+}
+function loadSocAnswers() {
+  const store = JSON.parse(localStorage.getItem(SOC_KEY)||'{}');
+  document.querySelectorAll('.answer-area').forEach(area => {
+    const saved = store[area.dataset.section];
+    if (saved) {
+      area.querySelector('.answer-textarea').value = saved;
+      const addBtn = area.querySelector('.btn-add-answer');
+      addBtn.textContent = 'Answer saved ✓'; addBtn.disabled = true;
+      area.querySelector('.btn-see-answer').disabled = false;
+    }
+  });
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadConfig();
+  loadChecklist();
+  loadSectionQAs();
+  loadSocAnswers();
+  injectCopyButtons();
+  document.getElementById('qpanel-body').style.display   = 'none';
+  document.getElementById('notes-panel-body').style.display = 'none';
+});
+</script>
+</body>
+</html>
