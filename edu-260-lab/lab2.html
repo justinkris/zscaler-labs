@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 2: Troubleshooting Authentication — EDU-260</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html.pt-init body{opacity:0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#eef4ff;--surface:#fff;--surface-2:#f5f8ff;--border:#bfdbfe;--border-dim:#dbeafe;--text:#0d1a2e;--text-soft:#1e3a5c;--text-muted:#5a7a9a;--blue:#1a6dcc;--blue-glow:rgba(26,109,204,0.07);--blue-dim:#bfdbfe;--blue-deep:#0f3d7a;--green:#1a7c4a;--green-light:#d4f0e0;--green-border:#a7e0c0;--red:#b91c1c;--red-light:#fee2e2;--red-border:#fecaca;--amber:#b45309;--amber-light:#fef9c3;--amber-border:#fde68a;--purple:#5c35cc;--purple-light:#ece8ff;--purple-border:#c8bbff;}
+body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
+a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+header{background:#0d1a2e;padding:28px 40px 24px;border-bottom:3px solid #1a3a6e;}
+.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}.breadcrumb a{color:#93c5fd;}
+.header-top{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+.eyebrow-chip{background:rgba(147,197,253,0.15);border:1px solid rgba(147,197,253,0.3);color:#93c5fd;font-size:10px;font-weight:700;letter-spacing:0.14em;padding:4px 12px;border-radius:20px;text-transform:uppercase;}
+.header-dot{width:8px;height:8px;border-radius:50%;background:#93c5fd;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.85);}}
+header h1{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:#fff;line-height:1.2;}
+header h1 em{color:#93c5fd;font-style:italic;}
+.motivation-banner{background:rgba(147,197,253,0.08);border-left:3px solid #93c5fd;padding:12px 20px;margin-top:16px;border-radius:0 8px 8px 0;}
+.motivation-banner p{font-family:'Fraunces',serif;font-size:1rem;color:#93c5fd;font-style:italic;line-height:1.5;}
+.config-panel{background:#0d1a2e;color:#e2eaf4;padding:0 40px;position:sticky;top:0;z-index:200;border-bottom:2px solid #1a6dcc;box-shadow:0 4px 16px rgba(13,26,46,0.4);}
+.config-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;cursor:pointer;user-select:none;}
+.config-toggle-title{font-size:10px;letter-spacing:0.16em;color:#93c5fd;font-weight:700;text-transform:uppercase;}
+.config-toggle-summary{font-size:11px;color:#5a7a9a;margin-left:14px;}
+.config-toggle-btn{background:none;border:1px solid #1a3a6e;border-radius:6px;color:#5a7a9a;font-size:11px;padding:3px 10px;cursor:pointer;font-family:'Epilogue',sans-serif;letter-spacing:0.06em;transition:color 0.15s,border-color 0.15s;display:flex;align-items:center;gap:5px;}
+.config-toggle-btn:hover{color:#93c5fd;border-color:#93c5fd;}
+.config-toggle-btn .chevron{transition:transform 0.25s ease;display:inline-block;}
+.config-panel.collapsed .config-toggle-btn .chevron{transform:rotate(180deg);}
+.config-body{overflow:hidden;max-height:320px;transition:max-height 0.3s ease,opacity 0.25s ease,padding 0.25s ease;opacity:1;padding-bottom:16px;}
+.config-panel.collapsed .config-body{max-height:0;opacity:0;padding-bottom:0;}
+.config-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;align-items:end;}
+.config-field{display:flex;flex-direction:column;gap:6px;}
+.config-field label{font-size:10px;letter-spacing:0.14em;color:#93c5fd;font-weight:700;text-transform:uppercase;}
+.config-field-row{display:flex;gap:6px;align-items:center;}
+.config-field-row input{flex:1;min-width:0;background:#0a1220;color:#e2eaf4;border:1px solid #1a3a6e;border-radius:8px;padding:9px 12px;font-size:13px;font-family:'Epilogue',sans-serif;transition:border-color 0.15s,background 0.15s;}
+.config-field-row input:focus{outline:none;border-color:#1a6dcc;background:#060e1a;}
+.config-field-row input::placeholder{color:#2a4a6e;font-style:italic;}
+.config-copy-btn{flex-shrink:0;background:#0a1220;border:1px solid #1a3a6e;color:#2a4a6e;border-radius:6px;padding:0 9px;font-size:13px;cursor:pointer;height:38px;transition:color 0.15s,border-color 0.15s,background 0.15s;}
+.config-copy-btn:hover{color:#93c5fd;border-color:#93c5fd;background:#0d1a2e;}
+.config-copy-btn.copied{background:var(--green);color:#fff;border-color:var(--green);}
+.config-actions{display:flex;gap:8px;align-self:end;}
+.config-btn{background:#1a6dcc;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:11px;font-weight:700;letter-spacing:0.08em;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
+.config-btn:hover{background:#155cb0;}
+.config-btn.secondary{background:#0a1220;color:#93c5fd;border:1px solid #1a3a6e;}
+.config-btn.secondary:hover{background:#0d1a2e;border-color:#93c5fd;}
+.config-derived{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;padding-top:12px;border-top:1px solid #0a1220;font-size:11px;color:#5a7a9a;}
+.config-derived span{display:inline-flex;gap:6px;align-items:center;}
+.config-derived strong{color:#93c5fd;font-weight:500;letter-spacing:0.04em;}
+.config-derived code{background:#0a1220;color:#e2eaf4;padding:2px 8px;border-radius:4px;font-size:11px;}
+.var{background:rgba(147,197,253,0.1);color:#93c5fd;border:1px dashed #1a3a6e;padding:1px 6px;border-radius:4px;font-size:0.92em;font-weight:600;}
+.var.filled{background:var(--green-light);color:var(--green);border:1px solid var(--green-border);}
+.copy-inline{display:inline-flex;align-items:center;background:none;border:1px solid transparent;color:var(--text-muted);font-size:9px;cursor:pointer;padding:0 3px;margin-left:3px;vertical-align:middle;border-radius:3px;line-height:1.4;opacity:0.35;transition:opacity 0.15s,color 0.15s,border-color 0.15s,background 0.15s;}
+.copy-inline:hover{opacity:1;color:var(--blue);border-color:var(--blue-dim);background:var(--blue-glow);}
+.copy-inline.copied{color:var(--green)!important;border-color:var(--green-border)!important;background:var(--green-light)!important;opacity:1!important;}
+.top-panels{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);}
+.top-panels .qpanel{border-bottom:none;border-right:1px solid var(--border);}
+.top-panels .qpanel-header,.top-panels .qpanel-body{padding-left:32px;padding-right:32px;}
+.qpanel{background:var(--surface);}
+.qpanel-header{width:100%;display:flex;align-items:center;gap:12px;padding:13px 20px;cursor:pointer;background:var(--surface);border:none;font-family:'Epilogue',sans-serif;text-align:left;}
+.qpanel-header:hover,.qpanel-header.open{background:var(--surface-2);}
+.qpanel-title{font-size:11px;font-weight:600;letter-spacing:0.14em;color:var(--text);}
+.qpanel-count{background:var(--blue);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:none;}
+.qpanel-hint{font-size:11px;color:var(--text-muted);margin-left:4px;}
+.qpanel-chevron{margin-left:auto;font-size:13px;color:var(--text-muted);}
+.qpanel-body{display:none;padding:0 20px 22px;}
+.qpanel-body.open{display:block;}
+.notes-panel{background:var(--surface);}
+.notes-panel-header{width:100%;display:flex;align-items:center;gap:12px;padding:13px 32px;cursor:pointer;background:var(--surface);border:none;font-family:'Epilogue',sans-serif;text-align:left;}
+.notes-panel-header:hover,.notes-panel-header.open{background:var(--surface-2);}
+.notes-panel-title{font-size:11px;font-weight:600;letter-spacing:0.14em;color:var(--text);}
+.notes-panel-chevron{margin-left:auto;font-size:13px;color:var(--text-muted);}
+.notes-panel-body{display:none;padding:0 32px 22px;}
+.notes-panel-body.open{display:block;}
+main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:0 auto;padding:32px 40px 100px;align-items:start;}
+.content-col{min-width:0;}
+.sidebar{position:sticky;top:var(--config-h,52px);padding-left:32px;}
+.section-block{margin-bottom:40px;}
+.section-block h2{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;color:var(--text);margin-bottom:6px;padding-bottom:8px;border-bottom:2px solid var(--blue);}
+.section-block h3{font-family:'Epilogue',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin:20px 0 8px;padding:8px 12px;background:var(--surface-2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;}
+.lab-header-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:24px;}
+.lab-badge{display:inline-block;font-size:9px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;background:var(--blue-glow);color:var(--blue);border:1px solid var(--blue-dim);padding:2px 10px;border-radius:20px;margin-bottom:10px;}
+.lab-header-card p{font-size:13.5px;color:var(--text-soft);line-height:1.65;margin-bottom:6px;}
+.lab-meta{display:flex;gap:20px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-dim);}
+.lab-meta-item{font-size:12px;color:var(--text-muted);}
+.lab-meta-item strong{color:var(--text);font-weight:600;}
+.task-block{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:20px;}
+.task-block h4{font-family:'Epilogue',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.04em;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.task-num{background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:0.04em;}
+.step-list{list-style:none;padding:0;}
+.step-list>li{position:relative;padding:7px 0 7px 20px;border-bottom:1px solid var(--border-dim);font-size:13.5px;color:var(--text-soft);line-height:1.65;}
+.step-list>li:last-child{border-bottom:none;padding-bottom:0;}
+.step-list>li::before{content:'›';color:var(--blue);font-weight:700;font-size:15px;position:absolute;left:0;top:8px;}
+.sub-steps{list-style:none;padding:0;margin:8px 0 4px 0;}
+.sub-steps li{position:relative;padding:4px 0 4px 18px;font-size:13px;color:var(--text-soft);line-height:1.6;}
+.sub-steps li::before{content:'–';color:var(--text-muted);position:absolute;left:0;top:5px;}
+code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:12.5px;font-family:monospace;}
+.callout{border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px;}.callout p{line-height:1.6;}
+.callout-note{background:var(--blue-glow);border-left:3px solid var(--blue);}.callout-note p{color:var(--text-soft);}
+.callout-warning{background:var(--amber-light);border-left:3px solid var(--amber);}.callout-warning p{color:#7c3a0a;}
+.callout-success{background:var(--green-light);border-left:3px solid var(--green);}.callout-success p{color:#0f4a27;}
+.mental-note-block{display:flex;gap:14px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:10px;padding:18px 20px;margin:24px 0;}
+.mental-note-block-icon{font-size:22px;flex-shrink:0;line-height:1;}
+.mental-note-block-label{font-size:9px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:var(--amber);margin-bottom:6px;}
+.mental-note-block-text{font-size:13px;color:#7c3a0a;line-height:1.65;}
+.socratic-block{background:var(--surface);border:1px solid var(--border-dim);border-radius:10px;padding:20px 24px;margin-bottom:20px;overflow:hidden;}
+.socratic-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.socratic-icon{font-size:18px;}
+.socratic-label{font-size:10px;letter-spacing:0.16em;font-weight:700;text-transform:uppercase;color:var(--blue);}
+.socratic-insight{font-size:13px;color:var(--text-muted);font-style:italic;margin-bottom:12px;line-height:1.6;}
+.socratic-questions{list-style:none;padding:0;margin-bottom:14px;}
+.socratic-questions li{position:relative;padding:6px 0 6px 18px;font-size:13.5px;color:var(--text-soft);line-height:1.6;border-bottom:1px solid var(--border-dim);}
+.socratic-questions li:last-child{border-bottom:none;}
+.socratic-questions li::before{content:'?';color:var(--blue);font-weight:700;font-size:13px;position:absolute;left:0;top:8px;}
+.answer-area{border-top:1px solid var(--border-dim);padding-top:14px;}
+.answer-textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-family:'Epilogue',sans-serif;resize:vertical;color:var(--text);background:var(--surface-2);transition:border-color 0.15s;}
+.answer-textarea:focus{outline:none;border-color:var(--blue);}
+.answer-buttons{display:flex;gap:10px;margin-top:10px;}
+.btn-add-answer{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
+.btn-add-answer:hover{background:var(--blue-deep);}
+.btn-see-answer{background:var(--surface);color:var(--text-muted);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:all 0.15s;}
+.btn-see-answer:not([disabled]):hover{border-color:var(--blue);color:var(--blue);}
+.btn-see-answer[disabled]{opacity:0.45;cursor:not-allowed;}
+.model-answers{margin-top:14px;border-top:1px solid var(--border-dim);padding-top:14px;}
+.model-answer-item{margin-bottom:12px;}
+.model-answer-q{font-size:11px;letter-spacing:0.1em;font-weight:700;text-transform:uppercase;color:var(--blue);margin-bottom:4px;}
+.model-answer-text{font-size:13px;color:var(--text-soft);line-height:1.65;}
+.hub-link{display:block;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-size:12px;color:var(--blue);font-weight:600;text-align:center;margin-bottom:16px;transition:background 0.15s,border-color 0.15s;}
+.hub-link:hover{background:var(--surface-2);border-color:var(--blue);text-decoration:none;}
+.checklist-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:16px;}
+.checklist-title{font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-dim);font-size:12.5px;color:var(--text-soft);}
+.checklist-item:last-child{border-bottom:none;}
+.checklist-item input[type=checkbox]{accent-color:var(--blue);width:14px;height:14px;flex-shrink:0;cursor:pointer;}
+.quick-ref{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+.quick-ref-title{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;margin-bottom:0;font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);}
+.quick-ref-title .qr-chevron{font-size:11px;color:#5a7a9a;transition:transform 0.2s ease;}
+.quick-ref.open .quick-ref-title .qr-chevron{transform:rotate(180deg);}
+.qr-body{overflow:hidden;max-height:0;opacity:0;transition:max-height 0.3s ease,opacity 0.2s ease,margin-top 0.2s ease;margin-top:0;}
+.quick-ref.open .qr-body{max-height:2000px;opacity:1;margin-top:10px;}
+.qr-item{padding:8px 0;border-bottom:1px solid var(--border-dim);}
+.qr-item:last-child{border-bottom:none;}
+.qr-term{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.qr-def{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.lesson-tool-textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-family:'Epilogue',sans-serif;resize:vertical;color:var(--text);background:var(--surface-2);transition:border-color 0.15s;}
+.lesson-tool-textarea:focus{outline:none;border-color:var(--blue);}
+.lesson-tool-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
+.lesson-tool-btn:hover{background:var(--blue-deep);}
+.page-nav{display:flex;border-top:1px solid var(--border);background:var(--surface);position:fixed;bottom:0;left:0;right:0;z-index:150;box-shadow:0 -2px 14px rgba(13,26,46,0.07);}
+.page-nav-btn{flex:0 0 210px;display:flex;flex-direction:column;gap:2px;padding:9px 18px;text-decoration:none;transition:background 0.15s;}
+.page-nav-btn:hover:not(.page-nav-disabled){background:var(--surface-2);}
+.page-nav-prev{border-right:1px solid var(--border);}
+.page-nav-next{text-align:right;}
+.page-nav-disabled{opacity:0.3;pointer-events:none;}
+.page-nav-label{font-size:10px;font-weight:600;letter-spacing:0.14em;color:var(--text-muted);display:block;}
+.page-nav-title{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--blue);display:block;}
+.page-nav-message{flex:1;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:11.5px;font-style:italic;color:var(--text-muted);padding:0 12px;text-align:center;border-left:1px solid var(--border-dim);border-right:1px solid var(--border-dim);line-height:1.4;}
+footer{background:#0d1a2e;color:#5a7a9a;font-size:11px;padding:16px 48px;display:flex;justify-content:space-between;align-items:center;letter-spacing:0.04em;margin-bottom:48px;}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:24px 20px 80px;}.sidebar{position:static;padding-left:0;margin-top:24px;}header{padding:20px 20px 18px;}footer{padding:12px 20px;}.config-panel{padding:0 20px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-260</a> › Lab 2</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 2 · AUTHENTICATION</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Troubleshooting <em>Authentication</em></h1>
+  <div class="motivation-banner">
+    <p>SAML flows, client logs, ZCC diagnostics — authentication is the foundation every other Zscaler service depends on. Build real instincts here by tracing each step of the handshake yourself.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb32" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZIA Admin:</strong> <code id="d-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>IT Dept:</strong> <code id="d-it">ptcb32-IT@thezerotrustexchange.com</code></span>
+      <span><strong>HR Dept:</strong> <code id="d-hr">ptcb32-HR@thezerotrustexchange.com</code></span>
+      <span><strong>MKT Dept:</strong> <code id="d-mkt">ptcb32-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor:</strong> <code id="d-con">ptcb32-CON@thezerotrustexchange.com</code></span>
+      <span><strong>OT User:</strong> <code id="d-ot">ptcb32-OT@thezerotrustexchange.com</code></span>
+      <span><strong>Sales:</strong> <code id="d-sales">ptcb32-SALES@thezerotrustlab.com</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab…"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab…"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="socratic-block" id="soc-lab2">
+      <div class="socratic-header">
+        <span class="socratic-icon">💭</span>
+        <span class="socratic-label">THINK FIRST · AUTHENTICATION TROUBLESHOOTING</span>
+      </div>
+      <p class="socratic-insight">Authentication failures are the most common Tier-1 ticket — and the most misdiagnosed. Before testing, think about the layers: network reachability, ZCC enrollment, and SAML assertion correctness are three completely different failure modes.</p>
+      <ul class="socratic-questions">
+        <li>What is the difference between a user failing to reach <code>login.zscalerthree.net</code> and a user failing SAML authentication at the IdP? How would the symptom differ from the user&rsquo;s perspective?</li>
+        <li>The <code>--userDomain</code> CLI flag routes ZCC directly to the org&rsquo;s SAML SSO page. What problem does this solve compared to the default enrollment flow?</li>
+        <li>If a SAML response shows <code>NotOnOrAfter</code> in the past, what does that tell you about the root cause — and which team is responsible for fixing it?</li>
+      </ul>
+      <div class="answer-area" data-section="lab2-auth">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+            <div class="model-answer-text">Network reachability failure means ZCC cannot reach the Zscaler cloud at all — the user gets no internet access and ZCC shows "Service Status: OFF". SAML failure means ZCC can reach Zscaler, but authentication with the IdP (Azure AD) fails — ZCC shows as connected but the user may be stuck in a login loop or get a "Can't access your account" error. The first requires network diagnosis; the second requires identity/SAML diagnosis.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+            <div class="model-answer-text">By default ZCC shows a service enrollment screen where the user must choose their organisation. With <code>--userDomain</code>, ZCC skips that screen and redirects the user directly to the SAML IdP page for the specified domain. This prevents users from accidentally authenticating to the wrong tenant and simplifies large deployments via MDM (SCCM/Intune) where no user interaction should be needed.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+            <div class="model-answer-text">A <code>NotOnOrAfter</code> timestamp in the past means the SAML assertion has already expired by the time Zscaler received it — this is a clock synchronisation (NTP) issue between the IdP server and the Zscaler service. The IdP admin team is responsible. Confirm by comparing the IdP server time to UTC and check if the gap exceeds the SAML validity window (typically 5 minutes).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block" id="section-lab2">
+      <h2>Lab 2: Troubleshooting Authentication</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 2</div>
+        <p><strong>Scenario:</strong> A new user device needs to be enrolled in Zscaler services. You will verify basic connectivity, manually install ZCC with CLI options, confirm the device enrolls in all services, then trace the ZIA and ZPA SAML authentication flows.</p>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~45 minutes</div>
+          <div class="lab-meta-item"><strong>Portal:</strong> ZIA Admin — <code>https://admin.zscalerthree.net</code></div>
+        </div>
+      </div>
+
+      <h3>Task 2.1: Check Client Connectivity to the Zero Trust Exchange</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Verify Corp: Client PC Internet Access</h4>
+        <ol class="step-list">
+          <li>On the Corp: Client PC, open a <strong>Command Prompt</strong> and run <code>ipconfig /all</code>.
+            <ul class="sub-steps">
+              <li>Note the <strong>Default Gateway</strong> IP and <strong>DNS Server</strong> IPs for the Public network adapter.</li>
+              <li>Ping both the Default Gateway and DNS server to confirm LAN connectivity.</li>
+            </ul>
+          </li>
+          <li>Check DNS resolution, routing, and ICMP response by pinging key Zscaler cloud hosts:
+            <ul class="sub-steps">
+              <li><code>ping pac.zscalerthree.net</code> — PAC file download host</li>
+              <li><code>ping mobile.zscalerthree.net</code> — mobile configuration host</li>
+              <li><code>ping login.zscalerthree.net</code> — ZIA authentication URL</li>
+            </ul>
+          </li>
+          <li>Check Zero Trust Exchange Private Access reachability:
+            <ul class="sub-steps">
+              <li><code>ping samlsp.private.zscaler.com</code></li>
+              <li>Note the actual hostname that resolves and gets pinged (e.g. <code>chi1.co2br.gslb.prod.zpath.net</code>) — this is your Private Access broker.</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Expected result:</strong> All pings should succeed. Successful resolution of <code>samlsp.private.zscaler.com</code> to a geo-distributed broker confirms DNS and routing to the ZPA cloud are working.</p>
+        </div>
+      </div>
+
+      <h3>Task 2.2: Download Client Connector Installation Package</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Access the ZCC App Store</h4>
+        <ol class="step-list">
+          <li>On the Corp: Client PC, open a browser and go to the ZIA Admin portal: <code>https://admin.zscalerthree.net</code>.</li>
+          <li>Sign in with your <strong>ZIA Admin User ID</strong> (<code class="d-username-admin">ptcb32-ADMIN@thezerotrustexchange.com</code>) and <strong>Session Password</strong> (<span class="var var-pass">&lt;Session Password&gt;</span>).</li>
+          <li>Navigate to <strong>Policy &gt; Zscaler Client Connector Portal</strong>.</li>
+          <li>Within the ZCC Portal, navigate to <strong>Administration &gt; Client Connector App Store</strong>.</li>
+          <li>Click the <strong>NEW RELEASES</strong> tab and ensure <strong>General Availability</strong> is selected.</li>
+          <li>Select <strong>Windows</strong> as the platform.</li>
+          <li>Click the download icon under the <strong>EXE URL (64 bit)</strong> column for the latest enabled version and save it to the <strong>Downloads</strong> folder on the Client PC.</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> <em>Limited Availability</em> releases have not seen wide testing and are not enabled by default. Always use General Availability for production deployments unless specifically directed otherwise.</p>
+        </div>
+      </div>
+
+      <h3>Task 2.3: Install Client Connector With CLI Options</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Install ZCC From the Command Line</h4>
+        <ol class="step-list">
+          <li>On the Corp: Client PC, open a <strong>Windows Command Prompt</strong>.</li>
+          <li>Change to the Downloads directory: <code>cd downloads</code></li>
+          <li>Run the installer with the following command line switches (replace <code>&lt;file-version&gt;</code> with the actual filename):
+            <ul class="sub-steps">
+              <li><code>Zscaler-windows-&lt;file-version&gt;-installer-x64.exe --cloudName zscalerthree --hideAppUIOnLaunch 1 --userDomain thezerotrustexchange.com</code></li>
+            </ul>
+          </li>
+          <li>When prompted for administrator credentials, enter:
+            <ul class="sub-steps">
+              <li>Username: <code>administrator</code></li>
+              <li>Password: <code>Admin-123!</code></li>
+            </ul>
+          </li>
+          <li>Follow the installation prompts and click <strong>Finish</strong>.</li>
+        </ol>
+        <div class="callout callout-warning">
+          <p><strong>CLI options explained:</strong><br>
+          <code>--cloudName zscalerthree</code> — locks the installation to the <code>zscalerthree.net</code> cloud so users are not prompted to select a cloud.<br>
+          <code>--hideAppUIOnLaunch 1</code> — prevents the ZCC login page appearing on PC reboot; ZCC stays in the System Tray.<br>
+          <code>--userDomain thezerotrustexchange.com</code> — bypasses the service enrollment screen and routes the user directly to the Azure AD SAML SSO page.</p>
+        </div>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> In production, ZCC installation is automated via MDM (SCCM/Intune/Airwatch). Manual CLI install is used for testing and troubleshooting individual devices.</p>
+        </div>
+      </div>
+
+      <h3>Task 2.4: Troubleshoot ZIA Authentication</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">4</span> Launch ZCC and Verify Enrollment</h4>
+        <ol class="step-list">
+          <li>In the Windows Task Bar (bottom right), click <strong>Show hidden icons</strong>, then click the <strong>Zscaler Client Connector</strong> icon, then click <strong>Open Zscaler</strong>.</li>
+          <li>Because <code>--userDomain</code> was used, ZCC bypasses the enrollment screen and takes you directly to the Azure AD sign-in page. Enter the username of the <strong>IT department user</strong>: <code class="d-username-it">ptcb32-IT@thezerotrustexchange.com</code></li>
+          <li>Click <strong>Next</strong>, enter the <strong>Session Password</strong> (<span class="var var-pass">&lt;Session Password&gt;</span>), and click <strong>Sign in</strong>.</li>
+          <li>At the <em>Stay signed in?</em> prompt, click <strong>No</strong>.</li>
+          <li>ZCC will minimise to the System Tray. Open it again and verify the device is enrolled in all four services:
+            <ul class="sub-steps">
+              <li><strong>Private Access</strong> — Service Status: ON, Authentication Status: Authenticated</li>
+              <li><strong>Internet Security</strong> — Service Status: ON, Total Bytes Sent/Received incrementing</li>
+              <li><strong>Digital Experience</strong> — Service Status: ON, Authentication Status: Authenticated</li>
+              <li><strong>Data Protection</strong></li>
+            </ul>
+          </li>
+          <li>To confirm traffic is forwarded through Zscaler, open a browser and go to <code>http://ip.zscaler.com</code>. Verify you are accessing the Internet via a Zscaler data centre.</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> If the client does not enrol in all four services, check <strong>Administration &gt; Zscaler Service Entitlement</strong> in the ZCC Portal to ensure ZPA, ZIA, and ZDX are enabled for User Tunnel.</p>
+        </div>
+      </div>
+
+      <div class="task-block">
+        <h4><span class="task-num">5</span> Trace the ZIA SAML Authentication Flow</h4>
+        <ol class="step-list">
+          <li>Open a <strong>Chrome</strong> browser window on the Corp: Client PC.</li>
+          <li>Right-click anywhere on the page and click <strong>Inspect</strong> to open the Developer Tools.</li>
+          <li>Select the <strong>Network</strong> tab, check <strong>Preserve log</strong>, and set the filter to show <strong>Doc</strong> content only.</li>
+          <li>In the address bar, paste the following ZIA authentication test URL and press <strong>Enter</strong>:
+            <ul class="sub-steps">
+              <li><code>https://login.zscalerthree.net/clstart?version=1&_domain=thezerotrustexchange.com&redrurl=https://mobile.zscalerthree.net</code></li>
+            </ul>
+          </li>
+          <li>In the Network tab, click the first document request (<strong>clstart?version=1</strong>) and check the <strong>Headers</strong> tab — this is Zscaler acting as a SAML Service Provider initiating the flow.</li>
+          <li>Click the <strong>saml2</strong> document in the inspector. This shows the SP-initiated redirect to the IdP (<code>login.microsoftonline.com</code> for Azure AD).</li>
+          <li>Click the <strong>Payload</strong> tab for the <strong>saml2</strong> document and right-click to <strong>Copy value</strong> the <code>SAMLRequest</code> field.</li>
+          <li>Open a new browser tab and go to <code>https://samltool.com</code>. Click <strong>Online Tools &gt; Code/Decode &gt; Base64 Decode + Inflate</strong>. Paste the SAMLRequest and click <strong>Decode and Inflate XML</strong>.</li>
+          <li>Verify in the decoded XML:
+            <ul class="sub-steps">
+              <li><strong>AssertionConsumerServiceURL</strong> points to the Zscaler cloud login endpoint</li>
+              <li><strong>Destination</strong> points to the Microsoft Azure AD SSO endpoint</li>
+            </ul>
+          </li>
+          <li>Back in the browser inspector, click the <strong>sfc_sso</strong> document. Copy the response payload and decode it in samltool.com. In the decoded response, verify:
+            <ul class="sub-steps">
+              <li><strong>&lt;NameID&gt;</strong> matches the expected IT department user email</li>
+              <li><strong>NotOnOrAfter</strong> timestamp is in the future (assertion not expired)</li>
+            </ul>
+          </li>
+          <li>In the ZIA Admin portal, go to <strong>Administration &gt; Authentication Settings &gt; Identity Providers</strong>. Click to view the <strong>thezerotrustexchange.com AAD</strong> IdP and verify the SAML Portal URL, Entity ID, and SCIM settings. Click <strong>Close</strong>.</li>
+          <li>To review SCIM provisioning events, go to <strong>Administration &gt; Authentication &gt; Event Logs</strong> and filter for <em>Sub-Category: SCIM, Result: Failure</em>.</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> The test URL initially redirects to the mobile portal. If authentication is successful it redirects back to the Zscaler Admin Portal page.</p>
+        </div>
+      </div>
+
+      <h3>Task 2.5: Troubleshoot ZPA Authentication</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">6</span> Trace the ZPA SAML Authentication Flow</h4>
+        <ol class="step-list">
+          <li>In the browser, paste the following ZPA authentication test URL and press <strong>Enter</strong>:
+            <ul class="sub-steps">
+              <li><code>https://samlsp.private.zscaler.com/auth/v2/login?ssotype=test&domain=thezerotrustexchange.com</code></li>
+            </ul>
+          </li>
+          <li>The page will display a readable JSON view of the SAML assertion and attribute values. Note:
+            <ul class="sub-steps">
+              <li>The username in the <code>name</code> field should match your IT department user</li>
+              <li>SAML attributes such as <code>groups</code>, <code>tenantid</code>, and <code>identityprovider</code></li>
+            </ul>
+          </li>
+          <li>Open Chrome DevTools (Network tab, Doc filter) and re-run the test URL. Click the <strong>saml2</strong> document in the inspector, then click the <strong>Payload</strong> tab and copy the <code>SAMLRequest</code> value.</li>
+          <li>Decode the request at <code>https://samltool.com</code>. Verify:
+            <ul class="sub-steps">
+              <li><strong>ProtocolBinding</strong> is <code>HTTP-POST</code></li>
+              <li>The request contains a <strong>ds:Signature</strong> (the ZPA SAML request is signed)</li>
+              <li><strong>AssertionConsumerServiceURL</strong> points to the ZPA service provider endpoint</li>
+            </ul>
+          </li>
+          <li>Click the <strong>sso</strong> document in the inspector. Copy the response payload and decode. Verify:
+            <ul class="sub-steps">
+              <li><strong>Destination</strong> is the ZPA SSO endpoint (not ZIA)</li>
+              <li><strong>Status Code</strong> is <code>urn:oasis:names:tc:SAML:2.0:status:Success</code></li>
+            </ul>
+          </li>
+          <li>Open the ZPA Admin portal at <code>https://admin.private.zscaler.com</code>. Sign in with your <strong>ZIA Admin User ID</strong> and <strong>Session Password</strong> (ZIA and ZPA admin usernames are identical in this lab).</li>
+          <li>Navigate to <strong>Authentication &gt; User Authentication &gt; IdP Configuration</strong>. Review the <strong>thezerotrustexchange.com AAD</strong> IdP settings, noting the Single Sign-On URL and IdP Entity ID.</li>
+          <li>Click to expand the IdP Configuration and click <strong>Import SAML Attributes</strong> to review the attributes for the IT department user. Click <strong>Save</strong>.</li>
+          <li>[Optional] Explore <strong>Authentication &gt; SCIM Management</strong> to understand what information is available for diagnosing SCIM provisioning issues.</li>
+        </ol>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">Authentication troubleshooting follows a strict order: (1) Network reachability — can the client reach Zscaler endpoints? (2) ZCC enrollment — is the device enrolled in all four services? (3) SAML flow — is the assertion correct and not expired? The ZIA test URL and ZPA test URL are your fastest diagnostic tools. samltool.com decodes Base64+Deflated SAML in seconds. SCIM failures in Event Logs indicate user provisioning issues, not authentication failures.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /.content-col -->
+
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">← Back to Lab Hub</a>
+
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 2 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-1" onchange="saveChecklist()"><span>Task 2.1: Connectivity verified (ipconfig + pings)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-2" onchange="saveChecklist()"><span>Task 2.2: ZCC installer downloaded (EXE 64-bit)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-3" onchange="saveChecklist()"><span>Task 2.3: ZCC installed with CLI flags</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-4" onchange="saveChecklist()"><span>Task 2.4: ZIA auth traced (SAML request + response decoded)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-5" onchange="saveChecklist()"><span>Task 2.5: ZPA auth traced + IdP verified</span></label>
+    </div>
+
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">▲</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">ZCC CLI Flags</div>
+          <div class="qr-def"><code>--cloudName</code> locks to a ZIA cloud. <code>--hideAppUIOnLaunch 1</code> suppresses login popup. <code>--userDomain</code> skips enrollment screen, goes to org SSO.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZIA Test URL</div>
+          <div class="qr-def"><code>https://login.zscalerthree.net/clstart?version=1&_domain=thezerotrustexchange.com&redrurl=https://mobile.zscalerthree.net</code> — triggers full ZIA SAML flow viewable in DevTools.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZPA Test URL</div>
+          <div class="qr-def"><code>https://samlsp.private.zscaler.com/auth/v2/login?ssotype=test&domain=thezerotrustexchange.com</code> — shows SAML assertion attributes in browser.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">samltool.com</div>
+          <div class="qr-def">Online SAML decoder. Use Code/Decode &gt; Base64 Decode + Inflate to read SAMLRequest/SAMLResponse payloads captured in DevTools.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">SCIM vs SAML</div>
+          <div class="qr-def">SAML = authentication (who are you). SCIM = provisioning (sync user/group attributes to ZIA/ZPA ahead of login). SCIM failures cause missing group/department policies.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">4 Services to Enroll</div>
+          <div class="qr-def">Private Access · Internet Security · Digital Experience · Data Protection. All four must show Service Status: ON for full Zscaler coverage.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>EDU-260 · Introduction to Troubleshooting Part 2 of 2</span>
+  <span>LAB 2 of 8</span>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab1.html">
+    <span class="page-nav-label">← PREVIOUS</span>
+    <span class="page-nav-title">Lab 1: Connecting to the Lab</span>
+  </a>
+  <div class="page-nav-message">SAML flows, client logs, ZCC diagnostics &mdash; you&rsquo;re building real troubleshooting instincts.</div>
+  <a class="page-nav-btn page-nav-next" href="lab3.html">
+    <span class="page-nav-label">NEXT →</span>
+    <span class="page-nav-title">Lab 3: Traffic Forwarding</span>
+  </a>
+</div>
+
+<script>
+const CONFIG_KEY='edu260-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu260-config-collapsed';
+const PAGE_KEY='edu260-lab-lab2';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' — '+prefix:'';}
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';
+  var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;
+  var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;
+  var hr=prefix?prefix+'-HR@'+d1:'ptcb32-HR@'+d1;
+  var mkt=prefix?prefix+'-MKT@'+d1:'ptcb32-MKT@'+d1;
+  var con=prefix?prefix+'-CON@'+d1:'ptcb32-CON@'+d1;
+  var ot=prefix?prefix+'-OT@'+d1:'ptcb32-OT@'+d1;
+  var sales=prefix?prefix+'-SALES@'+d2:'ptcb32-SALES@'+d2;
+  var ids={'d-admin':admin,'d-it':it,'d-hr':hr,'d-mkt':mkt,'d-con':con,'d-ot':ot,'d-sales':sales};
+  Object.keys(ids).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ids[id];});
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});
+  document.querySelectorAll('.d-username-hr').forEach(function(el){el.textContent=hr;});
+  document.querySelectorAll('.d-username-mkt').forEach(function(el){el.textContent=mkt;});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
+}
+function loadConfig(){
+  try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}else{ma.style.display='none';btn.textContent='👁 See Model Answer';}}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadQList();loadNList();loadChecklist();injectCopyButtons();});
+</script>
+</body>
+</html>
