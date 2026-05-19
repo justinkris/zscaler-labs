@@ -98,40 +98,6 @@
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab2">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · AUTHENTICATION TROUBLESHOOTING</span>
-      </div>
-      <p class="socratic-insight">Authentication failures are the most common Tier-1 ticket — and the most misdiagnosed. Before testing, think about the layers: network reachability, ZCC enrollment, and SAML assertion correctness are three completely different failure modes.</p>
-      <ul class="socratic-questions">
-        <li>What is the difference between a user failing to reach <code>login.zscalerthree.net</code> and a user failing SAML authentication at the IdP? How would the symptom differ from the user&rsquo;s perspective?</li>
-        <li>The <code>--userDomain</code> CLI flag routes ZCC directly to the org&rsquo;s SAML SSO page. What problem does this solve compared to the default enrollment flow?</li>
-        <li>If a SAML response shows <code>NotOnOrAfter</code> in the past, what does that tell you about the root cause — and which team is responsible for fixing it?</li>
-      </ul>
-      <div class="answer-area" data-section="lab2-auth">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">Network reachability failure means ZCC cannot reach the Zscaler cloud at all — the user gets no internet access and ZCC shows "Service Status: OFF". SAML failure means ZCC can reach Zscaler, but authentication with the IdP (Azure AD) fails — ZCC shows as connected but the user may be stuck in a login loop or get a "Can't access your account" error. The first requires network diagnosis; the second requires identity/SAML diagnosis.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">By default ZCC shows a service enrollment screen where the user must choose their organisation. With <code>--userDomain</code>, ZCC skips that screen and redirects the user directly to the SAML IdP page for the specified domain. This prevents users from accidentally authenticating to the wrong tenant and simplifies large deployments via MDM (SCCM/Intune) where no user interaction should be needed.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">A <code>NotOnOrAfter</code> timestamp in the past means the SAML assertion has already expired by the time Zscaler received it — this is a clock synchronisation (NTP) issue between the IdP server and the Zscaler service. The IdP admin team is responsible. Confirm by comparing the IdP server time to UTC and check if the gap exceeds the SAML validity window (typically 5 minutes).</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-block" id="section-lab2">
       <h2>Lab 2: Troubleshooting Authentication</h2>
 
@@ -144,6 +110,40 @@
         <div class="lab-meta">
           <div class="lab-meta-item"><strong>Time:</strong> ~45 minutes</div>
           <div class="lab-meta-item"><strong>Portal:</strong> ZIA Admin — <code>https://admin.zscalerthree.net</code></div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab2">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · AUTHENTICATION TROUBLESHOOTING</span>
+        </div>
+        <p class="socratic-insight">Authentication failures are the most common Tier-1 ticket — and the most misdiagnosed. Before testing, think about the layers: network reachability, ZCC enrollment, and SAML assertion correctness are three completely different failure modes.</p>
+        <ul class="socratic-questions">
+          <li>What is the difference between a user failing to reach <code>login.zscalerthree.net</code> and a user failing SAML authentication at the IdP? How would the symptom differ from the user&rsquo;s perspective?</li>
+          <li>The <code>--userDomain</code> CLI flag routes ZCC directly to the org&rsquo;s SAML SSO page. What problem does this solve compared to the default enrollment flow?</li>
+          <li>If a SAML response shows <code>NotOnOrAfter</code> in the past, what does that tell you about the root cause — and which team is responsible for fixing it?</li>
+        </ul>
+        <div class="answer-area" data-section="lab2-auth">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text">Network reachability failure means ZCC cannot reach the Zscaler cloud at all — the user gets no internet access and ZCC shows "Service Status: OFF". SAML failure means ZCC can reach Zscaler, but authentication with the IdP (Azure AD) fails — ZCC shows as connected but the user may be stuck in a login loop or get a "Can't access your account" error. The first requires network diagnosis; the second requires identity/SAML diagnosis.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">By default ZCC shows a service enrollment screen where the user must choose their organisation. With <code>--userDomain</code>, ZCC skips that screen and redirects the user directly to the SAML IdP page for the specified domain. This prevents users from accidentally authenticating to the wrong tenant and simplifies large deployments via MDM (SCCM/Intune) where no user interaction should be needed.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">A <code>NotOnOrAfter</code> timestamp in the past means the SAML assertion has already expired by the time Zscaler received it — this is a clock synchronisation (NTP) issue between the IdP server and the Zscaler service. The IdP admin team is responsible. Confirm by comparing the IdP server time to UTC and check if the gap exceeds the SAML validity window (typically 5 minutes).</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -183,6 +183,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab2-task1.png" alt="Task 2.1 — Check Client Connectivity to the Zero Trust Exchange" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -224,6 +227,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab2-task2.png" alt="Task 2.2 — Download Client Connector Installation Package" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -278,6 +284,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab2-task3.png" alt="Task 2.3 — Install Client Connector With CLI Options" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -360,6 +369,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab2-task4.png" alt="Task 2.4 — Troubleshoot ZIA Authentication" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -420,6 +432,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab2-task5.png" alt="Task 2.5 — Troubleshoot ZPA Authentication" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>

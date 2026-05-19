@@ -95,40 +95,6 @@
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab4">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · POLICY SETTINGS &amp; CERTIFICATES</span>
-      </div>
-      <p class="socratic-insight">Policy failures are often invisible — users get generic errors and the cause sits three configuration layers deep. Knowing which layers to check first is the troubleshooter&rsquo;s advantage.</p>
-      <ul class="socratic-questions">
-        <li>A user visits <code>https://www.microsoft.com</code> and the browser certificate says it was issued by <em>Zscaler Intermediate Root CA</em>, not Microsoft. Why does this happen, and what does it confirm about the SSL inspection configuration?</li>
-        <li>The ZIA SSL Inspection policy has a rule that exempts Finance and Health URL categories from inspection. A user complains that <code>healthcare.org</code> is loading slowly. Could SSL inspection be the cause, and how would you verify?</li>
-        <li>A ZPA user keeps hitting the &ldquo;Deny All Else&rdquo; rule in Access Policy. The rule exists to ensure no unintended access is allowed. What information in the ZPA Diagnostics log entry would you examine to determine why their access request didn&rsquo;t match a preceding allow rule?</li>
-      </ul>
-      <div class="answer-area" data-section="lab4-policy">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">Zscaler performs a man-in-the-middle SSL inspection: it terminates the TLS connection from the browser, inspects the plaintext, then re-encrypts it to the destination server. The browser sees a certificate signed by the <em>Zscaler Intermediate Root CA</em> instead of Microsoft&rsquo;s real certificate. This confirms SSL inspection is active and working — and the Zscaler Root CA certificate is installed in the device&rsquo;s trusted store (installed by ZCC via the App Profile).</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">No — if healthcare.org is exempted from SSL inspection, Zscaler passes the traffic through without decryption. The user&rsquo;s browser directly validates the site&rsquo;s real certificate. Slow load times in this case are more likely a network latency or server issue, not an inspection overhead. To verify: check Web Insights logs, add the SSL Policy Reason column, and look for &ldquo;Do Not Inspect&rdquo; as the reason. If you see &ldquo;Inspected&rdquo; for healthcare.org, that would mean the exemption is not matching — investigate the URL category assignment.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">In ZPA Diagnostics, expand the log entry and check: (1) <strong>Username</strong> — is the user account correct? (2) <strong>SAML Attributes</strong> — are the expected department/group attributes present? The allow rules may be conditional on SAML attributes. (3) <strong>Client Type</strong> — is the user accessing via Client Connector vs. Browser Access? Some rules only match specific client types. (4) <strong>Trusted Network Criteria</strong> — the user may be off-network when the rule requires trusted network. Any of these mismatches would skip the allow rule and fall through to Deny All Else.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-block" id="section-lab4">
       <h2>Lab 4: Troubleshooting Policy Settings &amp; Assignment</h2>
 
@@ -141,6 +107,40 @@
         <div class="lab-meta">
           <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
           <div class="lab-meta-item"><strong>Portals:</strong> ZIA Admin + ZPA Admin</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab4">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · POLICY SETTINGS &amp; CERTIFICATES</span>
+        </div>
+        <p class="socratic-insight">Policy failures are often invisible — users get generic errors and the cause sits three configuration layers deep. Knowing which layers to check first is the troubleshooter&rsquo;s advantage.</p>
+        <ul class="socratic-questions">
+          <li>A user visits <code>https://www.microsoft.com</code> and the browser certificate says it was issued by <em>Zscaler Intermediate Root CA</em>, not Microsoft. Why does this happen, and what does it confirm about the SSL inspection configuration?</li>
+          <li>The ZIA SSL Inspection policy has a rule that exempts Finance and Health URL categories from inspection. A user complains that <code>healthcare.org</code> is loading slowly. Could SSL inspection be the cause, and how would you verify?</li>
+          <li>A ZPA user keeps hitting the &ldquo;Deny All Else&rdquo; rule in Access Policy. The rule exists to ensure no unintended access is allowed. What information in the ZPA Diagnostics log entry would you examine to determine why their access request didn&rsquo;t match a preceding allow rule?</li>
+        </ul>
+        <div class="answer-area" data-section="lab4-policy">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text">Zscaler performs a man-in-the-middle SSL inspection: it terminates the TLS connection from the browser, inspects the plaintext, then re-encrypts it to the destination server. The browser sees a certificate signed by the <em>Zscaler Intermediate Root CA</em> instead of Microsoft&rsquo;s real certificate. This confirms SSL inspection is active and working — and the Zscaler Root CA certificate is installed in the device&rsquo;s trusted store (installed by ZCC via the App Profile).</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">No — if healthcare.org is exempted from SSL inspection, Zscaler passes the traffic through without decryption. The user&rsquo;s browser directly validates the site&rsquo;s real certificate. Slow load times in this case are more likely a network latency or server issue, not an inspection overhead. To verify: check Web Insights logs, add the SSL Policy Reason column, and look for &ldquo;Do Not Inspect&rdquo; as the reason. If you see &ldquo;Inspected&rdquo; for healthcare.org, that would mean the exemption is not matching — investigate the URL category assignment.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">In ZPA Diagnostics, expand the log entry and check: (1) <strong>Username</strong> — is the user account correct? (2) <strong>SAML Attributes</strong> — are the expected department/group attributes present? The allow rules may be conditional on SAML attributes. (3) <strong>Client Type</strong> — is the user accessing via Client Connector vs. Browser Access? Some rules only match specific client types. (4) <strong>Trusted Network Criteria</strong> — the user may be off-network when the rule requires trusted network. Any of these mismatches would skip the allow rule and fall through to Deny All Else.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -197,6 +197,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab4-task1.png" alt="Task 4.1 — Check SSL Inspection Policy and Certificate Settings" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -254,6 +257,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab4-task2.png" alt="Task 4.1 — Check ZIA Access Policy Settings" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -302,6 +308,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab4-task3.png" alt="Task 4.2 — Check ZPA Policy Settings" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>

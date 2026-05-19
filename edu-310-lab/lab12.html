@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 12: ZDX Hosted Monitoring &mdash; EDU-310</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 12</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 12 &middot; AI &amp; ADVANCED</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>ZDX Hosted <em>Monitoring</em></h1>
+  <div class="motivation-banner">
+    <p>Zscaler Hosted Monitoring probes your applications from Zscaler data centers worldwide &mdash; independent of any end user device. It gives you a cloud-eye view of application reachability, latency, and availability that complements your end-user ZDX data.</p>
+  </div>
+</header>
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb76" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZDX Admin:</strong> <code id="d-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net/</code></span>
+    </div>
+  </div>
+</div>
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+<main>
+  <div class="content-col">
+    <div class="socratic-block" id="soc-lab12">
+      <div class="socratic-header">
+        <span class="socratic-icon">&#128161;</span>
+        <span class="socratic-label">THINK FIRST &middot; HOSTED PROBE MONITORING</span>
+      </div>
+      <p class="socratic-insight">End-user ZDX data tells you what users experience. Hosted probes tell you what the application looks like from the cloud &mdash; without any user involved. If Hosted probes show a problem but end-user ZDX scores are good, the issue is specific to that user&rsquo;s location or device.</p>
+      <ul class="socratic-questions">
+        <li>End-user ZDX scores are based on measurements from the Zscaler Client Connector on a user&rsquo;s device. Hosted Monitoring probes measure from Zscaler data centers. If Hosted Monitoring shows an application is slow but end-user ZDX scores are fine, what does this tell you about where the problem is?</li>
+        <li>A Hosted Probe can be either a Web Probe or a Cloud Path Probe. What is the key difference in what they measure, and when would you choose each type?</li>
+        <li>The Probe Run Details page shows Redirect Time, DNS, TCP, SSL Handshake, Server Response, and Page Fetch Time in milliseconds. If Server Response Time is 1142ms but DNS is only 100ms, where would you focus your investigation?</li>
+      </ul>
+      <div class="answer-area" data-section="lab12-topic">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item"><div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div><div class="model-answer-text">If Hosted Monitoring shows slowness but end-user ZDX scores are fine, the issue is infrastructure-level but not affecting users at that moment &mdash; possibly a Zscaler data center-specific performance issue that users are routing around, or a probe-specific configuration problem (wrong target URL, wrong expected response code). Conversely, if end-user scores are Poor but Hosted Monitoring looks fine, the problem is between the user&rsquo;s device and the nearest Zscaler data center, not in the Zscaler or application infrastructure.</div></div>
+          <div class="model-answer-item"><div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div><div class="model-answer-text">Web Probe measures HTTP/HTTPS layer metrics: Page Fetch Time, Server Response Time, DNS Time, Availability, SSL Handshake time. Use it for web applications where you care about full-page load time. Cloud Path Probe measures network-layer hop-by-hop ICMP latency: End-to-End Latency, Packet Loss, Jitter. Use it for non-HTTP services, network infrastructure monitoring, or when you want to identify a specific router or ISP segment causing latency.</div></div>
+          <div class="model-answer-item"><div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div><div class="model-answer-text">Focus on the application server or upstream infrastructure. Server Response Time of 1142ms means the server took over 1 second to return the first byte after the TCP connection was established and the HTTP request was sent &mdash; this is an application performance problem, not a network problem. DNS at 100ms is somewhat elevated but not the primary concern. Check the application server logs, CDN configuration, or backend database performance.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-block" id="section-lab12">      <h2>Lab 12: ZDX Hosted Monitoring</h2>
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 12</div>
+        <p><strong>Scenario:</strong> Your organisation wants to monitor key SaaS applications from Zscaler data centers worldwide, independent of end-user devices. Configure and review Hosted Monitoring probe data.</p>
+        <figure class="lab-hero">
+          <img src="images/lab12-hero.png" alt="Lab 12 — ZDX Hosted Monitoring" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
+          <div class="lab-meta-item"><strong>Environment:</strong> ZDX Admin Portal &middot; Configuration &rsaquo; Zscaler Hosted Probes &rarr; Analytics &rsaquo; Zscaler Hosted Monitoring</div>
+        </div>
+      </div>
+      <h3>Task 12.1: View the Configuration of Hosted Monitoring</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Browse Hosted Probe Collections</h4>
+        <ol class="step-list">
+          <li>Navigate to <strong>Configuration &rsaquo; Zscaler Hosted Probes</strong>.</li>
+          <li>Review the <strong>Collections</strong> in the left panel: Network, Websites, Apps, API, SLA.</li>
+          <li>Click on each collection to see the probes it contains (Type, Name, Host, Status, Protocol, Locations, Alert Rules, Frequency).</li>
+          <li>Click the <strong>view icon</strong> on any probe to open its configuration wizard.</li>
+          <li>Navigate through the wizard steps: Select a Probe Type (Web or Cloud Path), Configure, Additional Parameters (Protocol, Run Frequency, Hop Count, Interval, Zscaler Hosted Locations), Add Alerts.</li>
+          <li>Click <strong>Cancel</strong> to close without saving.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab12-ss01.png" alt="Zscaler Hosted Probes configuration page showing Collections (Network selected) with probe list: Type, Name, Host, Status, Protocol, Locations, Alert Rules, Frequency.">
+          <div class="screenshot-caption">Zscaler Hosted Probes configuration page showing Collections (Network selected) with probe list: Type, Name, Host, Status, Protocol, Locations, Alert Rules, Frequency.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab12-ss02.png" alt="Apps collection selected showing Web and Cloud Path probes for app URLs with their enable/disable status.">
+          <div class="screenshot-caption">Apps collection selected showing Web and Cloud Path probes for app URLs with their enable/disable status.</div>
+        </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab12-ss05.png" alt="Edit probe wizard showing the Select a Probe Type step with Web and Cloud Path options.">
+          <div class="screenshot-caption">Edit probe wizard showing the Select a Probe Type step with Web and Cloud Path options.</div>
+        </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab12-ss07.png" alt="Edit probe wizard Additional Parameters step showing Protocol (ICMP), Run Frequency, Hop Count, Interval, and the list of selected Zscaler Hosted Locations.">
+          <div class="screenshot-caption">Edit probe wizard Additional Parameters step showing Protocol (ICMP), Run Frequency, Hop Count, Interval, and the list of selected Zscaler Hosted Locations.</div>
+        </div>
+      <div class="section-qa" data-section="t12-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 12.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab12-task1.png" alt="Task 12.1 — Hosted Monitoring Configuration" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t12-1" placeholder="Questions&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t12-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t12-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t12-1" placeholder="Key takeaways&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t12-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t12-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 12.2: View the Hosted Monitoring Reports</h3>
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Analyse Hosted Probe Metrics</h4>
+        <ol class="step-list">
+          <li>Navigate to <strong>Analytics &rsaquo; Zscaler Hosted Monitoring</strong>.</li>
+          <li>In the left panel, browse the probe list by collection (Network, SLA, Apps, API, Websites).</li>
+          <li>Select a <strong>Web Probe</strong> (e.g. <strong>Box (Web)</strong> from the SLA collection) and view the <strong>Availability</strong> and <strong>Page Fetch Time</strong> graphs (30 Days).</li>
+          <li>Click and drag on the Availability graph to zoom in on a time range.</li>
+          <li>Use the dropdown on the PFT graph to add additional metrics (e.g. <strong>DNS</strong>).</li>
+          <li>Switch to the <strong>scatter graph</strong> view. Click a data point and click <strong>View Details</strong> to see the Probe Run Details page with key metrics (Redirect Time, DNS, TCP, SSL Handshake, Server Response, Page Fetch Time).</li>
+          <li>Use the <strong>Zscaler Hosted Locations</strong> dropdown on the Probe Run Details page to compare results from different data centers.</li>
+          <li>Navigate back to Hosted Monitoring and select a <strong>Network Probe</strong> (e.g. <strong>Box (Network)</strong>). View the <strong>End-to-End Latency</strong> and add <strong>Packet Loss</strong> from the dropdown.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab12-ss08.png" alt="Hosted Monitoring: Box (Web) SLA probe showing Availability (100%) and Page Fetch Time line graph across 6 Zscaler hosted locations.">
+          <div class="screenshot-caption">Hosted Monitoring: Box (Web) SLA probe showing Availability (100%) and Page Fetch Time line graph across 6 Zscaler hosted locations.</div>
+        </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab12-ss09.png" alt="Page Fetch Time graph with DNS metric added as an additional overlay, showing both PFT and DNS Time for each hosted location.">
+          <div class="screenshot-caption">Page Fetch Time graph with DNS metric added as an additional overlay, showing both PFT and DNS Time for each hosted location.</div>
+        </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab12-ss14.png" alt="Probe Run Details page showing Key Metrics: Redirect Time 238ms, DNS 100ms, TCP 4ms, SSL Handshake 35ms, Server Response 1142ms, Page Fetch Time 1157ms.">
+          <div class="screenshot-caption">Probe Run Details page showing Key Metrics: Redirect Time 238ms, DNS 100ms, TCP 4ms, SSL Handshake 35ms, Server Response 1142ms, Page Fetch Time 1157ms.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab12-ss17.png" alt="Box (Network) probe End-to-End Latency graph with Packet Loss overlay added, showing per-hosted-location scatter plots.">
+          <div class="screenshot-caption">Box (Network) probe End-to-End Latency graph with Packet Loss overlay added, showing per-hosted-location scatter plots.</div>
+        </div>
+      <div class="section-qa" data-section="t12-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 12.2</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab12-task2.png" alt="Task 12.2 — View Hosted Monitoring Reports" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t12-2" placeholder="Questions&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t12-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t12-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t12-2" placeholder="Key takeaways&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t12-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t12-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>    </div>
+    <div class="mental-note-block">
+      <div class="mental-note-block-icon">&#129504;</div>
+      <div class="mental-note-block-inner">
+        <div class="mental-note-block-label">MENTAL NOTE</div>
+        <div class="mental-note-block-text">Hosted Probes = synthetic tests from Zscaler DCs, not user devices. Collections: Network, SLA, Apps, API, Websites. Probe types: Web (PFT, DNS, SSL, availability) or Cloud Path (E2E latency, packet loss). Probe Run Details: Redirect + DNS + TCP + SSL + Server Response + PFT in ms. Key insight: Hosted poor + end-user fine = Zscaler DC/routing issue. Hosted fine + end-user poor = user-side problem.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&#8592; All Labs (EDU-310)</a>
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 12 PROGRESS</div>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-1" onchange="saveChecklist()"> Opened Configuration &rsaquo; Zscaler Hosted Probes</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-2" onchange="saveChecklist()"> Browsed Collections (Network, SLA, Apps, API, Websites)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-3" onchange="saveChecklist()"> Viewed a probe configuration wizard (Web/Cloud Path types)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-4" onchange="saveChecklist()"> Opened Analytics &rsaquo; Zscaler Hosted Monitoring</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-5" onchange="saveChecklist()"> Viewed Box (Web) Availability and PFT graphs with DNS overlay</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-6" onchange="saveChecklist()"> Switched to scatter view and opened Probe Run Details</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-7" onchange="saveChecklist()"> Compared results across Zscaler Hosted Locations</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-12-8" onchange="saveChecklist()"> Viewed Box (Network) End-to-End Latency + Packet Loss</label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">Zscaler Hosted Probes</div><div class="qr-def">Synthetic monitoring probes run from Zscaler data centers. Measure application performance independently of end-user devices.</div></div>
+        <div class="qr-item"><div class="qr-term">Collections</div><div class="qr-def">Logical groups of Hosted Probes: Network, Websites, Apps, API, SLA. Each collection can contain multiple Web or Cloud Path probes.</div></div>
+        <div class="qr-item"><div class="qr-term">Web Probe</div><div class="qr-def">HTTP/HTTPS probe measuring Page Fetch Time, Server Response Time, DNS Time, Availability. Used for web application monitoring.</div></div>
+        <div class="qr-item"><div class="qr-term">Cloud Path Probe</div><div class="qr-def">ICMP probe measuring End-to-End Latency, Packet Loss, and Jitter. Used for network infrastructure and non-HTTP service monitoring.</div></div>
+        <div class="qr-item"><div class="qr-term">Probe Run Details</div><div class="qr-def">Per-data-point breakdown page showing Redirect Time, DNS, TCP, SSL Handshake, Server Response, and Page Fetch Time with per-location comparison.</div></div>
+        <div class="qr-item"><div class="qr-term">Zscaler Hosted Locations</div><div class="qr-def">Zscaler data centers from which probes are run: Washington DC, San Jose, Amsterdam, Zurich, Frankfurt, Chicago, and others.</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-310 &middot; ZDX Operationalization</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">&#9650; Hide</button>
+    <span class="footer-content">LAB 12 of 14</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab11.html">&#8592; Lab 11: ZDX Copilot</a>
+  <div class="page-nav-message">Hosted probes watch from the cloud so you don&rsquo;t have to.</div>
+  <a class="page-nav-btn page-nav-next" href="lab13.html">Lab 13: Understanding Data Explorer &#8594;</a>
+</div>
+<script>
+const CONFIG_KEY='edu310-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu310-config-collapsed';
+const FOOTER_KEY='edu310-footer-collapsed';
+const PAGE_KEY='edu310-lab-lab12';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand':'<span class="chevron">&#9650;</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' &mdash; '+prefix:'';}
+function applyConfig(){var prefix=document.getElementById('prefix-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var d='thezerotrustexchange.com';var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;var el=document.getElementById('d-admin');if(el)el.textContent=admin;document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb76';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';}}catch(e){document.getElementById('prefix-input').value='ptcb76';}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='&#10003; Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='&#10003;';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q,i){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['t12-1','t12-2'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
+</script>
+</body>
+</html>

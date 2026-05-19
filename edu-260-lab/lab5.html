@@ -94,40 +94,6 @@
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab5">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · SECURITY SERVICES &amp; DEFENCE IN DEPTH</span>
-      </div>
-      <p class="socratic-insight">Six security layers means six potential misconfiguration points. Understanding why each layer exists — and what it can and can&rsquo;t protect against — is more useful than memorising where each setting lives.</p>
-      <ul class="socratic-questions">
-        <li>The Sandbox has two actions: <em>Quarantine First Time, Block Subsequent Downloads</em> and <em>Allow and Scan First Time, Block Subsequent Downloads</em>. What&rsquo;s the real-world tradeoff between choosing one versus the other for a catch-all rule?</li>
-        <li>Zscaler&rsquo;s best practice is to explicitly <em>block</em> QUIC via Firewall Control rather than relying on the default block rule. Why is this necessary for SSL inspection to work, and what protocol does the client fall back to?</li>
-        <li>The Default Firewall Filtering Rule is set to Block/Drop for <em>any</em> traffic. If this rule didn&rsquo;t exist, what would happen to non-web traffic (e.g. ICMP, SSH) flowing through Z-Tunnel 2.0?</li>
-      </ul>
-      <div class="answer-area" data-section="lab5-security">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text"><strong>Quarantine</strong> holds unknown files before delivery — safer, but users experience delay. <strong>Allow and Scan</strong> delivers the file immediately and blocks only if it&rsquo;s found malicious on subsequent downloads — better user experience but creates a brief window of risk on the first encounter. For a catch-all rule (applying to all users), Quarantine is the safer default. Higher-trust user groups (e.g. security researchers) might use Allow and Scan. Crowdstrike-integrated rules may allow-and-scan because endpoint protection provides a second line of defence.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">QUIC is a UDP-based protocol used by browsers for HTTP/3. If QUIC is allowed, browsers bypass the Zscaler TCP-based SSL inspection tunnel and send traffic directly over UDP — Zscaler cannot inspect it. Blocking QUIC (with Block/Reset) forces the browser&rsquo;s QUIC failsafe: the browser retries over HTTP/2 via TCP, which Zscaler can inspect normally. The explicit Block QUIC rule is needed because without it, if the Default rule was Allow instead of Block, QUIC traffic would pass uninspected.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">With Z-Tunnel 2.0, <em>all</em> traffic on all ports and protocols is sent to the Zscaler Firewall — not just web traffic. Without the Default Block/Drop rule, non-web protocols (ICMP, SSH, SMTP, etc.) would pass through uninspected, completely bypassing the security stack. The catch-all block ensures that only explicitly allowed traffic (via rules above the default) can exit the organisation. This is Zero Trust applied at the network layer: deny everything unless explicitly permitted.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-block" id="section-lab5">
       <h2>Lab 5: Troubleshooting Security Services</h2>
 
@@ -140,6 +106,40 @@
         <div class="lab-meta">
           <div class="lab-meta-item"><strong>Time:</strong> ~40 minutes</div>
           <div class="lab-meta-item"><strong>Portal:</strong> ZIA Admin — <code>https://admin.zscalerthree.net</code></div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab5">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · SECURITY SERVICES &amp; DEFENCE IN DEPTH</span>
+        </div>
+        <p class="socratic-insight">Six security layers means six potential misconfiguration points. Understanding why each layer exists — and what it can and can&rsquo;t protect against — is more useful than memorising where each setting lives.</p>
+        <ul class="socratic-questions">
+          <li>The Sandbox has two actions: <em>Quarantine First Time, Block Subsequent Downloads</em> and <em>Allow and Scan First Time, Block Subsequent Downloads</em>. What&rsquo;s the real-world tradeoff between choosing one versus the other for a catch-all rule?</li>
+          <li>Zscaler&rsquo;s best practice is to explicitly <em>block</em> QUIC via Firewall Control rather than relying on the default block rule. Why is this necessary for SSL inspection to work, and what protocol does the client fall back to?</li>
+          <li>The Default Firewall Filtering Rule is set to Block/Drop for <em>any</em> traffic. If this rule didn&rsquo;t exist, what would happen to non-web traffic (e.g. ICMP, SSH) flowing through Z-Tunnel 2.0?</li>
+        </ul>
+        <div class="answer-area" data-section="lab5-security">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text"><strong>Quarantine</strong> holds unknown files before delivery — safer, but users experience delay. <strong>Allow and Scan</strong> delivers the file immediately and blocks only if it&rsquo;s found malicious on subsequent downloads — better user experience but creates a brief window of risk on the first encounter. For a catch-all rule (applying to all users), Quarantine is the safer default. Higher-trust user groups (e.g. security researchers) might use Allow and Scan. Crowdstrike-integrated rules may allow-and-scan because endpoint protection provides a second line of defence.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">QUIC is a UDP-based protocol used by browsers for HTTP/3. If QUIC is allowed, browsers bypass the Zscaler TCP-based SSL inspection tunnel and send traffic directly over UDP — Zscaler cannot inspect it. Blocking QUIC (with Block/Reset) forces the browser&rsquo;s QUIC failsafe: the browser retries over HTTP/2 via TCP, which Zscaler can inspect normally. The explicit Block QUIC rule is needed because without it, if the Default rule was Allow instead of Block, QUIC traffic would pass uninspected.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">With Z-Tunnel 2.0, <em>all</em> traffic on all ports and protocols is sent to the Zscaler Firewall — not just web traffic. Without the Default Block/Drop rule, non-web protocols (ICMP, SSH, SMTP, etc.) would pass through uninspected, completely bypassing the security stack. The catch-all block ensures that only explicitly allowed traffic (via rules above the default) can exit the organisation. This is Zero Trust applied at the network layer: deny everything unless explicitly permitted.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -167,6 +167,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task1.png" alt="Task 5.1 — View Threat Protection Configurations and Risk Reports" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -225,6 +228,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task2.png" alt="Task 5.1 — Check Sandbox Configuration" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -277,6 +283,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task3.png" alt="Task 5.3 — Check URL and Cloud App Isolate Control Policies" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -337,6 +346,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task4.png" alt="Task 5.4 — Inspect Non-web Traffic Blocking by Default Firewall Block" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -392,6 +404,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task5.png" alt="Task 5.5 — Blocking QUIC Traffic as a Network Service" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -444,6 +459,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab5-task6.png" alt="Task 5.6 — Blocking Access to Restricted Sites with DNS Controls" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>

@@ -200,6 +200,12 @@ footer.collapsed .footer-content{display:none;}
 .section-qa-list p:last-child{border-bottom:none;}
 .section-qa-badge{background:var(--blue);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;display:none;margin-left:6px;}
 
+/* LAB HERO & TASK HERO IMAGES */
+.lab-hero{margin:16px 0 0;border-radius:8px;overflow:hidden;line-height:0;}
+.lab-hero img{width:100%;height:auto;display:block;border-radius:8px;}
+.task-hero{margin:0 0 16px;border-radius:8px;overflow:hidden;line-height:0;}
+.task-hero img{width:100%;height:auto;display:block;border-radius:8px;}
+
 /* SCREENSHOTS */
 .screenshot-embed{margin:16px 0;}
 .screenshot-embed img{max-width:100%;border:1px solid var(--border);border-radius:8px;display:block;}

@@ -93,40 +93,6 @@
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab6">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · DLP ARCHITECTURE &amp; ENFORCEMENT</span>
-      </div>
-      <p class="socratic-insight">DLP has three architectural layers that build on each other: dictionaries contain the detection patterns; engines combine dictionaries with Boolean logic; rules apply engines to traffic. Troubleshooting a DLP gap requires knowing which layer broke.</p>
-      <ul class="socratic-questions">
-        <li>A DLP rule uses the <em>PCI-Medium</em> DLP engine. The engine uses the <em>Credit Cards</em> dictionary with a threshold of <code>&gt; 5</code> matches. A file with 3 credit card numbers passes uninspected. Is this a misconfigured rule, engine, or dictionary — and how would you diagnose it?</li>
-        <li>Zscaler DLP supports EDM (Exact Data Match), IDM (Indexed Document Match), and regex pattern dictionaries. For protecting a list of 10,000 specific employee SSNs, which dictionary type would you use and why?</li>
-        <li>A DLP rule is set to Block, but the Zscaler Incident Receiver is set to <em>None</em>. What happens to block events — are they visible anywhere, and what is the admin missing?</li>
-      </ul>
-      <div class="answer-area" data-section="lab6-dlp">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">This is likely working as designed. The engine threshold (<code>&gt; 5</code>) means the file must contain <em>more than 5</em> credit card numbers before the engine triggers. A file with 3 credit card numbers won&rsquo;t match the PCI-Medium engine — it would match PCI-Low (with a lower threshold) if that rule/engine existed. To diagnose: check the engine expression to confirm the threshold; check if there&rsquo;s a separate PCI-Low rule for 1–5 matches; then check whether a file with &gt;5 numbers is correctly blocked.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text"><strong>EDM (Exact Data Match)</strong> is designed for this use case. You upload a structured data file (CSV/TSV) containing the 10,000 SSNs as an index template. ZIA checks each piece of content against the exact values in the index — no false positives from regex patterns that might match non-employee numbers. EDM is much more precise than regex for protecting specific known PII datasets, at the cost of needing to keep the index template updated.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">The block is still enforced — the user sees a block page and the upload fails. Block events <em>are</em> visible in Web Insights logs (Policy Action = Block, Blocked Policy Type = Data Loss Prevention). However, without an Incident Receiver configured, the DLP admin receives <em>no notification</em> and no incident evidence is captured (file content, matched strings). The admin is missing the forensic and compliance data needed to respond to violations — a critical gap for audit and incident response.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-block" id="section-lab6">
       <h2>Lab 6: Troubleshooting Data Protection Services</h2>
 
@@ -139,6 +105,40 @@
         <div class="lab-meta">
           <div class="lab-meta-item"><strong>Time:</strong> ~35 minutes</div>
           <div class="lab-meta-item"><strong>Test site:</strong> <code>https://dlp-test.com/html5_priv/</code></div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab6">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · DLP ARCHITECTURE &amp; ENFORCEMENT</span>
+        </div>
+        <p class="socratic-insight">DLP has three architectural layers that build on each other: dictionaries contain the detection patterns; engines combine dictionaries with Boolean logic; rules apply engines to traffic. Troubleshooting a DLP gap requires knowing which layer broke.</p>
+        <ul class="socratic-questions">
+          <li>A DLP rule uses the <em>PCI-Medium</em> DLP engine. The engine uses the <em>Credit Cards</em> dictionary with a threshold of <code>&gt; 5</code> matches. A file with 3 credit card numbers passes uninspected. Is this a misconfigured rule, engine, or dictionary — and how would you diagnose it?</li>
+          <li>Zscaler DLP supports EDM (Exact Data Match), IDM (Indexed Document Match), and regex pattern dictionaries. For protecting a list of 10,000 specific employee SSNs, which dictionary type would you use and why?</li>
+          <li>A DLP rule is set to Block, but the Zscaler Incident Receiver is set to <em>None</em>. What happens to block events — are they visible anywhere, and what is the admin missing?</li>
+        </ul>
+        <div class="answer-area" data-section="lab6-dlp">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text">This is likely working as designed. The engine threshold (<code>&gt; 5</code>) means the file must contain <em>more than 5</em> credit card numbers before the engine triggers. A file with 3 credit card numbers won&rsquo;t match the PCI-Medium engine — it would match PCI-Low (with a lower threshold) if that rule/engine existed. To diagnose: check the engine expression to confirm the threshold; check if there&rsquo;s a separate PCI-Low rule for 1–5 matches; then check whether a file with &gt;5 numbers is correctly blocked.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text"><strong>EDM (Exact Data Match)</strong> is designed for this use case. You upload a structured data file (CSV/TSV) containing the 10,000 SSNs as an index template. ZIA checks each piece of content against the exact values in the index — no false positives from regex patterns that might match non-employee numbers. EDM is much more precise than regex for protecting specific known PII datasets, at the cost of needing to keep the index template updated.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">The block is still enforced — the user sees a block page and the upload fails. Block events <em>are</em> visible in Web Insights logs (Policy Action = Block, Blocked Policy Type = Data Loss Prevention). However, without an Incident Receiver configured, the DLP admin receives <em>no notification</em> and no incident evidence is captured (file content, matched strings). The admin is missing the forensic and compliance data needed to respond to violations — a critical gap for audit and incident response.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -189,6 +189,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab6-task1.png" alt="Task 6.1 — Review DLP Configurations" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -269,6 +272,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab6-task2.png" alt="Task 6.3 — Check File Type and Context Policy Enforcement" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -325,6 +331,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab6-task3.png" alt="Task 6.4 — View Block Action Web Log Record" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -369,6 +378,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab6-task4.png" alt="Task 6.5 — View Predefined Dictionaries" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -418,6 +430,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab6-task5.png" alt="Task 6.6 — View Custom Dictionaries — Regex and Phrases" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -462,6 +477,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab6-task6.png" alt="Task 6.7 — View Predefined and Custom DLP Engines" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>

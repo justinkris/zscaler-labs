@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 4: Troubleshooting Slow DNS Response &mdash; EDU-310</title>
+<title>Lab 8: Incident Monitoring on Incident Dashboard &mdash; EDU-310</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,14 +13,14 @@
 </head>
 <body>
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 4</div>
+  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 8</div>
   <div class="header-top">
-    <span class="eyebrow-chip">LAB 4 &middot; TROUBLESHOOTING</span>
+    <span class="eyebrow-chip">LAB 8 &middot; OPERATIONS</span>
     <div class="header-dot"></div>
   </div>
-  <h1>Troubleshooting <em>Slow DNS Response</em></h1>
+  <h1>Incident Monitoring on <em>Incident Dashboard</em></h1>
   <div class="motivation-banner">
-    <p>Linda Lucas can make Zoom calls but every web-based SaaS app is painfully slow. The ZDX data reveals that DNS Resolve Time accounts for nearly all of the Page Fetch Time latency &mdash; and Y-Engine confirms High DNS at 100% confidence.</p>
+    <p>ZDX doesn&rsquo;t just help you react to reports &mdash; it detects multi-user incidents proactively. The Incidents Dashboard uses AI/ML to identify events affecting multiple users simultaneously, before the service desk gets flooded with tickets.</p>
   </div>
 </header>
 <div class="config-panel" id="config-panel">
@@ -88,170 +88,158 @@
 </div>
 <main>
   <div class="content-col">
-    <div class="socratic-block" id="soc-lab4">
+    <div class="socratic-block" id="soc-lab8">
       <div class="socratic-header">
         <span class="socratic-icon">&#128161;</span>
-        <span class="socratic-label">THINK FIRST &middot; DNS ROOT CAUSE</span>
+        <span class="socratic-label">THINK FIRST &middot; INCIDENT DETECTION</span>
       </div>
-      <p class="socratic-insight">DNS is the phone book of the internet. When it&rsquo;s slow, every SaaS app is slow &mdash; but real-time protocols like Zoom calls (which use pre-resolved IPs) are unaffected. This asymmetry is the classic diagnostic tell.</p>
+      <p class="socratic-insight">Individual user complaints are reactive. The Incidents Dashboard is proactive: ZDX AI/ML correlates signals from many devices to detect an incident&rsquo;s epicenter &mdash; a single Wi-Fi access point, an ISP segment, or a Zscaler data center &mdash; before the issue has been widely reported.</p>
       <ul class="socratic-questions">
-        <li>Linda says Zoom calls are fine but web-based SaaS apps are slow. Before looking at ZDX data, what does this symptom pattern already tell you about where the problem is?</li>
-        <li>The ZDX Score is consistently Poor (not oscillating) across every application for 48 hours. What class of root cause does this pattern most strongly suggest?</li>
-        <li>Y-Engine identifies DNS Server 10.0.1.53 as the culprit. What actions would you take next, and who would you escalate to?</li>
+        <li>The Incidents Dashboard shows incidents across 7 key areas: Device, DNS, Wi-Fi, Last Mile ISP, Intermediate SP, Zscaler, and Application. For each area, give one example of a real-world cause that would trigger an incident in that category.</li>
+        <li>An Incident has a ZDX Score Drop metric and an Average Wi-Fi Access Point Latency metric. Why are both needed to characterise a Wi-Fi incident? What does each one tell you that the other doesn&rsquo;t?</li>
+        <li>An incident shows 4 Impacted Users from 1 Geolocation. The SSID is 3com_wifi. What would you tell the on-site IT team to investigate, and what information from the Incident Details page would you include in your message?</li>
       </ul>
-      <div class="answer-area" data-section="lab4-topic">
+      <div class="answer-area" data-section="lab8-topic">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
           <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
         </div>
         <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
-            <div class="model-answer-text">Zoom uses pre-negotiated IP addresses and persists a connection once established &mdash; so it bypasses DNS lookups for the duration of the call. Web-based apps issue a new DNS query on every page load. Slow DNS means every SaaS page load is bottlenecked before the first byte is even requested from the server. This pattern points directly at DNS.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
-            <div class="model-answer-text">A persistently low score across all applications for 48 hours points to a infrastructure-layer problem, not a single app or device issue. The most common candidates are: (1) DNS server failure or misconfiguration, (2) a misconfigured network route or ISP issue, (3) a failing ZCC tunnel. The fact that all apps are affected equally rules out an app-specific issue.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
-            <div class="model-answer-text">Escalate to the network team with the specific DNS server IP (10.0.1.53). Ask them to: (1) check the DNS server&rsquo;s response times and query logs, (2) verify it is not overloaded or misconfigured, (3) consider failing over to a secondary DNS server (8.8.8.8 or a corporate DNS with correct forwarders). After the fix, monitor Linda&rsquo;s ZDX Score for recovery &mdash; it should return to Good within one probe cycle.</div>
-          </div>
+          <div class="model-answer-item"><div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div><div class="model-answer-text">Device: a RAM failure or overheating causing CPU throttling. DNS: a corporate DNS server misconfiguration or overload. Wi-Fi: a failing access point or a rogue SSID with the same name as a corporate AP. Last Mile ISP: an ISP outage or BGP route withdrawal. Intermediate SP: a backbone carrier peering issue. Zscaler: a Zscaler data center degradation affecting egress traffic. Application: a SaaS service outage (e.g. a Salesforce API endpoint going down).</div></div>
+          <div class="model-answer-item"><div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div><div class="model-answer-text">ZDX Score Drop shows the user experience impact &mdash; whether users were actually affected and how severely. AP Latency shows the technical measurement &mdash; the actual roundtrip time between client and access point. You need both because high AP latency may not always cause a ZDX score drop (e.g. if the probe retry masks it), and a ZDX score drop may have multiple contributing factors. Together they confirm both the cause and the user experience impact.</div></div>
+          <div class="model-answer-item"><div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div><div class="model-answer-text">Tell the on-site team: "There is a Wi-Fi incident on SSID 3com_wifi affecting 4 users in [Geolocation]. The incident started at [Start Time from Incident Details] and has lasted [Duration]. Key Metrics show a ZDX Score Drop and elevated Wi-Fi Access Point Latency. Please check the AP associated with SSID 3com_wifi for hardware faults, channel interference, or client association issues."</div></div>
         </div>
       </div>
     </div>
-    <div class="section-block" id="section-lab4">      <h2>Lab 4: Troubleshooting Slow DNS Response</h2>
+    <div class="section-block" id="section-lab8">      <h2>Lab 8: Incident Monitoring on Incident Dashboard</h2>
       <div class="lab-header-card">
-        <div class="lab-badge">LAB 4</div>
-        <p><strong>Scenario:</strong> Linda Lucas (Device: Linda-PC-Route5) reports consistently poor experience accessing SaaS apps but confirms that Zoom calls are fine once connected. Use ZDX to determine why.</p>
+        <div class="lab-badge">LAB 8</div>
+        <p><strong>Scenario:</strong> Operations staff need to proactively monitor for incidents affecting multiple users. Use the ZDX Incidents Dashboard to identify and drill into a Wi-Fi incident.</p>
         <figure class="lab-hero">
-          <img src="images/lab4-hero.png" alt="Lab 4 — Troubleshooting Slow DNS Response" loading="lazy">
+          <img src="images/lab8-hero.png" alt="Lab 8 — Incident Monitoring" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
-          <div class="lab-meta-item"><strong>Environment:</strong> ZDX Admin Portal &middot; User: Linda Lucas &middot; Device: LINDA-PC-ROUTE5 &middot; Time Range: Last 48 Hours</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~15 minutes</div>
+          <div class="lab-meta-item"><strong>Environment:</strong> ZDX Admin Portal &middot; Dashboard &rsaquo; Incidents Dashboard</div>
         </div>
       </div>
-      <h3>Task 4.1: View User ZDX Score Over Time</h3>
+      <h3>Task 8.1: View Incidents Dashboard</h3>
       <div class="task-block">
-        <h4><span class="task-num">1</span> Confirm Persistent Poor Performance</h4>
+        <h4><span class="task-num">1</span> Open the Incidents Dashboard</h4>
         <ol class="step-list">
-          <li>Use <strong>User Search</strong> to find <code>Linda Lucas</code>.</li>
-          <li>Select Device <strong>LINDA-PC-ROUTE5</strong> and time period <strong>48 Hours</strong>.</li>
-          <li>View the <strong>ZDX Score Over Time</strong> graph and confirm the score is <strong>consistently Poor</strong> across all applications.</li>
+          <li>In the ZDX Admin Portal, click on <strong>Dashboard &rsaquo; Incidents Dashboard</strong>.</li>
+          <li>Note the number of <strong>Wi-Fi Incidents</strong> reported in the selected time range (14 Days).</li>
+          <li>Review the <strong>Incidents Across Key Areas</strong> icons (Device, DNS, Wi-Fi, Last Mile ISP, Intermediate SP, Zscaler, Application).</li>
         </ol>
-        <div class="callout callout-success">
-          <p><strong>Result:</strong> The ZDX Score is consistently Poor (13/100 or lower) for every application for the entire 48-hour period. This rules out a single-application issue and points to a system-wide problem.</p>
-        </div>
       </div>        <div class="screenshot-embed narrow">
-          <img src="screenshots/lab4-ss01.png" alt="Linda Lucas user report showing ZDX Score consistently near 0 for all applications across the 48-hour period, indicating a system-wide issue.">
-          <div class="screenshot-caption">Linda Lucas user report showing ZDX Score consistently near 0 for all applications across the 48-hour period, indicating a system-wide issue.</div>
+          <img src="screenshots/lab8-ss02.png" alt="Incidents Dashboard showing Wi-Fi incidents count highlighted in the Incidents Across Key Areas panel.">
+          <div class="screenshot-caption">Incidents Dashboard showing Wi-Fi incidents count highlighted in the Incidents Across Key Areas panel.</div>
         </div>
-      <div class="section-qa" data-section="t4-1">
+      <div class="section-qa" data-section="t8-1">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 4.1</span>
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 8.1</span>
           <span class="section-qa-chevron">&#9662;</span>
         </button>
         <div class="section-qa-body">
           <figure class="task-hero">
-            <img src="images/lab4-task1.png" alt="Task 4.1 — View User ZDX Score Over Time" loading="lazy">
+            <img src="images/lab8-task1.png" alt="Task 8.1 — View Incidents Dashboard" loading="lazy">
           </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t4-1" placeholder="Questions about this section&hellip;"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t4-1',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t4-1"></div>
+              <textarea class="section-qa-textarea" id="sq-t8-1" placeholder="Questions&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t8-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t8-1"></div>
             </div>
             <div>
               <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t4-1" placeholder="Key takeaways from this section&hellip;"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t4-1',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t4-1"></div>
+              <textarea class="section-qa-textarea" id="sn-t8-1" placeholder="Key takeaways&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t8-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t8-1"></div>
             </div>
           </div>
         </div>
       </div>
-      <h3>Task 4.2: Analyze High Page Fetch Time</h3>
+      <h3>Task 8.2: Identify Incidents Epicenters</h3>
       <div class="task-block">
-        <h4><span class="task-num">2</span> Identify Latency Pattern in Web Probe Metrics</h4>
+        <h4><span class="task-num">2</span> View the Incidents by Epicenters Map</h4>
         <ol class="step-list">
-          <li>Scroll to the <strong>Web Probe Metrics</strong> section.</li>
-          <li>Examine the <strong>Page Fetch Time</strong> graph. Note the value range across the period (e.g. ~1000ms to ~3000ms).</li>
-          <li>Click a point on the Page Fetch Time graph to view the breakdown:
+          <li>Scroll down on the Incidents Dashboard to view the <strong>Incidents by Epicenters</strong> map.</li>
+          <li>Note the location of the incidents markers showing epicenters and the number of incidents indicated.</li>
+          <li>Click on an incidents marker to see an expanded view of the types of incidents at that epicenter.</li>
+          <li>Click <strong>View Incident Details</strong> to open the incident detail page.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab8-ss03.png" alt="Incidents by Epicenters world map showing incident markers clustered in a geographic area with Wi-Fi incident type indicators.">
+          <div class="screenshot-caption">Incidents by Epicenters world map showing incident markers clustered in a geographic area with Wi-Fi incident type indicators.</div>
+        </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab8-ss04.png" alt="Incident Details popup showing SSID, Start/End Time, Duration, Impacted Users, and the View Incident Details link.">
+          <div class="screenshot-caption">Incident Details popup showing SSID, Start/End Time, Duration, Impacted Users, and the View Incident Details link.</div>
+        </div>
+      <div class="section-qa" data-section="t8-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 8.2</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab8-task2.png" alt="Task 8.2 — Identify Incident Epicenters" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t8-2" placeholder="Questions&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t8-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t8-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t8-2" placeholder="Key takeaways&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t8-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t8-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 8.3: View Incident Details</h3>
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Drill Into the Incident</h4>
+        <ol class="step-list">
+          <li>On the Incident Details page, review:
             <ul class="sub-steps">
-              <li>Note the difference between <strong>PFT Baseline</strong> and the measured <strong>Page Fetch Time</strong>.</li>
-              <li>Observe the relative sizes of <strong>Server Response Time</strong> and <strong>DNS Resolve Time</strong>.</li>
+              <li>SSID name and Wi-Fi Access Point details</li>
+              <li>Impacted Users by Geolocations</li>
+              <li>Top Impacted Users (with ZDX Score trends)</li>
             </ul>
           </li>
+          <li>Scroll down to <strong>Key Metrics</strong> and note the <strong>ZDX Score Drop</strong> and <strong>Maximum Wi-Fi Access Point Latency</strong> graphs.</li>
         </ol>
-        <div class="callout callout-success">
-          <p><strong>Result:</strong> DNS Resolve Time accounts for the <strong>majority</strong> of Page Fetch Time. High fluctuations in DNS are visible &mdash; the DNS component alone exceeds the PFT Baseline for many requests.</p>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab8-ss03.png" alt="Incident Details page for SSID 3com_wifi showing Incident Type (Wi-Fi), Duration, Impacted Users map, and Top Impacted Users with ZDX score trends.">
+          <div class="screenshot-caption">Incident Details page for SSID 3com_wifi showing Incident Type (Wi-Fi), Duration, Impacted Users map, and Top Impacted Users with ZDX score trends.</div>
         </div>
-      </div>        <div class="screenshot-embed narrow">
-          <img src="screenshots/lab4-ss01.png" alt="Web Probe Metrics showing Page Fetch Time (~1790ms), Server Response Time (961ms), and DNS Resolve Time (1023ms) &mdash; DNS dominates the total latency.">
-          <div class="screenshot-caption">Web Probe Metrics showing Page Fetch Time (~1790ms), Server Response Time (961ms), and DNS Resolve Time (1023ms) &mdash; DNS dominates the total latency.</div>
-        </div>
-      <div class="section-qa" data-section="t4-2">
+      <div class="section-qa" data-section="t8-3">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 4.2</span>
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 8.3</span>
           <span class="section-qa-chevron">&#9662;</span>
         </button>
         <div class="section-qa-body">
           <figure class="task-hero">
-            <img src="images/lab4-task2.png" alt="Task 4.2 — Analyze High Page Fetch Time" loading="lazy">
+            <img src="images/lab8-task3.png" alt="Task 8.3 — View Incident Details" loading="lazy">
           </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t4-2" placeholder="Questions about this section&hellip;"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t4-2',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t4-2"></div>
+              <textarea class="section-qa-textarea" id="sq-t8-3" placeholder="Questions&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t8-3',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t8-3"></div>
             </div>
             <div>
               <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t4-2" placeholder="Key takeaways from this section&hellip;"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t4-2',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t4-2"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <h3>Task 4.3: Use ZDX Y-Engine to Determine Root Cause</h3>
-      <div class="task-block">
-        <h4><span class="task-num">3</span> Confirm High DNS as Root Cause</h4>
-        <ol class="step-list">
-          <li>Scroll back up to the <strong>ZDX Score Over Time</strong> graph.</li>
-          <li>Click <strong>Analyze Score</strong> on a Poor data point.</li>
-          <li>Review the factor table and confirm the root cause.</li>
-          <li>Note the DNS Server address shown in the <strong>User Devices</strong> section at the top of the page.</li>
-        </ol>
-        <div class="callout callout-success">
-          <p><strong>Result:</strong> <strong>High DNS</strong> is listed as the root cause at 100% confidence. The DNS server for LINDA-PC-ROUTE5 is <code>10.0.1.53</code> &mdash; this is the specific DNS server to investigate.</p>
-        </div>
-      </div>
-      <div class="section-qa" data-section="t4-3">
-        <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 4.3</span>
-          <span class="section-qa-chevron">&#9662;</span>
-        </button>
-        <div class="section-qa-body">
-          <figure class="task-hero">
-            <img src="images/lab4-task3.png" alt="Task 4.3 — Y-Engine Root Cause Analysis" loading="lazy">
-          </figure>
-          <div class="section-qa-grid">
-            <div>
-              <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t4-3" placeholder="Questions about this section&hellip;"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t4-3',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t4-3"></div>
-            </div>
-            <div>
-              <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t4-3" placeholder="Key takeaways from this section&hellip;"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t4-3',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t4-3"></div>
+              <textarea class="section-qa-textarea" id="sn-t8-3" placeholder="Key takeaways&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t8-3',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t8-3"></div>
             </div>
           </div>
         </div>
@@ -260,29 +248,30 @@
       <div class="mental-note-block-icon">&#129504;</div>
       <div class="mental-note-block-inner">
         <div class="mental-note-block-label">MENTAL NOTE</div>
-        <div class="mental-note-block-text">Consistently Poor score across all apps (not oscillating) = infrastructure-layer problem. DNS Resolve Time = majority of PFT. Y-Engine: High DNS at 100% confidence. DNS Server for device = 10.0.1.53 (shown in User Devices panel). Zoom is unaffected because it uses pre-resolved IPs. Escalate to network team with specific DNS server IP.</div>
+        <div class="mental-note-block-text">Incidents Dashboard = proactive multi-user issue detection via AI/ML. 7 key areas: Device, DNS, Wi-Fi, Last Mile ISP, Intermediate SP, Zscaler, Application. Incidents by Epicenters map clusters affected users geographically. Incident Details: SSID, Impacted Users by Geolocation, Top Impacted Users, Key Metrics (ZDX Score Drop + AP Latency).</div>
       </div>
     </div>
   </div>
   <aside class="sidebar">
     <a class="hub-link" href="index.html">&#8592; All Labs (EDU-310)</a>
     <div class="checklist-card">
-      <div class="checklist-title">LAB 4 PROGRESS</div>
-        <label class="checklist-item"><input type="checkbox" id="chk-4-1" onchange="saveChecklist()"> Found Linda Lucas (LINDA-PC-ROUTE5)</label>
-        <label class="checklist-item"><input type="checkbox" id="chk-4-2" onchange="saveChecklist()"> Confirmed consistently Poor ZDX Score across all apps</label>
-        <label class="checklist-item"><input type="checkbox" id="chk-4-3" onchange="saveChecklist()"> Identified DNS Resolve Time as dominant PFT component</label>
-        <label class="checklist-item"><input type="checkbox" id="chk-4-4" onchange="saveChecklist()"> Confirmed High DNS root cause via Y-Engine at 100% confidence</label>
-        <label class="checklist-item"><input type="checkbox" id="chk-4-5" onchange="saveChecklist()"> Noted specific DNS server IP (10.0.1.53)</label>
+      <div class="checklist-title">LAB 8 PROGRESS</div>
+        <label class="checklist-item"><input type="checkbox" id="chk-8-1" onchange="saveChecklist()"> Opened Incidents Dashboard and noted Wi-Fi incident count</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-8-2" onchange="saveChecklist()"> Viewed Incidents by Epicenters map</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-8-3" onchange="saveChecklist()"> Clicked incident marker and viewed popup details</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-8-4" onchange="saveChecklist()"> Opened Incident Details page</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-8-5" onchange="saveChecklist()"> Reviewed SSID, Impacted Users, and Key Metrics graphs</label>
     </div>
     <div class="quick-ref" id="quick-ref">
       <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
         QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
       </div>
       <div class="qr-body">
-        <div class="qr-item"><div class="qr-term">High DNS</div><div class="qr-def">Y-Engine factor triggered when DNS resolution time is the primary driver of elevated Page Fetch Time.</div></div>
-        <div class="qr-item"><div class="qr-term">DNS Resolve Time</div><div class="qr-def">Web Probe metric measuring the time from DNS query to resolution. Shown as a sub-component of Page Fetch Time.</div></div>
-        <div class="qr-item"><div class="qr-term">PFT Breakdown</div><div class="qr-def">Page Fetch Time is the sum of: DNS Resolve Time + TCP Connect Time + SSL Handshake + Server Response Time (TTFB) + Content Download.</div></div>
-        <div class="qr-item"><div class="qr-term">Consistently Poor (all apps)</div><div class="qr-def">When all applications show Poor ZDX Scores simultaneously, the root cause is almost always infrastructure: DNS, routing, or ZCC tunnel &mdash; not application-specific.</div></div>
+        <div class="qr-item"><div class="qr-term">Incidents Dashboard</div><div class="qr-def">ZDX dashboard showing AI/ML-detected incidents affecting multiple users simultaneously, categorised by affected infrastructure area.</div></div>
+        <div class="qr-item"><div class="qr-term">Incident Epicenter</div><div class="qr-def">The geographic or network location identified as the source of a multi-user incident (e.g. a specific Wi-Fi AP, an ISP node, or a Zscaler data center).</div></div>
+        <div class="qr-item"><div class="qr-term">ZDX Score Drop</div><div class="qr-def">Key Metric in Incident Details showing how much the average ZDX Score for affected users fell during the incident period.</div></div>
+        <div class="qr-item"><div class="qr-term">AP Latency</div><div class="qr-def">Key Metric showing the average and maximum roundtrip latency measured between client devices and the Wi-Fi Access Point.</div></div>
+        <div class="qr-item"><div class="qr-term">Incident Duration</div><div class="qr-def">Total time from incident Start Time to End Time. For ongoing incidents, the duration continues to increment.</div></div>
       </div>
     </div>
   </aside>
@@ -291,40 +280,26 @@
   <div class="footer-inner">
     <span class="footer-content">EDU-310 &middot; ZDX Operationalization</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">&#9650; Hide</button>
-    <span class="footer-content">LAB 4 of 14</span>
+    <span class="footer-content">LAB 8 of 14</span>
   </div>
 </footer>
 
 <div class="page-nav">
-  <a class="page-nav-btn page-nav-prev" href="lab3.html">&#8592; Lab 3: Troubleshooting End User Device Root Causes &mdash; High CPU</a>
-  <div class="page-nav-message">High DNS, every request, every app &mdash; the pattern is unmistakable.</div>
-  <a class="page-nav-btn page-nav-next" href="lab5.html">Lab 5: Troubleshooting Slow Network Router (Hop) &#8594;</a>
+  <a class="page-nav-btn page-nav-prev" href="lab7.html">&#8592; Lab 7: Troubleshooting Device Startup &amp; Software Reliability</a>
+  <div class="page-nav-message">ZDX saw the Wi-Fi incident before the first ticket arrived.</div>
+  <a class="page-nav-btn page-nav-next" href="lab9.html">Lab 9: Monitoring Self Service Notifications &#8594;</a>
 </div>
 <script>
 const CONFIG_KEY='edu310-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu310-config-collapsed';
 const FOOTER_KEY='edu310-footer-collapsed';
-const PAGE_KEY='edu310-lab-lab4';
+const PAGE_KEY='edu310-lab-lab8';
 function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand':'<span class="chevron">&#9650;</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
 function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
 function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' &mdash; '+prefix:'';}
-function applyConfig(){
-  var prefix=document.getElementById('prefix-input').value.trim();
-  var pass=document.getElementById('pass-input').value.trim();
-  var d='thezerotrustexchange.com';
-  var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;
-  var el=document.getElementById('d-admin');if(el)el.textContent=admin;
-  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
-  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
-}
-function loadConfig(){
-  try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb76';document.getElementById('pass-input').value='';}
-  if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';}
-  }catch(e){document.getElementById('prefix-input').value='ptcb76';}
-  applyConfig();updateToggleSummary();updateSidebarOffset();
-}
-function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='&#10003; Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';
-},1200);}
+function applyConfig(){var prefix=document.getElementById('prefix-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var d='thezerotrustexchange.com';var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;var el=document.getElementById('d-admin');if(el)el.textContent=admin;document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb76';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';}}catch(e){document.getElementById('prefix-input').value='ptcb76';}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='&#10003; Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
 function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
 function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='&#10003;';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
 ['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
@@ -342,7 +317,7 @@ function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')|
 function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
 function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
 function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
-var SECTION_IDS=['t4-1','t4-2','t4-3'];
+var SECTION_IDS=['t8-1','t8-2','t8-3'];
 function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
 function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
 function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}

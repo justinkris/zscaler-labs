@@ -93,40 +93,6 @@
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab7">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · ZDX SCORE METHODOLOGY &amp; TROUBLESHOOTING</span>
-      </div>
-      <p class="socratic-insight">The ZDX score is not just a number — it&rsquo;s a correlated view of network path latency, application response time, and device health. Understanding what the score measures tells you which direction to dig.</p>
-      <ul class="socratic-questions">
-        <li>The ZDX Score fluctuates between Good (75+) and Poor (under 40). When you use the <em>Analyze Score</em> feature on a Poor data point, ZDX returns a confidence-ranked list of contributing factors. What is the difference between a factor with 91% confidence vs. one with 6% confidence in terms of how you should respond?</li>
-        <li>The Cloud Path hop view shows latency measured at each hop: Client → Gateway → Egress → Application. In the example, 319ms of the 339ms total end-to-end latency is on the first hop (Client to Gateway). What does this isolate as the root cause, and which team should own the resolution?</li>
-        <li>A ZDX Snapshot can be shared with others. Why should an analyst always use the <em>Obfuscate Data</em> option when sharing snapshots externally — and what does it hide?</li>
-      </ul>
-      <div class="answer-area" data-section="lab7-zdx">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">A 91% confidence factor (e.g. Low Wifi Signal) is the primary root cause — ZDX has strong statistical correlation between this factor and the score drop, and you should act on it immediately. A 6% confidence factor (e.g. Suboptimal Wifi SSID) is a secondary contributing factor — it may be part of the same root cause (in this case, both are WiFi-related) but doesn&rsquo;t warrant independent action. If the primary factor is WiFi, the conversation with the user starts there — not with the application team.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">319ms on the first hop (Client to Gateway) isolates the problem as the user&rsquo;s local network or WiFi connection — not the Zscaler service or the application. The 20ms remaining hops (Gateway → Egress → Application) are performing normally. The IT/Network team responsible for the user&rsquo;s local network (or the user themselves for home WiFi) should own the resolution. This is a key finding: ZDX proves the Zscaler infrastructure is not the bottleneck.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">The Obfuscate Data option hides PII fields: Device Name, User Name, Location, and IP Address. ZDX Snapshots are accessible via URL by anyone with the link — even outside the organisation. Without obfuscation, sharing the URL could expose employee names, device names, and internal network IP addresses to unintended parties. Always obfuscate when sharing with vendors, external support teams, or anyone outside the organisation.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-block" id="section-lab7">
       <h2>Lab 7: Troubleshooting User Experience Issues with ZDX</h2>
 
@@ -139,6 +105,40 @@
         <div class="lab-meta">
           <div class="lab-meta-item"><strong>Time:</strong> ~40 minutes</div>
           <div class="lab-meta-item"><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net</code></div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab7">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · ZDX SCORE METHODOLOGY &amp; TROUBLESHOOTING</span>
+        </div>
+        <p class="socratic-insight">The ZDX score is not just a number — it&rsquo;s a correlated view of network path latency, application response time, and device health. Understanding what the score measures tells you which direction to dig.</p>
+        <ul class="socratic-questions">
+          <li>The ZDX Score fluctuates between Good (75+) and Poor (under 40). When you use the <em>Analyze Score</em> feature on a Poor data point, ZDX returns a confidence-ranked list of contributing factors. What is the difference between a factor with 91% confidence vs. one with 6% confidence in terms of how you should respond?</li>
+          <li>The Cloud Path hop view shows latency measured at each hop: Client → Gateway → Egress → Application. In the example, 319ms of the 339ms total end-to-end latency is on the first hop (Client to Gateway). What does this isolate as the root cause, and which team should own the resolution?</li>
+          <li>A ZDX Snapshot can be shared with others. Why should an analyst always use the <em>Obfuscate Data</em> option when sharing snapshots externally — and what does it hide?</li>
+        </ul>
+        <div class="answer-area" data-section="lab7-zdx">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text">A 91% confidence factor (e.g. Low Wifi Signal) is the primary root cause — ZDX has strong statistical correlation between this factor and the score drop, and you should act on it immediately. A 6% confidence factor (e.g. Suboptimal Wifi SSID) is a secondary contributing factor — it may be part of the same root cause (in this case, both are WiFi-related) but doesn&rsquo;t warrant independent action. If the primary factor is WiFi, the conversation with the user starts there — not with the application team.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">319ms on the first hop (Client to Gateway) isolates the problem as the user&rsquo;s local network or WiFi connection — not the Zscaler service or the application. The 20ms remaining hops (Gateway → Egress → Application) are performing normally. The IT/Network team responsible for the user&rsquo;s local network (or the user themselves for home WiFi) should own the resolution. This is a key finding: ZDX proves the Zscaler infrastructure is not the bottleneck.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">The Obfuscate Data option hides PII fields: Device Name, User Name, Location, and IP Address. ZDX Snapshots are accessible via URL by anyone with the link — even outside the organisation. Without obfuscation, sharing the URL could expose employee names, device names, and internal network IP addresses to unintended parties. Always obfuscate when sharing with vendors, external support teams, or anyone outside the organisation.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -175,6 +175,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab7-task1.png" alt="Task 7.1 — Checking Zscaler Client Connector" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -213,6 +216,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab7-task2.png" alt="Task 7.2 — View User ZDX Score for an Application" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -257,6 +263,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab7-task3.png" alt="Task 7.3 — Analyze Poor ZDX Score Interval" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -298,6 +307,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab7-task4.png" alt="Task 7.4 — Compare Poor ZDX Score to Last Known Good Score" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -341,6 +353,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab7-task5.png" alt="Task 7.5 — Isolate High Latency Hop" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -387,6 +402,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab7-task6.png" alt="Task 7.6 — View User Device Events Associated With ZDX Score Changes" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -433,6 +451,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab7-task7.png" alt="Task 7.7 — Generate Report Snapshot and Copy Snapshot URL" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>

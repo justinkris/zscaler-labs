@@ -1,0 +1,106 @@
+EDU-310 Lab Hero Image Prompts
+================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff (pale sky-blue).
+  NO TEXT anywhere — no words, no letters, no numbers, no labels, no UI strings. Pure visual only.
+  Palette: deep navy (#0d1a2e), sky-blue (#1a6dcc), light blue (#bfdbfe), with accent colors per lab.
+  Recommended dimensions: 1200 × 400 px. Save as PNG.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab1-hero.png — Lab 1: Navigating the ZDX Admin Portal
+-------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A wide, futuristic admin portal interface spread across the full canvas. Left side: a dark navy vertical sidebar with glowing circular icon buttons. Centre: a large world map with colourful dot markers glowing in various locations. Right side: two stacked data panels — a bar chart with tall sky-blue columns, and a donut/pie chart in navy and blue. Thin curved connection lines link the map dots to the panels. A small stylised laptop screen floats in the bottom-left corner reflecting the dashboard view. Deep navy, sky-blue, light blue palette. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab2-hero.png — Lab 2: Troubleshooting Poor Wifi
+-------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A person sitting at a home desk with a laptop. Two large wifi signal icons float to the right of the person: the left icon has full signal bars in bright sky-blue (strong connection), and the right icon has only one bar in orange/amber (weak signal). A dotted curved arrow sweeps from the strong icon to the weak icon, suggesting a device roaming between access points. A small wifi router sits in the background. Below the desk, a wavy latency graph line shows a dramatic spike from flat to a tall peak and back down. Deep navy and sky-blue palette with amber accent for the weak signal. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab3-hero.png — Lab 3: Troubleshooting End User Device Root Causes — High CPU
+------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A desktop PC tower in the centre of the canvas with an animated heat-shimmer effect rising from it (wavy distortion lines in amber/orange above the tower). A large speedometer/dial gauge to the right of the PC shows the needle pinned firmly in the red zone at maximum. A magnifying glass is positioned over the PC, zooming in to reveal a tiny spinning gear icon inside — representing a runaway process. A horizontal progress bar below the PC is completely filled in orange/red indicating 100% utilisation. Small flame icons accent the corners of the PC. Deep navy background shapes, amber/orange accent for the CPU heat. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab4-hero.png — Lab 4: Troubleshooting Slow DNS Response
+---------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A laptop on the left sends a query arrow to a large open book (phone-book style, representing DNS) in the centre. The open book has a large hourglass icon floating above it, and a thick slow-moving dotted arrow connecting the book to a cloud server icon on the right. The server cloud glows faintly. Between the laptop and the DNS book, a small clock face icon shows time passing. Multiple thin query arrows stack up behind the first, as if queued waiting. The connection path from DNS book to cloud server is visually sluggish — thick, wavy, amber-coloured dots for the slow connection vs. slim straight sky-blue lines for normal connections. Deep navy and sky-blue palette with amber for the slow path. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab5-hero.png — Lab 5: Troubleshooting Slow Network Router (Hop)
+-----------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A horizontal network path stretches across the canvas: laptop icon (left) → router hop circle → another router hop circle (glowing orange/red, highlighted) → cloud egress icon → application server (right). Thin directional arrows connect each hop. The second router hop is visually enlarged and surrounded by a warning ring glow in orange, with a magnifying glass hovering over it. Below the highlighted hop, a small connection path expands showing two sub-hop nodes between the router and the next. Latency measurement arcs (curved brackets) above each segment show varying widths — the orange hop has a very wide bracket indicating high delay vs. small brackets for the others. Sky-blue path, navy nodes, orange accent for the slow hop. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab6-hero.png — Lab 6: Analyzing Call Quality
+----------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+Two person icons face each other across the canvas connected by a video call interface frame. Between them, audio waveform lines travel across — on one side the waveforms are smooth and clean (sky-blue), on the other side they are jagged and choppy (amber/orange), indicating poor audio. A large headphones icon sits above the call frame. Below the call frame, a MOS quality gauge shows a dial pointing to a low/poor zone. A small cloud path hop diagram below shows the network route with one highlighted orange segment. The overall palette is deep navy and sky-blue with amber for the poor-quality indicators. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab7-hero.png — Lab 7: Device Startup & Software Reliability
+-------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A laptop in the centre of the canvas. Above the laptop, several app crash notification bubbles float upward (burst/explosion icons in orange/red). On the left, a boot progress bar is partially filled showing a slow startup sequence. On the right, a scorecard-style panel shows two score bars: the top bar is mostly filled in green (Startup Performance — good) and the bottom bar is only partially filled in amber/orange (Software Reliability — poor). A Chrome browser icon with a red × (crash) symbol is attached to one of the burst icons. Small calendar/timeline grid in the background shows repeating crash events. Deep navy and sky-blue with orange/red crash accents. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab8-hero.png — Lab 8: Incident Monitoring on Incident Dashboard
+-----------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A world map fills most of the canvas. Multiple circular incident marker icons are clustered over a region (e.g. Western Europe or North America), with concentric ripple rings radiating from the cluster — like sonar pings indicating detected incidents. Each incident marker has a small icon inside representing the incident type: a wifi arc, a device screen, a network cloud. A large incident dashboard panel sits in the lower right — showing a row of category icons (device, wifi, cloud, application) each with a count badge. The overall mood is operations-centre monitoring. Deep navy, sky-blue, with amber/red circles for incident markers. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab9-hero.png — Lab 9: Monitoring Self Service Notifications
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A person sitting at a desktop computer. In the bottom-right corner of the illustrated computer screen, a Windows system tray notification popup appears with a Zscaler shield icon and a speech bubble. The person is looking at the screen and has an expression of mild surprise. Above the notification, two thumbs icons float: one thumbs-up (sky-blue) and one thumbs-down (grey) representing user feedback buttons. A second smaller panel floats to the right showing a bar chart of notification counts over time. Dashed arrows connect the notification, the person, and the feedback icons in a circular workflow. Navy, sky-blue palette with amber tray-icon accent. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab10-hero.png — Lab 10: Sharing ZDX Snapshots
+-----------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A camera shutter icon (large, centre-left) is pointing at a floating ZDX dashboard panel (centre). From the camera, a "click" flash burst shoots out and the dashboard is captured as a frozen snapshot image that flies to the right as a document/screenshot card. A chain-link URL icon is attached to the snapshot card. On the far right, a second person icon (recipient) is reaching out to receive the snapshot card. A small lock/obfuscation shield icon sits on the snapshot card indicating privacy obfuscation. A countdown clock/timer badge shows the validity window. Sky-blue and navy palette with a gold accent for the snapshot flash. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab11-hero.png — Lab 11: ZDX Copilot
+--------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A friendly AI assistant robot/bot character (stylised, Zscaler blue) sits behind a chat interface panel on the left. The chat panel shows a speech bubble containing a small visualisation — a cloud path hop diagram with a highlighted orange hop node (representing a found root cause). On the right, a person icon sits at a laptop and types a question into the chat. Between them, small floating icon cards show AI analysis symbols: a brain icon, a magnifying glass, a network graph. Thin glowing blue connection lines flow from the user's laptop to the AI bot. Purple/navy AI accents alongside sky-blue. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab12-hero.png — Lab 12: ZDX Hosted Monitoring
+-----------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A world map in the background. Multiple Zscaler data center icons (hexagonal server rack shapes) are distributed at key locations around the map (Americas, Europe, Asia). From each data center, thin probe beam arrows shoot outward toward SaaS application cloud icons (Box, Salesforce, Slack style cloud shapes) floating at the top of the canvas. The probe arrows are dotted sky-blue lines with small ping circles bouncing along them. Each probe arrives at an app icon and generates a small measurement bracket showing latency. The overall image reads as "measuring from multiple global data centers simultaneously." Deep navy, sky-blue, with teal accents for probe beams. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab13-hero.png — Lab 13: Understanding Data Explorer
+-----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A large magnifying glass hovers over a grid of data visualisations. Inside and around the magnifying glass, multiple chart types are visible: a line graph with two coloured trend lines (sky-blue and navy), a bar chart with grouped columns, and a small donut chart. Floating filter dropdowns icons are scattered at the top — funnel icons, toggle chips, and a small dropdown arrow — representing the configuration panel of Data Explorer. Two app cloud icons (representing SharePoint and Outlook) are connected to the charts with thin dotted lines showing data correlation. The magnifying glass handle glows with a discovery/insight burst. Deep navy, sky-blue, light blue palette. No text, no words, no labels anywhere.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab14-hero.png — Lab 14: Understanding Wi-Fi Dashboard
+-------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A stylised building floor plan (top-down view) fills the canvas. Inside the building, multiple wifi access point icons are placed at various rooms — most have a green glow ring (Good performance) but one in the lower-left room has a red/amber glow ring (Poor performance). Small device icons (laptops, phones) are clustered around each AP, connected by thin dotted curved lines. The Poor AP has a warning triangle floating above it and slightly more devices clustered around it. A small latency graph bar floats next to the Poor AP showing high latency values. Sky-blue floor plan outlines, navy building walls, green/red AP indicators. No text, no words, no labels anywhere.

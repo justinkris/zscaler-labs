@@ -95,40 +95,6 @@
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab3">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · PACKET CAPTURES &amp; TRAFFIC ANALYSIS</span>
-      </div>
-      <p class="socratic-insight">ZCC produces two capture files from the same session. Knowing the difference — and which one to open for which question — is the skill that separates slow triage from fast diagnosis.</p>
-      <ul class="socratic-questions">
-        <li>ZCC exports two pcapng files: <strong>CaptureAdapters</strong> and <strong>CaptureLWF</strong>. What does each one capture, and which one would you open to see an unencrypted HTTP request to a private application?</li>
-        <li>The ZPA virtual IP subnet is <code>100.64.1.0/24</code>. Why does filtering on this subnet in Wireshark reveal private application traffic, and what would you expect to see if ZPA is working correctly?</li>
-        <li>The CaptureAdapters file shows mostly DTLS-encrypted packets. If you wanted to confirm which internet host a user visited, what Wireshark filter and column would you look at?</li>
-      </ul>
-      <div class="answer-area" data-section="lab3-capture">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text"><strong>CaptureAdapters</strong> captures traffic on the physical network adapters — you see DTLS-encrypted Zscaler tunnel traffic plus DNS and other control-plane traffic. <strong>CaptureLWF</strong> captures at the Lightweight Filter Driver layer, which is inside the ZPA tunnel — this is where you see the actual application-layer traffic (HTTP GET, TLS handshakes) between the client and the private app. Use CaptureLWF to diagnose private application connectivity issues.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">ZPA assigns addresses in the <code>100.64.1.0/24</code> carrier-grade NAT range as virtual IPs for private application segments. Filtering on this subnet in Wireshark (CaptureLWF) shows only traffic destined for private apps — this confirms the tunnel is routing those requests. A working ZPA session shows DNS resolution returning a 100.64.x.x address, followed by a TCP connection and application-level data exchange to that IP.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">Filter the CaptureAdapters file with <code>!dtls</code> to exclude the encrypted tunnel packets. The remaining DNS queries (filter: <code>dns</code>) show which hosts the client resolved. For the actual HTTP transaction, filter <code>tcp.port==80</code> and right-click a packet to select <strong>Follow &gt; TCP Stream</strong> — this shows the full HTTP request and response in readable form, including the Host header.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-block" id="section-lab3">
       <h2>Lab 3: Troubleshooting Traffic Forwarding</h2>
 
@@ -141,6 +107,40 @@
         <div class="lab-meta">
           <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
           <div class="lab-meta-item"><strong>Tools:</strong> ZCC Packet Capture + Wireshark + ZIA Web Insights + ZPA Diagnostics</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab3">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · PACKET CAPTURES &amp; TRAFFIC ANALYSIS</span>
+        </div>
+        <p class="socratic-insight">ZCC produces two capture files from the same session. Knowing the difference — and which one to open for which question — is the skill that separates slow triage from fast diagnosis.</p>
+        <ul class="socratic-questions">
+          <li>ZCC exports two pcapng files: <strong>CaptureAdapters</strong> and <strong>CaptureLWF</strong>. What does each one capture, and which one would you open to see an unencrypted HTTP request to a private application?</li>
+          <li>The ZPA virtual IP subnet is <code>100.64.1.0/24</code>. Why does filtering on this subnet in Wireshark reveal private application traffic, and what would you expect to see if ZPA is working correctly?</li>
+          <li>The CaptureAdapters file shows mostly DTLS-encrypted packets. If you wanted to confirm which internet host a user visited, what Wireshark filter and column would you look at?</li>
+        </ul>
+        <div class="answer-area" data-section="lab3-capture">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text"><strong>CaptureAdapters</strong> captures traffic on the physical network adapters — you see DTLS-encrypted Zscaler tunnel traffic plus DNS and other control-plane traffic. <strong>CaptureLWF</strong> captures at the Lightweight Filter Driver layer, which is inside the ZPA tunnel — this is where you see the actual application-layer traffic (HTTP GET, TLS handshakes) between the client and the private app. Use CaptureLWF to diagnose private application connectivity issues.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">ZPA assigns addresses in the <code>100.64.1.0/24</code> carrier-grade NAT range as virtual IPs for private application segments. Filtering on this subnet in Wireshark (CaptureLWF) shows only traffic destined for private apps — this confirms the tunnel is routing those requests. A working ZPA session shows DNS resolution returning a 100.64.x.x address, followed by a TCP connection and application-level data exchange to that IP.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">Filter the CaptureAdapters file with <code>!dtls</code> to exclude the encrypted tunnel packets. The remaining DNS queries (filter: <code>dns</code>) show which hosts the client resolved. For the actual HTTP transaction, filter <code>tcp.port==80</code> and right-click a packet to select <strong>Follow &gt; TCP Stream</strong> — this shows the full HTTP request and response in readable form, including the Host header.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -233,6 +233,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab3-task1.png" alt="Task 3.1 — Check Traffic Forwarding with Packet Capture" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -286,6 +289,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab3-task2.png" alt="Task 3.2 — Use Additional Tools to Check Traffic Forwarding" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>

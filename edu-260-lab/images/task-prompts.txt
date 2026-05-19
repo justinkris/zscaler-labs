@@ -1,0 +1,323 @@
+EDU-260 Task Hero Image Prompts
+================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff (pale sky-blue, matching the webpage).
+  NO TEXT anywhere in the image — no words, no letters, no numbers, no labels,
+  no captions, no UI strings. Pure visual illustration only.
+  Consistent blue/navy Zscaler-themed color palette throughout.
+  Recommended dimensions: 1200 × 250 px (wide landscape banner).
+  Save each file as a PNG in this folder using the filename shown.
+
+════════════════════════════════════════════════════════════════════════
+LAB 1 — Connecting to the Virtual Lab
+════════════════════════════════════════════════════════════════════════
+
+lab1-task1.png — Task 1.1: Test Your Lab Access and Start Your Environment
+---------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A technician
+clicking a play/start button on a cloud VM dashboard. A virtual machine tile
+lights up green on the screen, confirming it is running. A second monitor shows
+a browser window navigating to a portal login page. Keyboard and mouse in
+foreground. Navy and sky-blue palette. No text, no words, no letters anywhere.
+
+lab1-task2.png — Lab Resources and Login Credentials
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A neatly
+organized credential card floats in the center — illustrated as a glowing card
+with user silhouette icons, padlock icons, and key symbols arranged in rows (no
+readable text). A sticky note and a clipboard with masked entries sit alongside.
+A reference table is visualized as blank rows with colored category chips. Navy,
+gold, and sky-blue palette. No text, no words, no letters anywhere.
+
+════════════════════════════════════════════════════════════════════════
+LAB 2 — Troubleshooting Authentication
+════════════════════════════════════════════════════════════════════════
+
+lab2-task1.png — Task 2.1: Check Client Connectivity to the Zero Trust Exchange
+---------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A laptop sending
+a ping signal (concentric arc waves) toward a Zscaler cloud node. A green
+checkmark appears at the cloud, confirming connectivity. Network path arrows
+show traffic flowing outward through the Zero Trust Exchange globe. Navy and
+teal palette. No text, no words, no letters anywhere.
+
+lab2-task2.png — Task 2.2: Download Client Connector Installation Package
+---------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZIA admin
+portal screen shows an app store shelf with a Zscaler Client Connector package
+icon. A download arrow moves from the shelf toward a laptop. A progress bar
+fills beneath the download. Navy, cobalt, and sky-blue palette. No text, no
+words, no letters anywhere.
+
+lab2-task3.png — Task 2.3: Install Client Connector With CLI Options
+----------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A terminal
+window open on a laptop with a blinking cursor and a command prompt icon. An
+installer wizard gear icon floats above the terminal. Progress rings spin as
+the installation completes. A Zscaler shield badge materializes on the screen.
+Dark navy terminal, sky-blue accents. No text, no words, no letters anywhere.
+
+lab2-task4.png — Task 2.4: Troubleshoot ZIA Authentication
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A SAML
+authentication flow diagram: a laptop emits an auth request arrow to an
+identity provider cloud (key icon), which returns a token. The token travels
+onward to a ZIA cloud globe with a green enrollment check. SAML token icons
+(envelopes with seals) travel along the arc. Navy, indigo, gold palette. No
+text, no words, no letters anywhere.
+
+lab2-task5.png — Task 2.5: Troubleshoot ZPA Authentication
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A SAML
+authentication arc connects a laptop through an identity provider to a ZPA
+gateway tower (cylindrical server with a shield). A private application server
+sits behind the ZPA gateway, accessible only after the auth arc completes. Lock
+and unlock icons punctuate the path. Navy, teal, and deep indigo palette. No
+text, no words, no letters anywhere.
+
+════════════════════════════════════════════════════════════════════════
+LAB 3 — Packet Capture and Traffic Analysis
+════════════════════════════════════════════════════════════════════════
+
+lab3-task1.png — Task 3.1: Check Traffic Forwarding with Packet Capture
+-------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZCC
+application on a laptop screen displays a record button being clicked. Packet
+shapes stream out of the laptop through two labeled paths: one going to a ZPA
+connector (private app traffic) and one arcing to a ZIA cloud (internet
+traffic). A Wireshark-style grid appears at the end showing colorful packet
+rows. Teal, navy, and coral palette. No text, no words, no letters anywhere.
+
+lab3-task2.png — Task 3.2: Use Additional Tools to Check Traffic Forwarding
+-----------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZIA portal
+dashboard on one side shows a Web Insights log with traffic rows. On the other
+side, a ZCC status panel shows service indicators (green dots). Connecting
+arrows confirm that traffic logs match what ZCC reports. Navy and sky-blue
+palette. No text, no words, no letters anywhere.
+
+════════════════════════════════════════════════════════════════════════
+LAB 4 — Policy Troubleshooting
+════════════════════════════════════════════════════════════════════════
+
+lab4-task1.png — Task 4.1: Check SSL Inspection Policy and Certificate Settings
+---------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. An SSL
+inspection archway: a padlock opens as HTTPS packet flows through a scanning
+gate, then re-locks on the far side. Floating certificate cards surround the
+gate. A Windows certificate store (illustrated as a safe/vault door) is open
+on the right, revealing a trusted Zscaler root CA medallion inside. Navy,
+indigo, white. No text, no words, no letters anywhere.
+
+lab4-task2.png — Task 4.1: Check ZIA Access Policy Settings
+-------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZIA policy
+rulebook open to URL filtering rules — illustrated as colored category chips
+(social media globe, cloud app icon) being checked off by a glowing pen.
+Beside it, a browser attempting to visit a blocked site hits a shield-wall.
+A cloud app control panel floats in the background. Navy, amber, cobalt. No
+text, no words, no letters anywhere.
+
+lab4-task3.png — Task 4.2: Check ZPA Policy Settings
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZPA access
+policy rulebook shows a user icon attempting to reach a private application
+server. A diagnostics log panel glows on the side with red denied entries
+(shown as red X icons in rows, no text). A shield with a stop symbol blocks
+the access path. Investigation magnifying glass hovers over the logs. Navy,
+red-alert accents, cobalt. No text, no words, no letters anywhere.
+
+════════════════════════════════════════════════════════════════════════
+LAB 5 — Security Stack Verification
+════════════════════════════════════════════════════════════════════════
+
+lab5-task1.png — Task 5.1: View Threat Protection Configurations and Risk Reports
+-----------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZIA threat
+protection dashboard: a large shield at center deflects red malware icons
+(skull shapes, bug icons). Beside it, a risk report chart shows a bar graph
+(no values) with red high-risk bars being isolated. Green safe-traffic flows
+freely below. Navy, red, and green palette. No text, no words, no letters
+anywhere.
+
+lab5-task2.png — Task 5.1: Check Sandbox Configuration
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A glass dome
+sandbox chamber with a suspicious file inside. A detonation burst happens
+safely inside the dome. Sparks and alert triangles are contained within the
+glass. A sandbox verdict panel on the right shows a red threat badge (no
+text, just color and icon). Navy, amber, red accent palette. No text, no
+words, no letters anywhere.
+
+lab5-task3.png — Task 5.3: Check URL and Cloud App Isolate Control Policies
+-----------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A browser
+window floats inside a protective blue isolation bubble. The website content
+is rendered safely inside the bubble while the user interacts from outside
+via a mouse cursor. A cloud app control panel shows isolation policy toggles
+(illustrated as switches, no text). Navy, sky-blue, teal. No text, no words,
+no letters anywhere.
+
+lab5-task4.png — Task 5.4: Inspect Non-web Traffic Blocking by Default Firewall Block
+---------------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A firewall
+wall blocks non-web traffic arrows (shown as raw TCP/UDP packet shapes).
+The blocked arrows bounce back from the wall. A default block rule chip
+glows at the top of the wall. Allowed web traffic flows through a separate
+opening. Navy, red (blocked), green (allowed). No text, no words, no letters
+anywhere.
+
+lab5-task5.png — Task 5.5: Blocking QUIC Traffic as a Network Service
+-----------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. QUIC protocol
+packets (illustrated as diamond-shaped speed arrows) approaching a network
+service blocker gate. The gate has a QUIC symbol (lightning bolt) with a red
+circle-slash indicator. The blocked QUIC traffic falls away and a fallback
+TCP path is shown as a dotted arc bypassing the block. Navy, amber, red.
+No text, no words, no letters anywhere.
+
+lab5-task6.png — Task 5.6: Blocking Access to Restricted Sites with DNS Controls
+-----------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A DNS funnel
+on the left receives domain lookup requests (illustrated as globe/URL icons).
+Suspicious domain requests are caught in the funnel filter and flagged red.
+Clean domain queries pass through. A DNS insights log panel shows colored rows
+(red flagged, green clean). DNS server tower sits at center. Navy, red, green.
+No text, no words, no letters anywhere.
+
+════════════════════════════════════════════════════════════════════════
+LAB 6 — Data Loss Prevention (DLP)
+════════════════════════════════════════════════════════════════════════
+
+lab6-task1.png — Task 6.1: Review DLP Configurations
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A DLP policy
+rulebook open to show a rule for PCI data — illustrated as a credit card
+silhouette inside a rule row with a block shield icon. An AI/ML data discovery
+panel on the side shows scanning beams illuminating document shapes, with
+sensitivity-level heat map colors (no text, just color zones). Navy, gold,
+red. No text, no words, no letters anywhere.
+
+lab6-task2.png — Task 6.3: Check File Type and Context Policy Enforcement
+---------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A file upload
+arrow pointing toward a ZIA gateway. A Python file icon (snake silhouette
+inside a document) is intercepted at the gateway by a scanner beam. A file
+type control rule chip with a document-type icon glows in a panel. The blocked
+file shows a red denied shield. Navy, red, cobalt. No text, no words, no
+letters anywhere.
+
+lab6-task3.png — Task 6.4: View Block Action Web Log Record
+-------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZIA Web
+Insights log panel in the center showing colorful log rows. One row is
+highlighted in red (a block event) with a magnifying glass hovering over it
+to reveal detail: file icon, upload arrow, block shield, user silhouette
+avatar — all as icons, no text. Navy, red-highlight, cobalt. No text, no
+words, no letters anywhere.
+
+lab6-task4.png — Task 6.5: View Predefined Dictionaries
+---------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. An open
+dictionary book illustrated as a glowing reference ledger. Credit card
+silhouettes and financial document icons line the pages in rows — pattern
+matches shown as glowing highlighted segments. A search beam sweeps the
+pages. Navy, gold, sky-blue. No text, no words, no letters anywhere.
+
+lab6-task5.png — Task 6.6: View Custom Dictionaries — Regex and Phrases
+-------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A custom
+dictionary panel shows pattern tiles — illustrated as geometric pattern blocks
+(chevrons, dots, asterisks) representing regex syntax, and speech-bubble
+phrase shapes representing keyword matches. A build/edit tool icon (wrench
+and pencil) hovers nearby. Navy, purple, sky-blue. No text, no words, no
+letters anywhere.
+
+lab6-task6.png — Task 6.7: View Predefined and Custom DLP Engines
+-------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A DLP engine
+illustrated as a gear-driven machine with two input conveyors — one for
+predefined rule chips (stamped with compliance shield icons: HIPAA cross,
+PCI card) and one for custom rule chips. Both feed into a central scoring
+engine that outputs a verdict block on the right. Navy, gold, green. No text,
+no words, no letters anywhere.
+
+════════════════════════════════════════════════════════════════════════
+LAB 7 — ZDX Digital Experience Monitoring
+════════════════════════════════════════════════════════════════════════
+
+lab7-task1.png — Task 7.1: Checking Zscaler Client Connector
+--------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZCC tray
+icon panel on a laptop screen shows service status indicators — ZIA, ZPA,
+and ZDX shown as three colored status dots (green/amber). A ZDX monitoring
+badge glows active. The screen is a laptop on a desk with a status checkmark
+overlay. Navy, green, amber. No text, no words, no letters anywhere.
+
+lab7-task2.png — Task 7.2: View User ZDX Score for an Application
+-------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZDX portal
+screen showing a user profile card (generic avatar silhouette) with a ZDX
+score dial. The dial needle points to the low/red zone. An application icon
+(generic cloud app) floats beside the user card with a downward trend arrow
+connecting them. Navy, red, amber. No text, no words, no letters anywhere.
+
+lab7-task3.png — Task 7.3: Analyze Poor ZDX Score Interval
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZDX Y-Engine
+panel illustrated as a brain/circuit hybrid icon at center radiating analysis
+beams toward four factor gauges: network latency dial, app response time dial,
+device health dial, ZIA/ZPA path indicator — all showing amber or red readings.
+The brain icon pulses with a diagnostic glow. Navy, amber, red. No text, no
+words, no letters anywhere.
+
+lab7-task4.png — Task 7.4: Compare Poor ZDX Score to Last Known Good Score
+----------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A side-by-side
+comparison panel: left side shows a red/low ZDX score snapshot (dial in red
+zone, wave graph dipping), right side shows a green/good snapshot (dial in
+green zone, smooth wave). A versus arrow in the center highlights the
+difference. Navy, red vs. green contrast. No text, no words, no letters
+anywhere.
+
+lab7-task5.png — Task 7.5: Isolate High Latency Hop
+-----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A cloud path
+hop diagram: a chain of router/node icons connected by arrows. One hop in the
+chain glows red with a warning exclamation badge and an exaggerated elongated
+arrow showing excessive delay. The rest of the hops are sky-blue and normal.
+A magnifying glass highlights the red hop. Navy, red, sky-blue. No text, no
+words, no letters anywhere.
+
+lab7-task6.png — Task 7.6: View User Device Events Associated With ZDX Score Changes
+--------------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A timeline
+ribbon showing device event icons: Wi-Fi signal change icon (signal bars
+switching), a lock icon (sign-in), a power icon (wake from sleep). At the
+moment of the Wi-Fi change icon, the ZDX score timeline dips sharply
+downward — the connection shown with a dotted vertical line linking the event
+to the score drop. Navy, amber, sky-blue. No text, no words, no letters
+anywhere.
+
+lab7-task7.png — Task 7.7: Generate Report Snapshot and Copy Snapshot URL
+---------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A ZDX portal
+screen showing a camera/snapshot icon being clicked. A snapshot card pops out
+with a ZDX dashboard thumbnail frozen inside it. A share/link icon appears
+beside the card with a copy-to-clipboard arrow. The snapshot card floats with
+a soft glow. Navy, sky-blue, cobalt. No text, no words, no letters anywhere.
+
+════════════════════════════════════════════════════════════════════════
+LAB 8 — NSS and SIEM Integration
+════════════════════════════════════════════════════════════════════════
+
+lab8-task1.png — Task 8.1: Check NSS Servers and NSS Feeds Configuration
+--------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. A four-stage
+pipeline from left to right: (1) ZIA cloud node emitting log stacks, (2) NSS
+Server rack with a feed configuration panel, (3) NSS Feed illustrated as a
+streaming data hose, (4) a SIEM dashboard screen on the right. Each connection
+is shown as a pipe/arrow. An engineer with a wrench inspects the connections.
+Navy, teal (working), red-orange (broken section). No text, no words, no
+letters anywhere.

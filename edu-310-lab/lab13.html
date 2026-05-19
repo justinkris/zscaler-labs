@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 13: Understanding Data Explorer &mdash; EDU-310</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 13</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 13 &middot; ANALYTICS</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Understanding <em>Data Explorer</em></h1>
+  <div class="motivation-banner">
+    <p>Data Explorer is ZDX&rsquo;s custom reporting engine. Build your own views &mdash; compare applications, correlate metrics like ZDX Score and DNS Time, group by geolocation, and switch between chart and table views to find patterns that pre-built dashboards miss.</p>
+  </div>
+</header>
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb76" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZDX Admin:</strong> <code id="d-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net/</code></span>
+    </div>
+  </div>
+</div>
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+<main>
+  <div class="content-col">
+    <div class="socratic-block" id="soc-lab13">
+      <div class="socratic-header">
+        <span class="socratic-icon">&#128161;</span>
+        <span class="socratic-label">THINK FIRST &middot; CUSTOM REPORTING</span>
+      </div>
+      <p class="socratic-insight">Pre-built dashboards answer the questions Zscaler anticipated. Data Explorer answers the questions your organisation generates: &ldquo;Does Outlook and ServiceNow both suffer when DNS is slow?&rdquo; or &ldquo;Which geolocations have the worst ZDX Score right now?&rdquo;</p>
+      <ul class="socratic-questions">
+        <li>Data Explorer shows you can compare ZDX Score and DNS Time for multiple applications simultaneously. You observe that when DNS Time spikes, both Outlook and ServiceNow ZDX Scores drop at the same time. What does this co-occurrence prove, and what does it rule out?</li>
+        <li>Data Explorer supports two view types: chart (line graph) and tabular. When would you use each view, and what insights does the tabular view provide that the chart does not?</li>
+        <li>You can Group By Applications, Geolocations, Departments, User Groups, and Zscaler Locations. You are investigating whether a branch office has worse performance than headquarters. Which Group By would you use, and which metric would you prioritise?</li>
+      </ul>
+      <div class="answer-area" data-section="lab13-topic">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item"><div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div><div class="model-answer-text">Co-occurrence proves the root cause is shared between both applications. Since Outlook and ServiceNow use different servers and CDNs, the only thing they share is the user&rsquo;s DNS resolver. The simultaneous spike in DNS Time for both applications rules out: (1) an application-specific problem, (2) a network path problem to one specific server, and (3) a device CPU problem (which would not affect DNS Time directly). It strongly implicates the DNS resolver.</div></div>
+          <div class="model-answer-item"><div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div><div class="model-answer-text">Chart view is best for identifying temporal patterns: when does a metric spike, how long does it persist, does it correlate with another metric? Tabular view is best for comparative analysis across many entities at a single point in time: which geolocations have the worst score right now, or which department has the highest average DNS Time. The table gives you exact numbers you can sort and export, while the chart gives you trend and correlation.</div></div>
+          <div class="model-answer-item"><div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div><div class="model-answer-text">Use Group By: Geolocations (to see per-location data). Prioritise ZDX Score (the composite health metric) as the primary filter, then drill into Page Fetch Time and DNS Time for locations with poor ZDX Scores. If you also want to isolate Zscaler infrastructure effects, add a second view grouped by Zscaler Locations to see if certain ZIA nodes correlate with poor scores in specific geolocations.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-block" id="section-lab13">      <h2>Lab 13: Understanding Data Explorer</h2>
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 13</div>
+        <p><strong>Scenario:</strong> You want to investigate whether a DNS performance problem is affecting multiple SaaS applications simultaneously, and see which geolocations are experiencing the worst ZDX Scores. Build a custom Data Explorer view to find out.</p>
+        <figure class="lab-hero">
+          <img src="images/lab13-hero.png" alt="Lab 13 — Data Explorer" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~15 minutes</div>
+          <div class="lab-meta-item"><strong>Environment:</strong> ZDX Admin Portal &middot; Analytics &rsaquo; Data Explorer</div>
+        </div>
+      </div>
+      <h3>Task 13.1: Accessing Data Explorer</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Build and Customise a Data Explorer View</h4>
+        <ol class="step-list">
+          <li>Navigate to <strong>Analytics &rsaquo; Data Explorer</strong>.</li>
+          <li>View the list of existing reports. Click the <strong>eye icon</strong> on the <strong>Microsoft Teams Call Quality</strong> report to view it.</li>
+          <li>Click <strong>Edit</strong> to modify the report. Configure the following:
+            <ul class="sub-steps">
+              <li>Data Source: <strong>End User Monitoring</strong></li>
+              <li>Applications: <strong>SharePoint Online</strong> and <strong>Outlook Online</strong></li>
+              <li>Metrics: <strong>ZDX Score</strong>, <strong>Page Fetch Time</strong>, and <strong>Packet Loss</strong></li>
+              <li>Group By: <strong>Applications</strong></li>
+              <li>Aggregation Type: <strong>Average</strong></li>
+            </ul>
+          </li>
+          <li>Click <strong>Run Query</strong> and review the <strong>Average ZDX Score</strong> and <strong>Average Page Fetch Time</strong> graphs side by side.</li>
+          <li>Change the Metrics to <strong>ZDX Score</strong> and <strong>DNS Time</strong>, then click <strong>Run Query</strong>. Observe the correlation between DNS Time and ZDX Score.</li>
+          <li>Replace Outlook Online with <strong>ServiceNow</strong> in the Applications list and run the query again. Observe that high DNS Time impacts both Outlook and ServiceNow ZDX Scores.</li>
+          <li>Change the <strong>Group By</strong> to <strong>Geolocations</strong> and switch to the <strong>tabular view</strong>. Review the Average ZDX Score per geolocation.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab13-ss03.png" alt="Data Explorer report showing Average ZDX Score and Average Page Fetch Time for SharePoint Online and Outlook Online over 2 hours.">
+          <div class="screenshot-caption">Data Explorer report showing Average ZDX Score and Average Page Fetch Time for SharePoint Online and Outlook Online over 2 hours.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab13-ss04.png" alt="Data Explorer showing Average ZDX Score (top) and Average DNS Time (bottom) for SharePoint Online and Outlook Online &mdash; DNS spike correlates with ZDX Score drop.">
+          <div class="screenshot-caption">Data Explorer showing Average ZDX Score (top) and Average DNS Time (bottom) for SharePoint Online and Outlook Online &mdash; DNS spike correlates with ZDX Score drop.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab13-ss05.png" alt="Data Explorer showing ZDX Score and DNS Time for Outlook Online and ServiceNow &mdash; both applications show a simultaneous DNS Time spike and ZDX Score drop.">
+          <div class="screenshot-caption">Data Explorer showing ZDX Score and DNS Time for Outlook Online and ServiceNow &mdash; both applications show a simultaneous DNS Time spike and ZDX Score drop.</div>
+        </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab13-ss08.png" alt="Data Explorer tabular view grouped by Geolocations showing Average ZDX Score per city for Outlook Online over the last 2 hours.">
+          <div class="screenshot-caption">Data Explorer tabular view grouped by Geolocations showing Average ZDX Score per city for Outlook Online over the last 2 hours.</div>
+        </div>
+      <div class="section-qa" data-section="t13-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 13.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab13-task1.png" alt="Task 13.1 — Accessing Data Explorer" loading="lazy">
+          </figure>
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t13-1" placeholder="Questions&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t13-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t13-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t13-1" placeholder="Key takeaways&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t13-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t13-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>    </div>
+    <div class="mental-note-block">
+      <div class="mental-note-block-icon">&#129504;</div>
+      <div class="mental-note-block-inner">
+        <div class="mental-note-block-label">MENTAL NOTE</div>
+        <div class="mental-note-block-text">Data Explorer: custom reporting on End User Monitoring or Hosted Monitoring data. Select applications + metrics + Group By + Aggregation + View Type. Correlating ZDX Score + DNS Time across multiple apps = prove shared DNS root cause. Tabular view + Group By Geolocations = per-location ZDX Score comparison. Chart view = temporal patterns and metric correlations.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&#8592; All Labs (EDU-310)</a>
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 13 PROGRESS</div>
+        <label class="checklist-item"><input type="checkbox" id="chk-13-1" onchange="saveChecklist()"> Opened Analytics &rsaquo; Data Explorer</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-13-2" onchange="saveChecklist()"> Viewed an existing report (Microsoft Teams Call Quality)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-13-3" onchange="saveChecklist()"> Configured SharePoint + Outlook + ZDX Score + PFT + Group by Apps</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-13-4" onchange="saveChecklist()"> Ran query &mdash; reviewed Average ZDX Score and PFT graphs</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-13-5" onchange="saveChecklist()"> Changed metrics to ZDX Score + DNS Time &mdash; observed correlation</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-13-6" onchange="saveChecklist()"> Replaced Outlook with ServiceNow &mdash; confirmed shared DNS impact</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-13-7" onchange="saveChecklist()"> Switched Group By to Geolocations and tabular view</label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">Data Explorer</div><div class="qr-def">ZDX custom reporting engine. Build views with configurable Data Source, Applications, Metrics, Group By, Aggregation Type, and View Type.</div></div>
+        <div class="qr-item"><div class="qr-term">Aggregation Type</div><div class="qr-def">How metric values are combined: Average, Minimum, or Maximum. Average is most common for trend analysis.</div></div>
+        <div class="qr-item"><div class="qr-term">Group By</div><div class="qr-def">Dimension by which data is segmented: Applications, Geolocations, Departments, User Groups, or Zscaler Locations.</div></div>
+        <div class="qr-item"><div class="qr-term">End User Monitoring</div><div class="qr-def">Data source option in Data Explorer for user-measured ZDX data from Zscaler Client Connector.</div></div>
+        <div class="qr-item"><div class="qr-term">Hosted Monitoring</div><div class="qr-def">Data source option in Data Explorer for probe-measured data from Zscaler Hosted Probes.</div></div>
+        <div class="qr-item"><div class="qr-term">Tabular View</div><div class="qr-def">Data Explorer display mode showing metric values as a sortable table, grouped by the selected Group By dimension.</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-310 &middot; ZDX Operationalization</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">&#9650; Hide</button>
+    <span class="footer-content">LAB 13 of 14</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab12.html">&#8592; Lab 12: ZDX Hosted Monitoring</a>
+  <div class="page-nav-message">Data Explorer lets you ask the question you didn&rsquo;t know to ask.</div>
+  <a class="page-nav-btn page-nav-next" href="lab14.html">Lab 14: Understanding Wi-Fi Dashboard &#8594;</a>
+</div>
+<script>
+const CONFIG_KEY='edu310-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu310-config-collapsed';
+const FOOTER_KEY='edu310-footer-collapsed';
+const PAGE_KEY='edu310-lab-lab13';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand':'<span class="chevron">&#9650;</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' &mdash; '+prefix:'';}
+function applyConfig(){var prefix=document.getElementById('prefix-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var d='thezerotrustexchange.com';var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;var el=document.getElementById('d-admin');if(el)el.textContent=admin;document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb76';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';}}catch(e){document.getElementById('prefix-input').value='ptcb76';}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='&#10003; Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='&#10003;';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q,i){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['t13-1'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
+</script>
+</body>
+</html>

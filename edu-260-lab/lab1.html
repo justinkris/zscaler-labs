@@ -98,40 +98,6 @@
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab1">
-      <div class="socratic-header">
-        <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · LAB ENVIRONMENT</span>
-      </div>
-      <p class="socratic-insight">Before touching a live environment, a good troubleshooter builds a mental map of what should be there — topology, roles, access constraints.</p>
-      <ul class="socratic-questions">
-        <li>What three types of resources does your Skytap training pod give you access to, and why does that separation matter for troubleshooting?</li>
-        <li>You can access ZIA, ZPA, and ZDX Admin Portals as a Read-Only Administrator. What does this restriction prevent you from doing, and how does it affect the labs?</li>
-        <li>What would happen to your ZCC enrollment and ongoing tests if the Corp: Client PC VM shuts down mid-lab?</li>
-      </ul>
-      <div class="answer-area" data-section="lab1-env">
-        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-        <div class="answer-buttons">
-          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-        </div>
-        <div class="model-answers" style="display:none;">
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">Your pod gives you: (1) a Corp: Client PC virtual machine for end-user simulation, (2) admin/user credentials for all Zscaler services, and (3) access to ZIA, ZPA, and ZDX Admin Portals. The separation matters because real-world issues span all three layers — you often need to correlate what the client is seeing with what the admin portal logs are showing.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">Read-Only access means you can view all configuration, policies, and logs — but cannot save changes. In these labs that is intentional: you verify that existing configurations are correct, rather than making changes. It mirrors a real HelpDesk Tier 1 scenario where the analyst needs to diagnose before escalating to someone with write access.</div>
-          </div>
-          <div class="model-answer-item">
-            <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">ZCC enrollment state is stored on the VM. If the VM shuts down, ZCC loses its session and must re-authenticate when restarted. Ongoing packet captures would be lost. For labs that span multiple tasks this means you may need to re-enroll the IT_department_user after a restart — always check Service Status in ZCC before continuing.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-block" id="section-lab1">
       <h2>Lab 1: Connecting to the Virtual Lab</h2>
 
@@ -144,6 +110,40 @@
         <div class="lab-meta">
           <div class="lab-meta-item"><strong>Time:</strong> ~15 minutes</div>
           <div class="lab-meta-item"><strong>Environment:</strong> Skytap + Zscaler Portals (Read-Only Admin)</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab1">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · LAB ENVIRONMENT</span>
+        </div>
+        <p class="socratic-insight">Before touching a live environment, a good troubleshooter builds a mental map of what should be there — topology, roles, access constraints.</p>
+        <ul class="socratic-questions">
+          <li>What three types of resources does your Skytap training pod give you access to, and why does that separation matter for troubleshooting?</li>
+          <li>You can access ZIA, ZPA, and ZDX Admin Portals as a Read-Only Administrator. What does this restriction prevent you from doing, and how does it affect the labs?</li>
+          <li>What would happen to your ZCC enrollment and ongoing tests if the Corp: Client PC VM shuts down mid-lab?</li>
+        </ul>
+        <div class="answer-area" data-section="lab1-env">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+          </div>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text">Your pod gives you: (1) a Corp: Client PC virtual machine for end-user simulation, (2) admin/user credentials for all Zscaler services, and (3) access to ZIA, ZPA, and ZDX Admin Portals. The separation matters because real-world issues span all three layers — you often need to correlate what the client is seeing with what the admin portal logs are showing.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">Read-Only access means you can view all configuration, policies, and logs — but cannot save changes. In these labs that is intentional: you verify that existing configurations are correct, rather than making changes. It mirrors a real HelpDesk Tier 1 scenario where the analyst needs to diagnose before escalating to someone with write access.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">ZCC enrollment state is stored on the VM. If the VM shuts down, ZCC loses its session and must re-authenticate when restarted. Ongoing packet captures would be lost. For labs that span multiple tasks this means you may need to re-enroll the IT_department_user after a restart — always check Service Status in ZCC before continuing.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -175,6 +175,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab1-task1.png" alt="Task 1.1 — Test Your Lab Access and Start Your Environment" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
@@ -238,6 +241,9 @@
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
+          <figure class="task-hero">
+            <img src="images/lab1-task2.png" alt="Lab 1 — Lab Resources and Login Credentials" loading="lazy">
+          </figure>
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>

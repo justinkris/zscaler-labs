@@ -1,0 +1,319 @@
+EDU-310 Task Banner Image Prompts
+====================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff (pale sky-blue).
+  NO TEXT anywhere — no words, no letters, no numbers, no labels, no UI strings. Pure visual only.
+  Palette: deep navy (#0d1a2e), sky-blue (#1a6dcc), light blue (#bfdbfe), accent colors per task.
+  Recommended dimensions: 1200 × 250 px (wide banner, narrow height). Save as PNG.
+
+════════════════════════════════════════════════════════════════
+LAB 1 — Navigating the ZDX Admin Portal
+════════════════════════════════════════════════════════════════
+
+lab1-task1.png — Task 1.1: View ZDX Dashboard
+----------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A wide performance dashboard strip: a world map with glowing location dots on the left, a row of "Most Impacted Applications" tiles in the centre (app icons with coloured score bars underneath), and a draw-fence dashed rectangle being sketched on the map by a cursor hand. Sky-blue and navy palette. No text, no labels.
+
+lab1-task2.png — Task 1.2: View Applications Overview
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A horizontal table/list of application icons (cloud shapes) ranked by score bars — the top row has a very short orange bar (lowest score) while others have taller blue bars. A cursor hand clicks the top (lowest-score) row. To the right, a ZDX Score line graph zooms in on a time period of downward-then-recovery trend, with a small zoom-out magnifier icon. Sky-blue and navy. No text, no labels.
+
+lab1-task3.png — Task 1.3: View User Overview Dashboard
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A horizontal user list showing silhouette person icons with coloured score badges (red for Poor, yellow for Okay, green for Good). One person icon is selected (highlighted with a ring). A device detail panel opens beside it showing a laptop with hardware spec icons (CPU chip, RAM stick, network plug). Three small tab icons at top represent Hardware, Network, Software. Sky-blue, navy, with red/yellow/green badge accents. No text, no labels.
+
+lab1-task4.png — Task 1.4: Automated Root Cause Analysis
+---------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A ZDX score timeline graph on the left with a cursor clicking a low red dot. A brain/AI analysis icon with gears in the centre emits a glow. On the right, a results table shows two factor rows with confidence percentage bars — the top row bar is nearly full (high confidence, sky-blue), the second row is shorter. Two small side-by-side score graphs below represent "Analyzed Point" vs. "Comparison Point." Navy, sky-blue, amber accents. No text, no labels.
+
+lab1-task5.png — Task 1.5: View Call Quality Dashboards
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Microsoft Teams meeting icon on the left with a score indicator badge. A horizontal meeting list strip shows meeting ID cards with participant count dots and score bars. One meeting card is selected and expands to show two participant silhouette icons with individual score badges. Below, audio waveform lines travel between participants — clean blue waves on one side, choppy orange waves on the other. Sky-blue and navy with amber audio distortion accent. No text, no labels.
+
+lab1-task6.png — Task 1.6: View Inventory Dashboards
+-----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A software inventory treemap (colourful rectangular tiles filling the frame) on the left — tiles in various blues and teals representing installed applications. A cursor hovers over one tile (Microsoft Edge icon shape) and a tooltip popup appears with device/user count circles. On the right, a device inventory grid shows small laptop and desktop icons arranged in a count grid with a memory distribution bar chart. Navy, sky-blue, teal palette. No text, no labels.
+
+lab1-task7.png — Task 1.7: View Deep Tracing Results
+-----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A history/log table strip on the left showing rows of circular status indicators (green checkmarks for Completed). One row is highlighted and an eye-view icon is clicked. On the right, a cloud-path hop diagram opens showing the network path from device to application with hop latency brackets. Below the hop view, a CPU graph line shows a dramatic spike with a magnifying glass icon zooming in on the spike peak. Navy, sky-blue, amber for spike. No text, no labels.
+
+lab1-task8.png — Task 1.8: View Alerts
+---------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+An alert panel strip: on the left, a large number badge (count of ongoing alerts) with a warning triangle icon. To the right, a row of alert rule cards showing severity dot icons (red for high, orange for medium) and device/geolocation impact count icons. One alert card is expanded showing affected department pie slices and impacted geolocation markers on a mini world map inset. Navy, sky-blue, amber/red for alert severities. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 2 — Troubleshooting Poor Wifi
+════════════════════════════════════════════════════════════════
+
+lab2-task1.png — Task 2.1: View User ZDX Score
+-----------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A user search panel: a magnifying-glass search bar on the left with a user silhouette result card. The selected user's ZDX Score over time graph fills the right portion — a line oscillating clearly between peaks (green Good zone) and valleys (red Poor zone) in a repeating wave pattern. The oscillation pattern is the visual centrepiece. Navy, sky-blue, green/red score zones. No text, no labels.
+
+lab2-task2.png — Task 2.2: Analyze Poor ZDX Score Interval
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A ZDX score graph with a dragged selection box around a Poor score valley. A cursor hand clicks a low red dot inside the selection. An AI brain/gear icon pulses in the centre. On the right, a factor results panel shows two confidence bars — the top bar is long and bright sky-blue (high confidence wifi factor), the second bar is short. A small wifi signal icon with one bar (weak) floats near the result. Navy, sky-blue, amber/orange low-wifi indicator. No text, no labels.
+
+lab2-task3.png — Task 2.3: Compare to Last Known Good Score
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+Two side-by-side score graph panels: left panel shows a Poor score valley (red dot) labelled "Analyzed"; right panel shows a Good score peak (green dot) labelled "Comparison." Between them, a "Key Differences" comparison strip shows three rows with value brackets — one showing a BSSID/wifi icon that differs between panels (different wifi symbols), one showing a latency bar that is much longer on the left (Poor) than the right. Sky-blue and navy with green/red score indicators. No text, no labels.
+
+lab2-task4.png — Task 2.4: Isolate High Latency Hop
+----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A cloud path line graph showing latency legs: Client→Egress leg is highlighted in orange (dominant, thick bar), other legs (ZIA PSE, Application) are thin sky-blue bars. Below the graph, a hop-view chain: device icon → gateway node → [orange highlighted router node with magnifying glass] → next node → cloud. The orange hop node has a large latency number bracket (thick arc) over it. Magnifying glass zooms in on the gateway-to-router gap. Navy, sky-blue, orange accent. No text, no labels.
+
+lab2-task5.png — Task 2.5: View User Device Events
+----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A horizontal event timeline strip with four labelled rows of dots (Zscaler, Hardware, Software, Network rows represented by small icons). The Network row has two highlighted dots — one orange (at a score drop point) and one green (at a score recovery point). A popup card floats above the orange dot showing a wifi adapter icon and two SSID symbols (a strong home router icon switching to a cheap consumer wifi device icon). A small arrow marks the direction of the SSID change. Navy, sky-blue, orange/green event accents. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 3 — Troubleshooting High CPU
+════════════════════════════════════════════════════════════════
+
+lab3-task1.png — Task 3.1: View User ZDX Score
+-----------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A ZDX score timeline showing a perfectly repeating sawtooth pattern — tall peaks of green (Good) separated by deep valleys of orange/red (Poor) at regular intervals. The periodicity of the pattern is visually obvious — it suggests a scheduled process. A small calendar/clock icon floats above one of the Poor valleys. Device icon on the left showing a PC. Navy, sky-blue, green/red score pattern. No text, no labels.
+
+lab3-task2.png — Task 3.2: Analyze Poor ZDX Score Interval
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A ZDX score graph with a single Poor point selected. An AI analysis burst icon fires from the selected point. A results card appears showing one large full-width confidence bar representing the CPU factor — the bar is completely filled (100% confidence). A small speedometer icon at full-red sits beside the bar. Navy, sky-blue, amber/red for full-confidence CPU result. No text, no labels.
+
+lab3-task3.png — Task 3.3: View Quantitative User Experience Metrics
+---------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Page Fetch Time graph strip: a relatively flat baseline dotted line running across the bottom third, and a dramatic spike bar that shoots up 8× the height of the baseline at one point before returning to baseline. A comparison bracket icon with a multiplier arrow (showing the ratio between spike and baseline) sits above the spike. Small stopwatch icons are at the start and peak of the spike. Sky-blue baseline, amber/orange spike, navy background shapes. No text, no labels.
+
+lab3-task4.png — Task 3.4: View Device Health CPU Usage
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A CPU Usage graph: a nearly-flat low baseline followed by a tall rectangular block spiking to the top of the frame (100%), then dropping back. A cursor line is placed at the peak. A popup "Most Impacted Processes" panel shows a simple ranked icon list — the first icon is a video editor filmstrip symbol (Adobe Premiere style) with a large filled percentage bar. Other process icons have tiny slivers. Amber/red spike colour, sky-blue supporting charts. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 4 — Troubleshooting Slow DNS Response
+════════════════════════════════════════════════════════════════
+
+lab4-task1.png — Task 4.1: View User ZDX Score Over Time
+---------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A ZDX score timeline that stays completely flat and low (near zero) across the entire 48-hour width — a persistent red/orange flat line close to the bottom. Five application cloud icons float above the graph, each with a score badge showing the same low value. The flatness and uniformity across all apps is the key visual — it reads as "system-wide persistent failure." Navy, sky-blue background with flat red/orange score line. No text, no labels.
+
+lab4-task2.png — Task 4.2: Analyze High Page Fetch Time
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+Three stacked graph strips: top strip = Page Fetch Time (tall amber/blue bars). Middle strip = Server Response Time (medium green bars). Bottom strip = DNS Resolve Time (tall amber bars, nearly equal in height to the top strip). A visual bracket on the right side of the image shows the DNS strip and the PFT strip as approximately equal, with a connecting brace icon indicating DNS ≈ majority of PFT. Sky-blue and amber palette, navy background. No text, no labels.
+
+lab4-task3.png — Task 4.3: Y-Engine Root Cause Analysis
+---------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+An AI analysis result panel: a brain/gear icon on the left firing a solve beam. A single large confidence bar fills the full width at 100% with a DNS server icon (circular server with an @ or query arrow symbol) prominently displayed beside it. Below the bar, a network device panel shows a small laptop with an IP address placeholder icon (a dotted circle representing the DNS server IP address field). Sky-blue 100% bar, amber DNS icon highlight, navy accents. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 5 — Troubleshooting Slow Network Router (Hop)
+════════════════════════════════════════════════════════════════
+
+lab5-task1.png — Task 5.1: Confirm Sporadic SaaS Performance
+-------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A ZDX score graph oscillating between Good (green peaks) and Poor (red valleys) over time — similar to Lab 2 Task 1 but for a different context. A SaaS application cloud icon (ServiceNow style) is connected to the graph. A custom time range slider bracket is shown at the top of the graph indicating a "48 Hours" selection window. Navy, sky-blue, green/red oscillation. No text, no labels.
+
+lab5-task2.png — Task 5.2: Analyze High Page Fetch Time
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+Two graph strips: top = Page Fetch Time (spiky, with both PFT peaks and a dotted baseline line), bottom = DNS Resolve Time (also spiky, with spikes aligned with PFT spikes). A visual connection bracket on the right shows both spikes are simultaneous, with a merge arrow pointing to a single network path icon — indicating the bottleneck is not DNS-specific but shared upstream. Sky-blue synchronized spikes, amber correlation bracket. No text, no labels.
+
+lab5-task3.png — Task 5.3: Identify High Latency Cloud Path Link
+-----------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A cloud path latency stack-bar: a horizontal bar divided into coloured segments — the first segment (Client-Egress) is a very wide amber/orange section occupying most of the bar width, followed by tiny sky-blue segments (ZIA PSE, Application). An arrow indicates the Client-Egress label segment. The End-to-End total bar is shown below as a reference. The visual message: Client-Egress is 90% of total latency. Navy, sky-blue, amber dominance in the bar. No text, no labels.
+
+lab5-task4.png — Task 5.4: Analyze High Hop Latency
+----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A hop-view chain (horizontal): device → gateway (orange highlighted, large) → magnifying glass enlarges the segment → inside the enlarged view shows gateway-to-router with a very wide latency bracket (496ms arc) between two node circles. The expanded zoom circle shows the internal sub-hops between the two routers. Orange focus on the problematic segment, sky-blue for normal hops, navy background. No text, no labels.
+
+lab5-task5.png — Task 5.5: Confirm Key Differences with ZDX Score Comparison
+------------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+Two side-by-side Hop View diagrams in a comparison frame: left hop view shows a large orange arc over the Gateway→Router hop; right hop view shows the same route but with a tiny latency arc (near-zero) — the stark visual contrast between the wide arc and the tiny arc makes the difference obvious. A Key Differences strip below the two hop views shows a single row with a long orange latency bar (analyzed) vs. a short green bar (comparison). Sky-blue framing, orange/green contrast. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 6 — Analyzing Call Quality
+════════════════════════════════════════════════════════════════
+
+lab6-task1.png — Task 6.1: View Teams Call Quality Trend
+---------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Microsoft Teams-style application icon on the left with a score badge showing a low value in red/amber. A ZDX score graph on the right shows scattered meeting score dots at low positions (poor quality calls) — the dots are red/orange and appear sporadic across the timeline. A "Meetings" tab indicator strip above the graph. Sky-blue and navy background, amber/red meeting score dots. No text, no labels.
+
+lab6-task2.png — Task 6.2: Examine Meeting Metrics
+---------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A meeting list table strip: rows of meeting cards showing two participant silhouette pairs with score indicator dots. One row is highlighted — it expands to show a meeting detail card with a session duration arc icon and two participant icons with individual score badges. A small expand arrow is clicked. Navy, sky-blue, amber/red score badge accents. No text, no labels.
+
+lab6-task3.png — Task 6.3: Locate Meeting Issues
+-------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+Two device icons (laptop shapes) representing two connected user devices — one device is greyed/unselected (no Teams data), the other is highlighted in sky-blue (selected, has Teams app icon visible on screen). A Teams call quality scorecard panel to the right shows audio waveform graphs — Audio MOS, Audio Latency in/out. The waveforms are visually choppy/jagged. A "2 devices" indicator with a checkmark on one device. Navy, sky-blue, amber waveform distortion. No text, no labels.
+
+lab6-task4.png — Task 6.4: Locate Source of Audio Latency
+----------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A hop-view chain for the Teams call path: PC device icon → [gateway node highlighted in orange with a large latency arc bracket] → Egress cloud icon → Teams Transport Relay server icon. The gateway-to-router hop has a dominant wide orange arc (569ms of 640ms). The visual emphasis is heavily on the first hop between device and gateway. Navy, sky-blue, dominant orange for the near-device hop latency. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 7 — Device Startup & Software Reliability
+════════════════════════════════════════════════════════════════
+
+lab7-task1.png — Task 7.1: Analyze CPU Usage
+---------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A device health CPU graph: a series of tall rectangular spikes shooting to the top (100% utilisation) at regular intervals. A cursor line sits at one of the spikes. A "Most Impacted Processes" popup shows a ranked icon list — the first icon is a Chrome browser icon with a dominant wide percentage bar. Small sub-process icons fill the remaining rows with tiny slivers. Amber/red spikes, sky-blue popup card. No text, no labels.
+
+lab7-task2.png — Task 7.2: View Endpoint Analytics
+---------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+An Endpoint Analytics scorecard panel: a large circular overall score gauge (mostly full, sky-blue). Beside it, two category score bars: the top bar (Startup Performance) is nearly full in green, the bottom bar (Software Reliability) is only about half-full in amber/orange. An external data source icon (Microsoft Intune logo-style cloud shield) in the top-left shows the data origin. Navy, sky-blue, green/amber score bars. No text, no labels.
+
+lab7-task3.png — Task 7.3: Examine Startup Performance
+-------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+Two side-by-side bar charts: left = Boot History (bars showing consistent ~9s height across dates — healthy, sky-blue bars). Right = Sign-in History (mostly short bars with one significantly taller bar on one date — amber outlier). A laptop with boot screen icon sits between the two charts. A trend line across the 14-day period of the Startup Performance score floats above. Sky-blue healthy bars, amber outlier, navy background. No text, no labels.
+
+lab7-task4.png — Task 7.4: Review Software Reliability Events
+--------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A bar chart showing Software Events Over 14 Days: the first 3 bars are tall red/orange (many app crash events), then bars drop to near-zero for the remaining days. Below the chart, a table-row strip shows repeated crash event cards — each card has an app icon (Chrome browser icon shape and Edge browser icon shape) with a burst/explosion icon indicating a crash. The first 3 days' heavy crash activity is visually dominant. Red/amber crash bars, sky-blue normal days, navy table. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 8 — Incident Monitoring
+════════════════════════════════════════════════════════════════
+
+lab8-task1.png — Task 8.1: View Incidents Dashboard
+----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+An incidents dashboard banner strip: a row of category icon squares (device screen, DNS @-symbol, wifi arc, cable/ISP, cloud, shield/Zscaler, app grid) each with a count badge circle above them. The wifi icon has the largest badge number, highlighted in amber/orange. Below the icon row, a total incident count circle badge in red. Incident over-time bar chart in the background. Navy, sky-blue, amber wifi accent. No text, no labels.
+
+lab8-task2.png — Task 8.2: Identify Incident Epicenters
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A world map filling the banner width. A cluster of incident marker pins is concentrated in one region (e.g. United States Midwest). The markers have ripple/sonar ring animations (concentric circles). One marker is clicked and a popup tooltip appears with: a wifi icon, duration arc indicator, impacted users count icon (group of person silhouettes). The epicentre cluster glows amber/orange. Navy oceans, sky-blue land, amber incident markers. No text, no labels.
+
+lab8-task3.png — Task 8.3: View Incident Details
+-------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+An incident detail page banner: on the left a small world map with a single location pin highlighted. In the centre a "Top Impacted Users" panel showing three person silhouette icons each with a small ZDX score waveform beside them (all showing declining trends). On the right, two metric graph strips (ZDX Score Drop line, and AP Latency spike bar). Amber/orange decline and spike accents, sky-blue and navy background. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 9 — Self Service Notifications
+════════════════════════════════════════════════════════════════
+
+lab9-task1.png — Task 9.1: View Self Service Demonstration
+-----------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Windows desktop corner showing the system tray. A Zscaler shield icon in the tray has a notification badge. A notification popup card rises from the tray with three icon rows (CPU gauge icon, wifi signal icon, network path icon) each with a "Learn More" arrow button shape. A hand cursor hovers over the first row's Learn More button. Navy tray background, sky-blue notification card, amber CPU gauge. No text, no labels.
+
+lab9-task2.png — Task 9.2: View Self Service Dashboard
+-------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A self-service dashboard summary banner: large count circles for Total Notifications Sent, Total Users Notified, Active Users Enabled, Users Who Disabled. A stacked horizontal notification-type bar (wifi/CPU/other colour segments) fills the width. Below, a timeline sparkline showing notification frequency over time as a bar graph with varying heights. Navy, sky-blue, amber/teal notification type colours. No text, no labels.
+
+lab9-task3.png — Task 9.3: View User Feedback Summary
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A feedback summary panel: a thumbs-up icon on the left with a percentage arc gauge showing low fill (few users found it helpful). A comparison strip shows three metric boxes side-by-side — "Found Helpful" (low, orange), "Self Service Enabled" (large, sky-blue count bubble), "Disabled" (zero, grey). A trend arrow icon beside each. Navy, sky-blue, amber for the low-feedback indicator. No text, no labels.
+
+lab9-task4.png — Task 9.4: View User Device Health for Notification
+--------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A notification row in a table is clicked (cursor hand selecting a person icon in a row). An arrow/transition shows the view shifting to a user device health report. The device health report shows CPU Usage graph with a peak, and "Top Processes by CPU Incidents" treemap with one dominant tile (video editing software icon shape) in amber/orange. Navy, sky-blue, amber CPU accent. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 10 — Sharing ZDX Snapshots
+════════════════════════════════════════════════════════════════
+
+lab10-task1.png — Task 10.1: Prepare User Report
+-------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A self-service dashboard user table row is selected (hand cursor clicking a person row). An arrow points right to a user report page showing the user's device panel and a ZDX score graph. A floating "Share Snapshot" button shape (camera icon in a button) glows in the top-right of the user report panel. Sky-blue and navy, with a subtle highlight on the Share button. No text, no labels.
+
+lab10-task2.png — Task 10.2: Generate Snapshot & Copy URL
+----------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A "Share ZDX Snapshot" dialog card in the centre: shows a text input field shape (name field), a dropdown shape (validity period), and a toggle switch in the ON/enabled position (obfuscate data). A glowing "Next" button shape at the bottom. To the right, a second card shows a generated link/URL chain icon with a "Copy" button shape beside it. A small share/send icon arrow points outward. Navy card background, sky-blue button accents, gold toggle. No text, no labels.
+
+lab10-task3.png — Task 10.3: Manage ZDX Snapshots
+---------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A snapshot management table banner: rows of snapshot cards showing status indicator dots (green = Active, grey = Expired, amber = Snoozed) and view count number badges. A search magnifying glass icon at top-right. A trash/delete icon button is highlighted (glowing) for one row, indicating deletion. A chain-link URL icon appears in the URL column cells. Sky-blue active indicators, grey expired, navy table background. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 11 — ZDX Copilot
+════════════════════════════════════════════════════════════════
+
+lab11-task1.png — Task 11.1: Copilot Product Knowledge Questions
+-----------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A chat interface panel: on the left a user icon types a chat bubble (shown as a generic question mark in a thought bubble). The AI response fills the right side — a large speech bubble with a numbered step list icon (stacked horizontal lines) and small source/link chain icons below. A glowing brain/AI circuit icon floats between user and response. Purple/navy AI assistant accent, sky-blue speech bubbles, navy background. No text, no labels.
+
+lab11-task2.png — Task 11.2: Copilot Network Issue Troubleshooting
+-------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Copilot chat response card showing a live network path hop-view diagram inline: device → [highlighted orange gateway node] → Egress → application. A "Root Cause Analysis" section shows a confidence bar below the hop view. A "View Recommendations" arrow button shape glows. A user device icon in the top-left represents the user whose device is being diagnosed. Purple/amber Copilot analysis, sky-blue hop path. No text, no labels.
+
+lab11-task3.png — Task 11.3: Wi-Fi Issue Using Copilot
+-------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Copilot response showing Wi-Fi analysis: a low wifi signal icon (1 bar, amber) with a circular Root Cause Analysis indicator showing "Low Wi-Fi Signal" as the detected factor (shown via icon, not text). Below, a Wi-Fi Signal graph strip shows signal strength dropping to near-zero. A correlation arrow connects the Copilot finding to the Device Performance graph. Purple/amber Copilot interface, sky-blue wifi graph. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 12 — ZDX Hosted Monitoring
+════════════════════════════════════════════════════════════════
+
+lab12-task1.png — Task 12.1: Hosted Monitoring Configuration
+-------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A probe configuration wizard panel: a vertical step indicator on the left (4 steps, current step highlighted). The main area shows two probe type icons — a globe/web icon (Web Probe) and a network path/traceroute icon (Cloud Path Probe) — as selectable tiles. Below, additional parameter icons: a protocol chip (ICMP arrow), a frequency clock icon, a hop-count stack icon, a location pin list. A Zscaler data center location selector shows multiple pin badges. Navy config panel, sky-blue selected tile, teal location pins. No text, no labels.
+
+lab12-task2.png — Task 12.2: View Hosted Monitoring Reports
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A hosted monitoring analytics panel: a left sidebar list of probe collection icons (globe, network, apps) with one selected. The main area shows an Availability status bar (nearly full green strip — 100%) above a Page Fetch Time multi-line graph with 6 coloured lines (one per Zscaler data center location). A dropdown selector at the top of the graph shows a toggle between line view and scatter plot view. Sky-blue availability strip, multi-coloured probe location lines, navy background. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 13 — Understanding Data Explorer
+════════════════════════════════════════════════════════════════
+
+lab13-task1.png — Task 13.1: Accessing Data Explorer
+-----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Data Explorer configuration panel banner: on the left, a filter/funnel icon with application cloud chips (2 selected app icons). A metrics selector shows two chip tags (ZDX score icon, DNS clock icon). A "Group By" dropdown with a geolocation pin icon selected. To the right, the query results shown as two overlaid line graphs — one sky-blue and one navy — and a tabular view toggle icon. A "Run Query" play-button icon glows. Sky-blue and navy, with amber DNS spike accent in the result graph. No text, no labels.
+
+════════════════════════════════════════════════════════════════
+LAB 14 — Understanding Wi-Fi Dashboard
+════════════════════════════════════════════════════════════════
+
+lab14-task1.png — Task 14.1: Accessing Wi-Fi Dashboard
+-------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A Wi-Fi Dashboard overview banner: top strip shows three circular count badges (Total APs, Devices Connected, ZDX Score Distribution). Below, a donut chart showing 5GHz (large segment, navy blue) vs. 2.4GHz (smaller segment, sky-blue). To the right, a mini world map with two green location dots and one amber/red dot for a poor location. Below the map, the Wi-Fi Access Points tree view shows one red tile (Poor AP) and green tiles. Sky-blue, navy, green/red AP accents. No text, no labels.
+
+lab14-task2.png — Task 14.2: Logout of ZDX Admin Portal
+--------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff. 1200×250 px.
+A user profile panel opening from a nav bar click: a person silhouette icon at top (the admin user's avatar circle). Below, a credential info section with shield/lock icons. A large "Logout" button shape (rectangular with a right-pointing exit door icon) is highlighted at the bottom of the panel. A small "Mark Done" checkmark badge floats nearby indicating lab completion. Sky-blue and navy, with a green completion checkmark accent. No text, no labels.
