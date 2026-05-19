@@ -1,0 +1,230 @@
+EDU-202 Lab Hero Image Prompts
+================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff (pale sky-blue).
+  NO TEXT anywhere — no words, no letters, no numbers, no labels. Pure visual only.
+  Color palette: deep navy (#0d1a2e), sky-blue (#1a6dcc), and relevant accent colors.
+  Recommended dimensions: 1200 × 400 px. PNG format.
+
+Drop the generated PNG at: edu-202-lab/images/labN-hero.png
+
+────────────────────────────────
+
+lab0-hero.png — Lab 0: About the Lab Environment
+--------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A clean network topology overview: three device icons arranged in a triangle — a laptop
+(Corp Client PC) connected to a server rack with an App Connector badge, and a Windows
+Server tower — all pointing to a large Zscaler cloud shield at the center. A credential
+reference card with a key icon floats to the right. An admin figure studies the topology
+from the left. Small role badges (connector, server, client) appear near each VM.
+Deep navy and sky-blue palette with white highlights.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab1-hero.png — Lab 1: Connect to the Lab Environment
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A user at a laptop connects to a Skytap portal interface (three VM card thumbnails with
+green "running" status rings). A ZCC shield agent badge is visible on the laptop, showing
+two service indicators glowing green (Internet Security and Private Access). A ZIdentity
+cloud icon with an authentication arrow leads to the ZCC enrollment. Deep navy and
+sky-blue palette with green status-indicator accents.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab2-hero.png — Lab 2: Configuring ZIdentity
+----------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A ZIdentity portal dashboard panel in the center displays an organized grid of service
+tiles (ZIA, ZPA, ZDX, ZCC, ZIdentity Admin — represented by abstract icon shapes). User
+group icons in circles connect to service entitlement badges via permission arrows. An
+admin figure on the left reviews the configuration. Role badges (admin star, user circle)
+float near each group. An org hierarchy structure sits beneath. Navy and sky-blue palette.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab3-hero.png — Lab 3: Browser Access with ZPA
+-----------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+An external laptop (no ZCC agent badge — representing a contractor device) sends a browser
+globe arrow to a ZPA cloud. The ZPA cloud redirects via a CNAME/DNS arrow to an internal
+HVAC monitoring application icon (a thermometer/building controls icon) inside a datacenter
+zone. The connection path shows: browser → ZPA cloud → internal app, with no VPN box in
+the path. A DNS redirect curve is visible from the ZPA cloud. Navy and sky-blue palette.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab4-hero.png — Lab 4: Log Streaming
+--------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+ZIA and ZPA cloud icons on the left each have log record streams (rows of document/line
+icons) flowing out via arrows. The streams merge and flow through a pipeline into a SIEM
+server rack on the right. One stream uses a syslog protocol icon, another uses an HTTPS
+arrow. Log records are illustrated as small stacked paper/document shapes with filter icons.
+A real-time clock/pulse wave indicates streaming in real time. Navy and sky-blue with amber
+log-stream accent color.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab5-hero.png — Lab 5: Firewall Filtering
+------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A Z-Tunnel 2.0 pipe (labeled with a "2.0" badge shape) carries mixed traffic from a laptop.
+The traffic passes through a cloud firewall tower. Two lanes emerge: a green lane where
+ICMP ping wave and SSH terminal icons pass through a green gate (allowed), and a red lane
+where non-HTTP protocol packet shapes are blocked by a red wall. A "default deny" dark
+barrier sits at the base of the firewall. Navy and sky-blue with green/red policy-lane
+accents.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab6-hero.png — Lab 6: SSL Inspection
+---------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A large HTTPS padlock on the left is intercepted by a Zscaler cloud that holds a
+magnifying-glass inspection lens and an open book (representing content scanning). A key
+icon unlocks the padlock, revealing a document inside. The scanned document then gets
+re-encrypted with a new padlock (Zscaler CA chain) before exiting right. A certificate
+chain link strip decorates the cloud border. A browser certificate dialog icon shows a
+Zscaler issuer badge. Deep navy and sky-blue palette.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab7-hero.png — Lab 7: Sandbox
+--------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A suspicious file icon with a question-mark overlay enters a sandbox container (a 3D
+transparent cube with walls). Inside the cube, analysis gears spin and a scanning beam
+sweeps the file. Two outcome paths exit the cube: a green path (safe verdict — file
+released with a checkmark), and a red path (malicious verdict — file destroyed/blocked
+with an X and alert icon). A first-visit quarantine hourglass icon sits above the cube.
+Deep navy and sky-blue with red/green verdict accents.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab8-hero.png — Lab 8: Browser Isolation
+------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A user's laptop connects to a social media feed website via a Zscaler cloud isolation
+layer. The website content is visible (card/feed layout rendered in the browser) but
+all interactive controls are greyed out and blocked: a download arrow has a red X,
+an upload arrow has a red X, a copy/clipboard icon has a red X. The isolation cloud
+sits visually between the user and the website, acting as a render-only intermediary.
+A "render only" indicator (an eye icon with a prohibition ring around the interactive
+icons) floats above. Navy and sky-blue palette.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab9-hero.png — Lab 9: Deception
+----------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+An attacker figure (shadowy silhouette with a laptop) on the left sends recon probe
+arrows into a network. The probes hit glowing honeypot/decoy service icons (beehive or
+glowing lure shapes) scattered across the network. Upon contact, a detection alert fires
+(alert bell + magnifying glass). On the right, a ThreatParse analytics dashboard panel
+lights up with detection event entries. The decoy services glow in amber/yellow as bait.
+Deep navy and sky-blue with amber deception-lure accent.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab10-hero.png — Lab 10: Unified DLP
+--------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A document with a credit card shape pattern on it is caught at a cloud gateway shield
+by a DLP engine. The DLP shield has a pattern-matching lens focused on the credit card
+shape. A red block barrier stops the upload arrow. A notification bell and message
+envelope fly toward an admin figure. A dictionary/rules book icon floats near the engine,
+indicating the policy source. Deep navy and sky-blue with red DLP-block accent and amber
+notification.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab11-hero.png — Lab 11: Manage Incidents with ZWA
+----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A ZWA portal panel in the center shows DLP incident ticket cards with status-change
+arrows (open → in-progress → resolved). An escalation flow path connects the incident
+to a notification envelope icon flying to a user figure (requesting justification). An
+automated workflow diagram (gear + arrow chain) runs beneath the incident list. A
+priority badge (severity ring) floats near the top ticket card. Navy and sky-blue
+with amber/red severity and green resolution accents.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab12-hero.png — Lab 12: Analyzing Risk with MITRE ATT&CK and NIST CSF
+------------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A MITRE ATT&CK matrix heat-map grid fills the left portion — cells colored green
+(covered TTPs), orange (partial), and red (misconfigured gaps). A Zscaler shield icon
+in the center connects to the matrix. On the right, a NIST CSF ring/wheel chart shows
+five security function segments (Identify, Protect, Detect, Respond, Recover) in
+different fill states. Connection arrows show how Zscaler configurations map to both
+frameworks. Navy and sky-blue palette with green/orange/red risk-heat accents.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab13-hero.png — Lab 13: Configuring Cloud Application Monitoring
+-------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A Gmail envelope icon floats at the top. Two probe types attach to it: a web probe
+arrow (globe with a ping signal) and a cloud path probe arrow (hop-by-hop network
+path diagram). The probes connect to a ZDX score meter gauge (0-100 dial) and a
+latency measurement bar chart below. A cloud path diagram shows the network hop
+route from client through the Zscaler cloud to the application. Navy and sky-blue
+with green ZDX-score accent.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab14-hero.png — Lab 14: ZDX — Configure Alerts & Diagnostics
+---------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A world map with the Asia region highlighted in sky-blue (geofence ring around the
+region). An alert bell with a severity-ring fires above a flagged application icon.
+The alert connects via an arrow to a user device (laptop) which has a deep-trace
+diagnostic gear icon attached to it (indicating a diagnostic session is active).
+A ZDX cloud shield oversees both the alert and the diagnostic. A geolocation pin
+marks the Asia zone on the map. Navy and sky-blue with amber alert accent.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab15-hero.png — Lab 15: Adding API Clients
+---------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A POSTMAN-style application icon (an astronaut helmet shape) on the left sends HTTP
+request arrows to a Zscaler API cloud on the right. An OAuth 2.0 token exchange is
+illustrated: a key icon flows from a ZIdentity IdP icon back to the POSTMAN client.
+The API cloud auto-generates a ZPA App Connector Group (shown as a connector rack
+being created from a plus/add icon). API endpoint path shapes flow between the client
+and cloud. Navy and sky-blue with amber API-key accent.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
+
+────────────────────────────────
+
+lab16-hero.png — Lab 16: Capstone Project
+-------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A comprehensive network diagram showing all Zscaler service components integrated:
+a ZIA cloud (globe with shield), ZPA cloud (lock with tunnel), ZDX cloud (gauge
+meter), ZCC agent (laptop with badge), and ZIdentity (people/org icon) — all
+connected to a central Zscaler platform shield. Flowing traffic arrows pass through
+each component. A large checklist overlay with filled checkmark circles floats in
+the foreground. A graduation-cap or completion ribbon icon floats at the top right.
+Navy and sky-blue with gold/amber completion accent.
+No text, no words, no letters, no numbers, no labels anywhere in the image.
