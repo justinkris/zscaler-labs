@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 1: Connecting to the Virtual Lab — EDU-260</title>
+<title>Lab 6: Troubleshooting Data Protection Services — EDU-260</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,8 +15,7 @@ html.pt-init body{opacity:0;}
 body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
 a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
 header{background:#0d1a2e;padding:28px 40px 24px;border-bottom:3px solid #1a3a6e;}
-.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}
-.breadcrumb a{color:#93c5fd;}
+.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}.breadcrumb a{color:#93c5fd;}
 .header-top{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
 .eyebrow-chip{background:rgba(147,197,253,0.15);border:1px solid rgba(147,197,253,0.3);color:#93c5fd;font-size:10px;font-weight:700;letter-spacing:0.14em;padding:4px 12px;border-radius:20px;text-transform:uppercase;}
 .header-dot{width:8px;height:8px;border-radius:50%;background:#93c5fd;animation:pulse 2s infinite;}
@@ -33,7 +32,7 @@ header h1 em{color:#93c5fd;font-style:italic;}
 .config-toggle-btn:hover{color:#93c5fd;border-color:#93c5fd;}
 .config-toggle-btn .chevron{transition:transform 0.25s ease;display:inline-block;}
 .config-panel.collapsed .config-toggle-btn .chevron{transform:rotate(180deg);}
-.config-body{overflow:hidden;max-height:320px;transition:max-height 0.3s ease,opacity 0.25s ease,padding 0.25s ease;opacity:1;padding-bottom:16px;}
+.config-body{overflow:hidden;max-height:260px;transition:max-height 0.3s ease,opacity 0.25s ease,padding 0.25s ease;opacity:1;padding-bottom:16px;}
 .config-panel.collapsed .config-body{max-height:0;opacity:0;padding-bottom:0;}
 .config-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;align-items:end;}
 .config-field{display:flex;flex-direction:column;gap:6px;}
@@ -101,19 +100,10 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .sub-steps li{position:relative;padding:4px 0 4px 18px;font-size:13px;color:var(--text-soft);line-height:1.6;}
 .sub-steps li::before{content:'–';color:var(--text-muted);position:absolute;left:0;top:5px;}
 code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:12.5px;font-family:monospace;}
-.callout{border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px;}
-.callout p{line-height:1.6;}
-.callout-note{background:var(--blue-glow);border-left:3px solid var(--blue);}
-.callout-note p{color:var(--text-soft);}
-.callout-warning{background:var(--amber-light);border-left:3px solid var(--amber);}
-.callout-warning p{color:#7c3a0a;}
-.callout-success{background:var(--green-light);border-left:3px solid var(--green);}
-.callout-success p{color:#0f4a27;}
-.screenshot-embed{margin:16px 0;text-align:center;}
-.screenshot-embed img{max-width:100%;border:1px solid var(--border);border-radius:8px;box-shadow:0 2px 12px rgba(13,26,46,0.08);}
-.screenshot-embed.narrow img{max-width:560px;}
-.screenshot-embed.dialog img{max-width:420px;}
-.screenshot-caption{font-size:11.5px;color:var(--text-muted);margin-top:7px;font-style:italic;line-height:1.5;}
+.callout{border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px;}.callout p{line-height:1.6;}
+.callout-note{background:var(--blue-glow);border-left:3px solid var(--blue);}.callout-note p{color:var(--text-soft);}
+.callout-warning{background:var(--amber-light);border-left:3px solid var(--amber);}.callout-warning p{color:#7c3a0a;}
+.callout-success{background:var(--green-light);border-left:3px solid var(--green);}.callout-success p{color:#0f4a27;}
 .mental-note-block{display:flex;gap:14px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:10px;padding:18px 20px;margin:24px 0;}
 .mental-note-block-icon{font-size:22px;flex-shrink:0;line-height:1;}
 .mental-note-block-label{font-size:9px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:var(--amber);margin-bottom:6px;}
@@ -157,10 +147,6 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .qr-item:last-child{border-bottom:none;}
 .qr-term{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;}
 .qr-def{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
-.lesson-tools{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-top:24px;}
-.lesson-tools-title{font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
-.lesson-tool-group{margin-bottom:14px;}
-.lesson-tool-label{font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;}
 .lesson-tool-textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-family:'Epilogue',sans-serif;resize:vertical;color:var(--text);background:var(--surface-2);transition:border-color 0.15s;}
 .lesson-tool-textarea:focus{outline:none;border-color:var(--blue);}
 .lesson-tool-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
@@ -180,24 +166,20 @@ footer.collapsed .footer-inner{padding:6px 48px;}
 footer.collapsed .footer-content{display:none;}
 .footer-toggle{background:none;border:none;color:#5a7a9a;cursor:pointer;font-size:10px;letter-spacing:0.06em;font-family:'Epilogue',sans-serif;padding:0;transition:color 0.15s;display:flex;align-items:center;gap:4px;}
 .footer-toggle:hover{color:#93c5fd;}
-.creds-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
-.creds-table th{background:var(--surface-2);color:var(--text-muted);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--border);text-align:left;}
-.creds-table td{padding:8px 12px;border-bottom:1px solid var(--border-dim);color:var(--text-soft);vertical-align:middle;}
-.creds-table tr:last-child td{border-bottom:none;}
 @media(max-width:900px){main{grid-template-columns:1fr;padding:24px 20px 80px;}.sidebar{position:static;padding-left:0;margin-top:24px;}header{padding:20px 20px 18px;}.footer-inner{padding:12px 20px;}.config-panel{padding:0 20px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-260</a> › Lab 1</div>
+  <div class="breadcrumb"><a href="index.html">EDU-260</a> › Lab 6</div>
   <div class="header-top">
-    <span class="eyebrow-chip">LAB 1 · SETUP</span>
+    <span class="eyebrow-chip">LAB 6 · DATA PROTECTION</span>
     <div class="header-dot"></div>
   </div>
-  <h1>Connecting to the <em>Virtual Lab</em></h1>
+  <h1>Troubleshooting <em>Data Protection Services</em></h1>
   <div class="motivation-banner">
-    <p>Every troubleshooting journey starts here. Spin up your Skytap environment, meet the Corp: Client PC, and confirm you can reach the ZIA, ZPA, and ZDX admin portals before diving into configuration.</p>
+    <p>Data leaves trails. You&rsquo;re learning to read them before they become incidents — from DLP rules and file type controls to dictionaries, engines, and the forensic logs that prove enforcement worked.</p>
   </div>
 </header>
 
@@ -235,11 +217,6 @@ footer.collapsed .footer-content{display:none;}
     <div class="config-derived" id="config-derived">
       <span><strong>ZIA Admin:</strong> <code id="d-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></span>
       <span><strong>IT Dept:</strong> <code id="d-it">ptcb32-IT@thezerotrustexchange.com</code></span>
-      <span><strong>HR Dept:</strong> <code id="d-hr">ptcb32-HR@thezerotrustexchange.com</code></span>
-      <span><strong>MKT Dept:</strong> <code id="d-mkt">ptcb32-MKT@thezerotrustexchange.com</code></span>
-      <span><strong>Contractor:</strong> <code id="d-con">ptcb32-CON@thezerotrustexchange.com</code></span>
-      <span><strong>OT User:</strong> <code id="d-ot">ptcb32-OT@thezerotrustexchange.com</code></span>
-      <span><strong>Sales:</strong> <code id="d-sales">ptcb32-SALES@thezerotrustlab.com</code></span>
     </div>
   </div>
 </div>
@@ -274,18 +251,18 @@ footer.collapsed .footer-content{display:none;}
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab1">
+    <div class="socratic-block" id="soc-lab6">
       <div class="socratic-header">
         <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · LAB ENVIRONMENT</span>
+        <span class="socratic-label">THINK FIRST · DLP ARCHITECTURE &amp; ENFORCEMENT</span>
       </div>
-      <p class="socratic-insight">Before touching a live environment, a good troubleshooter builds a mental map of what should be there — topology, roles, access constraints.</p>
+      <p class="socratic-insight">DLP has three architectural layers that build on each other: dictionaries contain the detection patterns; engines combine dictionaries with Boolean logic; rules apply engines to traffic. Troubleshooting a DLP gap requires knowing which layer broke.</p>
       <ul class="socratic-questions">
-        <li>What three types of resources does your Skytap training pod give you access to, and why does that separation matter for troubleshooting?</li>
-        <li>You can access ZIA, ZPA, and ZDX Admin Portals as a Read-Only Administrator. What does this restriction prevent you from doing, and how does it affect the labs?</li>
-        <li>What would happen to your ZCC enrollment and ongoing tests if the Corp: Client PC VM shuts down mid-lab?</li>
+        <li>A DLP rule uses the <em>PCI-Medium</em> DLP engine. The engine uses the <em>Credit Cards</em> dictionary with a threshold of <code>&gt; 5</code> matches. A file with 3 credit card numbers passes uninspected. Is this a misconfigured rule, engine, or dictionary — and how would you diagnose it?</li>
+        <li>Zscaler DLP supports EDM (Exact Data Match), IDM (Indexed Document Match), and regex pattern dictionaries. For protecting a list of 10,000 specific employee SSNs, which dictionary type would you use and why?</li>
+        <li>A DLP rule is set to Block, but the Zscaler Incident Receiver is set to <em>None</em>. What happens to block events — are they visible anywhere, and what is the admin missing?</li>
       </ul>
-      <div class="answer-area" data-section="lab1-env">
+      <div class="answer-area" data-section="lab6-dlp">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -294,91 +271,228 @@ footer.collapsed .footer-content{display:none;}
         <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">Your pod gives you: (1) a Corp: Client PC virtual machine for end-user simulation, (2) admin/user credentials for all Zscaler services, and (3) access to ZIA, ZPA, and ZDX Admin Portals. The separation matters because real-world issues span all three layers — you often need to correlate what the client is seeing with what the admin portal logs are showing.</div>
+            <div class="model-answer-text">This is likely working as designed. The engine threshold (<code>&gt; 5</code>) means the file must contain <em>more than 5</em> credit card numbers before the engine triggers. A file with 3 credit card numbers won&rsquo;t match the PCI-Medium engine — it would match PCI-Low (with a lower threshold) if that rule/engine existed. To diagnose: check the engine expression to confirm the threshold; check if there&rsquo;s a separate PCI-Low rule for 1–5 matches; then check whether a file with &gt;5 numbers is correctly blocked.</div>
           </div>
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">Read-Only access means you can view all configuration, policies, and logs — but cannot save changes. In these labs that is intentional: you verify that existing configurations are correct, rather than making changes. It mirrors a real HelpDesk Tier 1 scenario where the analyst needs to diagnose before escalating to someone with write access.</div>
+            <div class="model-answer-text"><strong>EDM (Exact Data Match)</strong> is designed for this use case. You upload a structured data file (CSV/TSV) containing the 10,000 SSNs as an index template. ZIA checks each piece of content against the exact values in the index — no false positives from regex patterns that might match non-employee numbers. EDM is much more precise than regex for protecting specific known PII datasets, at the cost of needing to keep the index template updated.</div>
           </div>
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">ZCC enrollment state is stored on the VM. If the VM shuts down, ZCC loses its session and must re-authenticate when restarted. Ongoing packet captures would be lost. For labs that span multiple tasks this means you may need to re-enroll the IT_department_user after a restart — always check Service Status in ZCC before continuing.</div>
+            <div class="model-answer-text">The block is still enforced — the user sees a block page and the upload fails. Block events <em>are</em> visible in Web Insights logs (Policy Action = Block, Blocked Policy Type = Data Loss Prevention). However, without an Incident Receiver configured, the DLP admin receives <em>no notification</em> and no incident evidence is captured (file content, matched strings). The admin is missing the forensic and compliance data needed to respond to violations — a critical gap for audit and incident response.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="section-block" id="section-lab1">
-      <h2>Lab 1: Connecting to the Virtual Lab</h2>
+    <div class="section-block" id="section-lab6">
+      <h2>Lab 6: Troubleshooting Data Protection Services</h2>
 
       <div class="lab-header-card">
-        <div class="lab-badge">LAB 1</div>
-        <p><strong>Scenario:</strong> You are a member of the Level 1 HelpDesk team at Safemarch. Before troubleshooting any Zscaler issue you need to confirm your virtual environment is running and locate your credentials.</p>
+        <div class="lab-badge">LAB 6</div>
+        <p><strong>Scenario:</strong> A financial services company needs to protect sensitive data such as credit card numbers and bank account details. You will review DLP policy configuration, test enforcement via file uploads, examine block logs, and explore predefined dictionaries and DLP engines.</p>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~15 minutes</div>
-          <div class="lab-meta-item"><strong>Environment:</strong> Skytap + Zscaler Portals (Read-Only Admin)</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~35 minutes</div>
+          <div class="lab-meta-item"><strong>Test site:</strong> <code>https://dlp-test.com/html5_priv/</code></div>
         </div>
       </div>
 
-      <h3>Task 1.1: Test Your Lab Access and Start Your Environment</h3>
+      <h3>Task 6.1: Review DLP Configurations</h3>
 
       <div class="task-block">
-        <h4><span class="task-num">1</span> Access the Lab Environment</h4>
+        <h4><span class="task-num">1</span> Review the Block PCI Medium DLP Rule</h4>
         <ol class="step-list">
-          <li>On your laptop, open a browser window and navigate to the <strong>Skytap Access URL</strong> provided in your lab confirmation email.</li>
-          <li>Enter your <strong>Skytap Passcode</strong> and click <strong>Go</strong>.</li>
-          <li>If the <strong>Corp: Client PC</strong> VM is shown as shut down, click to <strong>start</strong> the VM.</li>
-          <li>When prompted for Windows credentials, log in:
+          <li>In the ZIA Admin portal, navigate to <strong>Policy &gt; Data Loss Prevention</strong>.</li>
+          <li>Search for the policy named <strong>Block PCI Medium</strong> and click the View icon (👁) to view its settings.</li>
+          <li>Familiarise yourself with the Criteria options:
             <ul class="sub-steps">
-              <li>Username: <code>Student</code></li>
-              <li>Password: <code>Admin-123!</code></li>
+              <li><strong>Content Matching</strong>: Select DLP Engines — set to <em>PCI - Medium</em></li>
+              <li><strong>URL Categories, Cloud Applications</strong>, Private Applications, File Type, File Size, Users, Groups, Departments are all available criteria</li>
             </ul>
           </li>
-          <li>If your machine is locked, click the key icon <strong>🔑</strong> to display usernames and passwords saved with the VM. Click <strong>Insert</strong> to paste into the VM.</li>
-          <li>If the virtual desktop is too small or too large, click the resize icon to fit the frame to your current browser window.</li>
-        </ol>
-        <div class="callout callout-note">
-          <p><strong>Note:</strong> The ZIA, ZPA, and ZDX Admin Portals are cloud services accessible from any machine with an Internet connection. In some labs you should access these URLs from inside the Client PC VM to simulate a corporate device.</p>
-        </div>
-      </div>
-
-      <h3>Lab Resources and Login Credentials</h3>
-
-      <div class="task-block">
-        <h4><span class="task-num">2</span> Locate Your Credentials</h4>
-        <ol class="step-list">
-          <li>At any time during the lab, click the <strong>Resources</strong> tab in the right window frame to access your:
+          <li>Scroll to the bottom of the rule and review:
             <ul class="sub-steps">
-              <li><strong>Lab Guide</strong> attachment (PDF download)</li>
-              <li><strong>Credential Information</strong> — your Session_Password and all department usernames</li>
+              <li><strong>DLP Incident Receiver</strong>: Zscaler Incident Receiver → <em>ZWA-IR</em></li>
+              <li><strong>Action</strong>: Data Traffic = <strong>Block</strong></li>
+              <li><strong>Notification</strong>: Client Connector Notification = <strong>Enabled</strong></li>
             </ul>
           </li>
-          <li>Record your credentials in the <strong>Lab Configuration</strong> panel at the top of this page (enter your Student Prefix and Session Password, then click <strong>Save</strong>).</li>
         </ol>
-        <div class="callout callout-warning">
-          <p><strong>Important:</strong> In this lab you will access the ZIA, ZPA &amp; ZDX Admin Portals as a <strong>Read-Only Administrator</strong>. This role affects what you will see — you cannot save any changes made in the portals.</p>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> Zscaler DLP can send evidence and trigger data to DLP administrators via various means: Email, on-prem Incident Receiver, or cloud-hosted Incident Receiver (ZWA-IR).</p>
         </div>
       </div>
 
       <div class="task-block">
-        <h4><span class="task-num">3</span> Credential Reference</h4>
-        <p style="font-size:13.5px;color:var(--text-soft);line-height:1.65;margin-bottom:12px;">Your session credentials (enter your prefix above to auto-populate):</p>
-        <table class="creds-table">
-          <thead><tr><th>Role</th><th>Username</th></tr></thead>
-          <tbody>
-            <tr><td>ZIA Admin (Read-Only)</td><td><code id="t-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></td></tr>
-            <tr><td>IT Department User</td><td><code id="t-it">ptcb32-IT@thezerotrustexchange.com</code></td></tr>
-            <tr><td>HR Department User</td><td><code id="t-hr">ptcb32-HR@thezerotrustexchange.com</code></td></tr>
-            <tr><td>Marketing Department User</td><td><code id="t-mkt">ptcb32-MKT@thezerotrustexchange.com</code></td></tr>
-            <tr><td>Contractor User</td><td><code id="t-con">ptcb32-CON@thezerotrustexchange.com</code></td></tr>
-            <tr><td>OT User</td><td><code id="t-ot">ptcb32-OT@thezerotrustexchange.com</code></td></tr>
-            <tr><td>Sales Department User</td><td><code id="t-sales">ptcb32-SALES@thezerotrustlab.com</code></td></tr>
-            <tr><td>Session Password (all accounts)</td><td><code id="t-pass">9UnV@7-g</code></td></tr>
-            <tr><td>ZIA Admin Portal URL</td><td><code>https://admin.zscalerthree.net</code></td></tr>
-          </tbody>
-        </table>
+        <h4><span class="task-num">2</span> Review AI/ML Data Discovery Reports</h4>
+        <ol class="step-list">
+          <li>Go to <strong>Analytics &gt; Data Discovery Report</strong>.</li>
+          <li>Review the various widgets and graphs. For example, check the <strong>Top 10 Users</strong> sending sensitive content to various SaaS Applications, and the <strong>Top 10 Applications</strong> receiving sensitive data (e.g. Dropbox, OneDrive).</li>
+          <li>Click <strong>Analyze More</strong> to get deeper insights. In the Analyze More view, click on any content type category (e.g. Tax, Real Estate, Medical Information) to see which Applications are used to upload that content type and which users are responsible.</li>
+          <li>Click on an Application to see detailed user information. Right-click on a user and select <strong>Show in Logs</strong> to jump to the Web Insights logs.</li>
+          <li>Customise the logs table by clicking the ⋮ icon and adding/removing columns.</li>
+          <li>To review DLP policy violation incidents, go to <strong>Analytics &gt; Interactive Reports</strong>. Scroll down and click the <strong>Data Loss</strong> &gt; <strong>Top Violations</strong> report to see which dictionaries and engines are triggering most frequently.</li>
+        </ol>
         <div class="callout callout-note">
-          <p><strong>Note:</strong> The Session Password is unique to your pod and is the same for all admin and user accounts. The Windows VM local credentials (<code>Student</code> / <code>Admin-123!</code>) are separate from the Zscaler account credentials.</p>
+          <p><strong>Note:</strong> To view more meaningful dashboard data, select a longer Timeframe from the dropdown (e.g. <em>Last 30 Days</em>).</p>
+        </div>
+      </div>
+
+      <h3>Task 6.2: Verify DLP Rule Enforcement</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Test PCI File Upload Block</h4>
+        <ol class="step-list">
+          <li>On the Corp: Client PC, ensure ZCC is logged in as the <strong>IT department user</strong> (<code class="d-username-it">ptcb32-IT@thezerotrustexchange.com</code>).</li>
+          <li>In a browser window, go to <code>https://dlp-test.com/html5_priv/</code> (a bookmark is provided on the Client PC).</li>
+          <li>Click <strong>Choose File</strong> and navigate to the <strong>DLP Test Files</strong> folder on the Desktop.</li>
+          <li>Select the <strong>PCI.docx</strong> file and click <strong>Open</strong>.</li>
+          <li>Click <strong>Upload</strong>.</li>
+          <li>Verify that a <strong>Block</strong> notification is displayed:
+            <ul class="sub-steps">
+              <li>Message: <em>"Sorry, posting content to this website is not allowed."</em></li>
+              <li>Reason: <em>"Violates Compliance Category: PCI - Medium"</em></li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Expected result:</strong> The file upload is blocked with the PCI - Medium compliance category message. The DLP rule is correctly inspecting and blocking files containing credit card numbers that match the PCI Medium DLP engine threshold.</p>
+        </div>
+      </div>
+
+      <h3>Task 6.3: Check File Type and Context Policy Enforcement</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">4</span> Review File Type Control Policy</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin portal, go to <strong>Policy &gt; File Type Control</strong>.</li>
+          <li>Click the View icon (👁) to view the <strong>Block Source Code – Python</strong> rule.</li>
+          <li>Examine the rule configuration:
+            <ul class="sub-steps">
+              <li>Criteria &gt; <strong>File Types</strong>: Python (<code>py, p, pkl, pickle, pyd, pyw</code>)</li>
+              <li><strong>Active Content</strong>: Disabled, <strong>Unscannable File</strong>: Disabled</li>
+              <li><strong>Action</strong>: Block — Upload/Download: <strong>Upload</strong></li>
+              <li><strong>Protocols</strong>: FTP over HTTP, Native FTP, HTTPS, HTTP</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div class="task-block">
+        <h4><span class="task-num">5</span> Test Python File Upload Block</h4>
+        <ol class="step-list">
+          <li>On the Corp: Client PC, navigate to <code>https://dlp-test.com/html5_priv/</code>.</li>
+          <li>Click <strong>Choose File</strong>.</li>
+          <li>Navigate to the <strong>DLP Test Files</strong> folder on the Desktop.</li>
+          <li>Select the <strong>PythonSample.py</strong> file and click <strong>Open</strong>.</li>
+          <li>Click <strong>Upload</strong>.</li>
+          <li>Verify that the upload is blocked:
+            <ul class="sub-steps">
+              <li>Message: <em>"Sorry, you don&rsquo;t have permission to visit this site."</em></li>
+              <li>Reason: <em>"Not allowed to access this file type"</em></li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <h3>Task 6.4: View Block Action Web Log Record</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">6</span> Examine the Blocked Upload Log Entry</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin portal, go to <strong>Analytics &gt; Web Insights &gt; Logs</strong>.</li>
+          <li>Set the filters to find the record for the blocked Python file upload:
+            <ul class="sub-steps">
+              <li>Timeframe: <em>Last 15 Minutes</em></li>
+              <li>Add Filter: <strong>User</strong> = <code class="d-username-it">ptcb32-IT@thezerotrustexchange.com</code></li>
+            </ul>
+          </li>
+          <li>Click <strong>Apply Filters</strong>.</li>
+          <li>Add additional filters to narrow the results:
+            <ul class="sub-steps">
+              <li>Add Filter: <strong>Blocked Policy Type</strong> = <em>File Type Control</em></li>
+            </ul>
+          </li>
+          <li>Click <strong>Apply Filters</strong> and review the log entry. Verify:
+            <ul class="sub-steps">
+              <li><strong>Policy Action</strong>: Not allowed to access this file type</li>
+              <li><strong>Upload File Type</strong>: Python (py, p, pkl…)</li>
+              <li><strong>Upload File Name</strong>: PythonSample.py</li>
+              <li><strong>URL</strong>: dlp-test.com/html5_priv/upload.php</li>
+              <li><strong>Blocked Policy</strong>: File Type Control</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> The initial filter returns many results — adding the Blocked Policy Type filter narrows to the specific file type control event.</p>
+        </div>
+      </div>
+
+      <h3>Task 6.5: View Predefined Dictionaries</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">7</span> Explore the Credit Cards Predefined Dictionary</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin portal, go to <strong>Administration &gt; Data Loss Prevention</strong> and select <strong>DLP Dictionaries &amp; Engines</strong>.</li>
+          <li>On the <strong>DLP Dictionaries</strong> tab, search for <code>Credit Cards</code> and click the View icon.</li>
+          <li>Review the configurable attributes:
+            <ul class="sub-steps">
+              <li><strong>Dictionary Type</strong>: Predefined</li>
+              <li><strong>Confidence Score Threshold</strong>: High</li>
+              <li><strong>High Confidence Phrases</strong>: American Express, Amex, Master Card, Visa, Credit Card, etc.</li>
+              <li><strong>BIN Number</strong>: Include</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> You can set different confidence thresholds (Low, Medium, High) for the same identifier. With High confidence thresholds, proximity keywords and BIN numbers reduce false positives. Up to 512 BIN numbers may be specified.</p>
+        </div>
+      </div>
+
+      <h3>Task 6.6: View Custom Dictionaries — Regex and Phrases</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">8</span> Explore the SSN Regex Dictionary</h4>
+        <ol class="step-list">
+          <li>On the <strong>DLP Dictionaries</strong> tab, click the <strong>Type</strong> column header to sort dictionaries by type — this brings custom dictionary types to the top:
+            <ul class="sub-steps">
+              <li>Exact Data Match (EDM)</li>
+              <li>Indexed Document Match (IDM)</li>
+              <li>Microsoft Information Protection (MIP)</li>
+              <li>Patterns &amp; Phrases</li>
+            </ul>
+          </li>
+          <li>Click the View icon for the <strong>Social Security Numbers (US) Regex</strong> dictionary (Type: Patterns &amp; Phrases).</li>
+          <li>Review the DLP Dictionary configuration — note the <strong>Pattern</strong> field:
+            <ul class="sub-steps">
+              <li>Pattern: <code>\b[0-9]{3}([ -][0-9]{2}[0-9]{4}|[0-9]{2}-[0-9]{4}|[0-9]{6})\b</code></li>
+              <li>Action: Count Unique</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> Administrators can create custom dictionaries based on regex, custom phrases, keywords, and proximity keywords. Advanced classifiers include Exact Data Match (EDM), Indexed Document Match (IDM for fingerprinting), and MIP labels. See the Zscaler documentation for Adding Custom Dictionaries.</p>
+        </div>
+      </div>
+
+      <h3>Task 6.7: View Predefined and Custom DLP Engines</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">9</span> Explore the HIPAA DLP Engine</h4>
+        <ol class="step-list">
+          <li>On the <strong>DLP Dictionaries &amp; Engines</strong> page, click the <strong>DLP Engines</strong> tab.</li>
+          <li>Review the list of available engines including: CORP-PRIVATE, ChatGPT CatchAll, Credit Card, EDM Engine, GLBA, HIPAA, IDM Engine, and others.</li>
+          <li>Click the View icon for the <strong>HIPAA</strong> engine to open it for editing.</li>
+          <li>Examine the Engine Builder expression:
+            <ul class="sub-steps">
+              <li><code>((Medical Information &gt; 0) AND (Social Security Numbers (US) &gt; 5))</code></li>
+              <li>This means: trigger if the document contains <em>any</em> Medical Information matches AND <em>more than 5</em> Social Security Number matches</li>
+            </ul>
+          </li>
+          <li>Observe that this DLP engine combines two dictionaries with the AND operator — this reduces false positives by requiring both conditions to be true simultaneously.</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> When configuring a predefined or custom DLP engine, you can combine DLP dictionaries with operators to create logical expressions. Operators include All (AND), Any (OR), Exclude (AND NOT), and Sum. The Sum operator allows specifying a total number of matches across a group of dictionaries.</p>
         </div>
       </div>
 
@@ -386,7 +500,7 @@ footer.collapsed .footer-content{display:none;}
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">This lab environment gives you one Corp: Client PC VM plus read-only access to ZIA, ZPA, and ZDX Admin Portals. All department user accounts share a single Session Password. ZCC must be enrolled on the Client PC before any client-side traffic troubleshooting can begin — the ZIA/ZPA portals are accessible directly from your local laptop browser.</div>
+          <div class="mental-note-block-text">DLP hierarchy: <strong>Rule</strong> (applies to traffic, specifies action + incident notification) → <strong>Engine</strong> (combines dictionaries with Boolean operators, e.g. HIPAA = Medical Info AND SSN &gt; 5) → <strong>Dictionary</strong> (the actual detection patterns: predefined Credit Cards, EDM for exact data, IDM for document fingerprinting, regex Patterns &amp; Phrases). PCI-Medium uses the Credit Card engine with threshold &gt; 5 matches. Blocked events appear in Web Insights logs even without an Incident Receiver — but the admin won&rsquo;t receive notifications or evidence without one.</div>
         </div>
       </div>
 
@@ -398,12 +512,15 @@ footer.collapsed .footer-content{display:none;}
     <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
     <div class="checklist-card">
-      <div class="checklist-title">LAB 1 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-1" onchange="saveChecklist()"><span>Accessed Skytap environment</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-2" onchange="saveChecklist()"><span>Corp: Client PC VM started</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-3" onchange="saveChecklist()"><span>Logged in as Student / Admin-123!</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-4" onchange="saveChecklist()"><span>Credentials saved to config panel</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-5" onchange="saveChecklist()"><span>ZIA Admin portal accessible</span></label>
+      <div class="checklist-title">LAB 6 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-1" onchange="saveChecklist()"><span>Task 6.1: Block PCI Medium rule reviewed</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-2" onchange="saveChecklist()"><span>Data Discovery Report explored</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-3" onchange="saveChecklist()"><span>Task 6.2: PCI.docx upload blocked successfully</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-4" onchange="saveChecklist()"><span>Task 6.3: PythonSample.py upload blocked</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-5" onchange="saveChecklist()"><span>Task 6.4: Block log entry found in Web Insights</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-6" onchange="saveChecklist()"><span>Task 6.5: Credit Cards predefined dictionary reviewed</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-7" onchange="saveChecklist()"><span>Task 6.6: SSN Regex custom dictionary viewed</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-8" onchange="saveChecklist()"><span>Task 6.7: HIPAA DLP engine expression understood</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -412,24 +529,24 @@ footer.collapsed .footer-content{display:none;}
       </div>
       <div class="qr-body">
         <div class="qr-item">
-          <div class="qr-term">Skytap</div>
-          <div class="qr-def">Cloud-hosted virtual lab environment. Your Client PC VM and all test infrastructure runs here.</div>
+          <div class="qr-term">DLP Architecture</div>
+          <div class="qr-def">Rule → Engine → Dictionary. Rules apply engines to traffic. Engines combine dictionaries with Boolean logic. Dictionaries contain detection patterns.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Corp: Client PC</div>
-          <div class="qr-def">Windows VM in Skytap used for end-user testing. ZCC must be installed here for traffic-forwarding tests.</div>
+          <div class="qr-term">PCI-Medium Engine</div>
+          <div class="qr-def">Credit Card dictionary with threshold &gt; 5 matches. Files with ≤5 credit card numbers won&rsquo;t trigger this engine — expected behaviour.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Read-Only Admin</div>
-          <div class="qr-def">Your portal role for this lab. You can view all settings and logs but cannot save any configuration changes.</div>
+          <div class="qr-term">EDM vs IDM vs Regex</div>
+          <div class="qr-def">EDM = exact data rows (structured CSV). IDM = document fingerprinting (unstructured). Regex = pattern matching. Use EDM for specific lists (SSN of employees); IDM for protecting specific documents; Regex for generic patterns.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Session Password</div>
-          <div class="qr-def">Single shared password for all admin and department user accounts in your pod. Found in the Resources tab.</div>
+          <div class="qr-term">File Type Control</div>
+          <div class="qr-def">Policy → File Type Control. Blocks upload or download of specific file extensions (e.g. Python .py files). Separate from DLP — no content inspection, just file extension check.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">ZIA Admin Portal</div>
-          <div class="qr-def"><code>https://admin.zscalerthree.net</code> — ZIA policy, analytics, and administration.</div>
+          <div class="qr-term">Incident Receiver</div>
+          <div class="qr-def">Required for forensic evidence delivery when DLP rules trigger. Without one, blocks still work but admins get no notification or file evidence. Types: Email, on-prem, or cloud-hosted (ZWA-IR).</div>
         </div>
       </div>
     </div>
@@ -440,19 +557,19 @@ footer.collapsed .footer-content{display:none;}
   <div class="footer-inner">
     <span class="footer-content">EDU-260 · Introduction to Troubleshooting Part 2 of 2</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 1 of 8</span>
+    <span class="footer-content">LAB 6 of 8</span>
   </div>
 </footer>
 
 <div class="page-nav">
-  <span class="page-nav-btn page-nav-prev page-nav-disabled">
+  <a class="page-nav-btn page-nav-prev" href="lab5.html">
     <span class="page-nav-label">← PREVIOUS</span>
-    <span class="page-nav-title">&nbsp;</span>
-  </span>
-  <div class="page-nav-message">Every journey starts here. Your Skytap environment is about to come alive.</div>
-  <a class="page-nav-btn page-nav-next" href="lab2.html">
+    <span class="page-nav-title">Lab 5: Security Services</span>
+  </a>
+  <div class="page-nav-message">Data leaves trails. You&rsquo;re learning to read them before they become incidents.</div>
+  <a class="page-nav-btn page-nav-next" href="lab7.html">
     <span class="page-nav-label">NEXT →</span>
-    <span class="page-nav-title">Lab 2: Troubleshooting Authentication</span>
+    <span class="page-nav-title">Lab 7: ZDX User Experience</span>
   </a>
 </div>
 
@@ -460,116 +577,31 @@ footer.collapsed .footer-content{display:none;}
 const CONFIG_KEY='edu260-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu260-config-collapsed';
 const FOOTER_KEY='edu260-footer-collapsed';
-const PAGE_KEY='edu260-lab-lab1';
-
-function toggleConfig(){
-  var panel=document.getElementById('config-panel');
-  var btn=document.getElementById('config-toggle-btn');
-  var collapsed=panel.classList.toggle('collapsed');
-  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
-  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
-  updateSidebarOffset();
-}
-function updateSidebarOffset(){
-  var panel=document.getElementById('config-panel');
-  var h=panel?panel.offsetHeight:52;
-  document.documentElement.style.setProperty('--config-h',h+'px');
-}
-function updateToggleSummary(){
-  var prefix=document.getElementById('prefix-input').value.trim();
-  var s=document.getElementById('config-toggle-summary');
-  s.textContent=prefix?' — '+prefix:'';
-}
-function applyConfig(){
-  var prefix=document.getElementById('prefix-input').value.trim();
-  var pass=document.getElementById('pass-input').value.trim();
-  var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';
-  var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;
-  var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;
-  var hr=prefix?prefix+'-HR@'+d1:'ptcb32-HR@'+d1;
-  var mkt=prefix?prefix+'-MKT@'+d1:'ptcb32-MKT@'+d1;
-  var con=prefix?prefix+'-CON@'+d1:'ptcb32-CON@'+d1;
-  var ot=prefix?prefix+'-OT@'+d1:'ptcb32-OT@'+d1;
-  var sales=prefix?prefix+'-SALES@'+d2:'ptcb32-SALES@'+d2;
-  ['d-admin','t-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});
-  ['d-it','t-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});
-  ['d-hr','t-hr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=hr;});
-  ['d-mkt','t-mkt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=mkt;});
-  ['d-con','t-con'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=con;});
-  ['d-ot','t-ot'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ot;});
-  ['d-sales','t-sales'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=sales;});
-  if(document.getElementById('t-pass')&&pass)document.getElementById('t-pass').textContent=pass;
-  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
-  document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});
-  document.querySelectorAll('.d-username-hr').forEach(function(el){el.textContent=hr;});
-  document.querySelectorAll('.d-username-mkt').forEach(function(el){el.textContent=mkt;});
-  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
-}
-function loadConfig(){
-  try{
-    var saved=localStorage.getItem(CONFIG_KEY);
-    if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}
-    else{document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}
-    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
-  }catch(e){document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}
-  applyConfig();updateToggleSummary();updateSidebarOffset();
-}
-function saveConfig(){
-  var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
-  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
-  applyConfig();updateToggleSummary();
-  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
-  btn.textContent='✓ Saved';btn.style.background='var(--green)';
-  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
-}
-function clearConfig(){
-  document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';
-  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
-  applyConfig();updateToggleSummary();
-}
-function copyConfigField(id,btn){
-  var val=document.getElementById(id).value.trim();if(!val)return;
-  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
-}
+const PAGE_KEY='edu260-lab-lab6';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' — '+prefix:'';}
+function applyConfig(){var prefix=document.getElementById('prefix-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var d1='thezerotrustexchange.com';var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;['d-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});['d-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
 ['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
-function injectCopyButtons(){
-  document.querySelectorAll('.step-list > li code, .sub-steps li code, .creds-table td code, .task-block code').forEach(function(code){
-    if(code.closest('.callout'))return;
-    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
-    var text=code.textContent.trim();if(text.length<2)return;
-    var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
-    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
-    code.after(btn);
-  });
-}
-function saveSocAnswer(btn){
-  var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');
-  if(!ta.value.trim())return;
-  var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';
-  btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';
-  try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}
-  setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);
-}
-function revealSocAnswer(btn){
-  var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');
-  if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
-  else{ma.style.display='none';btn.textContent='👁 See Model Answer';}
-}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}else{ma.style.display='none';btn.textContent='👁 See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
 function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
 function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
 function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
-function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q,i){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
 function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
 function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
 function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
-document.addEventListener('DOMContentLoaded',function(){
-  document.body.style.opacity='1';
-  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
-});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();});
 </script>
 </body>
 </html>

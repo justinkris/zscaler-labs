@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 1: Connecting to the Virtual Lab — EDU-260</title>
+<title>Lab 7: Troubleshooting User Experience (ZDX) — EDU-260</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,8 +15,7 @@ html.pt-init body{opacity:0;}
 body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
 a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
 header{background:#0d1a2e;padding:28px 40px 24px;border-bottom:3px solid #1a3a6e;}
-.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}
-.breadcrumb a{color:#93c5fd;}
+.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}.breadcrumb a{color:#93c5fd;}
 .header-top{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
 .eyebrow-chip{background:rgba(147,197,253,0.15);border:1px solid rgba(147,197,253,0.3);color:#93c5fd;font-size:10px;font-weight:700;letter-spacing:0.14em;padding:4px 12px;border-radius:20px;text-transform:uppercase;}
 .header-dot{width:8px;height:8px;border-radius:50%;background:#93c5fd;animation:pulse 2s infinite;}
@@ -33,7 +32,7 @@ header h1 em{color:#93c5fd;font-style:italic;}
 .config-toggle-btn:hover{color:#93c5fd;border-color:#93c5fd;}
 .config-toggle-btn .chevron{transition:transform 0.25s ease;display:inline-block;}
 .config-panel.collapsed .config-toggle-btn .chevron{transform:rotate(180deg);}
-.config-body{overflow:hidden;max-height:320px;transition:max-height 0.3s ease,opacity 0.25s ease,padding 0.25s ease;opacity:1;padding-bottom:16px;}
+.config-body{overflow:hidden;max-height:260px;transition:max-height 0.3s ease,opacity 0.25s ease,padding 0.25s ease;opacity:1;padding-bottom:16px;}
 .config-panel.collapsed .config-body{max-height:0;opacity:0;padding-bottom:0;}
 .config-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;align-items:end;}
 .config-field{display:flex;flex-direction:column;gap:6px;}
@@ -101,19 +100,10 @@ main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:
 .sub-steps li{position:relative;padding:4px 0 4px 18px;font-size:13px;color:var(--text-soft);line-height:1.6;}
 .sub-steps li::before{content:'–';color:var(--text-muted);position:absolute;left:0;top:5px;}
 code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-size:12.5px;font-family:monospace;}
-.callout{border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px;}
-.callout p{line-height:1.6;}
-.callout-note{background:var(--blue-glow);border-left:3px solid var(--blue);}
-.callout-note p{color:var(--text-soft);}
-.callout-warning{background:var(--amber-light);border-left:3px solid var(--amber);}
-.callout-warning p{color:#7c3a0a;}
-.callout-success{background:var(--green-light);border-left:3px solid var(--green);}
-.callout-success p{color:#0f4a27;}
-.screenshot-embed{margin:16px 0;text-align:center;}
-.screenshot-embed img{max-width:100%;border:1px solid var(--border);border-radius:8px;box-shadow:0 2px 12px rgba(13,26,46,0.08);}
-.screenshot-embed.narrow img{max-width:560px;}
-.screenshot-embed.dialog img{max-width:420px;}
-.screenshot-caption{font-size:11.5px;color:var(--text-muted);margin-top:7px;font-style:italic;line-height:1.5;}
+.callout{border-radius:8px;padding:12px 16px;margin:14px 0;font-size:13px;}.callout p{line-height:1.6;}
+.callout-note{background:var(--blue-glow);border-left:3px solid var(--blue);}.callout-note p{color:var(--text-soft);}
+.callout-warning{background:var(--amber-light);border-left:3px solid var(--amber);}.callout-warning p{color:#7c3a0a;}
+.callout-success{background:var(--green-light);border-left:3px solid var(--green);}.callout-success p{color:#0f4a27;}
 .mental-note-block{display:flex;gap:14px;background:var(--amber-light);border:1px solid var(--amber-border);border-radius:10px;padding:18px 20px;margin:24px 0;}
 .mental-note-block-icon{font-size:22px;flex-shrink:0;line-height:1;}
 .mental-note-block-label{font-size:9px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:var(--amber);margin-bottom:6px;}
@@ -157,10 +147,6 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .qr-item:last-child{border-bottom:none;}
 .qr-term{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;}
 .qr-def{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
-.lesson-tools{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-top:24px;}
-.lesson-tools-title{font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
-.lesson-tool-group{margin-bottom:14px;}
-.lesson-tool-label{font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;}
 .lesson-tool-textarea{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;font-family:'Epilogue',sans-serif;resize:vertical;color:var(--text);background:var(--surface-2);transition:border-color 0.15s;}
 .lesson-tool-textarea:focus{outline:none;border-color:var(--blue);}
 .lesson-tool-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
@@ -180,24 +166,20 @@ footer.collapsed .footer-inner{padding:6px 48px;}
 footer.collapsed .footer-content{display:none;}
 .footer-toggle{background:none;border:none;color:#5a7a9a;cursor:pointer;font-size:10px;letter-spacing:0.06em;font-family:'Epilogue',sans-serif;padding:0;transition:color 0.15s;display:flex;align-items:center;gap:4px;}
 .footer-toggle:hover{color:#93c5fd;}
-.creds-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
-.creds-table th{background:var(--surface-2);color:var(--text-muted);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--border);text-align:left;}
-.creds-table td{padding:8px 12px;border-bottom:1px solid var(--border-dim);color:var(--text-soft);vertical-align:middle;}
-.creds-table tr:last-child td{border-bottom:none;}
 @media(max-width:900px){main{grid-template-columns:1fr;padding:24px 20px 80px;}.sidebar{position:static;padding-left:0;margin-top:24px;}header{padding:20px 20px 18px;}.footer-inner{padding:12px 20px;}.config-panel{padding:0 20px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-260</a> › Lab 1</div>
+  <div class="breadcrumb"><a href="index.html">EDU-260</a> › Lab 7</div>
   <div class="header-top">
-    <span class="eyebrow-chip">LAB 1 · SETUP</span>
+    <span class="eyebrow-chip">LAB 7 · DIGITAL EXPERIENCE</span>
     <div class="header-dot"></div>
   </div>
-  <h1>Connecting to the <em>Virtual Lab</em></h1>
+  <h1>Troubleshooting User Experience <em>with ZDX</em></h1>
   <div class="motivation-banner">
-    <p>Every troubleshooting journey starts here. Spin up your Skytap environment, meet the Corp: Client PC, and confirm you can reach the ZIA, ZPA, and ZDX admin portals before diving into configuration.</p>
+    <p>When a user says &ldquo;the internet is slow,&rdquo; you now have the tools to prove exactly why &mdash; down to the specific network hop, the WiFi SSID change, and the milliseconds of latency that changed the experience.</p>
   </div>
 </header>
 
@@ -233,13 +215,8 @@ footer.collapsed .footer-content{display:none;}
       </div>
     </div>
     <div class="config-derived" id="config-derived">
-      <span><strong>ZIA Admin:</strong> <code id="d-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>ZIA Admin (ZDX):</strong> <code id="d-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></span>
       <span><strong>IT Dept:</strong> <code id="d-it">ptcb32-IT@thezerotrustexchange.com</code></span>
-      <span><strong>HR Dept:</strong> <code id="d-hr">ptcb32-HR@thezerotrustexchange.com</code></span>
-      <span><strong>MKT Dept:</strong> <code id="d-mkt">ptcb32-MKT@thezerotrustexchange.com</code></span>
-      <span><strong>Contractor:</strong> <code id="d-con">ptcb32-CON@thezerotrustexchange.com</code></span>
-      <span><strong>OT User:</strong> <code id="d-ot">ptcb32-OT@thezerotrustexchange.com</code></span>
-      <span><strong>Sales:</strong> <code id="d-sales">ptcb32-SALES@thezerotrustlab.com</code></span>
     </div>
   </div>
 </div>
@@ -274,18 +251,18 @@ footer.collapsed .footer-content{display:none;}
 <main>
   <div class="content-col">
 
-    <div class="socratic-block" id="soc-lab1">
+    <div class="socratic-block" id="soc-lab7">
       <div class="socratic-header">
         <span class="socratic-icon">💭</span>
-        <span class="socratic-label">THINK FIRST · LAB ENVIRONMENT</span>
+        <span class="socratic-label">THINK FIRST · ZDX SCORE METHODOLOGY &amp; TROUBLESHOOTING</span>
       </div>
-      <p class="socratic-insight">Before touching a live environment, a good troubleshooter builds a mental map of what should be there — topology, roles, access constraints.</p>
+      <p class="socratic-insight">The ZDX score is not just a number — it&rsquo;s a correlated view of network path latency, application response time, and device health. Understanding what the score measures tells you which direction to dig.</p>
       <ul class="socratic-questions">
-        <li>What three types of resources does your Skytap training pod give you access to, and why does that separation matter for troubleshooting?</li>
-        <li>You can access ZIA, ZPA, and ZDX Admin Portals as a Read-Only Administrator. What does this restriction prevent you from doing, and how does it affect the labs?</li>
-        <li>What would happen to your ZCC enrollment and ongoing tests if the Corp: Client PC VM shuts down mid-lab?</li>
+        <li>The ZDX Score fluctuates between Good (75+) and Poor (under 40). When you use the <em>Analyze Score</em> feature on a Poor data point, ZDX returns a confidence-ranked list of contributing factors. What is the difference between a factor with 91% confidence vs. one with 6% confidence in terms of how you should respond?</li>
+        <li>The Cloud Path hop view shows latency measured at each hop: Client → Gateway → Egress → Application. In the example, 319ms of the 339ms total end-to-end latency is on the first hop (Client to Gateway). What does this isolate as the root cause, and which team should own the resolution?</li>
+        <li>A ZDX Snapshot can be shared with others. Why should an analyst always use the <em>Obfuscate Data</em> option when sharing snapshots externally — and what does it hide?</li>
       </ul>
-      <div class="answer-area" data-section="lab1-env">
+      <div class="answer-area" data-section="lab7-zdx">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -294,91 +271,176 @@ footer.collapsed .footer-content{display:none;}
         <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-            <div class="model-answer-text">Your pod gives you: (1) a Corp: Client PC virtual machine for end-user simulation, (2) admin/user credentials for all Zscaler services, and (3) access to ZIA, ZPA, and ZDX Admin Portals. The separation matters because real-world issues span all three layers — you often need to correlate what the client is seeing with what the admin portal logs are showing.</div>
+            <div class="model-answer-text">A 91% confidence factor (e.g. Low Wifi Signal) is the primary root cause — ZDX has strong statistical correlation between this factor and the score drop, and you should act on it immediately. A 6% confidence factor (e.g. Suboptimal Wifi SSID) is a secondary contributing factor — it may be part of the same root cause (in this case, both are WiFi-related) but doesn&rsquo;t warrant independent action. If the primary factor is WiFi, the conversation with the user starts there — not with the application team.</div>
           </div>
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-            <div class="model-answer-text">Read-Only access means you can view all configuration, policies, and logs — but cannot save changes. In these labs that is intentional: you verify that existing configurations are correct, rather than making changes. It mirrors a real HelpDesk Tier 1 scenario where the analyst needs to diagnose before escalating to someone with write access.</div>
+            <div class="model-answer-text">319ms on the first hop (Client to Gateway) isolates the problem as the user&rsquo;s local network or WiFi connection — not the Zscaler service or the application. The 20ms remaining hops (Gateway → Egress → Application) are performing normally. The IT/Network team responsible for the user&rsquo;s local network (or the user themselves for home WiFi) should own the resolution. This is a key finding: ZDX proves the Zscaler infrastructure is not the bottleneck.</div>
           </div>
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-            <div class="model-answer-text">ZCC enrollment state is stored on the VM. If the VM shuts down, ZCC loses its session and must re-authenticate when restarted. Ongoing packet captures would be lost. For labs that span multiple tasks this means you may need to re-enroll the IT_department_user after a restart — always check Service Status in ZCC before continuing.</div>
+            <div class="model-answer-text">The Obfuscate Data option hides PII fields: Device Name, User Name, Location, and IP Address. ZDX Snapshots are accessible via URL by anyone with the link — even outside the organisation. Without obfuscation, sharing the URL could expose employee names, device names, and internal network IP addresses to unintended parties. Always obfuscate when sharing with vendors, external support teams, or anyone outside the organisation.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="section-block" id="section-lab1">
-      <h2>Lab 1: Connecting to the Virtual Lab</h2>
+    <div class="section-block" id="section-lab7">
+      <h2>Lab 7: Troubleshooting User Experience Issues with ZDX</h2>
 
       <div class="lab-header-card">
-        <div class="lab-badge">LAB 1</div>
-        <p><strong>Scenario:</strong> You are a member of the Level 1 HelpDesk team at Safemarch. Before troubleshooting any Zscaler issue you need to confirm your virtual environment is running and locate your credentials.</p>
+        <div class="lab-badge">LAB 7</div>
+        <p><strong>Scenario:</strong> A user (Curtis Hardwick) is reporting poor user experience with frequent disconnections and slow internet speeds. Your organisation has deployed ZDX to proactively monitor network and device performance. You will diagnose the root cause using ZDX tools.</p>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~15 minutes</div>
-          <div class="lab-meta-item"><strong>Environment:</strong> Skytap + Zscaler Portals (Read-Only Admin)</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~40 minutes</div>
+          <div class="lab-meta-item"><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net</code></div>
         </div>
       </div>
 
-      <h3>Task 1.1: Test Your Lab Access and Start Your Environment</h3>
+      <h3>Task 7.1: Checking Zscaler Client Connector</h3>
 
       <div class="task-block">
-        <h4><span class="task-num">1</span> Access the Lab Environment</h4>
+        <h4><span class="task-num">1</span> Verify ZDX Service Status in ZCC</h4>
         <ol class="step-list">
-          <li>On your laptop, open a browser window and navigate to the <strong>Skytap Access URL</strong> provided in your lab confirmation email.</li>
-          <li>Enter your <strong>Skytap Passcode</strong> and click <strong>Go</strong>.</li>
-          <li>If the <strong>Corp: Client PC</strong> VM is shown as shut down, click to <strong>start</strong> the VM.</li>
-          <li>When prompted for Windows credentials, log in:
+          <li>On the Corp: Client PC, open <strong>Zscaler Client Connector</strong> and click the <strong>Digital Experience</strong> tab (the person-with-circle icon in the left sidebar).</li>
+          <li>Verify the status information:
             <ul class="sub-steps">
-              <li>Username: <code>Student</code></li>
-              <li>Password: <code>Admin-123!</code></li>
+              <li><strong>Service Status</strong>: ON</li>
+              <li><strong>Authentication Status</strong>: Authenticated</li>
             </ul>
           </li>
-          <li>If your machine is locked, click the key icon <strong>🔑</strong> to display usernames and passwords saved with the VM. Click <strong>Insert</strong> to paste into the VM.</li>
-          <li>If the virtual desktop is too small or too large, click the resize icon to fit the frame to your current browser window.</li>
+          <li>To simulate a user who inadvertently turned off the ZDX service:
+            <ul class="sub-steps">
+              <li>In Client Connector, click <strong>Service Status: Turn Off</strong></li>
+              <li>Open the <strong>ZSATray</strong> log file from the exported ZCC log bundle</li>
+              <li>Search for the line: <code>UI: User clicked turn off upm service</code> — this confirms the action was user-initiated and is recorded in the client log</li>
+              <li>Close the log file and turn the ZDX service back <strong>On</strong></li>
+            </ul>
+          </li>
+          <li>As another quick troubleshooting option: click <strong>Restart ZDX Service</strong> to restart the ZDX collection process without requiring re-authentication.</li>
         </ol>
         <div class="callout callout-note">
-          <p><strong>Note:</strong> The ZIA, ZPA, and ZDX Admin Portals are cloud services accessible from any machine with an Internet connection. In some labs you should access these URLs from inside the Client PC VM to simulate a corporate device.</p>
+          <p><strong>Note:</strong> If the Digital Experience tab is not present in ZCC, check <strong>Administration &gt; Zscaler Service Entitlement</strong> in the ZCC Portal to verify the ZDX service is enabled. You can also check Windows Task Manager → Services to confirm the ZSAUpm process is running.</p>
         </div>
       </div>
 
-      <h3>Lab Resources and Login Credentials</h3>
+      <h3>Task 7.2: View User ZDX Score for an Application</h3>
 
       <div class="task-block">
-        <h4><span class="task-num">2</span> Locate Your Credentials</h4>
+        <h4><span class="task-num">2</span> Find the User in the ZDX Portal</h4>
         <ol class="step-list">
-          <li>At any time during the lab, click the <strong>Resources</strong> tab in the right window frame to access your:
+          <li>In a new browser window, go to the ZDX Admin Portal: <code>https://admin.zdxcloud.net</code> (a bookmark is provided).</li>
+          <li>Sign in with your <strong>ZIA Admin User ID</strong> (<code class="d-username-admin">ptcb32-ADMIN@thezerotrustexchange.com</code>) and <strong>Session Password</strong> (<span class="var var-pass">&lt;Session Password&gt;</span>).</li>
+          <li>Click <strong>Search</strong> in the left navigation bar.</li>
+          <li>Start typing <code>Curtis</code> in the search box. Select <strong>Curtis Hardwick</strong> from the search results.</li>
+          <li>On the user report page, set the time period to <strong>48 Hours</strong>.</li>
+          <li>Select the application <strong>Salesforce Lightning</strong> from the application tiles at the top of the page.</li>
+          <li>View the <strong>ZDX Score Over Time</strong> graph. Observe that the ZDX score is <strong>fluctuating often between Good and Poor</strong>.</li>
+        </ol>
+      </div>
+
+      <h3>Task 7.3: Analyze Poor ZDX Score Interval</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Use Analyze Score to Identify Root Cause Factors</h4>
+        <ol class="step-list">
+          <li>In the ZDX Score Over Time graph, identify a time period when the ZDX score is <strong>Poor</strong>. Click and drag to zoom in on that time period.</li>
+          <li>Click to set the cursor on a specific data point in the Poor score region.</li>
+          <li>View the ZDX Score displayed for that sample point.</li>
+          <li>Click <strong>Analyze Score</strong>. Analysis will take a few seconds to complete.</li>
+          <li>View the analysis results in the table titled <em>&ldquo;The following factors that might have impacted the ZDX score&rdquo;</em>. Note the factors listed and their confidence levels:
             <ul class="sub-steps">
-              <li><strong>Lab Guide</strong> attachment (PDF download)</li>
-              <li><strong>Credential Information</strong> — your Session_Password and all department usernames</li>
+              <li><strong>Low Wifi Signal</strong> — Explanation: Weak Wi-Fi signal strength detected — Confidence: ~91%</li>
+              <li><strong>Suboptimal Wifi</strong> — Explanation: Degraded user performance detected after connecting to Wi-Fi (SSID: 3Com_Wifi) — Confidence: ~6%</li>
             </ul>
           </li>
-          <li>Record your credentials in the <strong>Lab Configuration</strong> panel at the top of this page (enter your Student Prefix and Session Password, then click <strong>Save</strong>).</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> Your results will differ from these examples because traffic in the lab is simulated. Use these examples as a guide to navigate and choose data to analyse. Select different time periods to see how changing conditions affect the analysis.</p>
+        </div>
+      </div>
+
+      <h3>Task 7.4: Compare Poor ZDX Score to Last Known Good Score</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">4</span> Compare Analyzed Point to Last Known Good</h4>
+        <ol class="step-list">
+          <li>Click <strong>Compare to ▾</strong> for the selected data point on the ZDX Score Over Time graph.</li>
+          <li>Select <strong>Last known good score</strong> from the dropdown.</li>
+          <li>Examine the data for the <strong>Analyzed Point</strong> (Poor score period) and note the differences shown for the <strong>Comparison Point</strong> (Last Known Good), particularly:
+            <ul class="sub-steps">
+              <li><strong>Wi-Fi MAC address</strong> — different MAC addresses indicate the user connected to a different WiFi access point or SSID</li>
+              <li><strong>DNS Resolution Latency</strong> — significantly higher in the Analyzed Point (e.g. 334ms vs. 27ms)</li>
+              <li><strong>Client-Egress Latency</strong> — notably higher in the Analyzed Point (e.g. 328ms vs. 20ms)</li>
+              <li><strong>Page Fetch Time</strong> — much longer in the Poor period</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <h3>Task 7.5: Isolate High Latency Hop</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">5</span> Use Cloud Path Hop View to Identify the Latency Hop</h4>
+        <ol class="step-list">
+          <li>Click the <strong>&larr; Compare ZDX Scores</strong> link at the top of the page to return to the user report.</li>
+          <li>In the ZDX Score Over Time graph, zoom in again on a period containing a Poor ZDX Score.</li>
+          <li>Scroll down on the user report page to view the <strong>Cloud Path</strong> graph. The graph shows latency metrics: Client-Egress, Egress-Application, and End-to-End.</li>
+          <li>Scroll down further to view the <strong>Hop View</strong> visualisation. This shows each detected hop between the client and the server, with the latency measured for each:
+            <ul class="sub-steps">
+              <li>Example: Client PC (CURTIS-PC, Public IP: 74.133.7.25) → <strong>319ms</strong> → 192.168.7.254 (Gateway) → 7ms → 142.254.149.5 (Egress, Spectrum) → 13ms → 10.110.26.13 (zscaler.lightning.force.com)</li>
+            </ul>
+          </li>
+          <li>Observe that <strong>319ms of the 339ms total end-to-end latency is on the first hop</strong> (Client to Gateway) — this isolates the bottleneck to the user&rsquo;s local network connection.</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> If the network connection was lost there will be no data available and the Hop View will not be displayed. Results will vary — the low latency at the beginning of the selected period should change to high latency when the score drops to Poor.</p>
+        </div>
+      </div>
+
+      <h3>Task 7.6: View User Device Events Associated With ZDX Score Changes</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">6</span> Correlate Device Events with Score Transitions</h4>
+        <ol class="step-list">
+          <li>Scroll to the bottom of the user report page to view the <strong>User Device Events</strong> timeline plots. These show events correlated with ZDX score changes across multiple categories: Zscaler, Hardware, Software, Network.</li>
+          <li>Mouse over the <strong>dot on the Network timeline</strong> at the time corresponding to when the ZDX Score transitioned to Poor. A pop-up will appear showing details of the <strong>Network Interface</strong> data recorded for that sample.</li>
+          <li>Scroll through the Network Interface data in the pop-up to identify the type of event that changed at that point (look for a value recorded in the <strong>New Value</strong> field):
+            <ul class="sub-steps">
+              <li>Example: <strong>SSID Change</strong> from <em>Google_Nest</em> to <em>3Com_Wifi</em> — this SSID change is associated with the Poor score transition</li>
+            </ul>
+          </li>
+          <li>Mouse over the dot corresponding to when the ZDX Score transitioned back to Good:
+            <ul class="sub-steps">
+              <li>Example: SSID changes back to <em>Google_Nest</em> — this is associated with the Good score recovery</li>
+            </ul>
+          </li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Root cause identified:</strong> The SSID change from Google_Nest to 3Com_Wifi is directly correlated with the ZDX score dropping to Poor. The user moved to a weaker WiFi access point (3Com_Wifi, 802.11n) which caused significantly higher first-hop latency (319ms). The fix is to keep the device connected to Google_Nest, or improve the signal strength of 3Com_Wifi.</p>
+        </div>
+      </div>
+
+      <h3>Task 7.7: Generate Report Snapshot &amp; Copy Snapshot URL</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">7</span> Create and Share a ZDX Snapshot</h4>
+        <ol class="step-list">
+          <li>Scroll to the top of the user report page and click <strong>Share Snapshot</strong>.</li>
+          <li>Enter details about the report:
+            <ul class="sub-steps">
+              <li><strong>Name</strong>: <code>Student &lt;your number&gt;</code> (e.g. Student 32)</li>
+              <li><strong>Valid for</strong>: <em>2 hours</em></li>
+              <li><strong>Obfuscate Data</strong>: toggle to <strong>Checked</strong> (green) — obfuscates Device Name, User Name, Location, and IP Address</li>
+            </ul>
+          </li>
+          <li>Click <strong>Next</strong>.</li>
+          <li>Click <strong>Copy URL</strong> to copy the snapshot URL to your clipboard.</li>
+          <li>Click <strong>Close</strong>.</li>
+          <li>[Optional] Open another browser tab and paste the URL to view the snapshot — verify that the data is obfuscated as expected.</li>
         </ol>
         <div class="callout callout-warning">
-          <p><strong>Important:</strong> In this lab you will access the ZIA, ZPA &amp; ZDX Admin Portals as a <strong>Read-Only Administrator</strong>. This role affects what you will see — you cannot save any changes made in the portals.</p>
-        </div>
-      </div>
-
-      <div class="task-block">
-        <h4><span class="task-num">3</span> Credential Reference</h4>
-        <p style="font-size:13.5px;color:var(--text-soft);line-height:1.65;margin-bottom:12px;">Your session credentials (enter your prefix above to auto-populate):</p>
-        <table class="creds-table">
-          <thead><tr><th>Role</th><th>Username</th></tr></thead>
-          <tbody>
-            <tr><td>ZIA Admin (Read-Only)</td><td><code id="t-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></td></tr>
-            <tr><td>IT Department User</td><td><code id="t-it">ptcb32-IT@thezerotrustexchange.com</code></td></tr>
-            <tr><td>HR Department User</td><td><code id="t-hr">ptcb32-HR@thezerotrustexchange.com</code></td></tr>
-            <tr><td>Marketing Department User</td><td><code id="t-mkt">ptcb32-MKT@thezerotrustexchange.com</code></td></tr>
-            <tr><td>Contractor User</td><td><code id="t-con">ptcb32-CON@thezerotrustexchange.com</code></td></tr>
-            <tr><td>OT User</td><td><code id="t-ot">ptcb32-OT@thezerotrustexchange.com</code></td></tr>
-            <tr><td>Sales Department User</td><td><code id="t-sales">ptcb32-SALES@thezerotrustlab.com</code></td></tr>
-            <tr><td>Session Password (all accounts)</td><td><code id="t-pass">9UnV@7-g</code></td></tr>
-            <tr><td>ZIA Admin Portal URL</td><td><code>https://admin.zscalerthree.net</code></td></tr>
-          </tbody>
-        </table>
-        <div class="callout callout-note">
-          <p><strong>Note:</strong> The Session Password is unique to your pod and is the same for all admin and user accounts. The Windows VM local credentials (<code>Student</code> / <code>Admin-123!</code>) are separate from the Zscaler account credentials.</p>
+          <p><strong>Important:</strong> Be cautious when sharing ZDX Snapshots. The snapshot URL is accessible by anyone with the link — even outside your organisation. Always use Obfuscate Data when sharing with external parties, and set a short validity period (2 hours is recommended).</p>
         </div>
       </div>
 
@@ -386,7 +448,7 @@ footer.collapsed .footer-content{display:none;}
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">This lab environment gives you one Corp: Client PC VM plus read-only access to ZIA, ZPA, and ZDX Admin Portals. All department user accounts share a single Session Password. ZCC must be enrolled on the Client PC before any client-side traffic troubleshooting can begin — the ZIA/ZPA portals are accessible directly from your local laptop browser.</div>
+          <div class="mental-note-block-text">ZDX troubleshooting workflow: (1) Check ZCC Digital Experience tab — Service ON + Authenticated; (2) Find user in ZDX Portal, set time period, select application; (3) Zoom into Poor score period, Analyze Score for AI/ML root cause factors; (4) Compare to Last Known Good to see Key Differences (WiFi MAC, latency); (5) Cloud Path Hop View — isolates which hop has the latency; (6) User Device Events — Network timeline shows SSID/IP changes correlated with score drops; (7) Share Snapshot with Obfuscate Data for external escalation.</div>
         </div>
       </div>
 
@@ -398,12 +460,14 @@ footer.collapsed .footer-content{display:none;}
     <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
     <div class="checklist-card">
-      <div class="checklist-title">LAB 1 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-1" onchange="saveChecklist()"><span>Accessed Skytap environment</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-2" onchange="saveChecklist()"><span>Corp: Client PC VM started</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-3" onchange="saveChecklist()"><span>Logged in as Student / Admin-123!</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-4" onchange="saveChecklist()"><span>Credentials saved to config panel</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-5" onchange="saveChecklist()"><span>ZIA Admin portal accessible</span></label>
+      <div class="checklist-title">LAB 7 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-7-1" onchange="saveChecklist()"><span>Task 7.1: ZCC Digital Experience verified ON + Authenticated</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-7-2" onchange="saveChecklist()"><span>Task 7.2: Curtis Hardwick found, ZDX score fluctuating</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-7-3" onchange="saveChecklist()"><span>Task 7.3: Analyze Score run — Low Wifi Signal factor found</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-7-4" onchange="saveChecklist()"><span>Task 7.4: Key Differences identified (WiFi MAC, latency)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-7-5" onchange="saveChecklist()"><span>Task 7.5: Hop View — 319ms first hop isolated</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-7-6" onchange="saveChecklist()"><span>Task 7.6: SSID change (Google_Nest → 3Com_Wifi) correlated</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-7-7" onchange="saveChecklist()"><span>Task 7.7: ZDX Snapshot created with Obfuscate Data</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -412,24 +476,28 @@ footer.collapsed .footer-content{display:none;}
       </div>
       <div class="qr-body">
         <div class="qr-item">
-          <div class="qr-term">Skytap</div>
-          <div class="qr-def">Cloud-hosted virtual lab environment. Your Client PC VM and all test infrastructure runs here.</div>
+          <div class="qr-term">ZDX Score</div>
+          <div class="qr-def">0–100 composite score. Good = 75+, Poor = under 40. Calculated from application response time, cloud path latency, and device performance probes.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Corp: Client PC</div>
-          <div class="qr-def">Windows VM in Skytap used for end-user testing. ZCC must be installed here for traffic-forwarding tests.</div>
+          <div class="qr-term">Analyze Score (Y-Engine)</div>
+          <div class="qr-def">AI/ML analysis of a specific Poor score data point. Returns ranked contributing factors with confidence levels. Available by clicking a point on the ZDX Score Over Time graph.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Read-Only Admin</div>
-          <div class="qr-def">Your portal role for this lab. You can view all settings and logs but cannot save any configuration changes.</div>
+          <div class="qr-term">Cloud Path Hop View</div>
+          <div class="qr-def">Visualises latency at each network hop: Client → Gateway → Egress → Application. Isolates which hop is responsible for high latency. If first hop is highest, problem is the user&rsquo;s local network.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Session Password</div>
-          <div class="qr-def">Single shared password for all admin and department user accounts in your pod. Found in the Resources tab.</div>
+          <div class="qr-term">User Device Events</div>
+          <div class="qr-def">Timeline of events on the user&rsquo;s device: IP changes, SSID changes, WiFi channel changes, hardware events. Correlate with ZDX score transitions to find the triggering event.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">ZIA Admin Portal</div>
-          <div class="qr-def"><code>https://admin.zscalerthree.net</code> — ZIA policy, analytics, and administration.</div>
+          <div class="qr-term">ZDX Snapshot</div>
+          <div class="qr-def">Shareable URL for a live ZDX user report. Use Obfuscate Data (hides Device Name, User Name, Location, IP) when sharing externally. Set validity period to limit exposure.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZSATray Log</div>
+          <div class="qr-def">Client-side log file in the ZCC log bundle. Search for &ldquo;UI: User clicked turn off upm service&rdquo; to confirm user-initiated ZDX disable.</div>
         </div>
       </div>
     </div>
@@ -440,19 +508,19 @@ footer.collapsed .footer-content{display:none;}
   <div class="footer-inner">
     <span class="footer-content">EDU-260 · Introduction to Troubleshooting Part 2 of 2</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 1 of 8</span>
+    <span class="footer-content">LAB 7 of 8</span>
   </div>
 </footer>
 
 <div class="page-nav">
-  <span class="page-nav-btn page-nav-prev page-nav-disabled">
+  <a class="page-nav-btn page-nav-prev" href="lab6.html">
     <span class="page-nav-label">← PREVIOUS</span>
-    <span class="page-nav-title">&nbsp;</span>
-  </span>
-  <div class="page-nav-message">Every journey starts here. Your Skytap environment is about to come alive.</div>
-  <a class="page-nav-btn page-nav-next" href="lab2.html">
+    <span class="page-nav-title">Lab 6: Data Protection</span>
+  </a>
+  <div class="page-nav-message">When a user says &ldquo;the internet is slow,&rdquo; you now have the tools to prove exactly why.</div>
+  <a class="page-nav-btn page-nav-next" href="lab8.html">
     <span class="page-nav-label">NEXT →</span>
-    <span class="page-nav-title">Lab 2: Troubleshooting Authentication</span>
+    <span class="page-nav-title">Lab 8: NSS Logging</span>
   </a>
 </div>
 
@@ -460,116 +528,31 @@ footer.collapsed .footer-content{display:none;}
 const CONFIG_KEY='edu260-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu260-config-collapsed';
 const FOOTER_KEY='edu260-footer-collapsed';
-const PAGE_KEY='edu260-lab-lab1';
-
-function toggleConfig(){
-  var panel=document.getElementById('config-panel');
-  var btn=document.getElementById('config-toggle-btn');
-  var collapsed=panel.classList.toggle('collapsed');
-  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
-  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
-  updateSidebarOffset();
-}
-function updateSidebarOffset(){
-  var panel=document.getElementById('config-panel');
-  var h=panel?panel.offsetHeight:52;
-  document.documentElement.style.setProperty('--config-h',h+'px');
-}
-function updateToggleSummary(){
-  var prefix=document.getElementById('prefix-input').value.trim();
-  var s=document.getElementById('config-toggle-summary');
-  s.textContent=prefix?' — '+prefix:'';
-}
-function applyConfig(){
-  var prefix=document.getElementById('prefix-input').value.trim();
-  var pass=document.getElementById('pass-input').value.trim();
-  var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';
-  var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;
-  var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;
-  var hr=prefix?prefix+'-HR@'+d1:'ptcb32-HR@'+d1;
-  var mkt=prefix?prefix+'-MKT@'+d1:'ptcb32-MKT@'+d1;
-  var con=prefix?prefix+'-CON@'+d1:'ptcb32-CON@'+d1;
-  var ot=prefix?prefix+'-OT@'+d1:'ptcb32-OT@'+d1;
-  var sales=prefix?prefix+'-SALES@'+d2:'ptcb32-SALES@'+d2;
-  ['d-admin','t-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});
-  ['d-it','t-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});
-  ['d-hr','t-hr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=hr;});
-  ['d-mkt','t-mkt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=mkt;});
-  ['d-con','t-con'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=con;});
-  ['d-ot','t-ot'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ot;});
-  ['d-sales','t-sales'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=sales;});
-  if(document.getElementById('t-pass')&&pass)document.getElementById('t-pass').textContent=pass;
-  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
-  document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});
-  document.querySelectorAll('.d-username-hr').forEach(function(el){el.textContent=hr;});
-  document.querySelectorAll('.d-username-mkt').forEach(function(el){el.textContent=mkt;});
-  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
-}
-function loadConfig(){
-  try{
-    var saved=localStorage.getItem(CONFIG_KEY);
-    if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}
-    else{document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}
-    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
-  }catch(e){document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}
-  applyConfig();updateToggleSummary();updateSidebarOffset();
-}
-function saveConfig(){
-  var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
-  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
-  applyConfig();updateToggleSummary();
-  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
-  btn.textContent='✓ Saved';btn.style.background='var(--green)';
-  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
-}
-function clearConfig(){
-  document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';
-  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
-  applyConfig();updateToggleSummary();
-}
-function copyConfigField(id,btn){
-  var val=document.getElementById(id).value.trim();if(!val)return;
-  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
-}
+const PAGE_KEY='edu260-lab-lab7';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' — '+prefix:'';}
+function applyConfig(){var prefix=document.getElementById('prefix-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var d1='thezerotrustexchange.com';var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;['d-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});['d-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
 ['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
-function injectCopyButtons(){
-  document.querySelectorAll('.step-list > li code, .sub-steps li code, .creds-table td code, .task-block code').forEach(function(code){
-    if(code.closest('.callout'))return;
-    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
-    var text=code.textContent.trim();if(text.length<2)return;
-    var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
-    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
-    code.after(btn);
-  });
-}
-function saveSocAnswer(btn){
-  var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');
-  if(!ta.value.trim())return;
-  var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';
-  btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';
-  try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}
-  setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);
-}
-function revealSocAnswer(btn){
-  var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');
-  if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
-  else{ma.style.display='none';btn.textContent='👁 See Model Answer';}
-}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}else{ma.style.display='none';btn.textContent='👁 See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
 function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
 function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
 function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
-function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q,i){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
 function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
 function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
 function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
-document.addEventListener('DOMContentLoaded',function(){
-  document.body.style.opacity='1';
-  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
-});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();});
 </script>
 </body>
 </html>
