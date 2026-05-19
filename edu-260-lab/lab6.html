@@ -161,12 +161,36 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .page-nav-title{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--blue);display:block;}
 .page-nav-message{flex:1;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:11.5px;font-style:italic;color:var(--text-muted);padding:0 12px;text-align:center;border-left:1px solid var(--border-dim);border-right:1px solid var(--border-dim);line-height:1.4;}
 footer{background:#0d1a2e;color:#5a7a9a;font-size:11px;letter-spacing:0.04em;margin-bottom:48px;transition:padding 0.2s ease;}
-.footer-inner{display:flex;justify-content:space-between;align-items:center;padding:16px 48px;}
-footer.collapsed .footer-inner{padding:6px 48px;}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;padding:7px 48px;}
+footer.collapsed .footer-inner{padding:4px 48px;}
 footer.collapsed .footer-content{display:none;}
 .footer-toggle{background:none;border:none;color:#5a7a9a;cursor:pointer;font-size:10px;letter-spacing:0.06em;font-family:'Epilogue',sans-serif;padding:0;transition:color 0.15s;display:flex;align-items:center;gap:4px;}
 .footer-toggle:hover{color:#93c5fd;}
-@media(max-width:900px){main{grid-template-columns:1fr;padding:24px 20px 80px;}.sidebar{position:static;padding-left:0;margin-top:24px;}header{padding:20px 20px 18px;}.footer-inner{padding:12px 20px;}.config-panel{padding:0 20px;}}
+.section-qa{background:var(--surface-2);border:1px solid var(--border-dim);border-radius:8px;margin:16px 0 8px;overflow:hidden;}
+.section-qa-header{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;user-select:none;background:none;border:none;width:100%;font-family:'Epilogue',sans-serif;text-align:left;transition:background 0.15s;}
+.section-qa-header:hover{background:rgba(26,109,204,0.04);}
+.section-qa-title{font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);}
+.section-qa-chevron{margin-left:auto;font-size:11px;color:var(--text-muted);transition:transform 0.2s ease;}
+.section-qa.open .section-qa-chevron{transform:rotate(180deg);}
+.section-qa-body{display:none;padding:0 14px 14px;}
+.section-qa.open .section-qa-body{display:block;}
+.section-qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.section-qa-label{font-size:10px;letter-spacing:0.12em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;}
+.section-qa-textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12.5px;font-family:'Epilogue',sans-serif;resize:vertical;color:var(--text);background:var(--surface);transition:border-color 0.15s;min-height:68px;}
+.section-qa-textarea:focus{outline:none;border-color:var(--blue);}
+.section-qa-save{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;margin-top:6px;transition:background 0.15s;}
+.section-qa-save:hover{background:var(--blue-deep);}
+.section-qa-list{margin-top:8px;}
+.section-qa-list p{font-size:12px;color:var(--text-soft);padding:3px 0;border-bottom:1px solid var(--border-dim);}
+.section-qa-list p:last-child{border-bottom:none;}
+.section-qa-badge{background:var(--blue);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;display:none;margin-left:6px;}
+.screenshot-embed{margin:16px 0;}
+.screenshot-embed img{max-width:100%;border:1px solid var(--border);border-radius:8px;display:block;}
+.screenshot-embed.narrow img{max-width:560px;}
+.screenshot-embed.dialog img{max-width:420px;}
+.screenshot-embed.menu img{max-width:320px;}
+.screenshot-caption{font-size:11.5px;color:var(--text-muted);margin-top:6px;line-height:1.5;font-style:italic;}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:24px 20px 80px;}.sidebar{position:static;padding-left:0;margin-top:24px;}header{padding:20px 20px 18px;}.footer-inner{padding:6px 20px;}.config-panel{padding:0 20px;}.section-qa-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -338,6 +362,29 @@ footer.collapsed .footer-content{display:none;}
         </div>
       </div>
 
+      <div class="section-qa" data-section="t6-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.1</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-1" placeholder="Questions about this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-1" placeholder="Key takeaways from this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <h3>Task 6.2: Verify DLP Rule Enforcement</h3>
 
       <div class="task-block">
@@ -395,6 +442,29 @@ footer.collapsed .footer-content{display:none;}
         </ol>
       </div>
 
+      <div class="section-qa" data-section="t6-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.2</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-2" placeholder="Questions about this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-2" placeholder="Key takeaways from this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <h3>Task 6.4: View Block Action Web Log Record</h3>
 
       <div class="task-block">
@@ -428,6 +498,29 @@ footer.collapsed .footer-content{display:none;}
         </div>
       </div>
 
+      <div class="section-qa" data-section="t6-3">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.4</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-3" placeholder="Questions about this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-3',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-3"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-3" placeholder="Key takeaways from this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-3',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <h3>Task 6.5: View Predefined Dictionaries</h3>
 
       <div class="task-block">
@@ -446,6 +539,29 @@ footer.collapsed .footer-content{display:none;}
         </ol>
         <div class="callout callout-note">
           <p><strong>Note:</strong> You can set different confidence thresholds (Low, Medium, High) for the same identifier. With High confidence thresholds, proximity keywords and BIN numbers reduce false positives. Up to 512 BIN numbers may be specified.</p>
+        </div>
+      </div>
+
+      <div class="section-qa" data-section="t6-4">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.5</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-4" placeholder="Questions about this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-4',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-4"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-4" placeholder="Key takeaways from this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-4',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-4"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -475,6 +591,29 @@ footer.collapsed .footer-content{display:none;}
         </div>
       </div>
 
+      <div class="section-qa" data-section="t6-5">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.6</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-5" placeholder="Questions about this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-5',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-5"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-5" placeholder="Key takeaways from this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-5',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <h3>Task 6.7: View Predefined and Custom DLP Engines</h3>
 
       <div class="task-block">
@@ -493,6 +632,29 @@ footer.collapsed .footer-content{display:none;}
         </ol>
         <div class="callout callout-note">
           <p><strong>Note:</strong> When configuring a predefined or custom DLP engine, you can combine DLP dictionaries with operators to create logical expressions. Operators include All (AND), Any (OR), Exclude (AND NOT), and Sum. The Sum operator allows specifying a total number of matches across a group of dictionaries.</p>
+        </div>
+      </div>
+
+      <div class="section-qa" data-section="t6-6">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.7</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-6" placeholder="Questions about this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-6',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-6"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-6" placeholder="Key takeaways from this section…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-6',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-6"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -601,7 +763,14 @@ function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')|
 function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
 function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
 function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
-document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();});
+var SECTION_IDS=['t6-1','t6-2','t6-3','t6-4','t6-5','t6-6'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});});
 </script>
 </body>
 </html>
