@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lab 3: DNS Security — EDU-230</title>
-<script>
-(function(){
-  var s=sessionStorage.getItem('page-transition');
-  if(s){var el=document.createElement('style');el.textContent='*{transition:none!important}';document.head.appendChild(el);sessionStorage.removeItem('page-transition');}
-})();
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="lab-style.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
 </head>
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-230 Hub</a> <span>›</span> <a href="index.html">Cyberthreat Protection</a> <span>›</span> Lab 3</div>
+  <div class="breadcrumb"><a href="index.html">EDU-230</a> › Lab 3</div>
   <div class="header-top">
-    <div class="eyebrow-chip" style="background:#d9770620;color:#d97706;border-color:#d9770640;">ZIA — LAB 3</div>
+    <span class="eyebrow-chip">LAB 3 · ZIA</span>
+    <div class="header-dot"></div>
     
   </div>
   <h1>DNS Security</h1>
-  <p class="header-desc">DNS is a critical attack vector. In this lab you configure DNS control policies to block malicious and unwanted domains at the DNS layer, preventing resolution before any TCP connection is established.</p>
+  <div class="motivation-banner">
+    <p>DNS is a critical attack vector — it is often the first step in malware communications, phishing, and C2 callbacks. This lab configures DNS control policies to block malicious and unwanted domains at the DNS layer, before any TCP connection is established.</p>
+  </div>
 </header>
 
 <div class="config-panel" id="config-panel">
@@ -93,334 +92,351 @@
   </div>
 </div>
 
-<div class="main-layout">
+<main>
   <div class="content-col">
+
     <div class="section-block" id="section-lab3">
       <h2>Lab 3: DNS Security</h2>
+
       <div class="lab-header-card">
         <div class="lab-badge">LAB 3</div>
-        <p><strong>Scenario:</strong> DNS is a critical attack vector. In this lab you configure DNS control policies to block malicious and unwanted domains at the DNS layer, preventing resolution before any TCP connection is established.</p>
+        <p><strong>Scenario:</strong> DNS is a critical attack vector — it is often the first step in malware communications, phishing, and C2 callbacks. This lab configures DNS control policies to block malicious and unwanted domains at the DNS layer, before any TCP connection is established.</p>
         <figure class="lab-hero">
-          <img src="images/lab3-hero.png" alt="Lab 3 — DNS Security" loading="lazy" onerror="this.parentElement.style.display='none'">
+          <img src="images/lab3-hero.png" alt="Lab 3 — DNS Security" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <span class="lab-meta-item">⏱ 20 min</span>
-          <span class="lab-meta-item">📋 3 tasks</span>
-          <span class="lab-meta-item" style="color:#d97706;">● ZIA</span>
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 min</div>
+          <div class="lab-meta-item"><strong>Phase:</strong> ZIA</div>
+          <div class="lab-meta-item"><strong>Tasks:</strong> 3</div>
         </div>
       </div>
 
       <div class="socratic-block" id="soc-lab3">
-        <div class="socratic-header" onclick="toggleSocratic(this)">
-          <span class="socratic-icon">🤔</span>
-          <span class="socratic-title">Think First — Before You Click</span>
-          <span class="socratic-hint">3 questions to prime your thinking</span>
-          <span class="soc-main-chevron">▾</span>
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · LAB 3</span>
         </div>
-        <div class="socratic-body">
-        <div class="soc-item">
-          <button class="soc-q" onclick="toggleSocAnswer(this)">
-            <span class="soc-q-num">Q1</span>
-            <span class="soc-q-text">Why is DNS-layer blocking more effective than URL filtering alone for blocking malicious domains?</span>
-            <span class="soc-chevron">▾</span>
-          </button>
-          <div class="soc-answer">
-            <p>DNS blocking prevents resolution before any TCP/IP connection is established — the client never sends a packet to the malicious server. URL filtering operates later (at the HTTP/HTTPS layer) after a connection is already formed. DNS blocking also catches non-web protocols that use the same malicious domain.</p>
+        <p class="socratic-insight">DNS blocking intercepts threats before any network connection is established — it is the cheapest layer of defence in terms of performance overhead and one of the highest-signal sources for threat intelligence.</p>
+        <ul class="socratic-questions">
+          <li>Why is DNS-layer blocking more effective than URL filtering alone for blocking malicious domains?</li>
+          <li>What does the Domain Inclusion wildcard * in the App Profile accomplish?</li>
+          <li>What risks remain even after implementing DNS-layer blocking?</li>
+        </ul>
+        <div class="answer-area" data-section="lab3-soc">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
           </div>
-        </div>
-        <div class="soc-item">
-          <button class="soc-q" onclick="toggleSocAnswer(this)">
-            <span class="soc-q-num">Q2</span>
-            <span class="soc-q-text">What does the Domain Inclusion wildcard '*' in the App Profile accomplish?</span>
-            <span class="soc-chevron">▾</span>
-          </button>
-          <div class="soc-answer">
-            <p>It tells Zscaler Client Connector to forward ALL DNS queries (for all domains) through ZIA's DNS resolver. Without this, only specific domains you list would be subject to ZIA's DNS policies — the wildcard ensures universal DNS inspection coverage.</p>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text">DNS blocking prevents resolution before any TCP/IP connection is established — the client never sends a packet to the malicious server. URL filtering operates after a connection is already formed. DNS blocking also catches non-web protocols that use the same malicious domain.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">It tells Zscaler Client Connector to forward ALL DNS queries (for all domains) through ZIA's DNS resolver. Without this, only specific listed domains are subject to DNS policies — the wildcard ensures universal DNS inspection coverage.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">Attackers can use DNS-over-HTTPS (DoH) or hardcoded IP addresses to bypass DNS controls. Fast-flux domains also change IPs rapidly. These are addressed by blocking DoH endpoints via Cloud Firewall and using IP reputation policies.</div>
+            </div>
           </div>
-        </div>
-        <div class="soc-item">
-          <button class="soc-q" onclick="toggleSocAnswer(this)">
-            <span class="soc-q-num">Q3</span>
-            <span class="soc-q-text">What risk remains even after implementing DNS-layer blocking?</span>
-            <span class="soc-chevron">▾</span>
-          </button>
-          <div class="soc-answer">
-            <p>Attackers can use DNS-over-HTTPS (DoH) or hardcoded IP addresses to bypass DNS-layer controls. Additionally, fast-flux domains change IPs rapidly. These gaps are addressed by additional layers: Cloud Firewall to block DoH endpoints, and URL/IP reputation policies.</p>
-          </div>
-        </div>
         </div>
       </div>
 
-        <div class="task-block" id="task-3-1">
-          <div class="task-header">
-            <span class="task-number">TASK 3.1</span>
-            <h3 class="task-title">Task 3.1: Configure App Profile</h3>
-          </div>
-          <div class="task-body">
-            <p>Enable domain inclusion in the Zscaler Client Connector App Profile so that DNS queries are forwarded through ZIA.</p>
-              <ol>
-                <li>In <strong>ZIdentity &gt; Zscaler Client Connector</strong>, go to <strong>App Profiles &gt; Windows</strong>.</li>
-                <li>Edit the <strong>HandsOnLab</strong> policy and navigate to the <strong>DNS</strong> tab.</li>
-                <li>Under <strong>Domain Inclusion</strong>, type <code>*</code> in the field and press Enter to create the wildcard entry.</li>
-                <li>Click <strong>Save</strong>.</li>
-                <li>On the endpoint, open Zscaler Client Connector and click <strong>More &gt; Update Policy</strong>.</li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-3-1" onblur="saveTQ('task-3-1',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-3-1" onblur="saveTN('task-3-1',this.value)"></textarea>
-              </div>
+      <h3>Task 3.1: Configure App Profile</h3>
+
+      <div class="task-block">
+        <p>Enable domain inclusion in the App Profile so that <em>all</em> DNS queries from the endpoint are forwarded through ZIA.</p>
+        <ol class="step-list">
+          <li>In <strong>ZIdentity &gt; Zscaler Client Connector</strong>, go to <strong>App Profiles &gt; Windows</strong>.</li>
+          <li>Edit the <strong>HandsOnLab</strong> policy and go to the <strong>DNS</strong> tab.</li>
+          <li>Under <strong>Domain Inclusion</strong>, type <code>*</code> and press Enter to create the wildcard entry.</li>
+          <li>Click <strong>Save</strong>.</li>
+          <li>On the endpoint, open Zscaler Client Connector and click <strong>More &gt; Update Policy</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l3-t1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 3.1: Configure App Profile</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l3-t1" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l3-t1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l3-t1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l3-t1" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l3-t1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l3-t1"></div>
             </div>
           </div>
         </div>
-        <div class="task-block" id="task-3-2">
-          <div class="task-header">
-            <span class="task-number">TASK 3.2</span>
-            <h3 class="task-title">Task 3.2: Configure DNS Control Policy</h3>
-          </div>
-          <div class="task-body">
-            <p>Create a DNS filtering rule that blocks gambling-category domains at the DNS layer.</p>
-              <ol>
-                <li><strong>Pre-test:</strong> Open a command prompt and run:<br><code>nslookup www.gambling.com 8.8.8.8</code><br>Confirm it resolves (no policy yet).</li>
-                <li>In the <strong>ZIA Admin Portal</strong>, go to <strong>Policy &gt; Firewall &gt; DNS Control</strong>.</li>
-                <li>Click <strong>+ Add DNS Filtering Rule</strong>:
-                  <ul>
-                    <li>Rule Order: <strong>1</strong></li>
-                    <li>Name: <strong>Block Gambling</strong></li>
-                    <li>DNS Application tab — <strong>Request Categories</strong> and <strong>Response Categories</strong>: <strong>Gambling</strong></li>
-                    <li>Action: <strong>Block</strong></li>
-                  </ul>
-                </li>
-                <li>Click <strong>Save</strong> then <strong>Activate</strong>.</li>
-                <li><strong>Post-test:</strong> Run <code>ipconfig /flushdns</code> then <code>nslookup www.gambling.com 8.8.8.8</code> — the query should now time out.</li>
-                <li>Verify a legitimate domain still resolves: <code>nslookup www.sdxcentral.com 8.8.8.8</code></li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-3-2" onblur="saveTQ('task-3-2',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-3-2" onblur="saveTN('task-3-2',this.value)"></textarea>
-              </div>
+      </div>
+
+      <h3>Task 3.2: Configure DNS Control Policy</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Pre-test</h4>
+        <ol class="step-list">
+          <li>Open a command prompt and run: <code>nslookup www.gambling.com 8.8.8.8</code></li>
+          <li>Confirm the domain resolves successfully (no policy in place yet).</li>
+        </ol>
+        <h4><span class="task-num">2</span> Create the DNS Filtering Rule</h4>
+        <ol class="step-list">
+          <li>In the <strong>ZIA Admin Portal</strong>, go to <strong>Policy &gt; Firewall &gt; DNS Control</strong>.</li>
+          <li>Click <strong>+ Add DNS Filtering Rule</strong> and configure:<ul class="sub-steps"><li>Rule Order: <strong>1</strong></li><li>Name: <strong>Block Gambling</strong></li><li>DNS Application tab — Request Categories + Response Categories: <strong>Gambling</strong></li><li>Action: <strong>Block</strong></li></ul></li>
+          <li>Click <strong>Save</strong> then <strong>Activate</strong>.</li>
+        </ol>
+        <h4><span class="task-num">3</span> Post-test</h4>
+        <ol class="step-list">
+          <li>Run <code>ipconfig /flushdns</code> to clear the DNS cache.</li>
+          <li>Run <code>nslookup www.gambling.com 8.8.8.8</code> — the query should now time out.</li>
+          <li>Verify a legitimate domain still resolves: <code>nslookup www.sdxcentral.com 8.8.8.8</code></li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l3-t2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 3.2: Configure DNS Control Policy</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l3-t2" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l3-t2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l3-t2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l3-t2" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l3-t2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l3-t2"></div>
             </div>
           </div>
         </div>
-        <div class="task-block" id="task-3-3">
-          <div class="task-header">
-            <span class="task-number">TASK 3.3</span>
-            <h3 class="task-title">Task 3.3: DNS Insight Logs</h3>
-          </div>
-          <div class="task-body">
-            <p>Review the DNS Insights logs to confirm blocked gambling requests are being logged.</p>
-              <ol>
-                <li>In the <strong>ZIA Admin Portal</strong>, go to <strong>Analytics &gt; Insights &gt; DNS Insights &gt; Logs</strong>.</li>
-                <li>Set Timeframe to <strong>Current Day</strong>.</li>
-                <li>Add a filter: <strong>Rule Name: Block Gambling</strong>.</li>
-                <li>Click <strong>Apply Filters</strong>.</li>
-                <li>Review the log entries showing blocked gambling domain requests (e.g., www.888.com).</li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-3-3" onblur="saveTQ('task-3-3',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-3-3" onblur="saveTN('task-3-3',this.value)"></textarea>
-              </div>
+      </div>
+
+      <h3>Task 3.3: DNS Insight Logs</h3>
+
+      <div class="task-block">
+        <ol class="step-list">
+          <li>In the ZIA Admin Portal, go to <strong>Analytics &gt; Insights &gt; DNS Insights &gt; Logs</strong>.</li>
+          <li>Set Timeframe to <strong>Current Day</strong>.</li>
+          <li>Add a filter: <strong>Rule Name: Block Gambling</strong>.</li>
+          <li>Click <strong>Apply Filters</strong> and review the blocked gambling domain requests (e.g., www.888.com).</li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l3-t3">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 3.3: DNS Insight Logs</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l3-t3" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l3-t3',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l3-t3"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l3-t3" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l3-t3',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l3-t3"></div>
             </div>
           </div>
         </div>
+      </div>
 
       <div class="mental-note-block">
-        <div class="mental-note-label">📝 Mental Note</div>
-        <textarea class="mental-note-textarea" rows="4" placeholder="Summarize what you learned in Lab 3 — key concepts, surprises, things to research more…" id="mental-note-3" onblur="saveMentalNote(3,this.value)"></textarea>
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">DNS filtering operates before any connection — it is your fastest and lowest-overhead layer of block. The wildcard * in Domain Inclusion is what makes ZIA see every DNS query; without it, DNS policy is a partial view.</div>
+        </div>
       </div>
+
     </div>
-  </div>
+
+  </div><!-- /.content-col -->
 
   <aside class="sidebar">
-    <a class="sidebar-hub-link" href="index.html">← Back to EDU-230 Hub</a>
+    <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Lab 3 Progress</div>
-      <div class="checklist" id="checklist-3">
-          <label class="checklist-item" for="chk-3-1">
-            <input type="checkbox" id="chk-3-1" onchange="saveChecklist(this)">
-            <span>Completed Task 3.1 — Configured App Profile DNS settings</span>
-          </label>
-          <label class="checklist-item" for="chk-3-2">
-            <input type="checkbox" id="chk-3-2" onchange="saveChecklist(this)">
-            <span>Completed Task 3.2 — Configured DNS Control Policy to block gambling</span>
-          </label>
-          <label class="checklist-item" for="chk-3-3">
-            <input type="checkbox" id="chk-3-3" onchange="saveChecklist(this)">
-            <span>Completed Task 3.3 — Reviewed DNS Insight Logs</span>
-          </label>
-      </div>
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 3 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-1" onchange="saveChecklist()"><span>Completed Task 3.1 — Configured App Profile DNS settings (Domain Inclusion: *)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-2" onchange="saveChecklist()"><span>Completed Task 3.2 — Configured DNS Control Policy to block Gambling</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-3" onchange="saveChecklist()"><span>Completed Task 3.3 — Reviewed DNS Insight Logs</span></label>
     </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Lab Environment</div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">YOUR TENANT</div>
-        <div class="quick-ref-row"><span>Student FQDN</span><code class="var var-fqdn">&lt;Student FQDN&gt;</code></div>
-        <div class="quick-ref-row"><span>Session Password</span><code class="var var-pass">&lt;Session Password&gt;</code></div>
-        <div class="quick-ref-row"><span>ZIdentity URL</span><code id="d-zid-2">&lt;StudentID&gt;safemarch.zslogin.net</code></div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">▲</span>
       </div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">WIN SVR 2016 (CORP)</div>
-        <div class="quick-ref-row"><span>Username</span><code>PATRAINING\Administrator</code></div>
-        <div class="quick-ref-row"><span>Password</span><code>Admin-123!</code></div>
-      </div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">ZPA CONNECTOR VM</div>
-        <div class="quick-ref-row"><span>Username</span><code>admin</code></div>
-        <div class="quick-ref-row"><span>Password</span><code>zscaler</code></div>
-        <div class="quick-ref-row"><span>IP Address</span><code>10.0.0.2</code></div>
-      </div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">SDC TENANT</div>
-        <div class="quick-ref-row"><span>Portal</span><code>sdc.zslogin.net</code></div>
-        <div class="quick-ref-row"><span>Credentials</span><code>via email / Resources panel</code></div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">ZIA Admin Portal</div>
+          <div class="qr-def">Access via ZIdentity. Policy, analytics, and administration for internet security.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZPA Admin Portal</div>
+          <div class="qr-def">Access via ZIdentity. Private application access configuration and App Connector management.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Student FQDN</div>
+          <div class="qr-def">Your unique tenant identifier, e.g. <code>zs9901.safemarch.com</code>. Enter in the config panel above.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Corp: Win Svr 2016</div>
+          <div class="qr-def">Login: <code>PATRAINING\Administrator</code> / <code>Admin-123!</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Corp: ZPA Connector</div>
+          <div class="qr-def">Login: <code>admin</code> / <code>zscaler</code> · IP: <code>10.0.0.2</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">SDC Tenant</div>
+          <div class="qr-def"><code>sdc.zslogin.net</code> — read-only admin credentials provided via email / Resources panel.</div>
+        </div>
       </div>
     </div>
   </aside>
-</div>
+</main>
 
-<nav class="page-nav">
-  <div class="page-nav-prev"><a class="nav-prev" href="lab2.html">← Lab 2: Configuring SSL Inspection Policies</a></div>
-  <div class="page-nav-msg"><em>DNS is the first line — you're now defending it.</em></div>
-  <div class="page-nav-next"><a class="nav-next" href="lab4.html">Lab 4: URL Filtering and Cloud App Control →</a></div>
-</nav>
-
-<footer>
-  <span>EDU-230 · Cyberthreat Protection</span>
-  <span>Lab 3 of 8</span>
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-230 · Cyberthreat Protection</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">LAB 3 of 8</span>
+  </div>
 </footer>
 
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab2.html">← Lab 2: Configuring SSL Inspection Policies</a>
+  <div class="page-nav-message">DNS is the first line of defence — you're now defending it.</div>
+  <a class="page-nav-btn page-nav-next" href="lab4.html">Lab 4: URL Filtering and Cloud App Control →</a>
+</div>
+
 <script>
-const PAGE_KEY='edu230-lab-lab3';
 const CONFIG_KEY='edu230-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu230-config-collapsed';
+const FOOTER_KEY='edu230-footer-collapsed';
+const PAGE_KEY='edu230-lab-lab3';
 
 function toggleConfig(){
-  var body=document.getElementById('config-body');
+  var panel=document.getElementById('config-panel');
   var btn=document.getElementById('config-toggle-btn');
-  var chevron=btn.querySelector('.chevron');
-  if(body.style.display==='none'){
-    body.style.display='';
-    chevron.textContent='▲';
-    btn.lastChild.textContent=' Collapse';
-  }else{
-    body.style.display='none';
-    chevron.textContent='▼';
-    btn.lastChild.textContent=' Expand';
-  }
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
+  updateSidebarOffset();
 }
-function saveConfig(){
+function updateSidebarOffset(){
+  var panel=document.getElementById('config-panel');
+  var h=panel?panel.offsetHeight:52;
+  document.documentElement.style.setProperty('--config-h',h+'px');
+}
+function updateToggleSummary(){
+  var fqdn=document.getElementById('fqdn-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  s.textContent=fqdn?' — '+fqdn:'';
+}
+function applyConfig(){
   var fqdn=document.getElementById('fqdn-input').value.trim();
   var pass=document.getElementById('pass-input').value.trim();
-  try{localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));}catch(e){}
-  applyConfig(fqdn,pass);
-}
-function clearConfig(){
-  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
-  document.getElementById('fqdn-input').value='';
-  document.getElementById('pass-input').value='';
-  applyConfig('','');
-}
-function applyConfig(fqdn,pass){
   var studentID=fqdn?fqdn.split('.')[0]:'<Student ID>';
   var zidURL=fqdn?studentID+'safemarch.zslogin.net':'<StudentID>safemarch.zslogin.net';
   document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
-  document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
   var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
   var di=document.getElementById('d-id');if(di)di.textContent=studentID;
   var dz=document.getElementById('d-zid');if(dz)dz.textContent=zidURL;
-  var dz2=document.getElementById('d-zid-2');if(dz2)dz2.textContent=zidURL;
-  var sum=document.getElementById('config-toggle-summary');
-  if(sum)sum.textContent=fqdn?' — '+fqdn:'';
+}
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('fqdn-input').value=cfg.fqdn||'';document.getElementById('pass-input').value=cfg.pass||'';}
+    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
+  }catch(e){}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){
+  var cfg={fqdn:document.getElementById('fqdn-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();updateToggleSummary();
+  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+function clearConfig(){
+  document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();updateToggleSummary();
 }
 function copyConfigField(id,btn){
-  var val=document.getElementById(id).value;
-  if(!val)return;
-  navigator.clipboard.writeText(val).then(function(){
-    btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);
+  var val=document.getElementById(id).value.trim();if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
+}
+['fqdn-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){
+    if(code.closest('.callout'))return;
+    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
+    var text=code.textContent.trim();if(text.length<2)return;
+    var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
+    code.after(btn);
   });
+}
+function saveSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');
+  if(!ta.value.trim())return;
+  var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';
+  btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';
+  try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}
+  setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);
+}
+function revealSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');
+  if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
+  else{ma.style.display='none';btn.textContent='👁 See Model Answer';}
 }
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
 function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
 function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
 function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
-function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');document.getElementById('q-list').innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');var c=document.getElementById('q-count');c.textContent=qs.length;c.style.display=qs.length?'inline-block':'none';}catch(e){}}
-function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');document.getElementById('n-list').innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
-function saveTQ(id,val){try{localStorage.setItem(PAGE_KEY+'-tq-'+id,val);}catch(e){}}
-function saveTN(id,val){try{localStorage.setItem(PAGE_KEY+'-tn-'+id,val);}catch(e){}}
-function saveMentalNote(n,val){try{localStorage.setItem(PAGE_KEY+'-mental',val);}catch(e){}}
-function saveChecklist(cb){
-  try{
-    var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
-    state[cb.id]=cb.checked;
-    localStorage.setItem(PAGE_KEY+'-checks',JSON.stringify(state));
-  }catch(e){}
-}
-function toggleSocratic(btn){
-  var body=btn.nextElementSibling;
-  body.classList.toggle('open');
-  btn.classList.toggle('open');
-}
-function toggleSocAnswer(btn){
-  var answer=btn.nextElementSibling;
-  answer.classList.toggle('open');
-  btn.classList.toggle('open');
-}
-(function init(){
-  try{
-    var cfg=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');
-    if(cfg.fqdn){document.getElementById('fqdn-input').value=cfg.fqdn;}
-    if(cfg.pass){document.getElementById('pass-input').value=cfg.pass;}
-    applyConfig(cfg.fqdn||'',cfg.pass||'');
-  }catch(e){}
-  loadQList();
-  loadNList();
-  try{
-    var mn=localStorage.getItem(PAGE_KEY+'-mental');
-    if(mn)document.getElementById('mental-note-3').value=mn;
-  }catch(e){}
-  document.querySelectorAll('.task-block').forEach(function(t){
-    var tid=t.id;
-    var tqEl=document.getElementById('tq-'+tid);
-    var tnEl=document.getElementById('tn-'+tid);
-    try{
-      var tq=localStorage.getItem(PAGE_KEY+'-tq-'+tid);
-      var tn=localStorage.getItem(PAGE_KEY+'-tn-'+tid);
-      if(tq&&tqEl)tqEl.value=tq;
-      if(tn&&tnEl)tnEl.value=tn;
-    }catch(e){}
-  });
-  try{
-    var checks=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
-    Object.keys(checks).forEach(function(id){
-      var cb=document.getElementById(id);
-      if(cb)cb.checked=checks[id];
-    });
-  }catch(e){}
-  document.querySelectorAll('a[href]').forEach(function(a){
-    a.addEventListener('click',function(){sessionStorage.setItem('page-transition','1');});
-  });
-})();
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['l3-t1', 'l3-t2', 'l3-t3'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
 </script>
 </body>
 </html>

@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lab 6: ZPA Traffic Inspection via ZIA — EDU-230</title>
-<script>
-(function(){
-  var s=sessionStorage.getItem('page-transition');
-  if(s){var el=document.createElement('style');el.textContent='*{transition:none!important}';document.head.appendChild(el);sessionStorage.removeItem('page-transition');}
-})();
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="lab-style.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
 </head>
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-230 Hub</a> <span>›</span> <a href="index.html">Cyberthreat Protection</a> <span>›</span> Lab 6</div>
+  <div class="breadcrumb"><a href="index.html">EDU-230</a> › Lab 6</div>
   <div class="header-top">
-    <div class="eyebrow-chip" style="background:#16a34a20;color:#16a34a;border-color:#16a34a40;">ZPA — LAB 6</div>
+    <span class="eyebrow-chip">LAB 6 · ZPA</span>
+    <div class="header-dot"></div>
     
   </div>
   <h1>ZPA Traffic Inspection via ZIA</h1>
-  <p class="header-desc">ZPA traffic can be routed through ZIA for full inspection of private application access. This lab provisions an App Connector, configures a ZPA Application Segment for a corporate intranet server, creates an Access Policy, and enables the ZIA Inspected ZPA Apps forwarding rule.</p>
+  <div class="motivation-banner">
+    <p>ZPA secures access to private applications, but does not inspect application-layer content. By routing ZPA traffic through ZIA, you add full content inspection, DLP, and threat protection to private app access. This lab provisions an App Connector, creates an Application Segment, and enables the ZIA Inspected ZPA Apps forwarding rule.</p>
+  </div>
 </header>
 
 <div class="config-panel" id="config-panel">
@@ -93,454 +92,458 @@
   </div>
 </div>
 
-<div class="main-layout">
+<main>
   <div class="content-col">
+
     <div class="section-block" id="section-lab6">
       <h2>Lab 6: ZPA Traffic Inspection via ZIA</h2>
+
       <div class="lab-header-card">
         <div class="lab-badge">LAB 6</div>
-        <p><strong>Scenario:</strong> ZPA traffic can be routed through ZIA for full inspection of private application access. This lab provisions an App Connector, configures a ZPA Application Segment for a corporate intranet server, creates an Access Policy, and enables the ZIA Inspected ZPA Apps forwarding rule.</p>
+        <p><strong>Scenario:</strong> ZPA secures access to private applications, but does not inspect application-layer content. By routing ZPA traffic through ZIA, you add full content inspection, DLP, and threat protection to private app access. This lab provisions an App Connector, creates an Application Segment, and enables the ZIA Inspected ZPA Apps forwarding rule.</p>
         <figure class="lab-hero">
-          <img src="images/lab6-hero.png" alt="Lab 6 — ZPA Traffic Inspection via ZIA" loading="lazy" onerror="this.parentElement.style.display='none'">
+          <img src="images/lab6-hero.png" alt="Lab 6 — ZPA Traffic Inspection via ZIA" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <span class="lab-meta-item">⏱ 50 min</span>
-          <span class="lab-meta-item">📋 5 tasks</span>
-          <span class="lab-meta-item" style="color:#16a34a;">● ZPA</span>
+          <div class="lab-meta-item"><strong>Time:</strong> ~50 min</div>
+          <div class="lab-meta-item"><strong>Phase:</strong> ZPA</div>
+          <div class="lab-meta-item"><strong>Tasks:</strong> 5</div>
         </div>
       </div>
 
       <div class="socratic-block" id="soc-lab6">
-        <div class="socratic-header" onclick="toggleSocratic(this)">
-          <span class="socratic-icon">🤔</span>
-          <span class="socratic-title">Think First — Before You Click</span>
-          <span class="socratic-hint">3 questions to prime your thinking</span>
-          <span class="soc-main-chevron">▾</span>
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · LAB 6</span>
         </div>
-        <div class="socratic-body">
-        <div class="soc-item">
-          <button class="soc-q" onclick="toggleSocAnswer(this)">
-            <span class="soc-q-num">Q1</span>
-            <span class="soc-q-text">Why would you want ZPA private application traffic to be inspected by ZIA rather than bypassing ZIA entirely?</span>
-            <span class="soc-chevron">▾</span>
-          </button>
-          <div class="soc-answer">
-            <p>ZPA secures access (authentication and authorization) but does not inspect application-layer content. An authenticated user could still transfer malware to a private server, exfiltrate data, or trigger policy violations within the private app. Routing ZPA through ZIA adds content inspection, DLP, and threat protection to private application access.</p>
+        <p class="socratic-insight">ZPA provides access control; ZIA provides content inspection. Together they deliver zero trust for both public internet and private application traffic through a single policy framework.</p>
+        <ul class="socratic-questions">
+          <li>Why would you route ZPA private application traffic through ZIA for inspection?</li>
+          <li>What is the role of the App Connector Provisioning Key, and why is the filename case-sensitive?</li>
+          <li>What does "Closer to User" App Connector Selection Method mean vs "Closer to Application"?</li>
+        </ul>
+        <div class="answer-area" data-section="lab6-soc">
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+          <div class="answer-buttons">
+            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
           </div>
-        </div>
-        <div class="soc-item">
-          <button class="soc-q" onclick="toggleSocAnswer(this)">
-            <span class="soc-q-num">Q2</span>
-            <span class="soc-q-text">What is the role of the App Connector Provisioning Key, and why is the filename case-sensitive?</span>
-            <span class="soc-chevron">▾</span>
-          </button>
-          <div class="soc-answer">
-            <p>The provisioning key is a one-time credential used to authenticate and register the App Connector with the ZPA cloud. The ZPA connector software reads this file by exact filename from /opt/zscaler/var/ — if the name is wrong (e.g., provision_key.txt), the service cannot locate the key and will fail to enroll with the ZPA infrastructure.</p>
+          <div class="model-answers" style="display:none;">
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text">ZPA authenticates and authorises access but does not inspect application-layer content. An authenticated user could still transfer malware to a private server or exfiltrate data. Routing ZPA through ZIA adds content inspection, DLP, and threat protection to private app access.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">The provisioning key is a one-time credential used to authenticate and register the App Connector with the ZPA cloud. The connector software reads this file by exact filename from /opt/zscaler/var/ — a wrong name like provision_key.txt means the service cannot locate the key and fails to enroll.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+              <div class="model-answer-text">"Closer to User" selects the connector with lowest latency to the client, minimising the ZPA tunnel hop. "Closer to Application" selects based on server proximity — useful when the application is geographically centralised and server-side consistency matters more than variable user-side latency.</div>
+            </div>
           </div>
-        </div>
-        <div class="soc-item">
-          <button class="soc-q" onclick="toggleSocAnswer(this)">
-            <span class="soc-q-num">Q3</span>
-            <span class="soc-q-text">What does 'Closer to User' App Connector Selection Method mean, and when would you choose 'Closer to Application' instead?</span>
-            <span class="soc-chevron">▾</span>
-          </button>
-          <div class="soc-answer">
-            <p>'Closer to User' selects the App Connector with the lowest latency to the client, minimizing the ZPA tunnel hop for the user. 'Closer to Application' selects based on proximity to the backend server, useful when the application is geographically centralized and consistent server-side latency matters more than variable user-side latency.</p>
-          </div>
-        </div>
         </div>
       </div>
 
-        <div class="task-block" id="task-6-1">
-          <div class="task-header">
-            <span class="task-number">TASK 6.1</span>
-            <h3 class="task-title">Task 6.1: Provision an App Connector</h3>
-          </div>
-          <div class="task-body">
-            <p>Retrieve the App Connector provisioning key from ZPA and save it to the Windows server for transfer to the connector VM.</p>
-              <ol>
-                <li>On the VM labelled <strong>Corp: Win Svr 2016</strong>, log in as <code>PATRAINING\Administrator</code> with password <code>Admin-123!</code>.</li>
-                <li>Open Chrome and log in to the <strong>ZPA Admin Portal</strong> via ZIdentity.</li>
-                <li>Navigate to <strong>Configuration &amp; Control &gt; Private Infrastructure &gt; App Connectors &gt; App Connector Provisioning Keys</strong> tab.</li>
-                <li>Click the <strong>Copy</strong> icon next to the <strong>OnPrem</strong> key.</li>
-                <li>Open <strong>Notepad</strong>, paste the key, and save as <code>provision_key</code> on the <strong>Desktop</strong>.
-                  <div class="callout callout-caution"><strong>Caution:</strong> The filename is case-sensitive and must be exactly <code>provision_key</code> — NOT <code>provision_key.txt</code>. Save with quotes around the name in the Save dialog to prevent the .txt extension.</div>
-                </li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-6-1" onblur="saveTQ('task-6-1',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-6-1" onblur="saveTN('task-6-1',this.value)"></textarea>
-              </div>
+      <h3>Task 6.1: Provision an App Connector</h3>
+
+      <div class="task-block">
+        <p>Retrieve the App Connector provisioning key from ZPA and save it to the Windows server for transfer to the connector VM.</p>
+        <ol class="step-list">
+          <li>On <strong>Corp: Win Svr 2016</strong>, log in as <code>PATRAINING\Administrator</code> / <code>Admin-123!</code>.</li>
+          <li>Open Chrome and log in to the <strong>ZPA Admin Portal</strong> via ZIdentity.</li>
+          <li>Navigate to <strong>Configuration &amp; Control &gt; Private Infrastructure &gt; App Connectors &gt; App Connector Provisioning Keys</strong> tab.</li>
+          <li>Click the <strong>Copy</strong> icon next to the <strong>OnPrem</strong> provisioning key.</li>
+          <li>Open <strong>Notepad</strong>, paste the key, and save to the Desktop as <code>provision_key</code> (use quotes around the name in the Save dialog to prevent the .txt extension).
+            <div class="callout callout-caution"><strong>Caution:</strong> The filename is case-sensitive — must be exactly <code>provision_key</code>, NOT <code>provision_key.txt</code>.</div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l6-t1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.1: Provision an App Connector</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l6-t1" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l6-t1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l6-t1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l6-t1" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l6-t1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l6-t1"></div>
             </div>
           </div>
         </div>
-        <div class="task-block" id="task-6-2">
-          <div class="task-header">
-            <span class="task-number">TASK 6.2</span>
-            <h3 class="task-title">Task 6.2: Activate the App Connector</h3>
-          </div>
-          <div class="task-body">
-            <p>Transfer the provisioning key to the App Connector VM and start the connector service.</p>
-              <ol>
-                <li>On the VM labelled <strong>Corp: ZPA Connector</strong>, log in with default credentials: <code>admin / zscaler</code>.</li>
-                <li>Start the SSH Daemon: <code>sudo systemctl start sshd</code> (enter password <strong>zscaler</strong> when prompted).</li>
-                <li>Verify SSH is active: <code>sudo systemctl status sshd</code> — confirm status is <strong>active (running)</strong>.</li>
-                <li>On <strong>Corp: Win Svr 2016</strong>, start <strong>WinSCP</strong> from the desktop or taskbar.</li>
-                <li>Load the saved session <strong>ZPA Connector</strong> (IP: <code>10.0.0.2</code>, Port <code>22</code>) and click <strong>Login</strong>.</li>
-                <li>Log in with password <strong>zscaler</strong>, accept the certificate if prompted.</li>
-                <li>In the left panel (local Windows server), navigate to the <strong>Desktop</strong> folder and select <code>provision_key</code>.</li>
-                <li>Right-click &gt; <strong>Upload</strong>. Set the remote path to <code>/home/admin/</code> and click <strong>OK</strong>.</li>
-                <li>Verify the file is uploaded, then close <strong>WinSCP</strong>.</li>
-                <li>Back on <strong>Corp: ZPA Connector</strong>, stop the SSH Daemon: <code>sudo systemctl stop sshd</code>.
-                  <div class="callout callout-info"><strong>Note:</strong> For security reasons, it is recommended to not leave the SSH Daemon running.</div>
-                </li>
-                <li>Activate the App Connector with the provisioning key:
-                  <ol type="a">
-                    <li><code>pwd</code> — confirm you are in <code>/home/admin</code></li>
-                    <li><code>ls</code> — confirm <code>provision_key</code> is present</li>
-                    <li><code>sudo systemctl stop zpa-connector</code></li>
-                    <li><code>sudo cp provision_key /opt/zscaler/var/</code>
-                      <div class="callout callout-caution"><strong>Caution:</strong> The filename is case-sensitive: <code>provision_key</code>, NOT <code>provision_key.txt</code>.</div>
-                    </li>
-                    <li><code>sudo ls /opt/zscaler/var/</code> — verify the file is there</li>
-                    <li><code>sudo systemctl start zpa-connector</code></li>
-                    <li><code>sudo systemctl enable zpa-connector</code></li>
-                  </ol>
-                </li>
-                <li>After ~10 seconds, check the connector status: <code>sudo systemctl status zpa-connector</code> — verify <strong>active (running)</strong> and a connection to the ZPA infrastructure.</li>
-                <li>On <strong>Corp: Win Svr 2016</strong>, in the ZPA Admin Portal, navigate to <strong>Configuration &amp; Control &gt; Private Infrastructure &gt; App Connectors</strong> — confirm the connector is listed as <strong>Connected</strong>.</li>
-                <li>Check the <strong>Upgrade Status</strong>. If <strong>Scheduled</strong>, click <strong>Update Now</strong>, confirm the checkbox, and click <strong>Update Now</strong>.</li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-6-2" onblur="saveTQ('task-6-2',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-6-2" onblur="saveTN('task-6-2',this.value)"></textarea>
-              </div>
+      </div>
+
+      <h3>Task 6.2: Activate the App Connector</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Enable SSH on the Connector VM</h4>
+        <ol class="step-list">
+          <li>On <strong>Corp: ZPA Connector</strong>, log in as <code>admin</code> / <code>zscaler</code>.</li>
+          <li><code>sudo systemctl start sshd</code> (password: <code>zscaler</code>)</li>
+          <li><code>sudo systemctl status sshd</code> — confirm <strong>active (running)</strong>.</li>
+        </ol>
+        <h4><span class="task-num">2</span> Transfer the provisioning key via WinSCP</h4>
+        <ol class="step-list">
+          <li>On <strong>Corp: Win Svr 2016</strong>, launch <strong>WinSCP</strong>.</li>
+          <li>Load the <strong>ZPA Connector</strong> saved session (IP: <code>10.0.0.2</code>, Port: <code>22</code>) and click <strong>Login</strong>. Accept the certificate.</li>
+          <li>In the left panel (local), navigate to the <strong>Desktop</strong> and select <code>provision_key</code>.</li>
+          <li>Right-click &gt; <strong>Upload</strong> → set remote path to <code>/home/admin/</code> → click <strong>OK</strong>.</li>
+          <li>Verify the file appears in the right panel, then close WinSCP.</li>
+        </ol>
+        <h4><span class="task-num">3</span> Activate the connector</h4>
+        <ol class="step-list">
+          <li>On <strong>Corp: ZPA Connector</strong>, stop SSH: <code>sudo systemctl stop sshd</code>
+            <div class="callout callout-info"><strong>Note:</strong> For security, do not leave SSH running after the file transfer.</div>
+          </li>
+          <li><code>pwd</code> — confirm you are in <code>/home/admin</code></li>
+          <li><code>ls</code> — confirm <code>provision_key</code> is present</li>
+          <li><code>sudo systemctl stop zpa-connector</code></li>
+          <li><code>sudo cp provision_key /opt/zscaler/var/</code></li>
+          <li><code>sudo ls /opt/zscaler/var/</code> — confirm the file is there</li>
+          <li><code>sudo systemctl start zpa-connector</code></li>
+          <li><code>sudo systemctl enable zpa-connector</code></li>
+          <li>After ~10 seconds: <code>sudo systemctl status zpa-connector</code> — verify <strong>active (running)</strong>.</li>
+        </ol>
+        <h4><span class="task-num">4</span> Confirm in ZPA Admin Portal</h4>
+        <ol class="step-list">
+          <li>On Corp: Win Svr 2016, navigate to <strong>Configuration &amp; Control &gt; Private Infrastructure &gt; App Connectors</strong> — confirm status is <strong>Connected</strong>.</li>
+          <li>If Upgrade Status shows <strong>Scheduled</strong>, click <strong>Update Now</strong>, confirm the checkbox, and click <strong>Update Now</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l6-t2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.2: Activate the App Connector</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l6-t2" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l6-t2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l6-t2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l6-t2" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l6-t2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l6-t2"></div>
             </div>
           </div>
         </div>
-        <div class="task-block" id="task-6-3">
-          <div class="task-header">
-            <span class="task-number">TASK 6.3</span>
-            <h3 class="task-title">Task 6.3: Add an Intranet Application</h3>
-          </div>
-          <div class="task-body">
-            <p>Create a ZPA Application Segment for the corporate intranet server so it can be accessed through the App Connector.</p>
-              <ol>
-                <li>In the <strong>ZPA Admin Portal</strong>, go to <strong>Resource Management &gt; Application Management &gt; Application Segments</strong>.</li>
-                <li>Click <strong>+ Add Application Segment</strong>.</li>
-                <li>At the <strong>Define Applications</strong> step:
-                  <ul>
-                    <li>Name: <strong>Intranet</strong></li>
-                    <li>Status: <strong>Enabled</strong></li>
-                    <li>Inspect Traffic with ZIA: <strong>Enabled</strong></li>
-                    <li>Applications (domain/IP): <code>intranet.patraining.safemarch.com</code>
-                      <div class="callout callout-caution"><strong>Caution:</strong> There is NO pod number in the domain.</div>
-                    </li>
-                    <li>CLIENT CONNECTOR ACCESS — Default Port Ranges: <strong>Web Server</strong> (adds TCP 80, 443, 8080)</li>
-                    <li>TCP Keepalive: <strong>Disabled</strong></li>
-                    <li>ADDITIONAL CONFIGURATION: Double Encryption — Disabled; Bypass — Use Client Forwarding Policy; ICMP Access — Disabled</li>
-                    <li>COMMON CONFIGURATION: Health Reporting — <strong>Continuous</strong>; Client Connector can receive CNAME — <strong>Enabled</strong>; App Connector Selection Method — <strong>Closer to User</strong></li>
-                  </ul>
-                </li>
-                <li>Click <strong>Next</strong> to the <strong>Segment Group</strong> step. Click <strong>Add Segment Group</strong>, name it <strong>CorpApps</strong>, Status Enabled, click <strong>Next</strong>.</li>
-                <li>At the <strong>Server Groups</strong> step, click <strong>Add Server Group</strong>:
-                  <ul>
-                    <li>Name: <strong>CorpServers</strong></li>
-                    <li>Status: <strong>Enabled</strong></li>
-                    <li>Dynamic Server Discovery: <strong>On</strong></li>
-                    <li>App Connector Groups: <strong>OnPrem</strong></li>
-                  </ul>
-                </li>
-                <li>Click <strong>Next</strong>, then at the <strong>Review</strong> step click <strong>Save</strong>.</li>
-                <li>Click <strong>Edit Policy</strong> to proceed to Access Policy configuration.</li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-6-3" onblur="saveTQ('task-6-3',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-6-3" onblur="saveTN('task-6-3',this.value)"></textarea>
-              </div>
+      </div>
+
+      <h3>Task 6.3: Add an Intranet Application</h3>
+
+      <div class="task-block">
+        <p>Create a ZPA Application Segment for the corporate intranet server.</p>
+        <ol class="step-list">
+          <li>In the ZPA Admin Portal, go to <strong>Resource Management &gt; Application Management &gt; Application Segments &gt; + Add Application Segment</strong>.</li>
+          <li><strong>Define Applications</strong> step:<ul class="sub-steps"><li>Name: <strong>Intranet</strong> · Status: <strong>Enabled</strong> · Inspect Traffic with ZIA: <strong>Enabled</strong></li><li>Applications domain: <code>intranet.patraining.safemarch.com</code>
+            <div class="callout callout-caution"><strong>Caution:</strong> There is NO pod number in this domain.</div>
+          </li><li>Default Port Ranges: <strong>Web Server</strong> (adds TCP 80, 443, 8080) · TCP Keepalive: <strong>Disabled</strong></li><li>Double Encryption: Disabled · Bypass: Use Client Forwarding Policy · ICMP Access: Disabled</li><li>Health Reporting: <strong>Continuous</strong> · Client Connector can receive CNAME: <strong>Enabled</strong> · App Connector Selection Method: <strong>Closer to User</strong></li></ul></li>
+          <li>Click <strong>Next</strong>. At <strong>Segment Group</strong>, click <strong>Add Segment Group</strong> → name it <strong>CorpApps</strong> → Status Enabled → <strong>Next</strong>.</li>
+          <li>At <strong>Server Groups</strong>, click <strong>Add Server Group</strong>:<ul class="sub-steps"><li>Name: <strong>CorpServers</strong> · Status: Enabled · Dynamic Server Discovery: <strong>On</strong></li><li>App Connector Groups: <strong>OnPrem</strong></li></ul></li>
+          <li>Click <strong>Next</strong> → at <strong>Review</strong>, click <strong>Save</strong> → click <strong>Edit Policy</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l6-t3">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.3: Add an Intranet Application</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l6-t3" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l6-t3',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l6-t3"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l6-t3" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l6-t3',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l6-t3"></div>
             </div>
           </div>
         </div>
-        <div class="task-block" id="task-6-4">
-          <div class="task-header">
-            <span class="task-number">TASK 6.4</span>
-            <h3 class="task-title">Task 6.4: Add an Access Policy for the Intranet Application</h3>
-          </div>
-          <div class="task-body">
-            <p>Create a ZPA Access Policy rule that allows users to connect to the Intranet application segment.</p>
-              <ol>
-                <li>On the <strong>Access Policy</strong> page, click <strong>+ Add</strong>.</li>
-                <li>Configure the policy rule:
-                  <ul>
-                    <li>Name: <strong>Allow Intranet</strong></li>
-                    <li>Rule Action: <strong>Allow Access</strong></li>
-                    <li>App Connector Selection Method: <strong>All App Connector groups for the application</strong></li>
-                    <li>Message to User: leave blank</li>
-                  </ul>
-                </li>
-                <li>Click <strong>Add Criteria</strong>, select <strong>Applications</strong>.</li>
-                <li>In the Application Segments field, select <strong>Intranet</strong>.</li>
-                <li>Do not add any additional criteria.</li>
-                <li>Click <strong>Save</strong>.</li>
-                <li>On the <strong>Corp: Client PC</strong>, open a browser and navigate to <strong>http://intranet.patraining.safemarch.com</strong> — confirm the Intranet page loads.</li>
-                <li>Also test with <strong>HTTPS</strong> and confirm it loads. Close the window.</li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-6-4" onblur="saveTQ('task-6-4',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-6-4" onblur="saveTN('task-6-4',this.value)"></textarea>
-              </div>
+      </div>
+
+      <h3>Task 6.4: Add an Access Policy for the Intranet Application</h3>
+
+      <div class="task-block">
+        <ol class="step-list">
+          <li>On the <strong>Access Policy</strong> page, click <strong>+ Add</strong>.</li>
+          <li>Configure:<ul class="sub-steps"><li>Name: <strong>Allow Intranet</strong> · Rule Action: <strong>Allow Access</strong></li><li>App Connector Selection Method: <strong>All App Connector groups for the application</strong></li><li>Message to User: leave blank</li></ul></li>
+          <li>Click <strong>Add Criteria</strong> → select <strong>Applications</strong>.</li>
+          <li>In the Application Segments field, select <strong>Intranet</strong>. Do not add additional criteria.</li>
+          <li>Click <strong>Save</strong>.</li>
+          <li>On <strong>Corp: Client PC</strong>, navigate to <strong>http://intranet.patraining.safemarch.com</strong> — confirm the page loads. Also test HTTPS.</li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l6-t4">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.4: Add an Access Policy for the Intranet Application</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l6-t4" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l6-t4',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l6-t4"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l6-t4" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l6-t4',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l6-t4"></div>
             </div>
           </div>
         </div>
-        <div class="task-block" id="task-6-5">
-          <div class="task-header">
-            <span class="task-number">TASK 6.5</span>
-            <h3 class="task-title">Task 6.5: Enable ZIA Inspected ZPA Apps</h3>
-          </div>
-          <div class="task-body">
-            <p>Enable the predefined ZIA Inspected ZPA Apps forwarding rule so that ZPA traffic is routed through ZIA for inspection.</p>
-              <ol>
-                <li>In the <strong>ZIA Admin Portal</strong>, navigate to <strong>Policy &gt; Forwarding Control</strong>.</li>
-                <li>Find the row <strong>ZIA Inspected ZPA App</strong> and click the <strong>pencil (edit)</strong> icon.</li>
-                <li>Change the <strong>Rule Status</strong> to <strong>Enabled</strong>.</li>
-                <li>Click <strong>Save</strong> then <strong>Activate</strong> the changes.</li>
-                <li>Navigate to <strong>Policy &gt; SSL Inspection</strong> and click on the <strong>Enable SSL Rule</strong>.</li>
-                <li>Scroll down to the <strong>Action</strong> section. For <strong>Untrusted Server Certificates</strong>, select <strong>Allow</strong>.</li>
-                <li>Click <strong>Save</strong> then <strong>Activate</strong>.</li>
-                <li>Open a Chrome window and navigate to <strong>http://intranet.patraining.safemarch.com</strong> — confirm the page loads.</li>
-                <li>From ZIdentity, open the <strong>ZPA Admin Portal</strong>.</li>
-                <li>Navigate to <strong>Analytics &gt; Diagnostics</strong>.</li>
-                <li>Click <strong>Add Filters</strong> and select <strong>ZIA Inspection: True</strong>, then click <strong>Apply</strong>.</li>
-                <li>Review the list of connections that are ZIA Inspected — expand an entry to see the <strong>ZIA INSPECTION: Enabled</strong> field.</li>
-              </ol>
-          </div>
-          <div class="section-qa-body">
-            <div class="section-qa-grid">
-              <div>
-                <div class="section-qa-label">My Questions</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-6-5" onblur="saveTQ('task-6-5',this.value)"></textarea>
-              </div>
-              <div>
-                <div class="section-qa-label">My Notes</div>
-                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-6-5" onblur="saveTN('task-6-5',this.value)"></textarea>
-              </div>
+      </div>
+
+      <h3>Task 6.5: Enable ZIA Inspected ZPA Apps</h3>
+
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Enable the Forwarding Rule</h4>
+        <ol class="step-list">
+          <li>In the ZIA Admin Portal, go to <strong>Policy &gt; Forwarding Control</strong>.</li>
+          <li>Find the row <strong>ZIA Inspected ZPA App</strong> and click the <strong>pencil</strong> icon.</li>
+          <li>Set Rule Status to <strong>Enabled</strong>. Click <strong>Save</strong> then <strong>Activate</strong>.</li>
+        </ol>
+        <h4><span class="task-num">2</span> Update the SSL Inspection Rule</h4>
+        <ol class="step-list">
+          <li>Go to <strong>Policy &gt; SSL Inspection</strong> and click on the <strong>Enable SSL Rule</strong>.</li>
+          <li>Under the <strong>Action</strong> section, for <strong>Untrusted Server Certificates</strong>, select <strong>Allow</strong>.</li>
+          <li>Click <strong>Save</strong> then <strong>Activate</strong>.</li>
+        </ol>
+        <h4><span class="task-num">3</span> Verify ZIA Inspection in ZPA Logs</h4>
+        <ol class="step-list">
+          <li>On Corp: Client PC, navigate to <strong>http://intranet.patraining.safemarch.com</strong> — confirm it loads.</li>
+          <li>Open the ZPA Admin Portal &gt; <strong>Analytics &gt; Diagnostics</strong>.</li>
+          <li>Click <strong>Add Filters</strong> → select <strong>ZIA Inspection: True</strong> → click <strong>Apply</strong>.</li>
+          <li>Expand a connection entry and verify the <strong>ZIA INSPECTION: Enabled</strong> field is visible.</li>
+        </ol>
+      </div>
+
+      <div class="section-qa" data-section="l6-t5">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Task 6.5: Enable ZIA Inspected ZPA Apps</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-l6-t5" placeholder="Questions about this task…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('l6-t5',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-l6-t5"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-l6-t5" placeholder="Key takeaways…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('l6-t5',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-l6-t5"></div>
             </div>
           </div>
         </div>
+      </div>
 
       <div class="mental-note-block">
-        <div class="mental-note-label">📝 Mental Note</div>
-        <textarea class="mental-note-textarea" rows="4" placeholder="Summarize what you learned in Lab 6 — key concepts, surprises, things to research more…" id="mental-note-6" onblur="saveMentalNote(6,this.value)"></textarea>
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">The App Connector is the on-prem anchor for ZPA. provision_key is a one-shot file — once the connector enrolls it is no longer needed. The ZIA Inspected ZPA Apps rule is pre-defined in every tenant but disabled by default — you just need to enable it.</div>
+        </div>
       </div>
+
     </div>
-  </div>
+
+  </div><!-- /.content-col -->
 
   <aside class="sidebar">
-    <a class="sidebar-hub-link" href="index.html">← Back to EDU-230 Hub</a>
+    <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Lab 6 Progress</div>
-      <div class="checklist" id="checklist-6">
-          <label class="checklist-item" for="chk-6-1">
-            <input type="checkbox" id="chk-6-1" onchange="saveChecklist(this)">
-            <span>Completed Task 6.1 — Provisioned App Connector key</span>
-          </label>
-          <label class="checklist-item" for="chk-6-2">
-            <input type="checkbox" id="chk-6-2" onchange="saveChecklist(this)">
-            <span>Completed Task 6.2 — Activated App Connector on Corp: ZPA Connector VM</span>
-          </label>
-          <label class="checklist-item" for="chk-6-3">
-            <input type="checkbox" id="chk-6-3" onchange="saveChecklist(this)">
-            <span>Completed Task 6.3 — Added Intranet Application Segment</span>
-          </label>
-          <label class="checklist-item" for="chk-6-4">
-            <input type="checkbox" id="chk-6-4" onchange="saveChecklist(this)">
-            <span>Completed Task 6.4 — Added Access Policy for Intranet</span>
-          </label>
-          <label class="checklist-item" for="chk-6-5">
-            <input type="checkbox" id="chk-6-5" onchange="saveChecklist(this)">
-            <span>Completed Task 6.5 — Enabled ZIA Inspected ZPA Apps forwarding rule</span>
-          </label>
-      </div>
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 6 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-1" onchange="saveChecklist()"><span>Completed Task 6.1 — Retrieved provisioning key from ZPA</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-2" onchange="saveChecklist()"><span>Completed Task 6.2 — Activated App Connector (provision_key deployed)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-3" onchange="saveChecklist()"><span>Completed Task 6.3 — Created Intranet Application Segment</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-4" onchange="saveChecklist()"><span>Completed Task 6.4 — Created Allow Intranet Access Policy</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-5" onchange="saveChecklist()"><span>Completed Task 6.5 — Enabled ZIA Inspected ZPA Apps forwarding rule</span></label>
     </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Lab Environment</div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">YOUR TENANT</div>
-        <div class="quick-ref-row"><span>Student FQDN</span><code class="var var-fqdn">&lt;Student FQDN&gt;</code></div>
-        <div class="quick-ref-row"><span>Session Password</span><code class="var var-pass">&lt;Session Password&gt;</code></div>
-        <div class="quick-ref-row"><span>ZIdentity URL</span><code id="d-zid-2">&lt;StudentID&gt;safemarch.zslogin.net</code></div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">▲</span>
       </div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">WIN SVR 2016 (CORP)</div>
-        <div class="quick-ref-row"><span>Username</span><code>PATRAINING\Administrator</code></div>
-        <div class="quick-ref-row"><span>Password</span><code>Admin-123!</code></div>
-      </div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">ZPA CONNECTOR VM</div>
-        <div class="quick-ref-row"><span>Username</span><code>admin</code></div>
-        <div class="quick-ref-row"><span>Password</span><code>zscaler</code></div>
-        <div class="quick-ref-row"><span>IP Address</span><code>10.0.0.2</code></div>
-      </div>
-      <div class="quick-ref-card">
-        <div class="quick-ref-label">SDC TENANT</div>
-        <div class="quick-ref-row"><span>Portal</span><code>sdc.zslogin.net</code></div>
-        <div class="quick-ref-row"><span>Credentials</span><code>via email / Resources panel</code></div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">ZIA Admin Portal</div>
+          <div class="qr-def">Access via ZIdentity. Policy, analytics, and administration for internet security.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZPA Admin Portal</div>
+          <div class="qr-def">Access via ZIdentity. Private application access configuration and App Connector management.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Student FQDN</div>
+          <div class="qr-def">Your unique tenant identifier, e.g. <code>zs9901.safemarch.com</code>. Enter in the config panel above.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Corp: Win Svr 2016</div>
+          <div class="qr-def">Login: <code>PATRAINING\Administrator</code> / <code>Admin-123!</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Corp: ZPA Connector</div>
+          <div class="qr-def">Login: <code>admin</code> / <code>zscaler</code> · IP: <code>10.0.0.2</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">SDC Tenant</div>
+          <div class="qr-def"><code>sdc.zslogin.net</code> — read-only admin credentials provided via email / Resources panel.</div>
+        </div>
       </div>
     </div>
   </aside>
-</div>
+</main>
 
-<nav class="page-nav">
-  <div class="page-nav-prev"><a class="nav-prev" href="lab5.html">← Lab 5: Browser Isolation</a></div>
-  <div class="page-nav-msg"><em>ZPA + ZIA together: full inspection of private app traffic.</em></div>
-  <div class="page-nav-next"><a class="nav-next" href="lab7.html">Lab 7: Configure Sandbox File Inspection and Set Real-Time Alerts →</a></div>
-</nav>
-
-<footer>
-  <span>EDU-230 · Cyberthreat Protection</span>
-  <span>Lab 6 of 8</span>
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-230 · Cyberthreat Protection</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">LAB 6 of 8</span>
+  </div>
 </footer>
 
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab5.html">← Lab 5: Browser Isolation</a>
+  <div class="page-nav-message">ZPA + ZIA together: full inspection of private application traffic.</div>
+  <a class="page-nav-btn page-nav-next" href="lab7.html">Lab 7: Configure Sandbox File Inspection and Set Real-Time Alerts →</a>
+</div>
+
 <script>
-const PAGE_KEY='edu230-lab-lab6';
 const CONFIG_KEY='edu230-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu230-config-collapsed';
+const FOOTER_KEY='edu230-footer-collapsed';
+const PAGE_KEY='edu230-lab-lab6';
 
 function toggleConfig(){
-  var body=document.getElementById('config-body');
+  var panel=document.getElementById('config-panel');
   var btn=document.getElementById('config-toggle-btn');
-  var chevron=btn.querySelector('.chevron');
-  if(body.style.display==='none'){
-    body.style.display='';
-    chevron.textContent='▲';
-    btn.lastChild.textContent=' Collapse';
-  }else{
-    body.style.display='none';
-    chevron.textContent='▼';
-    btn.lastChild.textContent=' Expand';
-  }
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
+  updateSidebarOffset();
 }
-function saveConfig(){
+function updateSidebarOffset(){
+  var panel=document.getElementById('config-panel');
+  var h=panel?panel.offsetHeight:52;
+  document.documentElement.style.setProperty('--config-h',h+'px');
+}
+function updateToggleSummary(){
+  var fqdn=document.getElementById('fqdn-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  s.textContent=fqdn?' — '+fqdn:'';
+}
+function applyConfig(){
   var fqdn=document.getElementById('fqdn-input').value.trim();
   var pass=document.getElementById('pass-input').value.trim();
-  try{localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));}catch(e){}
-  applyConfig(fqdn,pass);
-}
-function clearConfig(){
-  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
-  document.getElementById('fqdn-input').value='';
-  document.getElementById('pass-input').value='';
-  applyConfig('','');
-}
-function applyConfig(fqdn,pass){
   var studentID=fqdn?fqdn.split('.')[0]:'<Student ID>';
   var zidURL=fqdn?studentID+'safemarch.zslogin.net':'<StudentID>safemarch.zslogin.net';
   document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
-  document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
   var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
   var di=document.getElementById('d-id');if(di)di.textContent=studentID;
   var dz=document.getElementById('d-zid');if(dz)dz.textContent=zidURL;
-  var dz2=document.getElementById('d-zid-2');if(dz2)dz2.textContent=zidURL;
-  var sum=document.getElementById('config-toggle-summary');
-  if(sum)sum.textContent=fqdn?' — '+fqdn:'';
+}
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('fqdn-input').value=cfg.fqdn||'';document.getElementById('pass-input').value=cfg.pass||'';}
+    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
+  }catch(e){}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){
+  var cfg={fqdn:document.getElementById('fqdn-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();updateToggleSummary();
+  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+function clearConfig(){
+  document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();updateToggleSummary();
 }
 function copyConfigField(id,btn){
-  var val=document.getElementById(id).value;
-  if(!val)return;
-  navigator.clipboard.writeText(val).then(function(){
-    btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);
+  var val=document.getElementById(id).value.trim();if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
+}
+['fqdn-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){
+    if(code.closest('.callout'))return;
+    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
+    var text=code.textContent.trim();if(text.length<2)return;
+    var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
+    code.after(btn);
   });
+}
+function saveSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');
+  if(!ta.value.trim())return;
+  var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';
+  btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';
+  try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}
+  setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);
+}
+function revealSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');
+  if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
+  else{ma.style.display='none';btn.textContent='👁 See Model Answer';}
 }
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
 function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
 function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
 function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
-function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');document.getElementById('q-list').innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');var c=document.getElementById('q-count');c.textContent=qs.length;c.style.display=qs.length?'inline-block':'none';}catch(e){}}
-function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');document.getElementById('n-list').innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
-function saveTQ(id,val){try{localStorage.setItem(PAGE_KEY+'-tq-'+id,val);}catch(e){}}
-function saveTN(id,val){try{localStorage.setItem(PAGE_KEY+'-tn-'+id,val);}catch(e){}}
-function saveMentalNote(n,val){try{localStorage.setItem(PAGE_KEY+'-mental',val);}catch(e){}}
-function saveChecklist(cb){
-  try{
-    var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
-    state[cb.id]=cb.checked;
-    localStorage.setItem(PAGE_KEY+'-checks',JSON.stringify(state));
-  }catch(e){}
-}
-function toggleSocratic(btn){
-  var body=btn.nextElementSibling;
-  body.classList.toggle('open');
-  btn.classList.toggle('open');
-}
-function toggleSocAnswer(btn){
-  var answer=btn.nextElementSibling;
-  answer.classList.toggle('open');
-  btn.classList.toggle('open');
-}
-(function init(){
-  try{
-    var cfg=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');
-    if(cfg.fqdn){document.getElementById('fqdn-input').value=cfg.fqdn;}
-    if(cfg.pass){document.getElementById('pass-input').value=cfg.pass;}
-    applyConfig(cfg.fqdn||'',cfg.pass||'');
-  }catch(e){}
-  loadQList();
-  loadNList();
-  try{
-    var mn=localStorage.getItem(PAGE_KEY+'-mental');
-    if(mn)document.getElementById('mental-note-6').value=mn;
-  }catch(e){}
-  document.querySelectorAll('.task-block').forEach(function(t){
-    var tid=t.id;
-    var tqEl=document.getElementById('tq-'+tid);
-    var tnEl=document.getElementById('tn-'+tid);
-    try{
-      var tq=localStorage.getItem(PAGE_KEY+'-tq-'+tid);
-      var tn=localStorage.getItem(PAGE_KEY+'-tn-'+tid);
-      if(tq&&tqEl)tqEl.value=tq;
-      if(tn&&tnEl)tnEl.value=tn;
-    }catch(e){}
-  });
-  try{
-    var checks=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
-    Object.keys(checks).forEach(function(id){
-      var cb=document.getElementById(id);
-      if(cb)cb.checked=checks[id];
-    });
-  }catch(e){}
-  document.querySelectorAll('a[href]').forEach(function(a){
-    a.addEventListener('click',function(){sessionStorage.setItem('page-transition','1');});
-  });
-})();
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['l6-t1', 'l6-t2', 'l6-t3', 'l6-t4', 'l6-t5'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
 </script>
 </body>
 </html>
