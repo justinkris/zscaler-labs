@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-230 · Cyberthreat Protection — Lab Hub</title>
+<script>
+(function(){
+  var s=sessionStorage.getItem('page-transition');
+  if(s){var el=document.createElement('style');el.textContent='*{transition:none!important}';document.head.appendChild(el);sessionStorage.removeItem('page-transition');}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+<style>
+.hub-main{max-width:960px;margin:40px auto;padding:0 32px;}
+.hub-intro{font-size:14px;color:var(--text-soft);line-height:1.7;margin-bottom:32px;max-width:700px;}
+.phase-section{margin-bottom:48px;}
+.phase-label{display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.12em;padding:3px 10px;border-radius:4px;margin-bottom:10px;}
+.phase-title{font-family:'Fraunces',serif;font-size:1.2rem;color:var(--text-main);margin-bottom:6px;}
+.phase-desc{font-size:13px;color:var(--text-soft);margin-bottom:16px;}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.lab-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-decoration:none;display:flex;flex-direction:column;gap:8px;transition:box-shadow 0.15s,border-color 0.15s;}
+.lab-card:hover{box-shadow:0 4px 20px rgba(26,109,204,0.12);border-color:#93c5fd;}
+.lab-card-top{display:flex;align-items:center;gap:8px;}
+.lab-card-num{font-size:10px;font-weight:700;letter-spacing:0.1em;padding:2px 8px;border-radius:4px;}
+.hub-card-badge{font-size:9px;font-weight:700;letter-spacing:0.1em;padding:2px 6px;border-radius:3px;}
+.hub-card-badge.sdc{background:#fef3c7;color:#d97706;border:1px solid #fcd34d;}
+.hub-card-badge.optional{background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;}
+.lab-card-time{margin-left:auto;font-size:11px;color:var(--text-soft);}
+.lab-card-title{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--text-main);}
+.lab-card-desc{font-size:12px;color:var(--text-soft);line-height:1.5;flex:1;}
+.lab-card-cta{font-size:12px;font-weight:700;}
+</style>
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> <span>›</span> EDU-230</div>
+  <div class="eyebrow">EDU-230 · LABS 1–8</div>
+  <h1>Cyberthreat <em>Protection</em></h1>
+  <p class="header-desc">8 hands-on labs covering SSL inspection, DNS security, URL filtering, browser isolation, ZPA traffic inspection, sandbox file analysis, real-time alerting, and deception-based active defense.</p>
+</header>
+
+<div class="hub-main">
+  <p class="hub-intro">These labs walk you through building a layered cyberthreat protection strategy using Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), and Zscaler Deception. Start from Lab 1 and work sequentially — each lab builds on configurations from the previous one. Labs 7 and 8 include SDC (Solutions Demo Center) read-only tasks that use pre-populated data.</p>
+
+  <div class="phase-section">
+    <div class="phase-label" style="background:#1a6dcc20;color:#1a6dcc;">SETUP</div>
+    <div class="phase-title">Lab 1 — Environment Setup</div>
+    <div class="phase-desc">Establish a baseline security posture before applying any Zscaler policies.</div>
+    <div class="lab-grid">
+    <a class="lab-card" href="lab1.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#1a6dcc20;color:#1a6dcc;">LAB 1</span>
+        
+        <span class="lab-card-time">&#9201; 15 min</span>
+      </div>
+      <div class="lab-card-title">Signing into ZIdentity</div>
+      <div class="lab-card-desc">Before configuring Zscaler policies, you need to access the tenant environment and test your unprotected cyber risk post...</div>
+      <div class="lab-card-cta" style="color:#1a6dcc;">Start Lab &#8594;</div>
+    </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-label" style="background:#d9770620;color:#d97706;">ZIA</div>
+    <div class="phase-title">Labs 2–5 &amp; 7 — Zscaler Internet Access</div>
+    <div class="phase-desc">Configure SSL inspection, DNS security, URL filtering, browser isolation, sandbox, and alerting.</div>
+    <div class="lab-grid">
+    <a class="lab-card" href="lab2.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#d9770620;color:#d97706;">LAB 2</span>
+        
+        <span class="lab-card-time">&#9201; 45 min</span>
+      </div>
+      <div class="lab-card-title">Configuring SSL Inspection Policies</div>
+      <div class="lab-card-desc">SSL/TLS inspection is essential for visibility into encrypted traffic. In this lab you configure a Forwarding Profile, e...</div>
+      <div class="lab-card-cta" style="color:#d97706;">Start Lab &#8594;</div>
+    </a>
+    <a class="lab-card" href="lab3.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#d9770620;color:#d97706;">LAB 3</span>
+        
+        <span class="lab-card-time">&#9201; 20 min</span>
+      </div>
+      <div class="lab-card-title">DNS Security</div>
+      <div class="lab-card-desc">DNS is a critical attack vector. In this lab you configure DNS control policies to block malicious and unwanted domains ...</div>
+      <div class="lab-card-cta" style="color:#d97706;">Start Lab &#8594;</div>
+    </a>
+    <a class="lab-card" href="lab4.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#d9770620;color:#d97706;">LAB 4</span>
+        
+        <span class="lab-card-time">&#9201; 35 min</span>
+      </div>
+      <div class="lab-card-title">URL Filtering and Cloud App Control</div>
+      <div class="lab-card-desc">URL filtering and cloud application control give you granular policy enforcement over web categories and specific SaaS a...</div>
+      <div class="lab-card-cta" style="color:#d97706;">Start Lab &#8594;</div>
+    </a>
+    <a class="lab-card" href="lab5.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#d9770620;color:#d97706;">LAB 5</span>
+        
+        <span class="lab-card-time">&#9201; 30 min</span>
+      </div>
+      <div class="lab-card-title">Browser Isolation</div>
+      <div class="lab-card-desc">Zscaler Browser Isolation renders web content in a remote cloud browser, protecting the endpoint from threats while allo...</div>
+      <div class="lab-card-cta" style="color:#d97706;">Start Lab &#8594;</div>
+    </a>
+    <a class="lab-card" href="lab7.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#d9770620;color:#d97706;">LAB 7</span>
+        
+        <span class="lab-card-time">&#9201; 30 min</span>
+      </div>
+      <div class="lab-card-title">Configure Sandbox File Inspection and Set Real-Time Alerts</div>
+      <div class="lab-card-desc">Zscaler's inline cloud sandbox analyzes unknown files in real time using AI-driven techniques, quarantining suspicious d...</div>
+      <div class="lab-card-cta" style="color:#d97706;">Start Lab &#8594;</div>
+    </a>
+    <a class="lab-card" href="lab8.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#d9770620;color:#d97706;">LAB 8</span>
+        <span class="hub-card-badge sdc">SDC</span>
+        <span class="lab-card-time">&#9201; 30 min</span>
+      </div>
+      <div class="lab-card-title">Deception-Based Active Defense</div>
+      <div class="lab-card-desc">Zscaler Deception deploys fake decoy assets throughout the environment. Any attacker interaction with these hidden decoy...</div>
+      <div class="lab-card-cta" style="color:#d97706;">Start Lab &#8594;</div>
+    </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-label" style="background:#16a34a20;color:#16a34a;">ZPA</div>
+    <div class="phase-title">Lab 6 — Zscaler Private Access</div>
+    <div class="phase-desc">Provision an App Connector and route ZPA traffic through ZIA for full inspection.</div>
+    <div class="lab-grid">
+    <a class="lab-card" href="lab6.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#16a34a20;color:#16a34a;">LAB 6</span>
+        
+        <span class="lab-card-time">&#9201; 50 min</span>
+      </div>
+      <div class="lab-card-title">ZPA Traffic Inspection via ZIA</div>
+      <div class="lab-card-desc">ZPA traffic can be routed through ZIA for full inspection of private application access. This lab provisions an App Conn...</div>
+      <div class="lab-card-cta" style="color:#16a34a;">Start Lab &#8594;</div>
+    </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-label" style="background:#d9770620;color:#d97706;">DECEPTION · SDC</div>
+    <div class="phase-title">Lab 8 — Zscaler Deception</div>
+    <div class="phase-desc">Simulate attacker reconnaissance and investigate deception alerts in the admin console.</div>
+    <div class="lab-grid">
+    <a class="lab-card" href="lab8.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#d9770620;color:#d97706;">LAB 8</span>
+        <span class="hub-card-badge sdc">SDC</span>
+        <span class="lab-card-time">&#9201; 30 min</span>
+      </div>
+      <div class="lab-card-title">Deception-Based Active Defense</div>
+      <div class="lab-card-desc">Zscaler Deception deploys fake decoy assets throughout the environment. Any attacker interaction with these hidden decoy...</div>
+      <div class="lab-card-cta" style="color:#d97706;">Start Lab &#8594;</div>
+    </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>EDU-230 · Cyberthreat Protection</span>
+  <span>Labs 1–8</span>
+</footer>
+<script>
+document.querySelectorAll('a[href]').forEach(function(a){
+  a.addEventListener('click',function(){sessionStorage.setItem('page-transition','1');});
+});
+</script>
+</body>
+</html>

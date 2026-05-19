@@ -61,23 +61,29 @@
 </div>
 
 <div class="top-panels">
-  <div class="qpanel" id="qpanel">
-    <button class="qpanel-header" onclick="toggleQPanel()" id="qpanel-header">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
       <span class="qpanel-title">MY QUESTIONS</span>
-      <span class="qpanel-count" id="qpanel-count">0</span>
+      <span class="qpanel-count" id="q-count">0</span>
       <span class="qpanel-hint">&mdash; click to expand</span>
-      <span class="qpanel-chevron" id="qpanel-chevron">&#9662;</span>
+      <span class="qpanel-chevron">&#9662;</span>
     </button>
-    <div class="qpanel-body" id="qpanel-body"></div>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
   </div>
-  <div class="notes-panel" id="notes-panel">
-    <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
       <span class="notes-panel-title">MY NOTES</span>
-      <span class="notes-panel-count" id="notes-panel-count">0</span>
-      <span class="notes-panel-hint">&mdash; click to expand</span>
-      <span class="notes-panel-chevron" id="notes-panel-chevron">&#9662;</span>
+      <span class="notes-panel-chevron">&#9662;</span>
     </button>
-    <div class="notes-panel-body" id="notes-panel-body"></div>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
   </div>
 </div>
 
@@ -380,20 +386,6 @@
         </div>
       </div>
 
-      <div class="lesson-tools">
-        <div class="lesson-tool-block">
-          <div class="lesson-tool-label">Ask a Question</div>
-          <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Something you&rsquo;re not sure about&hellip;"></textarea>
-          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
-          <div id="q-list" style="margin-top:10px;"></div>
-        </div>
-        <div class="lesson-tool-block">
-          <div class="lesson-tool-label">Add a Note</div>
-          <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaway from this lab&hellip;"></textarea>
-          <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
-          <div id="n-list" style="margin-top:10px;"></div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -565,19 +557,40 @@ function injectCopyButtons() {
 }
 
 // ── Q-Panel ────────────────────────────────────────────────────────────────
-function toggleQPanel() {
-  const b = document.getElementById('qpanel-body');
-  const open = b.style.display !== 'none';
-  b.style.display = open ? 'none' : 'block';
-  document.getElementById('qpanel-chevron').textContent = open ? '&#9662;' : '&#9652;';
-  document.getElementById('qpanel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+function toggleQPanel(btn) {
+  var body = document.getElementById('q-body');
+  btn.classList.toggle('open'); body.classList.toggle('open');
+  loadQList();
 }
-function toggleNotesPanel() {
-  const b = document.getElementById('notes-panel-body');
-  const open = b.style.display !== 'none';
-  b.style.display = open ? 'none' : 'block';
-  document.getElementById('notes-panel-chevron').textContent = open ? '&#9662;' : '&#9652;';
-  document.getElementById('notes-panel-hint').textContent    = open ? '— click to expand' : '— click to collapse';
+function toggleNPanel(btn) {
+  var body = document.getElementById('n-body');
+  btn.classList.toggle('open'); body.classList.toggle('open');
+  loadNList();
+}
+function saveQ() {
+  var ta = document.getElementById('q-textarea');
+  if (!ta.value.trim()) return;
+  try { var qs = JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]'); qs.push(ta.value.trim()); localStorage.setItem(PAGE_KEY+'-qs', JSON.stringify(qs)); } catch(e) {}
+  ta.value = ''; loadQList();
+}
+function saveN() {
+  var ta = document.getElementById('n-textarea');
+  if (!ta.value.trim()) return;
+  try { var ns = JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]'); ns.push(ta.value.trim()); localStorage.setItem(PAGE_KEY+'-ns', JSON.stringify(ns)); } catch(e) {}
+  ta.value = ''; loadNList();
+}
+function loadQList() {
+  try {
+    var qs = JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');
+    document.getElementById('q-list').innerHTML = qs.map(function(q) { return '<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>'; }).join('');
+    var c = document.getElementById('q-count'); c.textContent = qs.length; c.style.display = qs.length ? 'inline-block' : 'none';
+  } catch(e) {}
+}
+function loadNList() {
+  try {
+    var ns = JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');
+    document.getElementById('n-list').innerHTML = ns.map(function(n) { return '<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>'; }).join('');
+  } catch(e) {}
 }
 
 // ── Section Q&A ────────────────────────────────────────────────────────────
@@ -670,9 +683,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadChecklist();
   loadSectionQAs();
   loadSocAnswers();
+  loadQList();
+  loadNList();
   injectCopyButtons();
-  document.getElementById('qpanel-body').style.display   = 'none';
-  document.getElementById('notes-panel-body').style.display = 'none';
 });
 </script>
 </body>

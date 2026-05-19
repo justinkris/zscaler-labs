@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 7: Configure Sandbox File Inspection and Set Real-Time Alerts — EDU-230</title>
+<script>
+(function(){
+  var s=sessionStorage.getItem('page-transition');
+  if(s){var el=document.createElement('style');el.textContent='*{transition:none!important}';document.head.appendChild(el);sessionStorage.removeItem('page-transition');}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-230 Hub</a> <span>›</span> <a href="index.html">Cyberthreat Protection</a> <span>›</span> Lab 7</div>
+  <div class="header-top">
+    <div class="eyebrow-chip" style="background:#d9770620;color:#d97706;border-color:#d9770640;">ZIA — LAB 7</div>
+    
+  </div>
+  <h1>Configure Sandbox File Inspection and Set Real-Time Alerts</h1>
+  <p class="header-desc">Zscaler's inline cloud sandbox analyzes unknown files in real time using AI-driven techniques, quarantining suspicious downloads before they reach the user. This lab configures sandbox policies, sets up real-time malware alerts, and reviews the Sandbox Activity Report.</p>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs9901.safemarch.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>ZIdentity URL:</strong> <code id="d-zid">&lt;StudentID&gt;safemarch.zslogin.net</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab…"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab…"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="main-layout">
+  <div class="content-col">
+    <div class="section-block" id="section-lab7">
+      <h2>Lab 7: Configure Sandbox File Inspection and Set Real-Time Alerts</h2>
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 7</div>
+        <p><strong>Scenario:</strong> Zscaler's inline cloud sandbox analyzes unknown files in real time using AI-driven techniques, quarantining suspicious downloads before they reach the user. This lab configures sandbox policies, sets up real-time malware alerts, and reviews the Sandbox Activity Report.</p>
+        <figure class="lab-hero">
+          <img src="images/lab7-hero.png" alt="Lab 7 — Configure Sandbox File Inspection and Set Real-Time Alerts" loading="lazy" onerror="this.parentElement.style.display='none'">
+        </figure>
+        <div class="lab-meta">
+          <span class="lab-meta-item">⏱ 30 min</span>
+          <span class="lab-meta-item">📋 3 tasks</span>
+          <span class="lab-meta-item" style="color:#d97706;">● ZIA</span>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab7">
+        <div class="socratic-header" onclick="toggleSocratic(this)">
+          <span class="socratic-icon">🤔</span>
+          <span class="socratic-title">Think First — Before You Click</span>
+          <span class="socratic-hint">3 questions to prime your thinking</span>
+          <span class="soc-main-chevron">▾</span>
+        </div>
+        <div class="socratic-body">
+        <div class="soc-item">
+          <button class="soc-q" onclick="toggleSocAnswer(this)">
+            <span class="soc-q-num">Q1</span>
+            <span class="soc-q-text">Why is 'Quarantine on first-seen' a safer action than 'Block' for the sandbox First-Time Action?</span>
+            <span class="soc-chevron">▾</span>
+          </button>
+          <div class="soc-answer">
+            <p>A truly novel malicious file has no prior reputation record — blocking would prevent benign first-seen files from being delivered at all (false positives). Quarantine holds the file while the sandbox performs dynamic analysis; if found benign, it is released; if malicious, it is blocked and the hash is added to Cloud Effect for subsequent downloads.</p>
+          </div>
+        </div>
+        <div class="soc-item">
+          <button class="soc-q" onclick="toggleSocAnswer(this)">
+            <span class="soc-q-num">Q2</span>
+            <span class="soc-q-text">What is the difference between 'Patient Zero' protection and standard sandbox analysis?</span>
+            <span class="soc-chevron">▾</span>
+          </button>
+          <div class="soc-answer">
+            <p>Standard analysis identifies malware after the sandbox detonates the file. Patient Zero protection uses AI Instant Verdict to analyze file behavior indicators in real time before detonation completes, catching fast-moving threats and protecting the first user who downloads the file before the full analysis is done.</p>
+          </div>
+        </div>
+        <div class="soc-item">
+          <button class="soc-q" onclick="toggleSocAnswer(this)">
+            <span class="soc-q-num">Q3</span>
+            <span class="soc-q-text">Why would you configure real-time alerts specifically for Sandbox Malware detections rather than all security events?</span>
+            <span class="soc-chevron">▾</span>
+          </button>
+          <div class="soc-answer">
+            <p>Sandbox Malware detections indicate an active download attempt of a novel threat — these require immediate SOC investigation because the user may have been targeted by a new malware campaign. General security events (URL blocks, SSL bypasses) are informational. High-severity targeted events like malware downloads warrant immediate notification to reduce dwell time.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+        <div class="task-block" id="task-7-1">
+          <div class="task-header">
+            <span class="task-number">TASK 7.1</span>
+            <h3 class="task-title">Task 7.1: Configure Sandbox Policies</h3>
+          </div>
+          <div class="task-body">
+            <p>Create a catch-all Sandbox policy rule to quarantine first-seen files and block subsequent downloads of known-malicious content.</p>
+              <ol>
+                <li>In the <strong>ZIA Admin Portal</strong>, go to <strong>Policy &gt; Sandbox</strong>.</li>
+                <li>Click <strong>Add Sandbox Rule</strong>.</li>
+                <li>Configure the rule:
+                  <ul>
+                    <li>Rule Name: <strong>Catch-all</strong></li>
+                    <li>Rule Status: <strong>Enabled</strong></li>
+                    <li>CRITERIA:
+                      <ul>
+                        <li>File Types: Select all groups — <strong>Archive, Executable, Microsoft Office, Mobile, Other Documents, Web Content</strong></li>
+                        <li>Sandbox Categories: <strong>Select All</strong></li>
+                        <li>Protocol: <strong>Select All</strong></li>
+                      </ul>
+                    </li>
+                    <li>ACTION:
+                      <ul>
+                        <li>First-Time Action: <strong>Quarantine</strong></li>
+                        <li>Action for Subsequent Downloads: <strong>Block</strong></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>Click <strong>Save and Activate</strong>.</li>
+              </ol>
+          </div>
+          <div class="section-qa-body">
+            <div class="section-qa-grid">
+              <div>
+                <div class="section-qa-label">My Questions</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-7-1" onblur="saveTQ('task-7-1',this.value)"></textarea>
+              </div>
+              <div>
+                <div class="section-qa-label">My Notes</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-7-1" onblur="saveTN('task-7-1',this.value)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="task-block" id="task-7-2">
+          <div class="task-header">
+            <span class="task-number">TASK 7.2</span>
+            <h3 class="task-title">Task 7.2: Real-Time Alerts</h3>
+          </div>
+          <div class="task-body">
+            <p>Configure alert definitions and subscriptions so sandbox malware detections trigger email notifications.</p>
+              <ol>
+                <li>In the <strong>ZIA Admin Portal</strong>, navigate to <strong>Administration &gt; Alerts</strong>.</li>
+                <li>Under the <strong>Define Alerts</strong> tab, click <strong>Add Alert Definition</strong>.</li>
+                <li>In the <strong>Alert Name</strong> field, select <strong>"Sandbox Malware"</strong>. Leave other fields at their default values and click <strong>Save</strong>.</li>
+                <li>Click the <strong>Publish Alerts</strong> tab, then click <strong>Add Alert Subscription</strong>.</li>
+                <li>Enter one or more email addresses in the <strong>Email</strong> field.</li>
+                <li>Under <strong>Security Alerts</strong>, enable the <strong>Critical</strong> selector.</li>
+                <li>Click <strong>Save</strong>.</li>
+                <li>Trigger the Sandbox workflow by visiting:<br>
+                  URL: <code>http://securitytest.zsdemo.com/sandbox/quarantine/quarantine.php</code><br>
+                  Username: <code>security</code><br>
+                  Password: <code>FQHK!@hsJsz&amp;ADAd3n3dqPwcPgB2ysJ&amp;MNcybSqt</code>
+                  <div class="callout callout-caution"><strong>Note:</strong> This link should only be used as part of this lab. Do not use it outside the lab or on production endpoints.</div>
+                </li>
+                <li>Once the Sandbox analysis completes, the alert email should arrive within a few minutes.</li>
+              </ol>
+          </div>
+          <div class="section-qa-body">
+            <div class="section-qa-grid">
+              <div>
+                <div class="section-qa-label">My Questions</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-7-2" onblur="saveTQ('task-7-2',this.value)"></textarea>
+              </div>
+              <div>
+                <div class="section-qa-label">My Notes</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-7-2" onblur="saveTN('task-7-2',this.value)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="task-block" id="task-7-3">
+          <div class="task-header">
+            <span class="task-number">TASK 7.3</span>
+            <h3 class="task-title">Task 7.3: View Sandbox Activity Report</h3>
+          </div>
+          <div class="task-body">
+            <p>Use the SDC tenant to explore the Sandbox Activity Report and Web Insights sandbox logs.</p>
+              <div class="callout callout-sdc"><strong>SDC Lab — Read-Only:</strong> For this task you will switch to the Solutions Demo Center (SDC) tenant at <strong>https://sdc.zslogin.net</strong>. Log in with your Admin Username and Session Password provided in your lab resources. Use the IT Username and Session Password for Zscaler Client Connector.</div>
+              <ol>
+                <li>In the <strong>ZIA Admin Portal</strong> (SDC tenant), go to <strong>Analytics &gt; Sandbox Activity Report</strong>.</li>
+                <li>Explore the graphs — note how many quarantined files were assessed as malicious.</li>
+                <li>From the dropdown in the upper left, select <strong>Sandbox Files found Malicious</strong>.</li>
+                <li>Review the list of malicious files, including their File Type and Threat Name.
+                  <div class="callout callout-info"><strong>Tip:</strong> Clicking a file's Threat Name opens the Zscaler Threat Library with more details about the identified threat.</div>
+                </li>
+                <li>In the table, click a unique <strong>MD5</strong> value for a malicious file and select <strong>View Sandbox Detail Report</strong>. Review forensic details: registry changes, network connections, MITRE ATT&amp;CK techniques.</li>
+                <li>Go to <strong>Analytics &gt; Web Insights</strong> and select the <strong>Logs</strong> tab.</li>
+                <li>Click <strong>Add Filter</strong>, select <strong>Sandbox</strong>, and select all Sandbox options (Adware, Anonymizer, Benign, Malware, Offensive Security Tools, Ransomware).</li>
+                <li>Click <strong>Done</strong>, then <strong>Apply Filters</strong>.</li>
+                <li>Change the <strong>Timeframe</strong> as needed and click the column icon to add/remove columns from the log table.</li>
+                <li>Scroll through the log details.</li>
+              </ol>
+          </div>
+          <div class="section-qa-body">
+            <div class="section-qa-grid">
+              <div>
+                <div class="section-qa-label">My Questions</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-7-3" onblur="saveTQ('task-7-3',this.value)"></textarea>
+              </div>
+              <div>
+                <div class="section-qa-label">My Notes</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-7-3" onblur="saveTN('task-7-3',this.value)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-label">📝 Mental Note</div>
+        <textarea class="mental-note-textarea" rows="4" placeholder="Summarize what you learned in Lab 7 — key concepts, surprises, things to research more…" id="mental-note-7" onblur="saveMentalNote(7,this.value)"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <a class="sidebar-hub-link" href="index.html">← Back to EDU-230 Hub</a>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Lab 7 Progress</div>
+      <div class="checklist" id="checklist-7">
+          <label class="checklist-item" for="chk-7-1">
+            <input type="checkbox" id="chk-7-1" onchange="saveChecklist(this)">
+            <span>Completed Task 7.1 — Configured Sandbox Policies</span>
+          </label>
+          <label class="checklist-item" for="chk-7-2">
+            <input type="checkbox" id="chk-7-2" onchange="saveChecklist(this)">
+            <span>Completed Task 7.2 — Configured Real-Time Alerts</span>
+          </label>
+          <label class="checklist-item" for="chk-7-3">
+            <input type="checkbox" id="chk-7-3" onchange="saveChecklist(this)">
+            <span>Completed Task 7.3 — Viewed Sandbox Activity Report (SDC)</span>
+          </label>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Lab Environment</div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">YOUR TENANT</div>
+        <div class="quick-ref-row"><span>Student FQDN</span><code class="var var-fqdn">&lt;Student FQDN&gt;</code></div>
+        <div class="quick-ref-row"><span>Session Password</span><code class="var var-pass">&lt;Session Password&gt;</code></div>
+        <div class="quick-ref-row"><span>ZIdentity URL</span><code id="d-zid-2">&lt;StudentID&gt;safemarch.zslogin.net</code></div>
+      </div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">WIN SVR 2016 (CORP)</div>
+        <div class="quick-ref-row"><span>Username</span><code>PATRAINING\Administrator</code></div>
+        <div class="quick-ref-row"><span>Password</span><code>Admin-123!</code></div>
+      </div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">ZPA CONNECTOR VM</div>
+        <div class="quick-ref-row"><span>Username</span><code>admin</code></div>
+        <div class="quick-ref-row"><span>Password</span><code>zscaler</code></div>
+        <div class="quick-ref-row"><span>IP Address</span><code>10.0.0.2</code></div>
+      </div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">SDC TENANT</div>
+        <div class="quick-ref-row"><span>Portal</span><code>sdc.zslogin.net</code></div>
+        <div class="quick-ref-row"><span>Credentials</span><code>via email / Resources panel</code></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<nav class="page-nav">
+  <div class="page-nav-prev"><a class="nav-prev" href="lab6.html">← Lab 6: ZPA Traffic Inspection via ZIA</a></div>
+  <div class="page-nav-msg"><em>Sandboxing unknown files before they can execute — mission-critical.</em></div>
+  <div class="page-nav-next"><a class="nav-next" href="lab8.html">Lab 8: Deception-Based Active Defense →</a></div>
+</nav>
+
+<footer>
+  <span>EDU-230 · Cyberthreat Protection</span>
+  <span>Lab 7 of 8</span>
+</footer>
+
+<script>
+const PAGE_KEY='edu230-lab-lab7';
+const CONFIG_KEY='edu230-expc-lab-config';
+
+function toggleConfig(){
+  var body=document.getElementById('config-body');
+  var btn=document.getElementById('config-toggle-btn');
+  var chevron=btn.querySelector('.chevron');
+  if(body.style.display==='none'){
+    body.style.display='';
+    chevron.textContent='▲';
+    btn.lastChild.textContent=' Collapse';
+  }else{
+    body.style.display='none';
+    chevron.textContent='▼';
+    btn.lastChild.textContent=' Expand';
+  }
+}
+function saveConfig(){
+  var fqdn=document.getElementById('fqdn-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));}catch(e){}
+  applyConfig(fqdn,pass);
+}
+function clearConfig(){
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  document.getElementById('fqdn-input').value='';
+  document.getElementById('pass-input').value='';
+  applyConfig('','');
+}
+function applyConfig(fqdn,pass){
+  var studentID=fqdn?fqdn.split('.')[0]:'<Student ID>';
+  var zidURL=fqdn?studentID+'safemarch.zslogin.net':'<StudentID>safemarch.zslogin.net';
+  document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
+  document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
+  var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
+  var di=document.getElementById('d-id');if(di)di.textContent=studentID;
+  var dz=document.getElementById('d-zid');if(dz)dz.textContent=zidURL;
+  var dz2=document.getElementById('d-zid-2');if(dz2)dz2.textContent=zidURL;
+  var sum=document.getElementById('config-toggle-summary');
+  if(sum)sum.textContent=fqdn?' — '+fqdn:'';
+}
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value;
+  if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){
+    btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);
+  });
+}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');document.getElementById('q-list').innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');var c=document.getElementById('q-count');c.textContent=qs.length;c.style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');document.getElementById('n-list').innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveTQ(id,val){try{localStorage.setItem(PAGE_KEY+'-tq-'+id,val);}catch(e){}}
+function saveTN(id,val){try{localStorage.setItem(PAGE_KEY+'-tn-'+id,val);}catch(e){}}
+function saveMentalNote(n,val){try{localStorage.setItem(PAGE_KEY+'-mental',val);}catch(e){}}
+function saveChecklist(cb){
+  try{
+    var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
+    state[cb.id]=cb.checked;
+    localStorage.setItem(PAGE_KEY+'-checks',JSON.stringify(state));
+  }catch(e){}
+}
+function toggleSocratic(btn){
+  var body=btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function toggleSocAnswer(btn){
+  var answer=btn.nextElementSibling;
+  answer.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+(function init(){
+  try{
+    var cfg=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');
+    if(cfg.fqdn){document.getElementById('fqdn-input').value=cfg.fqdn;}
+    if(cfg.pass){document.getElementById('pass-input').value=cfg.pass;}
+    applyConfig(cfg.fqdn||'',cfg.pass||'');
+  }catch(e){}
+  loadQList();
+  loadNList();
+  try{
+    var mn=localStorage.getItem(PAGE_KEY+'-mental');
+    if(mn)document.getElementById('mental-note-7').value=mn;
+  }catch(e){}
+  document.querySelectorAll('.task-block').forEach(function(t){
+    var tid=t.id;
+    var tqEl=document.getElementById('tq-'+tid);
+    var tnEl=document.getElementById('tn-'+tid);
+    try{
+      var tq=localStorage.getItem(PAGE_KEY+'-tq-'+tid);
+      var tn=localStorage.getItem(PAGE_KEY+'-tn-'+tid);
+      if(tq&&tqEl)tqEl.value=tq;
+      if(tn&&tnEl)tnEl.value=tn;
+    }catch(e){}
+  });
+  try{
+    var checks=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
+    Object.keys(checks).forEach(function(id){
+      var cb=document.getElementById(id);
+      if(cb)cb.checked=checks[id];
+    });
+  }catch(e){}
+  document.querySelectorAll('a[href]').forEach(function(a){
+    a.addEventListener('click',function(){sessionStorage.setItem('page-transition','1');});
+  });
+})();
+</script>
+</body>
+</html>

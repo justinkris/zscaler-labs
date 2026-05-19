@@ -1,0 +1,65 @@
+EDU-230 Lab Hero Image Prompts
+================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff.
+  NO TEXT anywhere — no words, no letters, no numbers, no labels. Pure visual only.
+  Recommended dimensions: 1200 x 400 px.
+
+────────────────────────────────
+
+lab1-hero.png — Lab 1: Signing into ZIdentity
+----------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A cracked shield with danger symbols floating around it (skull icon, fishing hook, radioactive icon) on one side,
+and a glowing Zscaler-blue shield forming protectively on the other side. A laptop in the center shows a security
+score gauge moving from red/critical to green/low risk. Deep navy and sky blue palette. No text.
+
+lab2-hero.png — Lab 2: Configuring SSL Inspection Policies
+-----------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+An x-ray machine scanning a stream of padlock icons (representing HTTPS traffic). Some padlocks reveal hidden threat
+icons inside when x-rayed. A cloud with a Zscaler-blue logo acts as the inspection engine. Certificate ribbon/seal
+icons float nearby. Deep navy and sky blue palette. No text.
+
+lab3-hero.png — Lab 3: DNS Security
+-------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A large DNS query arrow being intercepted at a blue checkpoint gate before reaching a red forbidden zone labeled
+with a hazard symbol. Clean domain name symbols (@ and globe icons) in the allowed lane pass through freely.
+A DNS server tower glows in navy blue. Deep navy and sky blue palette. No text.
+
+lab4-hero.png — Lab 4: URL Filtering and Cloud App Control
+-----------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A large blue security funnel filtering a stream of app icons — video play buttons, news icons, chat bubbles.
+Some pass through with green checkmarks (specific actions allowed), others are deflected with red X icons.
+A cloud app control panel with sliders adjusts permissions. Deep navy and sky blue palette. No text.
+
+lab5-hero.png — Lab 5: Browser Isolation
+-----------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A glass isolation pod containing a browser window viewing social media content. Outside the pod, the real laptop
+is safely separated by a glowing blue transparent barrier. Threat particles bounce off the glass. The isolated
+browser floats in a cloud. Deep navy and sky blue palette. No text.
+
+lab6-hero.png — Lab 6: ZPA Traffic Inspection via ZIA
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A secure tunnel connecting a laptop to a private intranet server inside a corporate building, but the tunnel
+passes through a blue cloud inspection station in the middle. ZPA and ZIA logos (as abstract blue shield icons)
+are visible at each checkpoint. App Connector server icon with green status light on the right. No text.
+
+lab7-hero.png — Lab 7: Sandbox File Inspection and Real-Time Alerts
+--------------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A contained glass sandbox box with a suspicious file (wrapped package with question mark) being detonated inside.
+Red malware burst icon inside the box is blocked from escaping. An alert bell with notification waves sends
+signals to a security dashboard. Quarantine lock icon visible. Deep navy and amber/orange accent palette. No text.
+
+lab8-hero.png — Lab 8: Deception-Based Active Defense
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background #eef4ff.
+A network topology with glowing fake decoy nodes (marked with ghost icons) scattered among real server icons.
+A hooded attacker figure approaches the decoys while real assets are hidden/shielded behind a blue barrier.
+An alert spotlight catches the attacker touching a decoy. Deep navy and sky blue palette. No text.

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 8: Deception-Based Active Defense — EDU-230</title>
+<script>
+(function(){
+  var s=sessionStorage.getItem('page-transition');
+  if(s){var el=document.createElement('style');el.textContent='*{transition:none!important}';document.head.appendChild(el);sessionStorage.removeItem('page-transition');}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-230 Hub</a> <span>›</span> <a href="index.html">Cyberthreat Protection</a> <span>›</span> Lab 8</div>
+  <div class="header-top">
+    <div class="eyebrow-chip" style="background:#d9770620;color:#d97706;border-color:#d9770640;">ZIA — LAB 8 · SDC</div>
+    <span class="lab-badge-sdc">SDC</span>
+  </div>
+  <h1>Deception-Based Active Defense</h1>
+  <p class="header-desc">Zscaler Deception deploys fake decoy assets throughout the environment. Any attacker interaction with these hidden decoys is a high-confidence breach indicator. In this lab you simulate attacker reconnaissance against public decoys, then investigate the resulting alerts in the Deception Admin Console.</p>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs9901.safemarch.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>ZIdentity URL:</strong> <code id="d-zid">&lt;StudentID&gt;safemarch.zslogin.net</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab…"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab…"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="main-layout">
+  <div class="content-col">
+    <div class="section-block" id="section-lab8">
+      <h2>Lab 8: Deception-Based Active Defense</h2>
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 8</div>
+        <p><strong>Scenario:</strong> Zscaler Deception deploys fake decoy assets throughout the environment. Any attacker interaction with these hidden decoys is a high-confidence breach indicator. In this lab you simulate attacker reconnaissance against public decoys, then investigate the resulting alerts in the Deception Admin Console.</p>
+        <figure class="lab-hero">
+          <img src="images/lab8-hero.png" alt="Lab 8 — Deception-Based Active Defense" loading="lazy" onerror="this.parentElement.style.display='none'">
+        </figure>
+        <div class="lab-meta">
+          <span class="lab-meta-item">⏱ 30 min</span>
+          <span class="lab-meta-item">📋 2 tasks</span>
+          <span class="lab-meta-item" style="color:#d97706;">● ZIA</span>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab8">
+        <div class="socratic-header" onclick="toggleSocratic(this)">
+          <span class="socratic-icon">🤔</span>
+          <span class="socratic-title">Think First — Before You Click</span>
+          <span class="socratic-hint">3 questions to prime your thinking</span>
+          <span class="soc-main-chevron">▾</span>
+        </div>
+        <div class="socratic-body">
+        <div class="soc-item">
+          <button class="soc-q" onclick="toggleSocAnswer(this)">
+            <span class="soc-q-num">Q1</span>
+            <span class="soc-q-text">Why is 'any interaction with a decoy' a higher-confidence breach indicator than a traditional IDS alert?</span>
+            <span class="soc-chevron">▾</span>
+          </button>
+          <div class="soc-answer">
+            <p>Legitimate users and applications have no reason to ever access decoy assets — they are invisible to authorized traffic. Any interaction with a decoy definitively means unauthorized exploration (reconnaissance, lateral movement, or credential harvesting). IDS alerts, by contrast, fire on legitimate traffic patterns that resemble attacks, generating false positives.</p>
+          </div>
+        </div>
+        <div class="soc-item">
+          <button class="soc-q" onclick="toggleSocAnswer(this)">
+            <span class="soc-q-num">Q2</span>
+            <span class="soc-q-text">What data does Zscaler Deception capture during a recon event that would be valuable to a SOC analyst?</span>
+            <span class="soc-chevron">▾</span>
+          </button>
+          <div class="soc-answer">
+            <p>Deception captures: attacker IP address, decoy name and type, recon method (web login attempt, network scan, etc.), request URI, entered credentials (username/password attempted), timestamp, and optionally the source user identity if ZCC is running. This provides attribution data without requiring the attacker to succeed.</p>
+          </div>
+        </div>
+        <div class="soc-item">
+          <button class="soc-q" onclick="toggleSocAnswer(this)">
+            <span class="soc-q-num">Q3</span>
+            <span class="soc-q-text">How does Deception complement ZIA and ZPA in a layered defense strategy?</span>
+            <span class="soc-chevron">▾</span>
+          </button>
+          <div class="soc-answer">
+            <p>ZIA and ZPA focus on north-south traffic (user-to-internet and user-to-private-apps). Deception addresses east-west lateral movement after a breach — when an attacker is already inside the network. Together: ZIA/ZPA prevent initial compromise; Deception detects post-breach movement before the attacker reaches real assets.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+
+        <div class="task-block" id="task-8-1">
+          <div class="task-header">
+            <span class="task-number">TASK 8.1</span>
+            <h3 class="task-title">Task 8.1: Generate Recon Activity</h3>
+          </div>
+          <div class="task-body">
+            <p>Simulate the activities of an attacker doing reconnaissance against public-facing decoy assets.</p>
+              <div class="callout callout-sdc"><strong>SDC Lab — Read-Only:</strong> Switch to the Solutions Demo Center (SDC) tenant. Credentials are provided in the <strong>Resources</strong> panel of your lab environment.</div>
+              <ol>
+                <li>On the <strong>Corp: Client PC</strong>, log out of Zscaler Client Connector.</li>
+                <li>Log back in with the SDC Marketing department user:
+                  <ol type="a">
+                    <li>Enter the <strong>MKT_department_username</strong> and click <strong>Login</strong>.</li>
+                    <li>At the IdP prompt, enter the username again (if not pre-filled) and click <strong>Next</strong>.</li>
+                    <li>Enter the <strong>Session_Password</strong> and click <strong>Sign in</strong>.</li>
+                  </ol>
+                </li>
+                <li>Open a browser and navigate to one of the public-facing decoys:
+                  <ul>
+                    <li><code>http://wordpress.thezerotrustexchange.com/</code></li>
+                    <li><code>http://helpdesk.thezerotrustexchange.com/</code></li>
+                  </ul>
+                </li>
+                <li>At the login page, enter fake credentials to record recon activity in the logs:
+                  <ul>
+                    <li>Username: <code>sdcuser_&lt;identifier&gt;__</code> (include a unique string so you can find your log entry)</li>
+                    <li>Password: <code>SDCaccess</code></li>
+                  </ul>
+                </li>
+                <li>Click <strong>Sign On</strong>. The page will appear to clear and re-prompt — this is the decoy recording your activity.
+                  <div class="callout callout-info"><strong>Note:</strong> This is expected behavior. The decoy has logged your credentials and source IP. In a real attack scenario, this would trigger an alert to the SOC.</div>
+                </li>
+              </ol>
+          </div>
+          <div class="section-qa-body">
+            <div class="section-qa-grid">
+              <div>
+                <div class="section-qa-label">My Questions</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-8-1" onblur="saveTQ('task-8-1',this.value)"></textarea>
+              </div>
+              <div>
+                <div class="section-qa-label">My Notes</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-8-1" onblur="saveTN('task-8-1',this.value)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="task-block" id="task-8-2">
+          <div class="task-header">
+            <span class="task-number">TASK 8.2</span>
+            <h3 class="task-title">Task 8.2: Investigate Deception Alerts</h3>
+          </div>
+          <div class="task-body">
+            <p>Sign in to the Deception Administrator Console on the SDC tenant and investigate the recon event you just generated.</p>
+              <div class="callout callout-sdc"><strong>SDC Lab — Read-Only:</strong> Use your Admin credentials for the SDC tenant.</div>
+              <ol>
+                <li>Go to <strong>Solutions Demo Center (https://sdc.zslogin.net)</strong> and click the <strong>Solutions Demo Center Login</strong> tile.</li>
+                <li>Enter your admin credentials:
+                  <ul>
+                    <li>Login ID: <strong>Admin_User_ID</strong></li>
+                    <li>Password: <strong>Session_Password</strong></li>
+                  </ul>
+                </li>
+                <li>Click the <strong>Deception</strong> tile and accept the End User Subscription Agreement.</li>
+                <li>Click <strong>Investigate</strong> in the main menu and select <strong>ThreatParse</strong>.</li>
+                <li>Set the time filter to <strong>Last 10 minutes</strong> to see the most recent logs.</li>
+                <li>Search for your recon event using the query:<br>
+                  <code>decoy.name is "moveit.thezerotrustexchange.com"</code><br>
+                  (substitute the name of the decoy that was visited)</li>
+                <li>Also try other query types to explore the data:
+                  <ul>
+                    <li><code>web.method</code></li>
+                    <li><code>web.host</code></li>
+                    <li><code>web.request</code></li>
+                  </ul>
+                </li>
+                <li>Press <strong>Enter</strong> to run the query and click on any of the attackers displayed to see the <strong>Event summary</strong>.</li>
+                <li>Click <strong>View Extended Details</strong> to see more information about the event.</li>
+                <li>Click the <strong>Event Logs</strong> tab and review the detailed log entries.</li>
+                <li>Sort or search by <strong>recon post_data user</strong> to find the specific log entry based on the username you entered at the decoy.
+                  <div class="callout callout-info"><strong>Tip:</strong> If the <strong>recon post_data user</strong> column is not visible, click the chevron icon at the top left of the table to add it.</div>
+                </li>
+              </ol>
+          </div>
+          <div class="section-qa-body">
+            <div class="section-qa-grid">
+              <div>
+                <div class="section-qa-label">My Questions</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Questions about this task…" id="tq-task-8-2" onblur="saveTQ('task-8-2',this.value)"></textarea>
+              </div>
+              <div>
+                <div class="section-qa-label">My Notes</div>
+                <textarea class="section-qa-textarea" rows="3" placeholder="Key takeaways…" id="tn-task-8-2" onblur="saveTN('task-8-2',this.value)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-label">📝 Mental Note</div>
+        <textarea class="mental-note-textarea" rows="4" placeholder="Summarize what you learned in Lab 8 — key concepts, surprises, things to research more…" id="mental-note-8" onblur="saveMentalNote(8,this.value)"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <a class="sidebar-hub-link" href="index.html">← Back to EDU-230 Hub</a>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Lab 8 Progress</div>
+      <div class="checklist" id="checklist-8">
+          <label class="checklist-item" for="chk-8-1">
+            <input type="checkbox" id="chk-8-1" onchange="saveChecklist(this)">
+            <span>Completed Task 8.1 — Generated Recon Activity against decoys</span>
+          </label>
+          <label class="checklist-item" for="chk-8-2">
+            <input type="checkbox" id="chk-8-2" onchange="saveChecklist(this)">
+            <span>Completed Task 8.2 — Investigated Deception Alerts in ThreatParse</span>
+          </label>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Lab Environment</div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">YOUR TENANT</div>
+        <div class="quick-ref-row"><span>Student FQDN</span><code class="var var-fqdn">&lt;Student FQDN&gt;</code></div>
+        <div class="quick-ref-row"><span>Session Password</span><code class="var var-pass">&lt;Session Password&gt;</code></div>
+        <div class="quick-ref-row"><span>ZIdentity URL</span><code id="d-zid-2">&lt;StudentID&gt;safemarch.zslogin.net</code></div>
+      </div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">WIN SVR 2016 (CORP)</div>
+        <div class="quick-ref-row"><span>Username</span><code>PATRAINING\Administrator</code></div>
+        <div class="quick-ref-row"><span>Password</span><code>Admin-123!</code></div>
+      </div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">ZPA CONNECTOR VM</div>
+        <div class="quick-ref-row"><span>Username</span><code>admin</code></div>
+        <div class="quick-ref-row"><span>Password</span><code>zscaler</code></div>
+        <div class="quick-ref-row"><span>IP Address</span><code>10.0.0.2</code></div>
+      </div>
+      <div class="quick-ref-card">
+        <div class="quick-ref-label">SDC TENANT</div>
+        <div class="quick-ref-row"><span>Portal</span><code>sdc.zslogin.net</code></div>
+        <div class="quick-ref-row"><span>Credentials</span><code>via email / Resources panel</code></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<nav class="page-nav">
+  <div class="page-nav-prev"><a class="nav-prev" href="lab7.html">← Lab 7: Configure Sandbox File Inspection and Set Real-Time Alerts</a></div>
+  <div class="page-nav-msg"><em>Deception turns the attacker's advantage against them.</em></div>
+  <div class="page-nav-next"><span class="nav-next disabled">Course Complete ✓</span></div>
+</nav>
+
+<footer>
+  <span>EDU-230 · Cyberthreat Protection</span>
+  <span>Lab 8 of 8</span>
+</footer>
+
+<script>
+const PAGE_KEY='edu230-lab-lab8';
+const CONFIG_KEY='edu230-expc-lab-config';
+
+function toggleConfig(){
+  var body=document.getElementById('config-body');
+  var btn=document.getElementById('config-toggle-btn');
+  var chevron=btn.querySelector('.chevron');
+  if(body.style.display==='none'){
+    body.style.display='';
+    chevron.textContent='▲';
+    btn.lastChild.textContent=' Collapse';
+  }else{
+    body.style.display='none';
+    chevron.textContent='▼';
+    btn.lastChild.textContent=' Expand';
+  }
+}
+function saveConfig(){
+  var fqdn=document.getElementById('fqdn-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));}catch(e){}
+  applyConfig(fqdn,pass);
+}
+function clearConfig(){
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  document.getElementById('fqdn-input').value='';
+  document.getElementById('pass-input').value='';
+  applyConfig('','');
+}
+function applyConfig(fqdn,pass){
+  var studentID=fqdn?fqdn.split('.')[0]:'<Student ID>';
+  var zidURL=fqdn?studentID+'safemarch.zslogin.net':'<StudentID>safemarch.zslogin.net';
+  document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
+  document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
+  var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
+  var di=document.getElementById('d-id');if(di)di.textContent=studentID;
+  var dz=document.getElementById('d-zid');if(dz)dz.textContent=zidURL;
+  var dz2=document.getElementById('d-zid-2');if(dz2)dz2.textContent=zidURL;
+  var sum=document.getElementById('config-toggle-summary');
+  if(sum)sum.textContent=fqdn?' — '+fqdn:'';
+}
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value;
+  if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){
+    btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);
+  });
+}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');document.getElementById('q-list').innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');var c=document.getElementById('q-count');c.textContent=qs.length;c.style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');document.getElementById('n-list').innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveTQ(id,val){try{localStorage.setItem(PAGE_KEY+'-tq-'+id,val);}catch(e){}}
+function saveTN(id,val){try{localStorage.setItem(PAGE_KEY+'-tn-'+id,val);}catch(e){}}
+function saveMentalNote(n,val){try{localStorage.setItem(PAGE_KEY+'-mental',val);}catch(e){}}
+function saveChecklist(cb){
+  try{
+    var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
+    state[cb.id]=cb.checked;
+    localStorage.setItem(PAGE_KEY+'-checks',JSON.stringify(state));
+  }catch(e){}
+}
+function toggleSocratic(btn){
+  var body=btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function toggleSocAnswer(btn){
+  var answer=btn.nextElementSibling;
+  answer.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+(function init(){
+  try{
+    var cfg=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');
+    if(cfg.fqdn){document.getElementById('fqdn-input').value=cfg.fqdn;}
+    if(cfg.pass){document.getElementById('pass-input').value=cfg.pass;}
+    applyConfig(cfg.fqdn||'',cfg.pass||'');
+  }catch(e){}
+  loadQList();
+  loadNList();
+  try{
+    var mn=localStorage.getItem(PAGE_KEY+'-mental');
+    if(mn)document.getElementById('mental-note-8').value=mn;
+  }catch(e){}
+  document.querySelectorAll('.task-block').forEach(function(t){
+    var tid=t.id;
+    var tqEl=document.getElementById('tq-'+tid);
+    var tnEl=document.getElementById('tn-'+tid);
+    try{
+      var tq=localStorage.getItem(PAGE_KEY+'-tq-'+tid);
+      var tn=localStorage.getItem(PAGE_KEY+'-tn-'+tid);
+      if(tq&&tqEl)tqEl.value=tq;
+      if(tn&&tnEl)tnEl.value=tn;
+    }catch(e){}
+  });
+  try{
+    var checks=JSON.parse(localStorage.getItem(PAGE_KEY+'-checks')||'{}');
+    Object.keys(checks).forEach(function(id){
+      var cb=document.getElementById(id);
+      if(cb)cb.checked=checks[id];
+    });
+  }catch(e){}
+  document.querySelectorAll('a[href]').forEach(function(a){
+    a.addEventListener('click',function(){sessionStorage.setItem('page-transition','1');});
+  });
+})();
+</script>
+</body>
+</html>
