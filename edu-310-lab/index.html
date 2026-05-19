@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-310 Hands-On Lab Guide — ZDX Operationalization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html.pt-init body{opacity:0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#eef4ff;--surface:#fff;--surface-2:#f5f8ff;--border:#bfdbfe;--border-dim:#dbeafe;
+  --text:#0d1a2e;--text-soft:#1e3a5c;--text-muted:#5a7a9a;
+  --blue:#1a6dcc;--blue-glow:rgba(26,109,204,0.07);--blue-dim:#bfdbfe;--blue-deep:#0f3d7a;
+  --green:#1a7c4a;--green-light:#d4f0e0;--green-border:#a7e0c0;
+  --amber:#b45309;--amber-light:#fef9c3;--amber-border:#fde68a;
+  --purple:#5c35cc;--purple-light:#ece8ff;--purple-border:#c8bbff;
+}
+body{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
+a{color:var(--blue);text-decoration:none;}
+header{background:#0d1a2e;padding:32px 48px 28px;border-bottom:3px solid #1a3a6e;}
+.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}.breadcrumb a{color:#93c5fd;}
+.header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.eyebrow-chip{display:inline-block;font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;background:rgba(147,197,253,0.12);color:#93c5fd;border:1px solid rgba(147,197,253,0.25);padding:3px 10px;border-radius:20px;}
+h1{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:10px;}
+h1 em{font-style:italic;color:#93c5fd;}
+.motivation-banner{background:rgba(26,109,204,0.12);border-left:3px solid #93c5fd;padding:12px 20px;margin-top:16px;border-radius:0 8px 8px 0;max-width:760px;}
+.motivation-banner p{font-family:'Fraunces',serif;font-size:1rem;color:#93c5fd;font-style:italic;line-height:1.5;}
+.hub-main{max-width:1200px;margin:0 auto;padding:40px 40px 80px;}
+.phase-section{margin-bottom:48px;}
+.phase-header{margin-bottom:20px;}
+.phase-label{display:inline-block;font-size:9px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;background:var(--blue-glow);color:var(--blue);border:1px solid var(--blue-dim);padding:2px 10px;border-radius:20px;margin-bottom:6px;}
+.phase-label.amber{background:rgba(180,83,9,0.08);color:var(--amber);border-color:var(--amber-border);}
+.phase-label.green{background:rgba(26,124,74,0.08);color:var(--green);border-color:var(--green-border);}
+.phase-label.purple{background:rgba(92,53,204,0.1);color:#7c5ce8;border-color:var(--purple-border);}
+.phase-title{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:3px;}
+.phase-range{font-size:12px;color:var(--text-muted);}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.lab-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;transition:box-shadow 0.15s,border-color 0.15s,transform 0.15s;}
+.lab-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(26,109,204,0.12);transform:translateY(-2px);text-decoration:none;}
+.lab-card-header{display:flex;align-items:center;gap:8px;}
+.lab-card-num{font-size:9px;letter-spacing:0.16em;font-weight:700;text-transform:uppercase;background:var(--blue-glow);color:var(--blue);border:1px solid var(--blue-dim);padding:2px 10px;border-radius:20px;}
+.lab-card-time{margin-left:auto;font-size:11px;color:var(--text-muted);white-space:nowrap;}
+.lab-card-title{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--text);line-height:1.3;}
+.lab-card-desc{font-size:12.5px;color:var(--text-muted);line-height:1.55;flex:1;}
+.lab-card-cta{font-size:11px;font-weight:700;letter-spacing:0.06em;color:var(--blue);margin-top:4px;}
+.lab-card:hover .lab-card-cta{color:var(--blue-deep);}
+footer{background:#0d1a2e;color:#5a7a9a;font-size:11px;padding:16px 48px;display:flex;justify-content:space-between;align-items:center;letter-spacing:0.04em;}
+@media(max-width:900px){.hub-main{padding:24px 20px 60px;}header{padding:24px 20px 20px;}footer{padding:12px 20px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> &rsaquo; EDU-310</div>
+  <div class="header-top"><span class="eyebrow-chip">EDU-310 &middot; Hands-On Lab</span></div>
+  <h1>ZDX Operationalization &mdash; <em>Self-Guided Lab</em></h1>
+  <div class="motivation-banner">
+    <p>14 hands-on labs covering ZDX navigation, Wi-Fi and CPU troubleshooting, DNS and network hop analysis, call quality, Intune integration, incident monitoring, Copilot, Hosted Monitoring, and the Wi-Fi Dashboard.</p>
+  </div>
+</header>
+
+<div class="hub-main">
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label">ZDX OVERVIEW</span>
+      <div class="phase-title">Orientation &amp; Portal Navigation</div>
+      <div class="phase-range">Lab 1 &middot; Explore all major ZDX dashboards and features before troubleshooting</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab1.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 1</span><span class="lab-card-time">~60 min</span></div>
+        <div class="lab-card-title">Navigating the ZDX Admin Portal</div>
+        <div class="lab-card-desc">Explore every major ZDX dashboard: Performance Overview, Applications, Users, Root Cause Analysis, Call Quality, Inventory, Deep Tracing, and Alerts.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label amber">TROUBLESHOOTING</span>
+      <div class="phase-title">End-User Experience Troubleshooting</div>
+      <div class="phase-range">Labs 2&ndash;7 &middot; Diagnose real-world WiFi, CPU, DNS, network, call quality, and device issues</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab2.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 2</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Troubleshooting Poor Wifi</div>
+        <div class="lab-card-desc">Diagnose sporadic poor performance for Curtis Hardwick using Y-Engine Analyze Score, Cloud Path hop view, ZDX score comparison, and User Device Events.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab3.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 3</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Troubleshooting End User Device Root Causes — High CPU</div>
+        <div class="lab-card-desc">Isolate periodic slowdowns for Barry Bogdown by correlating ZDX Score drops with Device Health CPU peaks and the Most Impacted Processes list.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab4.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 4</span><span class="lab-card-time">~20 min</span></div>
+        <div class="lab-card-title">Troubleshooting Slow DNS Response</div>
+        <div class="lab-card-desc">Trace consistently poor ZDX scores for Linda Lucas through high Page Fetch Time, DNS Resolve Time breakdown, and Y-Engine root cause confirmation.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab5.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 5</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Troubleshooting Slow Network Router (Hop)</div>
+        <div class="lab-card-desc">Isolate sporadic SaaS latency for Quincy Martin by examining Cloud Path links, Hop View expanded detail, and ZDX Score Comparison Key Differences.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab6.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 6</span><span class="lab-card-time">~20 min</span></div>
+        <div class="lab-card-title">Analyzing Call Quality</div>
+        <div class="lab-card-desc">Investigate poor Teams call quality for Grady Archie via Microsoft Teams Call Quality dashboard, Meeting Monitoring Metrics, MOS score, and Cloud Path hop latency.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab7.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 7</span><span class="lab-card-time">~20 min</span></div>
+        <div class="lab-card-title">Troubleshooting Device Startup &amp; Software Reliability</div>
+        <div class="lab-card-desc">Use Microsoft Intune integration to examine Joni Sherman&rsquo;s Endpoint Analytics Score, boot and sign-in history, and repeated Chrome app crash events.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label green">OPERATIONS</span>
+      <div class="phase-title">Proactive Monitoring &amp; Sharing</div>
+      <div class="phase-range">Labs 8&ndash;10 &middot; Incident monitoring, self-service notifications, and snapshot sharing</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab8.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 8</span><span class="lab-card-time">~15 min</span></div>
+        <div class="lab-card-title">Incident Monitoring on Incident Dashboard</div>
+        <div class="lab-card-desc">View the ZDX Incidents Dashboard, identify Wi-Fi incident epicenters on the map, drill into incident details, and review impacted users and key metrics.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab9.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 9</span><span class="lab-card-time">~20 min</span></div>
+        <div class="lab-card-title">Monitoring Self Service Notifications</div>
+        <div class="lab-card-desc">Review the Self Service Dashboard for a summary of proactive notifications sent, user feedback statistics, and device health drill-down for a notification event.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab10.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 10</span><span class="lab-card-time">~15 min</span></div>
+        <div class="lab-card-title">Sharing ZDX Snapshots</div>
+        <div class="lab-card-desc">Generate a shareable ZDX Snapshot URL from a user report, configure obfuscation settings, and manage existing snapshots via the Analytics portal.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label purple">AI &amp; ADVANCED</span>
+      <div class="phase-title">Copilot, Hosted Monitoring &amp; Analytics</div>
+      <div class="phase-range">Labs 11&ndash;14 &middot; ZDX Copilot, Hosted Probes, Data Explorer, and Wi-Fi Dashboard</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab11.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 11</span><span class="lab-card-time">~20 min</span></div>
+        <div class="lab-card-title">ZDX Copilot</div>
+        <div class="lab-card-desc">Use the AI-powered ZDX Copilot to answer product knowledge questions, troubleshoot device and network issues, and isolate Wi-Fi root causes conversationally.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab12.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 12</span><span class="lab-card-time">~20 min</span></div>
+        <div class="lab-card-title">ZDX Hosted Monitoring</div>
+        <div class="lab-card-desc">Explore Zscaler Hosted Probes configuration, browse collections, and analyze Web Probe and Cloud Path metrics from Zscaler data centers worldwide.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab13.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 13</span><span class="lab-card-time">~15 min</span></div>
+        <div class="lab-card-title">Understanding Data Explorer</div>
+        <div class="lab-card-desc">Build custom ZDX reports with Data Explorer — compare applications, metrics, and aggregation types; correlate DNS Time with ZDX Score across geolocations.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+      <a class="lab-card" href="lab14.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 14</span><span class="lab-card-time">~15 min</span></div>
+        <div class="lab-card-title">Understanding Wi-Fi Dashboard</div>
+        <div class="lab-card-desc">Navigate the Wi-Fi Dashboard to monitor access point performance, view impacted geolocations, drill into AP details, and review connected device metrics.</div>
+        <div class="lab-card-cta">Start Lab &rarr;</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>EDU-310 &middot; ZDX Operationalization Self-Guided Lab</span>
+  <span>&copy;2015&ndash;25 Zscaler, Inc. All rights reserved.</span>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  document.querySelectorAll('.lab-card').forEach(function(c){
+    c.addEventListener('click',function(e){
+      if(e.target.tagName!=='A'){
+        var h=c.getAttribute('href');
+        if(h){sessionStorage.setItem('pt','1');window.location.href=h;}
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

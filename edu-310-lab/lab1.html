@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 1: Navigating the ZDX Admin Portal &mdash; EDU-310</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 1</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 1 &middot; ZDX OVERVIEW</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Navigating the <em>ZDX Admin Portal</em></h1>
+  <div class="motivation-banner">
+    <p>Before you can troubleshoot, you need to know the terrain. This orientation lab takes you through every major ZDX dashboard &mdash; Performance, Incidents, Applications, Users, Y-Engine, Call Quality, Inventory, Deep Tracing, and Alerts.</p>
+  </div>
+</header>
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb76" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZDX Admin:</strong> <code id="d-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net/</code></span>
+    </div>
+  </div>
+</div>
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+<main>
+  <div class="content-col">
+    <div class="socratic-block" id="soc-lab1">
+      <div class="socratic-header">
+        <span class="socratic-icon">&#128161;</span>
+        <span class="socratic-label">THINK FIRST &middot; ZDX DASHBOARD ORIENTATION</span>
+      </div>
+      <p class="socratic-insight">A skilled ZDX operator knows which dashboard to open before they know what the problem is. The portal organises data by scope: fleet-wide incidents, per-application trends, per-user drill-downs.</p>
+      <ul class="socratic-questions">
+        <li>The Performance Overview shows Most Impacted Applications and a ZDX Score map. What is the ZDX Score and how is it calculated from 0&ndash;100?</li>
+        <li>ZDX has Performance Overview, Incidents Overview, and Self Service Overview dashboards. When would you start at Incidents instead of Performance?</li>
+        <li>If the Y-Engine reports Low Wifi Signal with 90% confidence but the user insists their Wifi is fine, what would you check next to validate or disprove the finding?</li>
+      </ul>
+      <div class="answer-area" data-section="lab1-topic">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">The ZDX Score is a composite 0&ndash;100 metric derived from Web Probe measurements (Page Fetch Time, Server Response Time, DNS Time, Availability) and Cloud Path latency. Higher is better. The score normalises raw measurements against a per-user baseline so that a user with a slow connection scores fairly against one with a fast connection.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Start at Incidents Overview when a user reports an issue that seems to affect a location or subnet, not just their own device. Incidents track events affecting multiple users simultaneously &mdash; Wi-Fi degradation, Last Mile ISP problems, Zscaler Data Center issues. If only one user is impacted, go to Performance Overview and drill into Users.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Check the Cloud Path Hop View at the same timestamp. A Wifi issue would manifest as high latency on the first hop between the client and its gateway. Also check User Device Events &mdash; the Network interface tab will show SSID changes or Wifi signal strength drops at the exact moment the score dropped.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-block" id="section-lab1">      <h2>Lab 1: Navigating the ZDX Admin Portal</h2>
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 1</div>
+        <p><strong>Scenario:</strong> You are a ZDX Helpdesk Administrator at a Zero Trust Exchange demonstration organisation. Before handling escalations, familiarise yourself with every major ZDX dashboard so you know exactly where to look when a user reports an issue.</p>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~60 minutes</div>
+          <div class="lab-meta-item"><strong>Environment:</strong> ZDX Admin Portal (Read-Only Admin) &middot; https://admin.zdxcloud.net/</div>
+        </div>
+      </div>
+      <h3>Task 1.1: View ZDX Dashboard</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Log In and Explore Performance Overview</h4>
+        <ol class="step-list">
+          <li>Launch your browser and navigate to <code>https://admin.zdxcloud.net/</code> or click <strong>Open ZDX Admin Portal</strong> in the Skytap frame.</li>
+          <li>Log in with your ZDX Admin credentials:
+            <ul class="sub-steps">
+              <li>Admin User ID: <code class="d-username-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></li>
+              <li>Session Password: <span class="var var-pass">&lt;Session Password&gt;</span></li>
+            </ul>
+          </li>
+          <li>At the top of the Performance Overview page, select <strong>24 Hours</strong> from the dropdown.</li>
+          <li>Scroll through <strong>Most Impacted Applications</strong> &mdash; click any app to update the ZDX Score map.</li>
+          <li>Use <strong>Draw Fence</strong> to select a geographic area, then click <strong>Filter Selection</strong>.</li>
+          <li>Click <strong>Geolocations</strong>, select a location, and click <strong>Apply</strong>. Then click <strong>Reset</strong>.</li>
+          <li>Go to <strong>Dashboard &rsaquo; Incidents Overview</strong> and review Total Incidents and Incidents Across Key Areas.</li>
+          <li>Scroll to the <strong>Incidents by Epicenters</strong> map and click a marker to view incident details.</li>
+          <li>Go to <strong>Dashboard &rsaquo; Self Service Overview</strong> and review notification summary graphs.</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> You are accessing the ZDX Admin Portal as a <strong>Read-Only Administrator</strong>. You can view all dashboards and reports but cannot save configuration changes.</p>
+        </div>
+      </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab1-ss01.png" alt="ZDX Admin Portal login screen.">
+          <div class="screenshot-caption">ZDX Admin Portal login screen.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss02.png" alt="Performance Overview dashboard showing Most Impacted Applications and ZDX Score map.">
+          <div class="screenshot-caption">Performance Overview dashboard showing Most Impacted Applications and ZDX Score map.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss05.png" alt="Draw Fence geographic filter applied &mdash; click Filter Selection to narrow the ZDX Score view to the selected area.">
+          <div class="screenshot-caption">Draw Fence geographic filter applied &mdash; click Filter Selection to narrow the ZDX Score view to the selected area.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss07.png" alt="Incidents Overview dashboard showing Total Incidents, Incidents Across Key Areas, and Incidents over Time.">
+          <div class="screenshot-caption">Incidents Overview dashboard showing Total Incidents, Incidents Across Key Areas, and Incidents over Time.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss09.png" alt="Self Service Overview showing Total Notifications Sent, Notifications by Type, and the Notifications Sent table.">
+          <div class="screenshot-caption">Self Service Overview showing Total Notifications Sent, Notifications by Type, and the Notifications Sent table.</div>
+        </div>
+      <div class="section-qa" data-section="t1-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-1" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-1" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 1.2: View Applications Overview Dashboard</h3>
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Browse Application Performance</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Applications</strong>.</li>
+          <li>Sort the table by <strong>ZDX Score Trend</strong> and click the application with the lowest ZDX Score.</li>
+          <li>In the <strong>ZDX Score Over Time</strong> graph, drag to zoom in on a period of significant change.</li>
+          <li>Click <strong>Zoom Out</strong> to reset the view.</li>
+          <li>Scroll to the <strong>Impacted Departments</strong>, <strong>Impacted Regions</strong>, and <strong>Impacted Zscaler Locations</strong> panels.</li>
+          <li>View the application&rsquo;s configured <strong>Probe Status</strong> panel.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss10.png" alt="Applications Overview table sorted by ZDX Score Trend &mdash; the application with the lowest score is selected for deeper analysis.">
+          <div class="screenshot-caption">Applications Overview table sorted by ZDX Score Trend &mdash; the application with the lowest score is selected for deeper analysis.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss11.png" alt="ZDX Score Over Time graph with drag-to-zoom. The Zoom Out button resets the view.">
+          <div class="screenshot-caption">ZDX Score Over Time graph with drag-to-zoom. The Zoom Out button resets the view.</div>
+        </div>
+      <div class="section-qa" data-section="t1-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.2</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-2" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-2" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 1.3: View User Overview Dashboard</h3>
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Browse User-Level Performance</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Users</strong>.</li>
+          <li>Select an application from the dropdown and click <strong>Apply</strong>.</li>
+          <li>Under <strong>ZDX Score User Distribution</strong>, toggle between <strong>Poor</strong>, <strong>Okay</strong>, and <strong>Good</strong> to update the user table.</li>
+          <li>Select a user with <strong>Poor</strong> or <strong>Okay</strong> performance.</li>
+          <li>Click <strong>View More Device Details</strong> and explore the <strong>Hardware</strong>, <strong>Network</strong>, and <strong>Software</strong> tabs.</li>
+          <li>Scroll to the <strong>Web Probe Metrics</strong> section and click a point on the Page Fetch Time graph to see the breakdown.</li>
+          <li>Scroll down to <strong>Cloud Path</strong> metrics and explore the <strong>Hop View</strong> and <strong>Command Line View</strong>.</li>
+          <li>Scroll to <strong>Device Health</strong> and click a point on the CPU Usage graph to see <strong>Most Impacted Processes</strong>.</li>
+          <li>Examine the <strong>User Device Events</strong> timeline.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss13.png" alt="User Overview showing ZDX Score User Distribution &mdash; Poor/Okay/Good toggle filters the user table.">
+          <div class="screenshot-caption">User Overview showing ZDX Score User Distribution &mdash; Poor/Okay/Good toggle filters the user table.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss14.png" alt="User device panel showing OS, hardware model, CPU, memory, and Zscaler tunnel details for a selected user.">
+          <div class="screenshot-caption">User device panel showing OS, hardware model, CPU, memory, and Zscaler tunnel details for a selected user.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss15.png" alt="Web Probe Metrics &mdash; Page Fetch Time with breakdown popup showing DNS, TFB, TTL, and PLF components.">
+          <div class="screenshot-caption">Web Probe Metrics &mdash; Page Fetch Time with breakdown popup showing DNS, TFB, TTL, and PLF components.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss16.png" alt="Cloud Path Hop View showing the full network path from client to application server with per-hop latency.">
+          <div class="screenshot-caption">Cloud Path Hop View showing the full network path from client to application server with per-hop latency.</div>
+        </div>
+      <div class="section-qa" data-section="t1-3">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.3</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-3" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-3',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-3"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-3" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-3',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 1.4: View Automated Root Cause Analysis Data</h3>
+      <div class="task-block">
+        <h4><span class="task-num">4</span> Use the ZDX Y-Engine</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Search</strong> and type a user name (e.g. <code>Curtis Hardwick</code>).</li>
+          <li>Click the user name in the search results to open their report.</li>
+          <li>Select an application and click <strong>Apply</strong>.</li>
+          <li>In the <strong>ZDX Score Over Time</strong> graph, click a point with a <strong>Poor</strong> score and click <strong>Analyze Score</strong>.</li>
+          <li>Review the <em>The following factors that might have impacted the ZDX score</em> table, including Factor, Explanation, and Confidence Level.</li>
+          <li>Drag to select a time range and click <strong>Analyze Range</strong>. Review the results.</li>
+          <li>Click <strong>Compare to</strong> and select <strong>Same time 1 day ago</strong>. Scroll through the side-by-side comparison.</li>
+        </ol>
+      </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab1-ss17.png" alt="User Search results &mdash; click a user name to open their ZDX report.">
+          <div class="screenshot-caption">User Search results &mdash; click a user name to open their ZDX report.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss21.png" alt="ZDX Score Over Time with the Analyze Score button displayed after clicking a Poor score point.">
+          <div class="screenshot-caption">ZDX Score Over Time with the Analyze Score button displayed after clicking a Poor score point.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss22.png" alt="Y-Engine root cause analysis results showing Low Wifi Signal at 31.25% confidence and Disconnected at 31.25%.">
+          <div class="screenshot-caption">Y-Engine root cause analysis results showing Low Wifi Signal at 31.25% confidence and Disconnected at 31.25%.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss23.png" alt="ZDX Score comparison side-by-side showing Analyzed Point vs. Comparison Point with Key Differences table.">
+          <div class="screenshot-caption">ZDX Score comparison side-by-side showing Analyzed Point vs. Comparison Point with Key Differences table.</div>
+        </div>
+      <div class="section-qa" data-section="t1-4">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.4</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-4" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-4',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-4"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-4" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-4',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 1.5: View Call Quality Dashboards</h3>
+      <div class="task-block">
+        <h4><span class="task-num">5</span> Review Microsoft Teams Call Quality</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Applications &rsaquo; Microsoft Teams Call Quality</strong>.</li>
+          <li>Review the ZDX Score Over Time graph. Click the <strong>Meetings</strong> tab to see recent meetings.</li>
+          <li>Click a <strong>Meeting ID</strong> to view meeting details and participant sessions.</li>
+          <li>Click the expand icon on a user row to view their device-level report.</li>
+          <li>Scroll to <strong>Meeting Monitoring Metrics</strong> and examine Audio MOS Score, Audio Latency, and Jitter graphs.</li>
+          <li>Scroll down to the <strong>Cloud Path</strong> section and review the latency path to the Teams Transport Relay URL.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss26.png" alt="Microsoft Teams Call Quality overview showing ZDX Score Over Time across meeting participants.">
+          <div class="screenshot-caption">Microsoft Teams Call Quality overview showing ZDX Score Over Time across meeting participants.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss28.png" alt="Meetings tab showing the list of recent meetings with ZDX Score, MOS Score, host, and duration.">
+          <div class="screenshot-caption">Meetings tab showing the list of recent meetings with ZDX Score, MOS Score, host, and duration.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss30.png" alt="Meeting Monitoring Metrics for an individual user showing Audio MOS score, Audio Latency in/out, and Audio Jitter.">
+          <div class="screenshot-caption">Meeting Monitoring Metrics for an individual user showing Audio MOS score, Audio Latency in/out, and Audio Jitter.</div>
+        </div>
+      <div class="section-qa" data-section="t1-5">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.5</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-5" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-5',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-5"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-5" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-5',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 1.6: View Inventory Dashboards</h3>
+      <div class="task-block">
+        <h4><span class="task-num">6</span> Browse Software and Device Inventory</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Inventory &rsaquo; Software Overview</strong>.</li>
+          <li>Mouse-over an application tile to see total installations and versions.</li>
+          <li>Click a tile (e.g. <strong>Microsoft Edge</strong>) and review the details.</li>
+          <li>Click the <strong>eye icon</strong> on a device row to view version history.</li>
+          <li>Select <strong>Inventory &rsaquo; Device Overview</strong> and click a device tile to review hardware, network, and software details.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss34.png" alt="Software Overview treemap showing installed software by vendor and application count.">
+          <div class="screenshot-caption">Software Overview treemap showing installed software by vendor and application count.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss37.png" alt="Device Inventory showing device count, memory distribution, and per-device details popup.">
+          <div class="screenshot-caption">Device Inventory showing device count, memory distribution, and per-device details popup.</div>
+        </div>
+      <div class="section-qa" data-section="t1-6">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.6</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-6" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-6',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-6"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-6" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-6',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-6"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 1.7: View Deep Tracing Results</h3>
+      <div class="task-block">
+        <h4><span class="task-num">7</span> Review a Deep Tracing Session</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Administration &rsaquo; Deep Tracing</strong>.</li>
+          <li>In the <strong>History</strong> table, click the <strong>eye icon</strong> for a completed session.</li>
+          <li>Scroll through the report data and click on a CPU usage spike to see the <strong>Most Impacted Processes</strong> list.</li>
+          <li>Click <strong>Export PDF</strong> to download the report (optional).</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss39.png" alt="Deep Tracing History table showing completed and expired sessions with type, user, device, and status.">
+          <div class="screenshot-caption">Deep Tracing History table showing completed and expired sessions with type, user, device, and status.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss40.png" alt="Deep Tracing session detail showing Cloud Path hop view and Device Health CPU spike with Most Impacted Processes.">
+          <div class="screenshot-caption">Deep Tracing session detail showing Cloud Path hop view and Device Health CPU spike with Most Impacted Processes.</div>
+        </div>
+      <div class="section-qa" data-section="t1-7">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.7</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-7" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-7',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-7"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-7" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-7',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-7"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 1.8: View Alerts</h3>
+      <div class="task-block">
+        <h4><span class="task-num">8</span> Explore Ongoing and Historical Alerts</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Alerts</strong>.</li>
+          <li>Review the counts for Ongoing Alerts, Alert History, Impacted Devices, Geolocations, and Applications.</li>
+          <li>With the <strong>Ongoing Alerts</strong> tab selected, click the <strong>eye icon</strong> on any alert to see its details including Impacted Departments, Geolocations, and Expression Triggers.</li>
+          <li>Return to the Alerts Overview page and click the <strong>Alert History</strong> tab to view an ended alert.</li>
+        </ol>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss41.png" alt="Alerts Overview showing 9 Ongoing Alerts, 118 Impacted Devices, and the list of active alert rules by type.">
+          <div class="screenshot-caption">Alerts Overview showing 9 Ongoing Alerts, 118 Impacted Devices, and the list of active alert rules by type.</div>
+        </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab1-ss42.png" alt="Alert detail page showing rule name, status, Impacted Departments, Geolocations, Zscaler Locations, and Expression Trigger.">
+          <div class="screenshot-caption">Alert detail page showing rule name, status, Impacted Departments, Geolocations, Zscaler Locations, and Expression Trigger.</div>
+        </div>
+      <div class="section-qa" data-section="t1-8">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 1.8</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t1-8" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t1-8',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t1-8"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t1-8" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t1-8',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t1-8"></div>
+            </div>
+          </div>
+        </div>
+      </div>    </div>
+    <div class="mental-note-block">
+      <div class="mental-note-block-icon">&#129504;</div>
+      <div class="mental-note-block-inner">
+        <div class="mental-note-block-label">MENTAL NOTE</div>
+        <div class="mental-note-block-text">ZDX Score = composite 0&ndash;100 from Web Probe + Cloud Path data, normalised to user baseline. Navigate: Performance Overview for fleet view &rarr; Applications for app-specific trends &rarr; Users for individual drill-down &rarr; Y-Engine (Analyze Score) for AI root cause. Incidents track multi-user events; Alerts fire on configured thresholds.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&#8592; All Labs (EDU-310)</a>
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 1 PROGRESS</div>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-1" onchange="saveChecklist()"> Logged in to ZDX Admin Portal</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-2" onchange="saveChecklist()"> Explored Performance Overview (Draw Fence, Geolocations)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-3" onchange="saveChecklist()"> Viewed Incidents Overview and Self Service Overview</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-4" onchange="saveChecklist()"> Reviewed Applications Overview (sorted, zoomed, probes)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-5" onchange="saveChecklist()"> Drilled into User Overview (device details, web probes, cloud path)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-6" onchange="saveChecklist()"> Used Y-Engine Analyze Score and Compare To</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-7" onchange="saveChecklist()"> Explored Microsoft Teams Call Quality and Meeting details</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-8" onchange="saveChecklist()"> Browsed Software and Device Inventory</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-9" onchange="saveChecklist()"> Viewed a Deep Tracing session</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-1-10" onchange="saveChecklist()"> Reviewed Ongoing Alerts and Alert History</label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">ZDX Score</div><div class="qr-def">0&ndash;100 composite metric derived from Web Probe and Cloud Path data, normalised to a per-user baseline.</div></div>
+        <div class="qr-item"><div class="qr-term">Y-Engine</div><div class="qr-def">ZDX AI/ML engine that analyses a score point and lists probable root-cause factors with confidence percentages.</div></div>
+        <div class="qr-item"><div class="qr-term">Web Probe</div><div class="qr-def">Synthetic probe measuring Page Fetch Time, Server Response Time, DNS Time, and Availability from the user&rsquo;s device to the application.</div></div>
+        <div class="qr-item"><div class="qr-term">Cloud Path Probe</div><div class="qr-def">ICMP traceroute-style probe measuring hop-by-hop latency from the client to the application server.</div></div>
+        <div class="qr-item"><div class="qr-term">Deep Tracing</div><div class="qr-def">On-demand diagnostic session capturing detailed device health and network path data for a specific user and time window.</div></div>
+        <div class="qr-item"><div class="qr-term">ZDX Score User Distribution</div><div class="qr-def">Pie chart on the User Overview page categorising users into Poor, Okay, and Good score buckets for a selected application.</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-310 &middot; ZDX Operationalization</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">&#9650; Hide</button>
+    <span class="footer-content">LAB 1 of 14</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <span class="page-nav-btn page-nav-prev page-nav-disabled">&#8592;</span>
+  <div class="page-nav-message">Every expert was once an explorer. Start here.</div>
+  <a class="page-nav-btn page-nav-next" href="lab2.html">Lab 2: Troubleshooting Poor Wifi &#8594;</a>
+</div>
+<script>
+const CONFIG_KEY='edu310-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu310-config-collapsed';
+const FOOTER_KEY='edu310-footer-collapsed';
+const PAGE_KEY='edu310-lab-lab1';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand':'<span class="chevron">&#9650;</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' &mdash; '+prefix:'';}
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d='thezerotrustexchange.com';
+  var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;
+  var el=document.getElementById('d-admin');if(el)el.textContent=admin;
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
+}
+function loadConfig(){
+  try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb76';document.getElementById('pass-input').value='';}
+  if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';}
+  }catch(e){document.getElementById('prefix-input').value='ptcb76';}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='&#10003; Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';
+},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='&#10003;';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q,i){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['t1-1','t1-2','t1-3','t1-4','t1-5','t1-6','t1-7','t1-8'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
+</script>
+</body>
+</html>

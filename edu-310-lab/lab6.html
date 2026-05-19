@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 6: Analyzing Call Quality &mdash; EDU-310</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 6</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 6 &middot; TROUBLESHOOTING</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Analyzing <em>Call Quality</em></h1>
+  <div class="motivation-banner">
+    <p>Grady Archie reports poor call quality on Teams meetings. ZDX&rsquo;s Microsoft Teams Call Quality integration tracks MOS score, audio latency, and jitter per meeting &mdash; and the Hop View isolates the latency to the device&rsquo;s local gateway.</p>
+  </div>
+</header>
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb76" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZDX Admin:</strong> <code id="d-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net/</code></span>
+    </div>
+  </div>
+</div>
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+<main>
+  <div class="content-col">
+    <div class="socratic-block" id="soc-lab6">
+      <div class="socratic-header">
+        <span class="socratic-icon">&#128161;</span>
+        <span class="socratic-label">THINK FIRST &middot; TEAMS CALL QUALITY</span>
+      </div>
+      <p class="socratic-insight">Call quality metrics (MOS Score, jitter, packet loss) are fundamentally different from web probe metrics. A low MOS score tells you how the call sounds to participants; Cloud Path hop latency tells you why.</p>
+      <ul class="socratic-questions">
+        <li>What is a MOS (Mean Opinion Score) and why does a score of 2.06 indicate a problem? What MOS value is considered acceptable for voice communications?</li>
+        <li>Audio Latency is 640ms. The Hop View shows 569ms of that is between the device and the local gateway. What local network conditions could cause 569ms of latency on a single wired or wireless hop?</li>
+        <li>Grady Archie has two devices listed in the session. Why would you check all devices rather than just looking at the first one listed?</li>
+      </ul>
+      <div class="answer-area" data-section="lab6-topic">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">MOS (Mean Opinion Score) is a 1&ndash;5 scale measuring perceived audio quality in voice communications, where 5 is perfect and 1 is unintelligible. A score below 3.5 is noticeable to users; below 3.0 is poor. 2.06 means participants are likely hearing choppy, distorted audio. Acceptable voice-over-IP quality starts at MOS &ge; 4.0. The threshold for &ldquo;toll-quality&rdquo; (indistinguishable from a phone call) is MOS &ge; 4.3.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Possible causes for 569ms latency to the local gateway: (1) Wi-Fi congestion or weak signal &mdash; the device may be on a 2.4GHz band with interference. (2) A faulty or overloaded Wi-Fi access point causing queuing delay. (3) A network configuration issue such as a switch port running at half-duplex, causing constant packet collisions. (4) Physical cable damage if wired.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Different devices can have completely different network configurations, drivers, and connection states. In this example, Grady Archie&rsquo;s first device does not include Microsoft Teams Call Quality in its application list &mdash; meaning it was not used for the call. Only the second device (GRADY-PC) has the Teams Call Quality data. If you had only checked the first device, you would have found nothing.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-block" id="section-lab6">      <h2>Lab 6: Analyzing Call Quality</h2>
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 6</div>
+        <p><strong>Scenario:</strong> Grady Archie (Device: GRADY-PC) reports poor call quality and overall poor Microsoft Teams meeting experience. The issue is sporadic but affects multiple meetings.</p>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
+          <div class="lab-meta-item"><strong>Environment:</strong> ZDX Admin Portal &middot; User: Grady Archie &middot; Device: GRADY-PC &middot; Time Range: Last 48 Hours</div>
+        </div>
+      </div>
+      <h3>Task 6.1: View Microsoft Teams Call Quality Trend</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Confirm Poor Call Quality Score</h4>
+        <ol class="step-list">
+          <li>From the left menu, select <strong>Applications</strong> and review the ZDX Score Trend for <strong>Microsoft Teams Call Quality</strong>.</li>
+          <li>Click <strong>Microsoft Teams Call Quality</strong> to open the overview.</li>
+          <li>Review the ZDX Score Over Time graph showing scores for all meetings in the selected time period.</li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Result:</strong> Microsoft Teams Call Quality shows a poor score of 22/100 &mdash; significantly below the other monitored applications.</p>
+        </div>
+      </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab6-ss01.png" alt="Applications Overview table showing Microsoft Teams Call Quality with a ZDX Score Trend of 22/100 &mdash; the lowest of all applications.">
+          <div class="screenshot-caption">Applications Overview table showing Microsoft Teams Call Quality with a ZDX Score Trend of 22/100 &mdash; the lowest of all applications.</div>
+        </div>
+      <div class="section-qa" data-section="t6-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 6.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-1" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-1" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 6.2: Examine Meeting Metrics</h3>
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Drill Into a Specific Meeting</h4>
+        <ol class="step-list">
+          <li>Click the <strong>Meetings</strong> tab and zoom in on a specific time period.</li>
+          <li>Click a <strong>Meeting ID</strong> to open the Meeting Details page.</li>
+          <li>Review the Meeting Details: ZDX Score, MOS Score, Start/End Time, and Active Participants.</li>
+          <li>Click the expand arrow <strong>&rsaquo;</strong> on a participant row to see their session devices.</li>
+        </ol>
+      </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab6-ss02.png" alt="Microsoft Teams Call Quality Meetings tab with Meeting ID list showing ZDX Score, MOS Score, host, duration, and participant count.">
+          <div class="screenshot-caption">Microsoft Teams Call Quality Meetings tab with Meeting ID list showing ZDX Score, MOS Score, host, duration, and participant count.</div>
+        </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab6-ss03.png" alt="Meeting Details page showing both participants (Irwin Syyers and Grady Archie) with their ZDX and MOS scores, OS, and IP address.">
+          <div class="screenshot-caption">Meeting Details page showing both participants (Irwin Syyers and Grady Archie) with their ZDX and MOS scores, OS, and IP address.</div>
+        </div>
+      <div class="section-qa" data-section="t6-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 6.2</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-2" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-2" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 6.3: Locate Meeting Issues</h3>
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Identify the Affected Device</h4>
+        <ol class="step-list">
+          <li>Check each device under <strong>User Devices</strong> in the Sessions list to find the one that includes <strong>Microsoft Teams Call Quality</strong> in its application list.</li>
+          <li>Click on <strong>Grady Archie</strong>&rsquo;s second device (GRADY-PC) which shows the Teams Call Quality application.</li>
+          <li>Scroll down to <strong>Meeting Monitoring Metrics</strong> and click on a data point.</li>
+          <li>Examine <strong>Audio MOS Score</strong> (in and out) and <strong>Audio Latency</strong> values.</li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Result:</strong> Audio MOS score is 2.06 in / 2.0 out (Good = 4+). Audio Latency is <strong>640ms</strong> both in and out &mdash; high latency is the driver of poor audio quality.</p>
+        </div>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab6-ss04.png" alt="Meeting Monitoring Metrics showing Audio MOS Score of 2.06 (in) / 2.0 (out) and Audio Latency of 640ms in/out.">
+          <div class="screenshot-caption">Meeting Monitoring Metrics showing Audio MOS Score of 2.06 (in) / 2.0 (out) and Audio Latency of 640ms in/out.</div>
+        </div>
+      <div class="section-qa" data-section="t6-3">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 6.3</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-3" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-3',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-3"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-3" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-3',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 6.4: Locate Source of Audio Latency</h3>
+      <div class="task-block">
+        <h4><span class="task-num">4</span> Pinpoint the High-Latency Hop</h4>
+        <ol class="step-list">
+          <li>Scroll down to the <strong>Cloud Path</strong> section.</li>
+          <li>Examine the <strong>Hop View</strong> and identify the hop contributing the most to end-to-end latency.</li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Result:</strong> The hop between <strong>GRADY-PC</strong> and the local Gateway at <code>10.1.2.1</code> accounts for <strong>569ms</strong> of the total 640ms end-to-end latency. The root cause is the local network path from the device to its gateway.</p>
+        </div>
+      </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab6-ss06.png" alt="Cloud Path Hop View for the Teams Transport Relay URL showing 569ms from GRADY-PC to gateway 10.1.2.1 &mdash; 89% of total latency.">
+          <div class="screenshot-caption">Cloud Path Hop View for the Teams Transport Relay URL showing 569ms from GRADY-PC to gateway 10.1.2.1 &mdash; 89% of total latency.</div>
+        </div>
+      <div class="section-qa" data-section="t6-4">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 6.4</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t6-4" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-4',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-4"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t6-4" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-4',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>    </div>
+    <div class="mental-note-block">
+      <div class="mental-note-block-icon">&#129504;</div>
+      <div class="mental-note-block-inner">
+        <div class="mental-note-block-label">MENTAL NOTE</div>
+        <div class="mental-note-block-text">MOS Score: Good = 4+, Poor = below 3. Grady&rsquo;s MOS = 2.06/2.0, Audio Latency = 640ms both directions. Cloud Path Hop View: 569ms of 640ms total is between GRADY-PC and gateway 10.1.2.1 (89% of total). Root cause: local network path. Check ALL user devices &mdash; not all may have Teams data. Meeting details show all participants and their individual scores.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&#8592; All Labs (EDU-310)</a>
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 6 PROGRESS</div>
+        <label class="checklist-item"><input type="checkbox" id="chk-6-1" onchange="saveChecklist()"> Confirmed Teams Call Quality ZDX Score 22/100</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-6-2" onchange="saveChecklist()"> Found the affected meeting via Meetings tab</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-6-3" onchange="saveChecklist()"> Identified Grady Archie&rsquo;s GRADY-PC as the affected device</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-6-4" onchange="saveChecklist()"> Reviewed Audio MOS Score (2.06/2.0) and Latency (640ms)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-6-5" onchange="saveChecklist()"> Located the 569ms hop to gateway in Cloud Path Hop View</label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">MOS Score</div><div class="qr-def">Mean Opinion Score: 1&ndash;5 scale for voice quality. MOS &ge; 4.0 = good, 3.5&ndash;4.0 = acceptable, &lt;3.5 = noticeable degradation.</div></div>
+        <div class="qr-item"><div class="qr-term">Audio Latency</div><div class="qr-def">End-to-end delay for audio packets. Values above 150ms become perceptible; above 400ms severely impacts conversation quality.</div></div>
+        <div class="qr-item"><div class="qr-term">Meeting Monitoring Metrics</div><div class="qr-def">Per-participant metrics captured during a Teams call: Audio MOS in/out, Audio Latency in/out, Audio Jitter, Audio After-Input.</div></div>
+        <div class="qr-item"><div class="qr-term">Teams Transport Relay</div><div class="qr-def">Microsoft cloud relay server used for Teams media. The Cloud Path probe measures the hop-by-hop path from the endpoint to this relay.</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-310 &middot; ZDX Operationalization</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">&#9650; Hide</button>
+    <span class="footer-content">LAB 6 of 14</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab5.html">&#8592; Lab 5: Troubleshooting Slow Network Router (Hop)</a>
+  <div class="page-nav-message">640ms audio latency. The hop between client and gateway said it all.</div>
+  <a class="page-nav-btn page-nav-next" href="lab7.html">Lab 7: Troubleshooting Device Startup &amp; Software Reliability &#8594;</a>
+</div>
+<script>
+const CONFIG_KEY='edu310-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu310-config-collapsed';
+const FOOTER_KEY='edu310-footer-collapsed';
+const PAGE_KEY='edu310-lab-lab6';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand':'<span class="chevron">&#9650;</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' &mdash; '+prefix:'';}
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d='thezerotrustexchange.com';
+  var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;
+  var el=document.getElementById('d-admin');if(el)el.textContent=admin;
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
+}
+function loadConfig(){
+  try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb76';document.getElementById('pass-input').value='';}
+  if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';}
+  }catch(e){document.getElementById('prefix-input').value='ptcb76';}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='&#10003; Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';
+},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='&#10003;';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q,i){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['t6-1','t6-2','t6-3','t6-4'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
+</script>
+</body>
+</html>

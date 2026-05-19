@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 7: Troubleshooting Device Startup & Software Reliability &mdash; EDU-310</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="lab-style.css">
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 7</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 7 &middot; TROUBLESHOOTING</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Device Startup <em>&amp; Software Reliability</em></h1>
+  <div class="motivation-banner">
+    <p>Joni Sherman&rsquo;s PC is frustratingly slow and Chrome crashes constantly. ZDX&rsquo;s Microsoft Intune integration surfaces Endpoint Analytics data directly in the portal &mdash; boot history, sign-in times, and software crash events &mdash; without touching the device.</p>
+  </div>
+</header>
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">&#9881; Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">&#9650;</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb76" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">&#10760;</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZDX Admin:</strong> <code id="d-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net/</code></span>
+    </div>
+  </div>
+</div>
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">&mdash; click to expand</span>
+      <span class="qpanel-chevron">&#9662;</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">&#9662;</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab&hellip;"></textarea>
+      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</div>
+<main>
+  <div class="content-col">
+    <div class="socratic-block" id="soc-lab7">
+      <div class="socratic-header">
+        <span class="socratic-icon">&#128161;</span>
+        <span class="socratic-label">THINK FIRST &middot; INTUNE ENDPOINT ANALYTICS</span>
+      </div>
+      <p class="socratic-insight">Endpoint Analytics via Intune adds a new dimension to ZDX troubleshooting: device health telemetry that is independent of network activity. When the network is fine but the user is suffering, Endpoint Analytics often reveals why.</p>
+      <ul class="socratic-questions">
+        <li>Endpoint Analytics has two score categories: Startup Performance (96/100) and Software Reliability (46/100). Given Joni&rsquo;s complaint, which category is more relevant to investigate first, and why?</li>
+        <li>chrome.exe and msedge.exe are both crashing with the same browser engine version (112.0.5815.13 / 112.0.1722.64). What does this version correlation suggest as a root cause?</li>
+        <li>ZDX surfaces Intune Endpoint Analytics data without you accessing Intune directly. What are the operational advantages of having this data in ZDX rather than requiring a separate Intune portal login?</li>
+      </ul>
+      <div class="answer-area" data-section="lab7-topic">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Software Reliability (46/100) is the primary focus because the user specifically reports Chrome crashes &mdash; a software reliability event. Startup Performance at 96/100 is healthy. Always correlate the complaint to the metric category: crashes = Software Reliability, slow boot = Startup Performance, slow sign-in = Startup Performance (sign-in subscores).</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Both browsers sharing the same version number and both crashing simultaneously suggests a version-specific bug or an incompatible system component (e.g. a driver update, a Windows patch, or an Antivirus/EDR agent) that affects the Chromium engine at that specific version. The fix is to update the browser to a patched version, or roll back the system change that introduced the incompatibility.</div>
+          </div>
+          <div class="model-answer-item">
+            <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
+            <div class="model-answer-text">Operational advantages: (1) Single pane of glass &mdash; the helpdesk analyst can see device health in the same portal where they see network and application data, reducing tool-switching time. (2) Time-correlation &mdash; ZDX shows both the network metrics and the Endpoint Analytics data on the same timeline, making it easy to correlate a CPU spike with a software crash event. (3) No additional permissions required &mdash; the ZDX Read-Only Admin role is sufficient; no Intune admin permissions needed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-block" id="section-lab7">      <h2>Lab 7: Troubleshooting Device Startup &amp; Software Reliability</h2>
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 7</div>
+        <p><strong>Scenario:</strong> Joni Sherman (Device: ZPM-JONI-SHERMA) reports frustrating overall PC performance and frequent Chrome crashes. Use ZDX with Intune integration to identify the root cause.</p>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
+          <div class="lab-meta-item"><strong>Environment:</strong> ZDX Admin Portal &middot; User: Joni Sherman &middot; Device: ZPM-JONI-SHERMA &middot; Time Range: Last 48 Hours</div>
+        </div>
+      </div>
+      <h3>Task 7.1: Analyze CPU Usage</h3>
+      <div class="task-block">
+        <h4><span class="task-num">1</span> Find Joni Sherman and Check Device Health</h4>
+        <ol class="step-list">
+          <li>Use <strong>User Search</strong> to find <code>Joni Sherman</code>.</li>
+          <li>Scroll down to the <strong>Device Health</strong> section.</li>
+          <li>Click on a point of high <strong>CPU Usage</strong> to see the <strong>Most Impacted Processes</strong> popup.</li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Result:</strong> <strong>chrome.exe</strong> is consuming 94% of the CPU. This would have a significant negative impact on the overall machine performance and user experience.</p>
+        </div>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab7-ss02.png" alt="Device Health CPU Usage graph for Joni Sherman showing 100% CPU utilisation with Most Impacted Processes popup &mdash; chrome.exe at 94%.">
+          <div class="screenshot-caption">Device Health CPU Usage graph for Joni Sherman showing 100% CPU utilisation with Most Impacted Processes popup &mdash; chrome.exe at 94%.</div>
+        </div>
+      <div class="section-qa" data-section="t7-1">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 7.1</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t7-1" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t7-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t7-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t7-1" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t7-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t7-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 7.2: View Endpoint Analytics</h3>
+      <div class="task-block">
+        <h4><span class="task-num">2</span> Review Intune Endpoint Analytics Score</h4>
+        <ol class="step-list">
+          <li>Scroll back up to the <strong>User Devices</strong> section.</li>
+          <li>Click <strong>View Endpoint Analytics</strong> on the ZPM-JONI-SHERMA device.</li>
+          <li>Review the <strong>Endpoint Analytics Score</strong> (overall) and the <strong>Score Categories</strong>:
+            <ul class="sub-steps">
+              <li>Startup Performance score</li>
+              <li>Software Reliability score</li>
+            </ul>
+          </li>
+          <li>Examine the <strong>Startup Performance Score Over Last 14 Days</strong> trend.</li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Result:</strong> Endpoint Analytics Score = 79/100. Startup Performance = 96/100 (acceptable), but <strong>Software Reliability = 46/100</strong> (significantly low).</p>
+        </div>
+      </div>        <div class="screenshot-embed narrow">
+          <img src="screenshots/lab7-ss01.png" alt="Endpoint Analytics panel for ZPM-JONI-SHERMA showing overall score 79/100, Startup Performance 96/100, and Software Reliability 46/100.">
+          <div class="screenshot-caption">Endpoint Analytics panel for ZPM-JONI-SHERMA showing overall score 79/100, Startup Performance 96/100, and Software Reliability 46/100.</div>
+        </div>
+      <div class="section-qa" data-section="t7-2">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 7.2</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t7-2" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t7-2',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t7-2"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t7-2" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t7-2',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t7-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 7.3: Examine Startup Performance</h3>
+      <div class="task-block">
+        <h4><span class="task-num">3</span> Review Boot and Sign-in History</h4>
+        <ol class="step-list">
+          <li>Click the <strong>Startup Performance</strong> tab.</li>
+          <li>Examine the <strong>Boot History</strong> graph for any unusually long boot times.</li>
+          <li>Examine the <strong>Sign-in History</strong> graph for unusually long sign-in times.</li>
+          <li>Review the <strong>Top 10 Processes Impacting Startup</strong> table.</li>
+        </ol>
+        <div class="callout callout-note">
+          <p><strong>Note:</strong> Boot History shows an average of ~9 seconds to reach the sign-in screen. Sign-in History shows one sign-in of ~35 seconds on 3 May. Overall, startup performance does not appear to be the primary issue.</p>
+        </div>
+      </div>
+      <div class="section-qa" data-section="t7-3">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 7.3</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t7-3" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t7-3',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t7-3"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t7-3" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t7-3',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t7-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Task 7.4: Review Software Reliability Events</h3>
+      <div class="task-block">
+        <h4><span class="task-num">4</span> Identify App Crash Events</h4>
+        <ol class="step-list">
+          <li>Click the <strong>Software Reliability</strong> tab.</li>
+          <li>Examine the <strong>Software Events Over Last 14 Days</strong> bar chart. Note which days had the most events.</li>
+          <li>Review the <strong>Software Events</strong> table and examine the Event, Time, Name, Publisher, and Version columns.</li>
+        </ol>
+        <div class="callout callout-success">
+          <p><strong>Result:</strong> A large number of <strong>App Crash</strong> events are recorded in the first 3 days. Both <strong>chrome.exe</strong> (Google Chrome 112.0.5615.13) and <strong>msedge.exe</strong> (Microsoft Edge 112.0.1722.64) are crashing frequently. The user&rsquo;s complaint about Chrome crashes is confirmed, and the Intune data pinpoints the specific versions involved.</p>
+        </div>
+      </div>        <div class="screenshot-embed">
+          <img src="screenshots/lab7-ss02.png" alt="Software Reliability tab showing Software Events bar chart with heavy crash activity in the first 3 days and the Software Events table listing multiple chrome.exe and msedge.exe App Crash events.">
+          <div class="screenshot-caption">Software Reliability tab showing Software Events bar chart with heavy crash activity in the first 3 days and the Software Events table listing multiple chrome.exe and msedge.exe App Crash events.</div>
+        </div>
+      <div class="section-qa" data-section="t7-4">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes &mdash; Task 7.4</span>
+          <span class="section-qa-chevron">&#9662;</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t7-4" placeholder="Questions about this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t7-4',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t7-4"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t7-4" placeholder="Key takeaways from this section&hellip;"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t7-4',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t7-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>    </div>
+    <div class="mental-note-block">
+      <div class="mental-note-block-icon">&#129504;</div>
+      <div class="mental-note-block-inner">
+        <div class="mental-note-block-label">MENTAL NOTE</div>
+        <div class="mental-note-block-text">Intune Endpoint Analytics exposed via ZDX: Overall = 79/100. Startup = 96/100 (fine). Software Reliability = 46/100 (low). Software Events table: chrome.exe + msedge.exe App Crashes in first 3 days. Version 112.x Chromium engine bug. CPU Health: chrome.exe = 94%. Fix: update browsers to patched version.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">&#8592; All Labs (EDU-310)</a>
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 7 PROGRESS</div>
+        <label class="checklist-item"><input type="checkbox" id="chk-7-1" onchange="saveChecklist()"> Found Joni Sherman (ZPM-JONI-SHERMA)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-7-2" onchange="saveChecklist()"> Identified chrome.exe at 94% CPU in Device Health</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-7-3" onchange="saveChecklist()"> Opened Endpoint Analytics &mdash; noted Software Reliability 46/100</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-7-4" onchange="saveChecklist()"> Reviewed Startup Performance (Boot + Sign-in History)</label>
+        <label class="checklist-item"><input type="checkbox" id="chk-7-5" onchange="saveChecklist()"> Identified chrome.exe + msedge.exe App Crash events in Software Reliability</label>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">&#9650;</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">Endpoint Analytics Score</div><div class="qr-def">Microsoft Intune metric (0&ndash;100) combining Startup Performance and Software Reliability. Surfaced in ZDX via the View Endpoint Analytics button.</div></div>
+        <div class="qr-item"><div class="qr-term">Software Reliability Score</div><div class="qr-def">Intune sub-score tracking frequency of app crash events. Low scores indicate repeated application failures that affect user productivity.</div></div>
+        <div class="qr-item"><div class="qr-term">App Crash Events</div><div class="qr-def">Intune-recorded software reliability events logged when a managed application terminates unexpectedly. Visible in the Software Events table.</div></div>
+        <div class="qr-item"><div class="qr-term">Startup Performance</div><div class="qr-def">Intune sub-score combining Core Boot Score (time to sign-in screen) and Core Sign-in Score (time to responsive desktop).</div></div>
+        <div class="qr-item"><div class="qr-term">View Endpoint Analytics</div><div class="qr-def">Button on the User Devices panel in ZDX. Opens the Intune Endpoint Analytics panel for that specific device without leaving ZDX.</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-310 &middot; ZDX Operationalization</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">&#9650; Hide</button>
+    <span class="footer-content">LAB 7 of 14</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab6.html">&#8592; Lab 6: Analyzing Call Quality</a>
+  <div class="page-nav-message">Chrome crashes, CPU spikes &mdash; Intune had the receipt.</div>
+  <a class="page-nav-btn page-nav-next" href="lab8.html">Lab 8: Incident Monitoring on Incident Dashboard &#8594;</a>
+</div>
+<script>
+const CONFIG_KEY='edu310-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu310-config-collapsed';
+const FOOTER_KEY='edu310-footer-collapsed';
+const PAGE_KEY='edu310-lab-lab7';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand':'<span class="chevron">&#9650;</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',h+'px');}
+function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' &mdash; '+prefix:'';}
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d='thezerotrustexchange.com';
+  var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;
+  var el=document.getElementById('d-admin');if(el)el.textContent=admin;
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
+}
+function loadConfig(){
+  try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb76';document.getElementById('pass-input').value='';}
+  if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand';}
+  }catch(e){document.getElementById('prefix-input').value='ptcb76';}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='&#10003; Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';
+},1200);}
+function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='&#10003;';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
+function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
+function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
+function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q,i){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
+function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['t7-1','t7-2','t7-3','t7-4'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='&#10003;';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
+</script>
+</body>
+</html>

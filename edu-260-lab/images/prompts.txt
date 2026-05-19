@@ -1,0 +1,118 @@
+EDU-260 Lab Hero Image Prompts
+================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background canvas color: #eef4ff (pale sky-blue, matching the webpage).
+  NO TEXT anywhere in the image — no words, no letters, no numbers, no labels,
+  no captions, no UI strings, no code snippets. Pure visual illustration only.
+  Consistent blue/navy Zscaler-themed color palette throughout.
+
+Recommended dimensions: 1200 × 400 px (3:1 landscape banner ratio).
+Save each file as a PNG in this folder using the filename shown.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab1-hero.png — Lab 1: Connecting to the Virtual Lab
+------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. A focused
+IT helpdesk technician sitting at a clean modern desk with two wide monitors —
+the left screen shows a cloud virtual machine dashboard with colorful VM tiles
+and start/stop controls, the right screen displays Zscaler portal login pages
+(ZIA, ZPA, ZDX tabs). A sticky note is pinned to the monitor bezel. The desk
+holds a coffee mug, a small potted succulent, and an open spiral notebook.
+Soft blue ambient lighting overhead. Deep navy, sky-blue, white, blue accents.
+No text, no words, no letters anywhere in the image.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab2-hero.png — Lab 2: Troubleshooting Authentication
+-------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. A laptop
+device on the left emits a glowing shield badge as it connects to a cloud
+identity provider. Curved handshake arrows flow between three nodes: the laptop,
+a cloud IdP bubble with a key icon, and two Zscaler cloud nodes (a ZIA globe
+and a ZPA gateway tower) on the right. The Client Connector shield badge glows
+on the laptop screen with a green enrollment check. Nodes are connected by
+glowing arc paths. Deep navy, cobalt blue, teal, white, gold accent arrows.
+No text, no words, no letters anywhere in the image.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab3-hero.png — Lab 3: Packet Capture and Traffic Analysis
+------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. A network
+analyst in a headset leans toward a large curved monitor displaying a packet
+capture grid with colorful rows of data blocks in blue, green, and red. A
+magnifying glass floats over a highlighted suspicious red packet. In the
+background, a stylized network pipeline carries data-block shapes from a laptop
+through a router icon into a cloud. A side panel shows portal log entries
+scrolling. Network cable coils and signal wave arcs surround the scene. Navy,
+teal, coral-red, pale blue. No text, no words, no letters anywhere in the image.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab4-hero.png — Lab 4: Policy Troubleshooting
+-----------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. Center
+stage: a glowing SSL inspection gateway as an archway where a padlock is opened,
+traffic packets pass through, and the padlock re-locks on the other side. To
+the left, an open policy rulebook with URL category icons being checked off
+with ticks. To the right, a ZPA access shield flashing a red denied indicator
+in front of a private application server. Certificate cards float in the air
+around the gateway. Deep navy, indigo, cobalt, white, red-alert accents.
+No text, no words, no letters anywhere in the image.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab5-hero.png — Lab 5: Security Stack Verification
+----------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. A layered
+security fortress in cross-section showing four distinct zones: (1) a threat
+protection layer with red malware icons neutralized by a blue shield, (2) a
+sandbox chamber — a glass box where a suspicious file detonates safely, (3) a
+browser isolation bubble with a laptop screen floating inside a protective
+sphere, (4) a firewall wall repelling QUIC and DNS threat arrows. A central
+Zscaler emblem glows at the fortress core connecting all zones. Navy, green
+(safe zones), red (threats), sky-blue. No text, no words, no letters anywhere
+in the image.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab6-hero.png — Lab 6: Data Loss Prevention (DLP)
+---------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. A DLP
+checkpoint gate in the center — a glowing blue scanning arch. Documents and
+file icons approach from the left; those containing credit card silhouettes
+and bank-document symbols are flagged and caught by the scanner beam in
+amber-gold, while clean documents pass through. A DLP policy engine on the
+right glows with rule patterns. Bank vault doors, padlock icons, and stacked
+log entries surround the scene. Navy, cobalt blue, gold-amber, green (safe),
+red (flagged). No text, no words, no letters anywhere in the image.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab7-hero.png — Lab 7: ZDX Digital Experience Monitoring
+----------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. Left side:
+a user sitting at a desk looking frustrated at a laptop showing a spinning
+loading circle — weak Wi-Fi signal bars hover above the device. Right side: a
+large ZDX monitoring dashboard panel displays performance graphs with sharp
+dips, device health score dials in the amber zone, latency heatmaps, and alert
+bell icons. A diagnostic arc connects the user's laptop to the monitoring panel.
+Navy, sky-blue, amber-orange (degraded metrics), red (alerts), green (healthy
+baseline). No text, no words, no letters anywhere in the image.
+
+────────────────────────────────────────────────────────────────────────────────
+
+lab8-hero.png — Lab 8: NSS and SIEM Log Pipeline Troubleshooting
+-----------------------------------------------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff. A pipeline
+visualization flows left to right: (1) a ZIA cloud node on the far left emitting
+stacked log-file icons, (2) an NSS server rack in the middle — the pipe between
+ZIA and NSS is visually cracked/broken with log stacks piling up at the break
+point and a red warning exclamation badge, (3) a dark SIEM dashboard screen on
+the far right showing an empty graph. An IT engineer with a wrench crouches at
+the broken pipe segment inspecting it. Server racks, network switch icons, and
+floating log-file shapes complete the scene. Navy, cobalt, red-orange (broken
+sections), teal (working sections). No text, no words, no letters anywhere in
+the image.
