@@ -144,15 +144,15 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .soc-answer.open{display:block;}
 .soc-answer p{font-size:12.5px;color:#78350f;line-height:1.65;background:#fef9c3;border-left:3px solid #d97706;padding:10px 14px;border-radius:0 6px 6px 0;}
 .socratic-label{font-size:10px;letter-spacing:0.16em;font-weight:700;text-transform:uppercase;color:#d97706;padding-left:8px;padding-bottom:4px;}
-.socratic-insight{font-size:13px;color:#92400e;font-style:italic;margin-bottom:12px;line-height:1.6;padding:10px 0 0;}
-.socratic-questions{list-style:none;padding:0;margin-bottom:14px;}
+.socratic-insight{font-size:13px;color:#92400e;font-style:italic;margin-bottom:12px;line-height:1.6;padding:10px 0 0 28px;}
+.socratic-questions{list-style:none;padding:0 0 0 28px;margin-bottom:14px;}
 .socratic-questions li{position:relative;padding:6px 0 6px 20px;font-size:13.5px;color:#78350f;line-height:1.6;border-bottom:1px solid #fde68a;}
 .socratic-questions li:last-child{border-bottom:none;}
 .socratic-questions li::before{content:'?';color:#d97706;font-weight:700;font-size:14px;position:absolute;left:0;top:8px;}
-.answer-area{border-top:1px solid #fde68a;padding-top:14px;margin-top:4px;}
+.answer-area{border-top:1px solid #fde68a;padding:14px 0 0 28px;margin-top:4px;}
 .answer-textarea{width:100%;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:13px;font-family:'Epilogue',sans-serif;resize:vertical;color:#78350f;background:#fefce8;transition:border-color 0.15s;}
 .answer-textarea:focus{outline:none;border-color:#d97706;box-shadow:0 0 0 3px rgba(217,119,6,0.12);}
-.answer-buttons{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.answer-buttons{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;padding-bottom:16px;}
 .btn-add-answer{background:#d97706;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
 .btn-add-answer:hover{background:#b45309;}
 .btn-see-answer{background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:all 0.15s;}
@@ -187,6 +187,16 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .lesson-tool-textarea:focus{outline:none;border-color:var(--blue);}
 .lesson-tool-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
 .lesson-tool-btn:hover{background:var(--blue-deep);}
+
+/* LESSON TOOLS (inline section block — EDU-200/EDU-202 pattern) */
+.lesson-tools{background:var(--surface-2);border:1px solid var(--border-dim);border-radius:8px;padding:16px;margin:16px 0 8px;}
+.lesson-tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tool-label{font-size:10px;letter-spacing:0.12em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;}
+.tool-textarea{width:100%;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12.5px;font-family:'Epilogue',sans-serif;resize:vertical;color:var(--text);background:var(--surface);transition:border-color 0.15s;min-height:68px;}
+.tool-textarea:focus{outline:none;border-color:var(--blue);}
+.tool-row{margin-top:6px;}
+.btn-add-q{background:var(--blue);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Epilogue',sans-serif;transition:background 0.15s;}
+.btn-add-q:hover{background:var(--blue-deep);}
 
 /* CREDS TABLE (lab 1) */
 .creds-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
