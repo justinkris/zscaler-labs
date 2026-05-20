@@ -156,14 +156,9 @@
 <script>
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
-  document.querySelectorAll('.lab-card').forEach(function(c){
-    c.addEventListener('click',function(e){
-      if(e.target.tagName!=='A'){
-        var h=c.getAttribute('href');
-        if(h){sessionStorage.setItem('pt','1');window.location.href=h;}
-      }
-    });
-  });
+});
+document.querySelectorAll('a[href]').forEach(function(a){
+  a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});
 });
 </script>
 </body>
