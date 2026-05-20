@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}function copyAllQs(){try{var qs=getQArr();navigator.clipboard.writeText(qs.map(function(q){return q.text;}).join('\n'));}catch(e){}}
+function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.map(function(n){return n.text;}).join('\n'));}catch(e){}}
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lab 2: Configuring ZIdentity &mdash; EDU-202</title>
@@ -365,7 +367,7 @@ function addQuestion(key,sectionName){
   var ta=document.getElementById('q-'+key);
   var text=ta.value.trim();if(!text){ta.focus();return;}
   var qs=getQArr();qs.push({id:Date.now(),section:key,sectionName:sectionName,text:text});
-  saveQArr(qs);ta.value='';renderQPanel();
+  saveQArr(qs);ta.value='';renderQPanel();window.scrollTo({top:0,behavior:'smooth'});
   if(!document.getElementById('qpanel-body').classList.contains('open'))toggleQPanel();
 }
 function deleteQuestion(id){saveQArr(getQArr().filter(function(q){return q.id!==id;}));renderQPanel();}
@@ -403,7 +405,7 @@ function addNote(key){
   var ta=document.getElementById('note-'+key);
   var text=ta.value.trim();if(!text){ta.focus();return;}
   var ns=getNotesArr();ns.push({id:Date.now(),section:key,sectionName:SECTIONS[key]||key,text:text});
-  saveNotesArr(ns);ta.value='';renderNotesPanel();
+  saveNotesArr(ns);ta.value='';renderNotesPanel();window.scrollTo({top:0,behavior:'smooth'});
   if(!document.getElementById('notes-panel-body').classList.contains('open'))toggleNotesPanel();
 }
 function deleteNote(id){saveNotesArr(getNotesArr().filter(function(n){return n.id!==id;}));renderNotesPanel();}

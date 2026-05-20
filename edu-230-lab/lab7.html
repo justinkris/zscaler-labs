@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lab 7: Configure Sandbox File Inspection and Set Real-Time Alerts — EDU-230</title>
@@ -72,10 +74,9 @@
       <span class="qpanel-count" id="q-count">0</span>
       <span class="qpanel-hint">— click to expand</span>
       <span class="qpanel-chevron">▾</span>
+      <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
     </button>
     <div class="qpanel-body" id="q-body">
-      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab…"></textarea>
-      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
       <div id="q-list" style="margin-top:10px;"></div>
     </div>
   </div>
@@ -83,10 +84,9 @@
     <button class="notes-panel-header" onclick="toggleNPanel(this)">
       <span class="notes-panel-title">MY NOTES</span>
       <span class="notes-panel-chevron">▾</span>
+      <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
     </button>
     <div class="notes-panel-body" id="n-body">
-      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab…"></textarea>
-      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
       <div id="n-list" style="margin-top:10px;"></div>
     </div>
   </div>
@@ -431,18 +431,23 @@ function revealSocAnswer(btn){
 }
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
 function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
-function saveQ(){var ta=document.getElementById('q-textarea');if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-qs',JSON.stringify(qs));}catch(e){}ta.value='';loadQList();}
-function saveN(){var ta=document.getElementById('n-textarea');if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-ns',JSON.stringify(ns));}catch(e){}ta.value='';loadNList();}
-function loadQList(){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-qs')||'[]');var el=document.getElementById('q-list');el.innerHTML=qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join('');document.getElementById('q-count').textContent=qs.length;document.getElementById('q-count').style.display=qs.length?'inline-block':'none';}catch(e){}}
-function loadNList(){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-ns')||'[]');var el=document.getElementById('n-list');el.innerHTML=ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join('');}catch(e){}}
+
+
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p style="font-size:12px;color:var(--text-muted);font-style:italic;padding:4px 0;">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p style="font-size:12px;color:var(--text-muted);font-style:italic;padding:4px 0;">No notes yet — use the task Q&amp;A sections below.</p>';var el2=document.getElementById('n-count');if(el2){el2.textContent=all.length;el2.style.display=all.length?'inline-block':'none';}}catch(e){}}
+
 function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
 function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
 var SECTION_IDS=['l7-t1', 'l7-t2', 'l7-t3'];
 function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
 function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function _sqHook(){loadQList();}
 function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
 function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.map(function(q){return'<p>'+q+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+try{loadQList();}catch(e){}
 function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.map(function(n){return'<p>'+n+'</p>';}).join('');}catch(e){}updateSectionQABadge(id);}
+try{loadNList();}catch(e){}
 function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';

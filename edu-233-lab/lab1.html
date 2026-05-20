@@ -69,8 +69,6 @@
       <span class="qpanel-chevron">&#9662;</span>
     </button>
     <div class="qpanel-body" id="q-body">
-      <textarea class="lesson-tool-textarea" id="q-textarea" rows="3" placeholder="Questions from this lab&hellip;"></textarea>
-      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveQ()">Save Question</button></div>
       <div id="q-list" style="margin-top:10px;"></div>
     </div>
   </div>
@@ -80,8 +78,6 @@
       <span class="notes-panel-chevron">&#9662;</span>
     </button>
     <div class="notes-panel-body" id="n-body">
-      <textarea class="lesson-tool-textarea" id="n-textarea" rows="3" placeholder="Key takeaways from this lab&hellip;"></textarea>
-      <div style="margin-top:8px;"><button class="lesson-tool-btn" onclick="saveN()">Save Note</button></div>
       <div id="n-list" style="margin-top:10px;"></div>
     </div>
   </div>
@@ -471,6 +467,8 @@ document.addEventListener('DOMContentLoaded', () => {
   loadNList();
   injectCopyButtons();
 });
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
 </script>
 </body>
 </html>
