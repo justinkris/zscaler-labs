@@ -298,7 +298,7 @@ footer.collapsed .footer-content{display:none;}
 .hub-card-badge.optional{background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;}
 
 /* ROOT INDEX PAGE (zscaler-labs/index.html) */
-.courses-main{max-width:900px;margin:40px auto;padding:0 32px;}
+.courses-main{display:block;max-width:900px;margin:40px auto;padding:0 32px;}
 .courses-main h2{font-family:'Fraunces',serif;font-size:1.25rem;color:var(--text);margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border);}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:16px;border-left:4px solid var(--blue);text-decoration:none;display:block;transition:box-shadow 0.15s;}
 .card:hover{box-shadow:0 4px 16px rgba(26,109,204,0.12);}
