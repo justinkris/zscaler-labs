@@ -1,0 +1,2134 @@
+{
+  "screenshots_dir": "/Users/justinfrancisco/Desktop/Projects/zscaler-labs/edu-200-lab/screenshots",
+  "backup_dir": "/Users/justinfrancisco/Desktop/Projects/zscaler-labs/edu-200-lab/screenshots/_originals-before-enhancement-20260520-161443",
+  "processed": [
+    {
+      "file": "lab0-experience-center-search.png",
+      "size": [
+        1922,
+        490
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab0-topology-diagram.png",
+      "size": [
+        1318,
+        784
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab1-client-pc-login.png",
+      "size": [
+        1656,
+        888
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab1-experience-center-password-reset.png",
+      "size": [
+        998,
+        974
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab1-skytap-vms-running.png",
+      "size": [
+        1106,
+        498
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab1-vm-clipboard.png",
+      "size": [
+        1472,
+        726
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-access-policy-add-criteria-dropdown.png",
+      "size": [
+        698,
+        650
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-access-policy-criteria-discovered-apps.png",
+      "size": [
+        667,
+        318
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-access-policy-criteria-segment-groups-type.png",
+      "size": [
+        1054,
+        591
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-add-access-policy-discovered-apps.png",
+      "size": [
+        811,
+        334
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-add-app-segment-discovery-general.png",
+      "size": [
+        1454,
+        448
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-add-intranet-segment-general.png",
+      "size": [
+        1351,
+        382
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-allow-intranet-access-policy-form.png",
+      "size": [
+        710,
+        661
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-allow-intranet-criteria-dropdown.png",
+      "size": [
+        1054,
+        591
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-allow-intranet-criteria-intranet-segment.png",
+      "size": [
+        777,
+        352
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-allow-intranet-loginname-student.png",
+      "size": [
+        718,
+        661
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-allow-intranet-user-attributes-criteria.png",
+      "size": [
+        699,
+        638
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-allow-intranet-user-session-attributes.png",
+      "size": [
+        625,
+        570
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-analytics-search-private-applications.png",
+      "size": [
+        1488,
+        276
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-connector-connected-list.png",
+      "size": [
+        1551,
+        403
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-connector-update-status.png",
+      "size": [
+        706,
+        151
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segment-additional-config.png",
+      "size": [
+        721,
+        493
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segment-corpservers-server-group.png",
+      "size": [
+        1155,
+        714
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segment-discovered-apps-group.png",
+      "size": [
+        717,
+        633
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segment-discovery-review.png",
+      "size": [
+        1279,
+        606
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segment-policies-step.png",
+      "size": [
+        1010,
+        560
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segment-port-ranges.png",
+      "size": [
+        1072,
+        324
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segment-wildcard-domain.png",
+      "size": [
+        1350,
+        394
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-app-segments-empty-nav.png",
+      "size": [
+        1551,
+        583
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-applications-dashboard-discovered.png",
+      "size": [
+        1105,
+        495
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-applications-discovered-14-days.png",
+      "size": [
+        1354,
+        476
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-intranet-browser-zcc-side-by-side.png",
+      "size": [
+        1371,
+        676
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-intranet-browser-zcc-task102.png",
+      "size": [
+        1135,
+        777
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-intranet-segment-corpapps-group.png",
+      "size": [
+        735,
+        454
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-intranet-segment-corpservers-server.png",
+      "size": [
+        828,
+        394
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-intranet-segment-policies-step.png",
+      "size": [
+        825,
+        317
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-intranet-segment-port-80.png",
+      "size": [
+        938,
+        606
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab10-ping-intranet-timeout-icmp-disabled.png",
+      "size": [
+        1547,
+        810
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-assign-users-joe-selected.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-assign-users-summary-joe.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-browser-intranet-accessible.png",
+      "size": [
+        1513,
+        755
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-edit-user-entitlements-missing-zpa.png",
+      "size": [
+        1211,
+        619
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-service-entitlements-end-user-list.png",
+      "size": [
+        1919,
+        803
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-zcc-login-joe.png",
+      "size": [
+        864,
+        649
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-zidentity-users-list.png",
+      "size": [
+        1919,
+        935
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-zpa-service-users-assign-button.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab11-zpa-service-users-joe-assigned.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-add-forwarding-rule-sipa-forward.png",
+      "size": [
+        938,
+        218
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-add-sipa-access-policy-form.png",
+      "size": [
+        939,
+        310
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-add-sipa-app-segment-general.png",
+      "size": [
+        939,
+        332
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-app-connectors-nav.png",
+      "size": [
+        939,
+        440
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-app-connectors-onprem-connected.png",
+      "size": [
+        939,
+        254
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-app-segments-discovery-intranet-sipa.png",
+      "size": [
+        1122,
+        513
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-edit-gateway-zpa-sipa.png",
+      "size": [
+        873,
+        423
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-forwarding-control-activate.png",
+      "size": [
+        939,
+        233
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-forwarding-rule-destination-criteria.png",
+      "size": [
+        558,
+        624
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-ip-zscaler-native-ip-no-proxy.png",
+      "size": [
+        1120,
+        378
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-ip-zscaler-sipa-egress-ip.png",
+      "size": [
+        1120,
+        378
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-ping-eu-sipa-new-egress-ip.png",
+      "size": [
+        939,
+        560
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-access-policy-allow-access.png",
+      "size": [
+        805,
+        589
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-access-policy-criteria.png",
+      "size": [
+        1136,
+        284
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-app-segment-edit-ping-eu.png",
+      "size": [
+        1167,
+        525
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-app-segment-ip-zscaler.png",
+      "size": [
+        1276,
+        498
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-app-segment-port-ranges.png",
+      "size": [
+        1270,
+        904
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-app-segment-review.png",
+      "size": [
+        939,
+        436
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-bypass-forwarding-policy.png",
+      "size": [
+        673,
+        706
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-forward-forwarding-policy.png",
+      "size": [
+        669,
+        706
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-policy-step-allow-intranet.png",
+      "size": [
+        939,
+        336
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-segment-group-config.png",
+      "size": [
+        681,
+        307
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-sipa-server-group-config.png",
+      "size": [
+        939,
+        453
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-zcc-internet-security-on.png",
+      "size": [
+        748,
+        570
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-zcc-zia-zpa-disabled-side-by-side.png",
+      "size": [
+        1499,
+        615
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab12-zia-network-policies-zpa-nav.png",
+      "size": [
+        939,
+        296
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-access-policy-blocks-not-configured.png",
+      "size": [
+        1919,
+        676
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-app-segments-ad-dc-intranet.png",
+      "size": [
+        1552,
+        742
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-diagnostics-policy-not-configured.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-diagnostics-rdp-3389-detail.png",
+      "size": [
+        1436,
+        676
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-edit-intranet-segment-rdp-port.png",
+      "size": [
+        1471,
+        703
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-intranet-segment-port-ranges-rdp.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-netstat-port-3389-established.png",
+      "size": [
+        1316,
+        684
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-private-apps-analytics-rdp-connection.png",
+      "size": [
+        1400,
+        605
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-rdp-credentials-filled.png",
+      "size": [
+        471,
+        307
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-rdp-desktop-connected.png",
+      "size": [
+        1259,
+        657
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-remote-desktop-connection-dialog.png",
+      "size": [
+        603,
+        360
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab13-top-policy-blocks-access.png",
+      "size": [
+        1919,
+        660
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-analytics-networking-traffic-overview.png",
+      "size": [
+        780,
+        968
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-application-zdx-score-over-time.png",
+      "size": [
+        1631,
+        604
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-applications-list-filtered.png",
+      "size": [
+        1902,
+        951
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-applications-overview-list.png",
+      "size": [
+        1909,
+        942
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-cloud-path-latency-graph.png",
+      "size": [
+        1892,
+        761
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-command-line-view-hop-table.png",
+      "size": [
+        1622,
+        654
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-geolocations-asia-filter.png",
+      "size": [
+        1307,
+        462
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-hop-view-visualization.png",
+      "size": [
+        1639,
+        911
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-incidents-dashboard-epicenter-popup.png",
+      "size": [
+        829,
+        607
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-incidents-dashboard-filters.png",
+      "size": [
+        1375,
+        243
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-performance-dashboard-filter-strip.png",
+      "size": [
+        1304,
+        471
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-probe-status-multiple-probes.png",
+      "size": [
+        1591,
+        363
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-sdc-mfa-skip-screen.png",
+      "size": [
+        1893,
+        870
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-user-device-details-joni-sherman.png",
+      "size": [
+        1888,
+        860
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-user-overview-applications-dropdown.png",
+      "size": [
+        1908,
+        838
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-user-overview-poor-okay-filter.png",
+      "size": [
+        1884,
+        853
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-user-zdx-score-over-time.png",
+      "size": [
+        1882,
+        511
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-web-probe-metrics-page-fetch-time.png",
+      "size": [
+        1906,
+        558
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-wifi-dashboard-access-point-icon.png",
+      "size": [
+        287,
+        648
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-wifi-dashboard-overview.png",
+      "size": [
+        1304,
+        431
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-wifi-dashboard-score-bars.png",
+      "size": [
+        561,
+        276
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-add-another-application-dropdown.png",
+      "size": [
+        1318,
+        507
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-analyze-score-panel.png",
+      "size": [
+        1629,
+        211
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-map-view-24hours-dropdown.png",
+      "size": [
+        1919,
+        743
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-map-view-most-impacted-apps.png",
+      "size": [
+        1919,
+        544
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-performance-dashboard-world-map.png",
+      "size": [
+        1916,
+        819
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-score-analyze-score-button.png",
+      "size": [
+        1509,
+        448
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-score-factors-table.png",
+      "size": [
+        1619,
+        196
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-score-india-fence-selection.png",
+      "size": [
+        1626,
+        788
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-score-okta-line-graph.png",
+      "size": [
+        1321,
+        271
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab14-zdx-score-okta-servicenow-comparison.png",
+      "size": [
+        1330,
+        755
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-cloud-path-latency-header.png",
+      "size": [
+        1264,
+        211
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-compare-zdx-key-differences.png",
+      "size": [
+        1249,
+        702
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-compare-zdx-scores-poor-vs-good.png",
+      "size": [
+        1238,
+        594
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-curtis-hardwick-device-header.png",
+      "size": [
+        1696,
+        273
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-hop-view-wifi-high-latency.png",
+      "size": [
+        1264,
+        711
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-salesforce-lightning-selected.png",
+      "size": [
+        1123,
+        538
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-user-device-events-recovery.png",
+      "size": [
+        1389,
+        603
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-user-device-events-ssid-change.png",
+      "size": [
+        1287,
+        606
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-user-device-search-curtis-hardwick.png",
+      "size": [
+        1217,
+        684
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-zdx-score-analysis-wifi-factors.png",
+      "size": [
+        1186,
+        569
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-zdx-score-analyze-score-button.png",
+      "size": [
+        1183,
+        557
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab15-zdx-score-fluctuating-good-poor.png",
+      "size": [
+        1242,
+        698
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-copilot-application-zdx-scores.png",
+      "size": [
+        1786,
+        888
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-copilot-response-linda-lucas.png",
+      "size": [
+        1906,
+        954
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-dns-time-high-3000ms.png",
+      "size": [
+        1597,
+        284
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-linda-lucas-all-apps-poor.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-linda-lucas-device-header.png",
+      "size": [
+        1546,
+        127
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-linda-lucas-zdx-score-consistently-poor.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-server-response-time-availability.png",
+      "size": [
+        1600,
+        597
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-user-search-linda-lucas.png",
+      "size": [
+        1919,
+        359
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-web-probe-page-fetch-time-dns-time.png",
+      "size": [
+        1612,
+        370
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-zdx-analyze-score-high-dns.png",
+      "size": [
+        1919,
+        1079
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab16-zdx-copilot-search.png",
+      "size": [
+        1917,
+        492
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-add-helpdesk-l1-group.png",
+      "size": [
+        280,
+        418
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-add-support-dept.png",
+      "size": [
+        1048,
+        618
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-add-user-security-settings.png",
+      "size": [
+        714,
+        366
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-add-user-syncZPA.png",
+      "size": [
+        1810,
+        574
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-admin-entitlements-list.png",
+      "size": [
+        1676,
+        542
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-admin-management-entitlements.png",
+      "size": [
+        1044,
+        734
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-bev-account-signout.png",
+      "size": [
+        394,
+        474
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-bev-admin-sign-on-policy.png",
+      "size": [
+        1282,
+        542
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-edit-it-dept.png",
+      "size": [
+        1040,
+        482
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-identity-departments-nav.png",
+      "size": [
+        1794,
+        624
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-identity-user-groups-nav.png",
+      "size": [
+        1052,
+        1172
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-joe-account-signout.png",
+      "size": [
+        424,
+        486
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-joe-entitlements-tab.png",
+      "size": [
+        1582,
+        814
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-joe-login-zidentity.png",
+      "size": [
+        734,
+        782
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-joe-restricted-admin-view.png",
+      "size": [
+        1940,
+        348
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-service-entitlements.png",
+      "size": [
+        1776,
+        358
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-users-left-nav.png",
+      "size": [
+        1018,
+        594
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-users-list-bev.png",
+      "size": [
+        1808,
+        534
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-users-list-joe.png",
+      "size": [
+        1776,
+        566
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zcc-joe-internet-security-on.png",
+      "size": [
+        1040,
+        566
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zcc-login-joe.png",
+      "size": [
+        738,
+        578
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zcc-tray-menu.png",
+      "size": [
+        628,
+        356
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zdx-entitlements-list.png",
+      "size": [
+        1466,
+        992
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zdx-select-groups-roles.png",
+      "size": [
+        1602,
+        1016
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zia-admin-assign-groups.png",
+      "size": [
+        1650,
+        860
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zia-select-groups-roles.png",
+      "size": [
+        486,
+        154
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab2-zia-service-assign-groups.png",
+      "size": [
+        1506,
+        892
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-add-forwarding-profile.png",
+      "size": [
+        984,
+        682
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-add-windows-policy.png",
+      "size": [
+        1166,
+        1206
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-forwarding-profile-zia-config.png",
+      "size": [
+        980,
+        1118
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-forwarding-profile-zpa-config.png",
+      "size": [
+        820,
+        1322
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-infrastructure-connectors-nav.png",
+      "size": [
+        1520,
+        710
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-ip-zscaler-verification.png",
+      "size": [
+        886,
+        652
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-platform-settings-windows.png",
+      "size": [
+        1042,
+        618
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-zcc-digital-experience-on.png",
+      "size": [
+        960,
+        714
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-zcc-internet-security-on.png",
+      "size": [
+        1106,
+        832
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-zcc-login-student.png",
+      "size": [
+        1272,
+        876
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-zcc-more-app-policy.png",
+      "size": [
+        994,
+        752
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-zcc-private-access-on.png",
+      "size": [
+        988,
+        702
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab3-zcc-tray-menu.png",
+      "size": [
+        572,
+        418
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-add-firewall-rule-icmp-ssh-services.png",
+      "size": [
+        1736,
+        980
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-add-firewall-rule-user-select.png",
+      "size": [
+        1192,
+        604
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-block-whatsapp-action-blockdrop.png",
+      "size": [
+        1074,
+        700
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-block-whatsapp-activate.png",
+      "size": [
+        626,
+        530
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-block-whatsapp-app-select.png",
+      "size": [
+        1218,
+        628
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-block-whatsapp-user-select.png",
+      "size": [
+        1102,
+        552
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-firewall-control-add-rule-nav.png",
+      "size": [
+        1670,
+        398
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-firewall-filtering-default-block-drop.png",
+      "size": [
+        1464,
+        802
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-firewall-policy-allow-icmp-ssh-rule.png",
+      "size": [
+        1826,
+        566
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-firewall-policy-both-rules.png",
+      "size": [
+        1930,
+        752
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-firewall-rule-activate-changes.png",
+      "size": [
+        642,
+        576
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab4-whatsapp-blocked-browser.png",
+      "size": [
+        924,
+        484
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-add-ssl-inspection-rule-form.png",
+      "size": [
+        1228,
+        634
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-bypass-threema-do-not-inspect.png",
+      "size": [
+        942,
+        668
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-certlm-trusted-root-zscaler.png",
+      "size": [
+        1174,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-certmgr-search-windows.png",
+      "size": [
+        1282,
+        996
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-chrome-certificate-manager.png",
+      "size": [
+        1638,
+        536
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-chrome-imported-certs-zscaler.png",
+      "size": [
+        1284,
+        764
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-ssl-bypass-threema-rule.png",
+      "size": [
+        1108,
+        704
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-ssl-rule-action-inspect.png",
+      "size": [
+        968,
+        922
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-ssl-rule-activate.png",
+      "size": [
+        626,
+        616
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-ssl-tls-inspection-policy-nav.png",
+      "size": [
+        1668,
+        386
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-threema-after-bypass.png",
+      "size": [
+        1278,
+        1066
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-threema-connection-error.png",
+      "size": [
+        706,
+        574
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-threema-download-page.png",
+      "size": [
+        1428,
+        604
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-threema-download-windows.png",
+      "size": [
+        1672,
+        952
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-threema-powershell-install.png",
+      "size": [
+        1912,
+        160
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-threema-qr-link-page.png",
+      "size": [
+        602,
+        678
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-threema-start-menu.png",
+      "size": [
+        1278,
+        1074
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-web-insights-ssl-inspected-logs.png",
+      "size": [
+        1684,
+        846
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-wikipedia-cert-lets-encrypt-before.png",
+      "size": [
+        908,
+        914
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-wikipedia-cert-zscaler-after.png",
+      "size": [
+        1060,
+        1042
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab5-wikipedia-site-info-before-ssl.png",
+      "size": [
+        884,
+        602
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-888-gambling-accessible-before.png",
+      "size": [
+        1474,
+        822
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-888-gambling-blocked.png",
+      "size": [
+        1360,
+        712
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-add-streaming-media-rule-youtube.png",
+      "size": [
+        1188,
+        696
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-add-url-filtering-rule-categories.png",
+      "size": [
+        794,
+        708
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-advanced-threat-protection-settings.png",
+      "size": [
+        1800,
+        552
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-malware-protection-settings.png",
+      "size": [
+        1802,
+        538
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-netflix-blocked.png",
+      "size": [
+        1834,
+        832
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-streaming-media-action-allow.png",
+      "size": [
+        1174,
+        720
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-streaming-media-rule-saved.png",
+      "size": [
+        1922,
+        176
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-url-filtering-action-block.png",
+      "size": [
+        1018,
+        624
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-url-filtering-policy-nav.png",
+      "size": [
+        1532,
+        390
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-youtube-accessible.png",
+      "size": [
+        1798,
+        518
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab6-youtube-blocked.png",
+      "size": [
+        1318,
+        686
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-add-dns-rule-block-gambling-form.png",
+      "size": [
+        1390,
+        526
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-dns-control-add-filtering-rule.png",
+      "size": [
+        1788,
+        386
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-dns-domain-inclusion-wildcard.png",
+      "size": [
+        1768,
+        894
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-dns-insights-filter-block-gambling.png",
+      "size": [
+        728,
+        700
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-dns-insights-logs-gambling-blocked.png",
+      "size": [
+        1754,
+        402
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-dns-rule-action-block.png",
+      "size": [
+        780,
+        764
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-dns-rule-activate.png",
+      "size": [
+        632,
+        572
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-dns-rule-gambling-categories.png",
+      "size": [
+        1300,
+        708
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-edit-windows-policy-dns-tab.png",
+      "size": [
+        1824,
+        474
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-handsonlab-app-profiles-list.png",
+      "size": [
+        1806,
+        540
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-ipconfig-flushdns.png",
+      "size": [
+        884,
+        322
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-nslookup-gambling-before-resolves.png",
+      "size": [
+        1218,
+        700
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-nslookup-gambling-blocked-timeout.png",
+      "size": [
+        1116,
+        894
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-nslookup-google-resolves.png",
+      "size": [
+        1086,
+        614
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-policies-firewall-dns-control-nav.png",
+      "size": [
+        1766,
+        634
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-windows-platform-settings-nav.png",
+      "size": [
+        1792,
+        644
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab7-zcc-more-update-policy.png",
+      "size": [
+        1276,
+        1038
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-add-custom-notification-message.png",
+      "size": [
+        1008,
+        878
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-add-dlp-rule-form.png",
+      "size": [
+        1124,
+        948
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-data-loss-prevention-rule-saved.png",
+      "size": [
+        1766,
+        542
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-dlp-block-notification-shown.png",
+      "size": [
+        1542,
+        758
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-dlp-dictionary-credit-cards.png",
+      "size": [
+        998,
+        768
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-dlp-engine-sensitive-data-config.png",
+      "size": [
+        1020,
+        964
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-dlp-engines-tab-add-engine.png",
+      "size": [
+        1800,
+        452
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-dlp-rule-action-block-notify.png",
+      "size": [
+        1200,
+        908
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-dlptoolbox-file-audit-upload.png",
+      "size": [
+        1490,
+        692
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab8-ssl-inspect-all-policy-enabled.png",
+      "size": [
+        1832,
+        748
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-add-connector-group-onprem-form.png",
+      "size": [
+        1684,
+        1036
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-add-provisioning-key-form.png",
+      "size": [
+        1652,
+        536
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-app-connector-groups-nav.png",
+      "size": [
+        1618,
+        748
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-app-connector-keys-nav.png",
+      "size": [
+        1480,
+        922
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-app-connectors-portal-connected.png",
+      "size": [
+        1586,
+        502
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-connector-group-update-settings.png",
+      "size": [
+        1704,
+        1056
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-connector-keys-list-copy.png",
+      "size": [
+        1152,
+        714
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-connector-service-active-running.png",
+      "size": [
+        744,
+        164
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-connector-terminal-commands.png",
+      "size": [
+        1906,
+        154
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-connector-terminal-cp-provision-key.png",
+      "size": [
+        1762,
+        394
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-connector-terminal-verify-dir.png",
+      "size": [
+        2024,
+        530
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-windows-server-winscp-desktop.png",
+      "size": [
+        1124,
+        766
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-winscp-login-connector.png",
+      "size": [
+        1578,
+        892
+      ],
+      "mode": "RGB"
+    },
+    {
+      "file": "lab9-winscp-provision-key-upload.png",
+      "size": [
+        1256,
+        268
+      ],
+      "mode": "RGB"
+    }
+  ]
+}

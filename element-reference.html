@@ -380,33 +380,56 @@
           This is the insight sentence — one line that frames why these questions matter before the learner sees the steps.
         </p>
 
-        <ul class="socratic-questions" data-ref="ul.socratic-questions">
-          <li>What is the first thing you would check if a user says they cannot reach a ZPA-protected private application? <span class="rl">&lt;li&gt; Socratic question</span></li>
-          <li>If the App Connector is healthy but the user still cannot connect, where would you look next?</li>
-          <li>What distinguishes a ZPA access policy block from a network connectivity failure at the App Connector level?</li>
+        <ul class="socratic-questions" data-ref="ul.socratic-questions — each &lt;li&gt; now contains its own .answer-area">
+          <li data-ref="&lt;li&gt; — question text + its own .answer-area">
+            What is the first thing you would check if a user says they cannot reach a ZPA-protected private application?
+            <div class="answer-area" data-section="demo-q1" data-ref=".answer-area — one per question, nested inside &lt;li&gt;">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="2" data-ref="textarea.answer-textarea"></textarea>
+              <div class="answer-buttons" data-ref=".answer-buttons">
+                <button class="btn-add-answer" data-ref=".btn-add-answer">+ Add My Answer</button>
+                <button class="btn-see-answer" data-ref=".btn-see-answer — unlocked after answer saved" style="opacity:.5">🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" data-ref=".model-answers — one item, matching this question only" style="display:block">
+                <div class="model-answer-item" data-ref=".model-answer-item">
+                  <div class="model-answer-q" data-ref=".model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text" data-ref=".model-answer-text">This is the model answer. Each question gets its own dedicated answer + reveal. The JS functions still use <code>btn.closest('.answer-area')</code> so they scope correctly to whichever question was answered.</div>
+                </div>
+              </div>
+            </div><!-- /.answer-area -->
+          </li>
+          <li>
+            If the App Connector is healthy but the user still cannot connect, where would you look next?
+            <div class="answer-area" data-section="demo-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="2"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer">+ Add My Answer</button>
+                <button class="btn-see-answer" style="opacity:.5">🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Second question's model answer — shown without annotation labels to demonstrate the clean look of subsequent questions.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            What distinguishes a ZPA access policy block from a network connectivity failure at the App Connector level?
+            <div class="answer-area" data-section="demo-q3">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="2"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer">+ Add My Answer</button>
+                <button class="btn-see-answer" style="opacity:.5">🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Third question's model answer. The <code>data-section</code> attribute uses the pattern <code>labN-topicname-q1/q2/q3</code> to keep localStorage keys unique per question.</div>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
-
-        <div class="answer-area" data-section="demo" data-ref=".answer-area — contains textarea + buttons + model answers">
-
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3" data-ref="textarea.answer-textarea"></textarea>
-
-          <div class="answer-buttons" data-ref=".answer-buttons">
-            <button class="btn-add-answer" data-ref=".btn-add-answer">+ Add My Answer</button>
-            <button class="btn-see-answer" data-ref=".btn-see-answer — unlocked after adding answer" style="opacity:.5">🔒 See Model Answer</button>
-          </div>
-
-          <div class="model-answers" data-ref=".model-answers — shown after reveal (normally hidden)" style="display:block">
-            <div class="model-answer-item" data-ref=".model-answer-item">
-              <div class="model-answer-q" data-ref=".model-answer-q">Q1 — MODEL ANSWER</div>
-              <div class="model-answer-text" data-ref=".model-answer-text">This is the model answer text. It provides a thorough explanation of the correct answer, including relevant technical detail. Can include <code>inline code</code> for commands or values.</div>
-            </div>
-            <div class="model-answer-item">
-              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-              <div class="model-answer-text">Second model answer — same structure, one per Socratic question. Multiple items stack vertically inside <code>.model-answers</code>.</div>
-            </div>
-          </div>
-
-        </div><!-- /.answer-area -->
       </div><!-- /.socratic-block -->
 
 
