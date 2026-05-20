@@ -437,7 +437,7 @@ function renderQPanel(){
   Object.entries(groups).forEach(function(e){
     var key=e[0];var items=e[1];if(!items.length)return;
     html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
-    items.forEach(function(q){num++;html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteQuestion('+q.id+')" title="Remove">&#10005;</button></div>';});
+    items.forEach(function(q){num++;html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text" onclick="editQItemOld(this,'+q.id+',\'q\')">'+q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteQuestion('+q.id+')" title="Remove">−</button></div>';});
     html+='</div>';
   });
   body.innerHTML=html;
@@ -473,7 +473,7 @@ function renderNotesPanel(){
   Object.entries(groups).forEach(function(e){
     var key=e[0];var items=e[1];if(!items.length)return;
     html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
-    items.forEach(function(n){num++;html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteNote('+n.id+')" title="Remove">&#10005;</button></div>';});
+    items.forEach(function(n){num++;html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text" onclick="editQItemOld(this,'+n.id+',\'n\')">'+n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteNote('+n.id+')" title="Remove">−</button></div>';});
     html+='</div>';
   });
   body.innerHTML=html;
