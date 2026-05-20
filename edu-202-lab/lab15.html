@@ -336,7 +336,6 @@ function toggleConfig(){
     ?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">&#9650;</span> Expand'
     :'<span class="chevron">&#9650;</span> Collapse';
   try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
-  updateSidebarOffset();
 }
 function updateToggleSummary(){
   var fqdn=document.getElementById('fqdn-input').value.trim();

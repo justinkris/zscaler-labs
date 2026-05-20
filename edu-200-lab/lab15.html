@@ -407,7 +407,6 @@ function toggleConfig(){
     ?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand'
     :'<span class="chevron">▲</span> Collapse';
   try{localStorage.setItem('edu200-config-collapsed',collapsed?'1':'0');}catch(e){}
-  updateSidebarOffset();
 }
 
 function updateToggleSummary(){
