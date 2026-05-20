@@ -76,7 +76,7 @@ header h1 em{color:#93c5fd;font-style:italic;}
 /* LAYOUT */
 main{display:grid;grid-template-columns:1fr 320px;gap:0;max-width:1400px;margin:0 auto;padding:32px 40px 100px;align-items:start;}
 .content-col{min-width:0;}
-.sidebar{position:sticky;top:var(--config-h,52px);padding-left:32px;}
+.sidebar{position:sticky;top:var(--config-h,68px);padding-left:32px;}
 .section-block{margin-bottom:40px;}
 .section-block h2{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;color:var(--text);margin-bottom:6px;padding-bottom:8px;border-bottom:2px solid var(--blue);}
 .section-block h3{font-family:'Epilogue',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin:20px 0 8px;padding:8px 12px;background:var(--surface-2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;}
