@@ -375,8 +375,9 @@ const CONFIG_KEY='edu200-expc-lab-config';
 
 function updateSidebarOffset(){
   var h=document.getElementById('config-panel').offsetHeight;
-  document.documentElement.style.setProperty('--config-h',h+'px');
+  document.documentElement.style.setProperty('--config-h',(h+16)+'px');
 }
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
 function toggleConfig(){
   var panel=document.getElementById('config-panel');
   var btn=document.getElementById('config-toggle-btn');
