@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Element Reference — Lab Index Page (Hub)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+<style>
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ANNOTATION SYSTEM  (same as element-reference.html)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+[data-ref] {
+  position: relative;
+  outline: 1.5px dashed rgba(109,40,217,.4);
+  outline-offset: 3px;
+  --ref-color: #5b21b6;
+}
+.ref-chip {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-size: 9px;
+  font-family: 'SFMono-Regular','Consolas','Menlo',monospace;
+  background: var(--ref-color, #5b21b6);
+  color: #ede9fe;
+  padding: 1px 1px 1px 7px;
+  border-radius: 3px;
+  z-index: 500;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 0 1px 5px rgba(0,0,0,.35);
+}
+.ref-chip-copy {
+  background: none;
+  border: none;
+  color: rgba(237,233,254,0.45);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  border-radius: 2px;
+  transition: color 0.12s;
+  font-family: inherit;
+  margin-left: 3px;
+}
+.ref-chip-copy:hover { color: #fff; }
+
+/* ── Category colors ──────────────────────────────────────────
+   Purple = Page structure (header, footer) — default
+   Blue   = Hub container (.hub-main)
+   Teal   = Phase sections (phase-section, phase-header, labels)
+   Rose   = Lab cards (lab-card and all children)
+   ─────────────────────────────────────────────────────────── */
+
+.hub-main[data-ref] {
+  outline-color: rgba(37,99,235,.45);
+  --ref-color: #1d4ed8;
+}
+
+.phase-section[data-ref], .phase-header[data-ref],
+.phase-label[data-ref], .phase-title[data-ref],
+.phase-range[data-ref], .phase-desc[data-ref] {
+  outline-color: rgba(13,148,136,.5);
+  --ref-color: #0f766e;
+}
+
+.lab-grid[data-ref], .lab-card[data-ref], .lab-card-header[data-ref],
+.lab-card-num[data-ref], .lab-card-time[data-ref], .lab-card-title[data-ref],
+.lab-card-desc[data-ref], .lab-card-cta[data-ref],
+.hub-card-badge[data-ref] {
+  outline-color: rgba(190,24,93,.45);
+  --ref-color: #be185d;
+}
+
+/* ── Page intro banner ───────────────────────────────────────── */
+.ref-intro {
+  background: #f5f3ff;
+  border-bottom: 2px solid #c4b5fd;
+  padding: 20px 40px;
+  font-family: Epilogue, sans-serif;
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+.ref-intro-text h2 {
+  font-family: Epilogue, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3b0764;
+  margin: 0 0 6px;
+  letter-spacing: 0;
+  font-style: normal;
+}
+.ref-intro-text p {
+  font-size: 12.5px;
+  color: #4c1d95;
+  margin: 0;
+  line-height: 1.6;
+}
+.ref-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #6d28d9;
+  font-family: Epilogue, sans-serif;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.ref-legend-row { display: flex; align-items: center; gap: 8px; }
+.ref-legend-box { width: 70px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+.ref-legend-dash { width: 70px; height: 13px; border: 1.5px dashed rgba(109,40,217,.55); border-radius: 3px; flex-shrink: 0; }
+
+</style>
+</head>
+<body>
+
+<!-- ── Intro banner ───────────────────────────────────────── -->
+<div class="ref-intro">
+  <div class="ref-intro-text">
+    <h2>Lab Index Page — Element Reference</h2>
+    <p>Every element used in a per-course <code>index.html</code> hub page is shown below with dummy content.<br>
+    This is the page that lists all labs within a single course (e.g. <code>edu-260-lab/index.html</code>).</p>
+  </div>
+  <div class="ref-legend">
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#5b21b6"></div>
+      <span>Page structure</span>
+    </div>
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#1d4ed8"></div>
+      <span>.hub-main container</span>
+    </div>
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#0f766e"></div>
+      <span>Phase sections</span>
+    </div>
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#be185d"></div>
+      <span>Lab cards</span>
+    </div>
+    <div class="ref-legend-row" style="margin-top:4px">
+      <div class="ref-legend-dash"></div>
+      <span>= element boundary</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     HEADER
+     Note: lab index header DOES have .breadcrumb and .motivation-banner
+     unlike the main hub header
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<header data-ref="&lt;header&gt; — includes .breadcrumb &amp; .motivation-banner (unlike the hub)">
+
+  <div class="breadcrumb" data-ref=".breadcrumb — e.g. 'Zscaler Labs › EDU-XXX'">
+    <a href="#">Zscaler Labs</a> › EDU-XXX
+  </div>
+
+  <div class="header-top" data-ref=".header-top">
+    <span class="eyebrow-chip" data-ref=".eyebrow-chip">EDU-XXX · Hands-On Lab</span>
+  </div>
+
+  <h1 data-ref="h1 — course title (use &lt;em&gt; for italic)">Course Name — <em>Subtitle</em></h1>
+
+  <div class="motivation-banner" data-ref=".motivation-banner — short summary of all labs in the course">
+    <p>N hands-on labs covering topic A, topic B, topic C, and topic D — practised in a live Skytap environment with real Zscaler portals.</p>
+  </div>
+
+</header>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     HUB MAIN
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<div class="hub-main" data-ref=".hub-main — centred max-width container for all phase sections">
+
+
+  <!-- ─── PHASE SECTION (default label) ───────────────────── -->
+  <div class="phase-section" data-ref=".phase-section — groups one phase header + one lab-grid">
+
+    <div class="phase-header" data-ref=".phase-header — contains phase-label, phase-title, phase-range">
+
+      <span class="phase-label" data-ref=".phase-label — default (blue) — topic category pill">SETUP</span>
+
+      <div class="phase-title" data-ref=".phase-title — section title (Fraunces serif)">Phase or Topic Name</div>
+
+      <div class="phase-range" data-ref=".phase-range — short description of which labs &amp; what they cover">Lab N · Brief description of what this phase covers and which tools are used</div>
+
+    </div>
+
+    <div class="lab-grid" data-ref=".lab-grid — CSS grid wrapper for lab cards">
+
+      <a class="lab-card" href="#" data-ref=".lab-card — card link (flex column, hover effect)">
+
+        <div class="lab-card-header" data-ref=".lab-card-header — row: lab number badge + time">
+          <span class="lab-card-num" data-ref=".lab-card-num — 'LAB N' pill (blue)">LAB N</span>
+          <span class="lab-card-time" data-ref=".lab-card-time — estimated duration">~15 min</span>
+        </div>
+
+        <div class="lab-card-title" data-ref=".lab-card-title — lab title (Fraunces serif)">Lab Title — Descriptive Name</div>
+
+        <div class="lab-card-desc" data-ref=".lab-card-desc — 1–2 sentence description of what the learner does">Navigate to the environment, start the VM, log in, and locate your admin and user credentials from the Resources tab.</div>
+
+        <div class="lab-card-cta" data-ref=".lab-card-cta — 'Start Lab →' call to action">Start Lab →</div>
+
+      </a>
+
+    </div>
+  </div><!-- /.phase-section -->
+
+
+  <!-- ─── PHASE SECTION (amber label) ────────────────────── -->
+  <div class="phase-section" data-ref=".phase-section">
+
+    <div class="phase-header" data-ref=".phase-header">
+
+      <span class="phase-label amber" data-ref=".phase-label.amber — amber colour variant">AUTHENTICATION</span>
+
+      <div class="phase-title" data-ref=".phase-title">Troubleshooting Authentication</div>
+
+      <div class="phase-range" data-ref=".phase-range">Lab N · Client connectivity, ZCC CLI install, ZIA &amp; ZPA SAML flows</div>
+
+    </div>
+
+    <div class="lab-grid">
+      <a class="lab-card" href="#">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB N</span>
+          <span class="lab-card-time">~45 min</span>
+        </div>
+        <div class="lab-card-title">Lab Title — Second Example</div>
+        <div class="lab-card-desc">Verify client connectivity, manually install ZCC with CLI options, then trace ZIA and ZPA SAML authentication flows using browser DevTools.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+
+  </div><!-- /.phase-section -->
+
+
+  <!-- ─── PHASE SECTION (green label) ────────────────────── -->
+  <div class="phase-section" data-ref=".phase-section">
+
+    <div class="phase-header" data-ref=".phase-header">
+
+      <span class="phase-label green" data-ref=".phase-label.green — green colour variant">POLICY</span>
+
+      <div class="phase-title" data-ref=".phase-title">Troubleshooting Policy Settings</div>
+
+      <div class="phase-range" data-ref=".phase-range">Lab N · SSL certificates, ZIA access policy, ZPA access policy</div>
+
+    </div>
+
+    <div class="lab-grid">
+      <a class="lab-card" href="#">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB N</span>
+          <span class="lab-card-time">~30 min</span>
+        </div>
+        <div class="lab-card-title">Lab Title — Third Example</div>
+        <div class="lab-card-desc">Verify SSL inspection certificates in the browser and Windows cert store, review ZIA URL &amp; Cloud App Control policies, and investigate ZPA access policy blocks.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+
+  </div><!-- /.phase-section -->
+
+
+  <!-- ─── PHASE SECTION (purple label) + multi-card grid ── -->
+  <div class="phase-section" data-ref=".phase-section — example with multiple lab-cards in one grid">
+
+    <div class="phase-header" data-ref=".phase-header">
+
+      <span class="phase-label purple" data-ref=".phase-label.purple — purple colour variant">DATA PROTECTION</span>
+
+      <div class="phase-title" data-ref=".phase-title">Troubleshooting Data Protection</div>
+
+      <div class="phase-range" data-ref=".phase-range">Labs N–N+1 · DLP rules, file type control, dictionaries &amp; engines</div>
+
+    </div>
+
+    <!-- hub-card-badge variants — shown inside a multi-card grid -->
+    <div class="lab-grid" data-ref=".lab-grid — multi-card example (two cards side by side)">
+
+      <a class="lab-card" href="#" data-ref=".lab-card — first card in a two-card grid">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB N</span>
+          <span class="hub-card-badge sdc" data-ref=".hub-card-badge.sdc — SDC / special notice badge (amber)">SDC</span>
+          <span class="lab-card-time">~35 min</span>
+        </div>
+        <div class="lab-card-title">Lab Title — With SDC Badge</div>
+        <div class="lab-card-desc">Review DLP rule configuration, test PCI and Python file upload blocks, examine block logs in Web Insights.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+
+      <a class="lab-card" href="#" data-ref=".lab-card — second card (optional badge variant)">
+        <div class="lab-card-header">
+          <span class="lab-card-num">LAB N+1</span>
+          <span class="hub-card-badge optional" data-ref=".hub-card-badge.optional — optional lab badge (grey)">Optional</span>
+          <span class="lab-card-time">~20 min</span>
+        </div>
+        <div class="lab-card-title">Lab Title — With Optional Badge</div>
+        <div class="lab-card-desc">Explore predefined dictionaries, custom regex patterns, and DLP engine expressions in the ZIA admin portal.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+
+    </div>
+
+  </div><!-- /.phase-section -->
+
+
+</div><!-- /.hub-main -->
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     FOOTER
+     Note: the lab-index footer is simpler than the lab-page footer
+     (no id="site-footer", no collapse toggle, just two text spans)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<footer data-ref="&lt;footer&gt; — simple two-span bar (not the collapsible site-footer used in lab pages)">
+  <span data-ref="span — course name">EDU-XXX · Course Name</span>
+  <span data-ref="span — copyright line">©2015–24 Zscaler, Inc. All rights reserved.</span>
+</footer>
+
+
+<script>
+function extractCopyText(rawLabel) {
+  var div = document.createElement('div');
+  div.innerHTML = rawLabel;
+  return div.textContent.split(' — ')[0].trim();
+}
+function makeCopyBtn(textToCopy) {
+  var btn = document.createElement('button');
+  btn.className = 'ref-chip-copy';
+  btn.title = 'Copy';
+  btn.textContent = '⎘';
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      btn.textContent = '✓';
+      setTimeout(function() { btn.textContent = '⎘'; }, 1200);
+    }).catch(function() {});
+  });
+  return btn;
+}
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.style.opacity = '1';
+  var SKIP = { textarea:1, input:1, img:1, br:1, hr:1 };
+  document.querySelectorAll('[data-ref]').forEach(function(el) {
+    if (SKIP[el.tagName.toLowerCase()]) return;
+    var raw = el.getAttribute('data-ref');
+    var copyText = extractCopyText(raw);
+    var labelDiv = document.createElement('div');
+    labelDiv.innerHTML = raw;
+    var chip = document.createElement('span');
+    chip.className = 'ref-chip';
+    chip.appendChild(document.createTextNode(labelDiv.textContent));
+    chip.appendChild(makeCopyBtn(copyText));
+    el.appendChild(chip);
+  });
+});
+</script>
+</body>
+</html>

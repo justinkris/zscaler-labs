@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Element Reference — Lab Guide Pages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+<style>
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ANNOTATION SYSTEM
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Add data-ref="..." to any block element →
+     gets dashed purple outline + floating label (::before)
+   Use .rl span for inline / void / li elements
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+[data-ref] {
+  position: relative;
+  outline: 1.5px dashed rgba(109,40,217,.4);
+  outline-offset: 3px;
+  --ref-color: #5b21b6; /* default: purple = page structure */
+}
+/* Injected chip — replaces ::before so it can hold a real copy button */
+.ref-chip {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-size: 9px;
+  font-family: 'SFMono-Regular','Consolas','Menlo',monospace;
+  background: var(--ref-color, #5b21b6);
+  color: #ede9fe;
+  padding: 1px 1px 1px 7px;
+  border-radius: 3px;
+  z-index: 500;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 0 1px 5px rgba(0,0,0,.35);
+}
+.ref-chip-copy {
+  background: none;
+  border: none;
+  color: rgba(237,233,254,0.45);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  border-radius: 2px;
+  transition: color 0.12s;
+  font-family: inherit;
+  margin-left: 3px;
+}
+.ref-chip-copy:hover { color: #fff; }
+
+/* ── Category colors ──────────────────────────────────────────
+   Blue   = Config panel & top panels
+   Teal   = Lab content (tasks, socratic, Q&A, mental note)
+   Rose   = Sidebar (checklist, quick-ref)
+   Purple = Page structure (default: header, main, footer, etc.)
+   ─────────────────────────────────────────────────────────── */
+
+.config-panel[data-ref], .config-toggle-row[data-ref],
+.config-toggle-title[data-ref], .config-toggle-summary[data-ref], .config-toggle-btn[data-ref],
+.config-grid[data-ref], .config-field[data-ref], .config-field-row[data-ref],
+.config-copy-btn[data-ref], .config-actions[data-ref], .config-btn[data-ref], .config-derived[data-ref],
+.top-panels[data-ref], .qpanel[data-ref], .qpanel-header[data-ref],
+.qpanel-title[data-ref], .qpanel-count[data-ref], .qpanel-hint[data-ref], .qpanel-chevron[data-ref],
+.notes-panel[data-ref], .notes-panel-header[data-ref],
+.notes-panel-title[data-ref], .notes-panel-chevron[data-ref], .copy-all-btn[data-ref] {
+  outline-color: rgba(37,99,235,.45);
+  --ref-color: #1d4ed8;
+}
+
+.lab-header-card[data-ref], .lab-badge[data-ref], .lab-meta[data-ref], .lab-meta-item[data-ref],
+.lab-hero[data-ref], .task-hero[data-ref],
+.socratic-block[data-ref], .socratic-header[data-ref], .socratic-icon[data-ref], .socratic-label[data-ref],
+.socratic-insight[data-ref], .socratic-questions[data-ref],
+.answer-area[data-ref], .answer-buttons[data-ref], .btn-add-answer[data-ref], .btn-see-answer[data-ref],
+.model-answers[data-ref], .model-answer-item[data-ref], .model-answer-q[data-ref], .model-answer-text[data-ref],
+.task-block[data-ref], .callout[data-ref],
+.section-qa[data-ref], .section-qa-header[data-ref], .section-qa-title[data-ref],
+.section-qa-badge[data-ref], .section-qa-chevron[data-ref], .section-qa-body[data-ref],
+.section-qa-grid[data-ref], .section-qa-label[data-ref], .section-qa-list[data-ref],
+.qa-item[data-ref], .qa-item-text[data-ref], .qa-item-del[data-ref],
+.mental-note-block[data-ref], .mental-note-block-icon[data-ref],
+.mental-note-block-inner[data-ref], .mental-note-block-label[data-ref], .mental-note-block-text[data-ref] {
+  outline-color: rgba(13,148,136,.5);
+  --ref-color: #0f766e;
+}
+
+.sidebar[data-ref], .hub-link[data-ref], .checklist-card[data-ref], .checklist-title[data-ref],
+.checklist-item[data-ref], .quick-ref[data-ref], .quick-ref-title[data-ref],
+.qr-body[data-ref], .qr-item[data-ref], .qr-term[data-ref], .qr-def[data-ref] {
+  outline-color: rgba(190,24,93,.45);
+  --ref-color: #be185d;
+}
+
+/* Inline label — for li elements and void elements */
+.rl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-size: 9px;
+  font-family: 'SFMono-Regular','Consolas','Menlo',monospace;
+  background: var(--ref-color, #5b21b6);
+  color: #ede9fe;
+  padding: 0 1px 0 6px;
+  border-radius: 3px;
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  vertical-align: middle;
+  margin-left: 6px;
+  position: relative;
+  z-index: 500;
+}
+
+/* Override lab-style rules that would clip labels or break this page */
+.config-body    { overflow: visible !important; }
+.qr-body        { overflow: visible !important; max-height: none !important; opacity: 1 !important; margin-top: 8px !important; }
+.socratic-block { overflow: visible !important; }
+.lab-hero       { overflow: visible !important; }
+.task-hero      { overflow: visible !important; }
+/* Keep config-panel, sidebar, page-nav in flow (no sticky/fixed on ref page) */
+.config-panel   { position: relative !important; }
+.sidebar        { position: relative !important; top: auto !important; }
+.page-nav       { position: relative !important; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PAGE INTRO BANNER
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ref-intro {
+  background: #f5f3ff;
+  border-bottom: 2px solid #c4b5fd;
+  padding: 20px 40px;
+  font-family: Epilogue, sans-serif;
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+.ref-intro-text h2 {
+  font-family: Epilogue, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3b0764;
+  margin: 0 0 6px;
+  letter-spacing: 0;
+  font-style: normal;
+}
+.ref-intro-text p {
+  font-size: 12.5px;
+  color: #4c1d95;
+  margin: 0;
+  line-height: 1.6;
+}
+.ref-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #6d28d9;
+  font-family: Epilogue, sans-serif;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.ref-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ref-legend-box {
+  width: 70px;
+  height: 13px;
+  background: #5b21b6;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.ref-legend-dash {
+  width: 70px;
+  height: 13px;
+  border: 1.5px dashed rgba(109,40,217,.55);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     INTRO BANNER (not a lab element — reference page only)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div class="ref-intro">
+  <div class="ref-intro-text">
+    <h2>Lab Guide — Element Reference</h2>
+    <p>Every element used in a lab guide HTML page is shown below with dummy content.<br>
+    Purple labels identify each element by its CSS class or HTML tag. Dashed outlines mark element boundaries.</p>
+  </div>
+  <div class="ref-legend">
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#5b21b6"></div>
+      <span>Page structure</span>
+    </div>
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#1d4ed8"></div>
+      <span>Config &amp; panels</span>
+    </div>
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#0f766e"></div>
+      <span>Lab content</span>
+    </div>
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#be185d"></div>
+      <span>Sidebar</span>
+    </div>
+    <div class="ref-legend-row" style="margin-top:4px">
+      <div class="ref-legend-dash"></div>
+      <span>= element boundary</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     HEADER
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<header data-ref="&lt;header&gt;">
+
+  <div class="breadcrumb" data-ref=".breadcrumb">
+    <a href="#">COURSE-XXX</a> › Lab N
+  </div>
+
+  <div class="header-top" data-ref=".header-top">
+    <span class="eyebrow-chip" data-ref=".eyebrow-chip">LAB N · TOPIC NAME</span>
+    <div class="header-dot" data-ref=".header-dot"></div>
+  </div>
+
+  <h1 data-ref="h1 — page title (use &lt;em&gt; for italic)">Performing <em>Key Actions</em></h1>
+
+  <div class="motivation-banner" data-ref=".motivation-banner">
+    <p>This is the motivation banner — one to two sentences that frame why this lab matters and put the learner in the right mindset before they begin the tasks.</p>
+  </div>
+
+</header>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     CONFIG PANEL
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<div class="config-panel" id="config-panel" data-ref=".config-panel — collapsible, sticky">
+
+  <div class="config-toggle-row" onclick="toggleConfig()" data-ref=".config-toggle-row — click to collapse / expand">
+    <div style="display:flex;align-items:center;gap:0">
+      <span class="config-toggle-title" data-ref=".config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary" data-ref=".config-toggle-summary — shows active prefix"> — ptXX99</span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()" data-ref=".config-toggle-btn">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+
+  <div class="config-body" id="config-body">
+    <div class="config-grid" data-ref=".config-grid">
+
+      <div class="config-field" data-ref=".config-field">
+        <label for="ref-prefix">Student Prefix</label>
+        <div class="config-field-row" data-ref=".config-field-row">
+          <input type="text" id="ref-prefix" placeholder="e.g. ptXX99" value="ptXX99" autocomplete="off" data-ref="input (text field)">
+          <button class="config-copy-btn" data-ref=".config-copy-btn" title="Copy">⎘</button>
+        </div>
+      </div>
+
+      <div class="config-field" data-ref=".config-field">
+        <label for="ref-pass">Session Password</label>
+        <div class="config-field-row" data-ref=".config-field-row">
+          <input type="text" id="ref-pass" placeholder="(from Resources tab)" value="P@ssw0rd!" autocomplete="off" data-ref="input (text field)">
+          <button class="config-copy-btn" title="Copy">⎘</button>
+        </div>
+      </div>
+
+      <div class="config-actions" data-ref=".config-actions">
+        <button class="config-btn" data-ref=".config-btn">Save</button>
+        <button class="config-btn secondary" data-ref=".config-btn.secondary">Clear</button>
+      </div>
+
+    </div>
+
+    <div class="config-derived" id="config-derived" data-ref=".config-derived — auto-generated email values">
+      <span><strong>ZIA Admin:</strong> <code>ptXX99-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>IT Dept:</strong> <code>ptXX99-IT@thezerotrustexchange.com</code></span>
+      <span><strong>HR Dept:</strong> <code>ptXX99-HR@thezerotrustexchange.com</code></span>
+      <span><strong>MKT Dept:</strong> <code>ptXX99-MKT@thezerotrustexchange.com</code></span>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     TOP PANELS
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<div class="top-panels" data-ref=".top-panels — wrapper for both panels">
+
+  <div class="qpanel" data-ref=".qpanel — My Questions panel">
+    <button class="qpanel-header" data-ref=".qpanel-header — collapsible trigger">
+      <span class="qpanel-title" data-ref=".qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count" style="display:inline-flex" data-ref=".qpanel-count — badge">3</span>
+      <span class="qpanel-hint" data-ref=".qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron" data-ref=".qpanel-chevron">▾</span>
+    </button>
+    <button class="copy-all-btn" data-ref=".copy-all-btn — ⎘ Copy All">⎘ Copy All</button>
+  </div>
+
+  <div class="notes-panel" data-ref=".notes-panel — My Notes panel">
+    <button class="notes-panel-header" data-ref=".notes-panel-header — collapsible trigger">
+      <span class="notes-panel-title" data-ref=".notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron" data-ref=".notes-panel-chevron">▾</span>
+    </button>
+    <button class="copy-all-btn" data-ref=".copy-all-btn">⎘ Copy All</button>
+  </div>
+
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     MAIN
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<main data-ref="&lt;main&gt; — outer layout wrapper">
+
+  <!-- ━━━ CONTENT COLUMN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="content-col" data-ref=".content-col — left content column">
+
+    <div class="section-block" id="section-demo" data-ref=".section-block — wraps all tasks for one lab">
+
+      <!-- h2 -->
+      <h2 data-ref="h2 — section heading">Lab N: Topic Name</h2>
+
+
+      <!-- ─── LAB HEADER CARD ─────────────────────────────── -->
+      <div class="lab-header-card" data-ref=".lab-header-card — intro card at top of each lab">
+
+        <div class="lab-badge" data-ref=".lab-badge — LAB N pill">LAB N</div>
+
+        <p><strong>Scenario:</strong> <span class="rl">scenario paragraph</span>
+          A user cannot reach a private application. You will check ZPA access policies, App Connector health, and connection logs to isolate the root cause and restore connectivity.
+        </p>
+
+        <figure class="lab-hero" data-ref="figure.lab-hero — hero image">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='260'%3E%3Crect width='900' height='260' fill='%231e1e2e'/%3E%3Ctext x='450' y='130' font-family='monospace' font-size='16' fill='%23a78bfa' text-anchor='middle' dominant-baseline='middle'%3Efigure.lab-hero%3C/text%3E%3C/svg%3E" alt="Lab hero image placeholder" loading="lazy" style="width:100%;display:block;">
+        </figure>
+
+        <div class="lab-meta" data-ref=".lab-meta — metadata row">
+          <div class="lab-meta-item" data-ref=".lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
+          <div class="lab-meta-item" data-ref=".lab-meta-item"><strong>Tools:</strong> ZPA Admin Portal + ZCC + App Connector Logs</div>
+        </div>
+
+      </div><!-- /.lab-header-card -->
+
+
+      <!-- ─── SOCRATIC BLOCK ──────────────────────────────── -->
+      <div class="socratic-block" id="soc-demo" data-ref=".socratic-block — Think First block">
+
+        <div class="socratic-header" data-ref=".socratic-header">
+          <span class="socratic-icon" data-ref=".socratic-icon">💭</span>
+          <span class="socratic-label" data-ref=".socratic-label">THINK FIRST · TOPIC NAME</span>
+        </div>
+
+        <p class="socratic-insight" data-ref="p.socratic-insight — one-line framing sentence">
+          This is the insight sentence — one line that frames why these questions matter before the learner sees the steps.
+        </p>
+
+        <ul class="socratic-questions" data-ref="ul.socratic-questions">
+          <li>What is the first thing you would check if a user says they cannot reach a ZPA-protected private application? <span class="rl">&lt;li&gt; Socratic question</span></li>
+          <li>If the App Connector is healthy but the user still cannot connect, where would you look next?</li>
+          <li>What distinguishes a ZPA access policy block from a network connectivity failure at the App Connector level?</li>
+        </ul>
+
+        <div class="answer-area" data-section="demo" data-ref=".answer-area — contains textarea + buttons + model answers">
+
+          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3" data-ref="textarea.answer-textarea"></textarea>
+
+          <div class="answer-buttons" data-ref=".answer-buttons">
+            <button class="btn-add-answer" data-ref=".btn-add-answer">+ Add My Answer</button>
+            <button class="btn-see-answer" data-ref=".btn-see-answer — unlocked after adding answer" style="opacity:.5">🔒 See Model Answer</button>
+          </div>
+
+          <div class="model-answers" data-ref=".model-answers — shown after reveal (normally hidden)" style="display:block">
+            <div class="model-answer-item" data-ref=".model-answer-item">
+              <div class="model-answer-q" data-ref=".model-answer-q">Q1 — MODEL ANSWER</div>
+              <div class="model-answer-text" data-ref=".model-answer-text">This is the model answer text. It provides a thorough explanation of the correct answer, including relevant technical detail. Can include <code>inline code</code> for commands or values.</div>
+            </div>
+            <div class="model-answer-item">
+              <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+              <div class="model-answer-text">Second model answer — same structure, one per Socratic question. Multiple items stack vertically inside <code>.model-answers</code>.</div>
+            </div>
+          </div>
+
+        </div><!-- /.answer-area -->
+      </div><!-- /.socratic-block -->
+
+
+      <!-- h3 -->
+      <h3 data-ref="h3 — task group heading (e.g. Task N.1: Name)">Task N.1: Name of Task Group</h3>
+
+
+      <!-- ─── TASK BLOCK 1 — steps ────────────────────────── -->
+      <div class="task-block" data-ref=".task-block — one individual task">
+
+        <h4 data-ref="h4 — task heading (.task-num circle + title text)">
+          <span class="task-num" data-ref=".task-num — numbered circle badge">1</span>
+          Name of Individual Task
+        </h4>
+
+        <ol class="step-list" data-ref="ol.step-list — numbered steps">
+          <li>
+            <span class="rl">&lt;li&gt; step</span>
+            Open the admin portal and navigate to <strong>Policy &gt; Access Policy</strong>.
+            <ul class="sub-steps" data-ref="ul.sub-steps — nested bullets within a step">
+              <li><span class="rl">&lt;li&gt; sub-step</span> This is a sub-step — used for nested detail or alternatives inside a primary step.</li>
+              <li>Another sub-step with inline code and a copy button: <code>ip.addr==100.64.1.0/24</code><button class="copy-inline">⎘</button> — the copy button is auto-injected by JS.</li>
+            </ul>
+          </li>
+          <li>Locate the rule named <strong>Dummy-Access-Rule</strong> and click the edit icon.</li>
+          <li>Review the <strong>User / Group</strong> assignments and confirm the target department group is listed.</li>
+        </ol>
+
+        <div class="callout callout-note" data-ref=".callout.callout-note — blue, neutral info">
+          <p><strong>Note:</strong> This is a <code>callout-note</code>. Use it for neutral clarifying information — things the learner should know that don't require special caution.</p>
+        </div>
+
+      </div><!-- /.task-block -->
+
+
+      <!-- ─── TASK BLOCK 2 — all callout types ───────────── -->
+      <div class="task-block" data-ref=".task-block — second example showing all callout variants">
+
+        <h4><span class="task-num">2</span> Verify Connector Health — All Callout Types</h4>
+
+        <ol class="step-list">
+          <li>Go to <strong>Infrastructure &gt; App Connectors</strong> and confirm each connector shows a green status indicator.</li>
+        </ol>
+
+        <div class="callout callout-warning" data-ref=".callout.callout-warning — amber, caution">
+          <p><strong>Warning:</strong> This is a <code>callout-warning</code>. Use it for things that could cause problems if the learner skips them or does them incorrectly.</p>
+        </div>
+
+        <div class="callout callout-success" data-ref=".callout.callout-success — green, confirmation / expected output">
+          <p><strong>Success:</strong> This is a <code>callout-success</code>. Use it to describe what correct output looks like — a checkpoint the learner can verify against.</p>
+        </div>
+
+        <div class="callout callout-info" data-ref=".callout.callout-info — blue, informational aside">
+          <p><strong>Info:</strong> This is a <code>callout-info</code>. Lighter in tone than a note — use it for supplementary background context or optional facts.</p>
+        </div>
+
+        <div class="callout callout-caution" data-ref=".callout.callout-caution — orange, stronger caution">
+          <p><strong>Caution:</strong> This is a <code>callout-caution</code>. Use it for stronger warnings — things that could cause data loss or break a major configuration.</p>
+        </div>
+
+        <div class="callout callout-sdc" data-ref=".callout.callout-sdc — yellow, small text, lab-environment notices">
+          <p><strong>Note:</strong> This is a <code>callout-sdc</code>. Use it for lab-environment-specific restrictions (e.g. "Your ZPA portal access is View-Only in this lab").</p>
+        </div>
+
+      </div><!-- /.task-block -->
+
+
+      <!-- ─── SECTION Q&A ─────────────────────────────────── -->
+      <div class="section-qa open" data-section="demo-1" data-ref=".section-qa — Q&amp;A block, one per task group (collapsible)">
+
+        <button class="section-qa-header" data-ref=".section-qa-header — click to open / close">
+          <span class="section-qa-title" data-ref=".section-qa-title">Questions &amp; Notes — Task N.1</span>
+          <span class="section-qa-badge" data-ref=".section-qa-badge — count of saved Q+N" style="display:inline-flex">2</span>
+          <span class="section-qa-chevron" data-ref=".section-qa-chevron">▾</span>
+        </button>
+
+        <div class="section-qa-body" data-ref=".section-qa-body">
+
+          <figure class="task-hero" data-ref="figure.task-hero — task screenshot (inside Q&amp;A body)">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='860' height='260'%3E%3Crect width='860' height='260' fill='%231e1e2e'/%3E%3Ctext x='430' y='130' font-family='monospace' font-size='16' fill='%23a78bfa' text-anchor='middle' dominant-baseline='middle'%3Efigure.task-hero%3C/text%3E%3C/svg%3E" alt="Task screenshot placeholder" loading="lazy" style="width:100%;display:block;">
+          </figure>
+
+          <div class="section-qa-grid" data-ref=".section-qa-grid — two-column: Questions | Notes">
+
+            <div>
+              <div class="section-qa-label" data-ref=".section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-demo-1" placeholder="Questions about this section…" data-ref="textarea.section-qa-textarea"></textarea>
+              <button class="section-qa-save" data-ref=".section-qa-save">Save</button>
+              <div class="section-qa-list" data-ref=".section-qa-list — rendered saved items">
+                <div class="qa-item" data-ref=".qa-item">
+                  <span class="qa-item-text" data-ref=".qa-item-text — click to edit inline">What log level shows connector registration events?</span>
+                  <button class="qa-item-del" data-ref=".qa-item-del">−</button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-demo-1" placeholder="Key takeaways from this section…"></textarea>
+              <button class="section-qa-save">Save</button>
+              <div class="section-qa-list">
+                <div class="qa-item" data-ref=".qa-item (same structure in the Notes column)">
+                  <span class="qa-item-text">App Connector status: green = provisioned + connected.</span>
+                  <button class="qa-item-del">−</button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.section-qa-grid -->
+        </div><!-- /.section-qa-body -->
+      </div><!-- /.section-qa -->
+
+
+      <!-- ─── MENTAL NOTE BLOCK ───────────────────────────── -->
+      <div class="mental-note-block" data-ref=".mental-note-block — 🧠 key takeaway summary">
+        <div class="mental-note-block-icon" data-ref=".mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner" data-ref=".mental-note-block-inner">
+          <div class="mental-note-block-label" data-ref=".mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text" data-ref=".mental-note-block-text">
+            This is the mental note text — a concise summary of the key concept from this section. It reinforces the most important takeaway and can include <code>inline code</code> for commands or values. Keep it to two or three sentences.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.section-block -->
+  </div><!-- /.content-col -->
+
+
+  <!-- ━━━ SIDEBAR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <aside class="sidebar" data-ref="&lt;aside class='sidebar'&gt; — right sidebar">
+
+    <a class="hub-link" href="#" data-ref=".hub-link — back to lab hub link">← Back to Lab Hub</a>
+
+    <div class="checklist-card" data-ref=".checklist-card — lab progress tracker">
+      <div class="checklist-title" data-ref=".checklist-title">LAB N PROGRESS</div>
+      <label class="checklist-item" data-ref=".checklist-item — checkbox + label">
+        <input type="checkbox"><span>Task N.1: First milestone completed</span>
+      </label>
+      <label class="checklist-item" data-ref=".checklist-item">
+        <input type="checkbox" checked><span>Task N.2: Second milestone verified</span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox"><span>Task N.3: Final outcome confirmed</span>
+      </label>
+    </div>
+
+    <div class="quick-ref open" id="quick-ref" data-ref=".quick-ref — collapsible glossary (open by default)">
+      <div class="quick-ref-title" data-ref=".quick-ref-title — click to toggle open/close">
+        QUICK REFERENCE <span class="qr-chevron">▲</span>
+      </div>
+      <div class="qr-body" data-ref=".qr-body">
+
+        <div class="qr-item" data-ref=".qr-item">
+          <div class="qr-term" data-ref=".qr-term — keyword or command">Term or Command</div>
+          <div class="qr-def" data-ref=".qr-def — definition (can include &lt;code&gt;)">Definition text. Keep it short — one or two sentences. Can include <code>inline code</code> for commands or filter syntax.</div>
+        </div>
+
+        <div class="qr-item">
+          <div class="qr-term">Second Term</div>
+          <div class="qr-def">Another definition — shown without annotation labels to demonstrate the normal appearance of a Quick Reference entry without visual noise.</div>
+        </div>
+
+      </div><!-- /.qr-body -->
+    </div><!-- /.quick-ref -->
+
+  </aside>
+</main>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     FOOTER
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<footer id="site-footer" data-ref="&lt;footer id='site-footer'&gt; — collapsible bottom bar">
+  <div class="footer-inner" data-ref=".footer-inner">
+    <span class="footer-content" data-ref=".footer-content">COURSE-XXX · Course Name</span>
+    <button class="footer-toggle" id="footer-toggle-btn" data-ref=".footer-toggle — ▲ Hide / ▼ Show">▲ Hide</button>
+    <span class="footer-content" data-ref=".footer-content">LAB N of N</span>
+  </div>
+</footer>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     PAGE NAV
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<div class="page-nav" data-ref=".page-nav — previous / next lab navigation">
+  <a class="page-nav-btn page-nav-prev" href="#" data-ref=".page-nav-btn.page-nav-prev">← Lab N–1: Previous Lab Name</a>
+  <div class="page-nav-message" data-ref=".page-nav-message — motivational text between nav buttons">
+    Keep going — you&rsquo;re building real diagnostic instincts with every lab.
+  </div>
+  <a class="page-nav-btn page-nav-next" href="#" data-ref=".page-nav-btn.page-nav-next">Lab N+1: Next Lab Name →</a>
+</div>
+
+
+<script>
+function toggleConfig(){
+  var panel=document.getElementById('config-panel');
+  var btn=document.getElementById('config-toggle-btn');
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
+}
+
+// Extract the class/selector part before the " — " description
+function extractCopyText(rawLabel) {
+  var div = document.createElement('div');
+  div.innerHTML = rawLabel;
+  var decoded = div.textContent;
+  return decoded.split(' — ')[0].trim();
+}
+
+function makeCopyBtn(textToCopy) {
+  var btn = document.createElement('button');
+  btn.className = 'ref-chip-copy';
+  btn.title = 'Copy';
+  btn.textContent = '⎘'; // ⎘
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      btn.textContent = '✓'; // ✓
+      setTimeout(function() { btn.textContent = '⎘'; }, 1200);
+    }).catch(function() {});
+  });
+  return btn;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.style.opacity = '1';
+
+  // Inject .ref-chip into all [data-ref] elements
+  var SKIP_TAGS = { textarea:1, input:1, img:1, br:1, hr:1 };
+  document.querySelectorAll('[data-ref]').forEach(function(el) {
+    if (SKIP_TAGS[el.tagName.toLowerCase()]) return;
+    var rawLabel = el.getAttribute('data-ref');
+    var copyText = extractCopyText(rawLabel);
+
+    // Decode entities for display
+    var labelDiv = document.createElement('div');
+    labelDiv.innerHTML = rawLabel;
+
+    var chip = document.createElement('span');
+    chip.className = 'ref-chip';
+    chip.appendChild(document.createTextNode(labelDiv.textContent));
+    chip.appendChild(makeCopyBtn(copyText));
+    el.appendChild(chip);
+  });
+
+  // Add copy buttons to .rl spans
+  document.querySelectorAll('.rl').forEach(function(span) {
+    var text = span.textContent.trim();
+    span.appendChild(makeCopyBtn(text));
+  });
+});
+</script>
+</body>
+</html>

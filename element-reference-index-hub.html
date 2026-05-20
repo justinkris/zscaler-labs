@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Element Reference — Main Hub Index Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab-style.css">
+<style>
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ANNOTATION SYSTEM  (same as element-reference.html)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+[data-ref] {
+  position: relative;
+  outline: 1.5px dashed rgba(109,40,217,.4);
+  outline-offset: 3px;
+  --ref-color: #5b21b6;
+}
+.ref-chip {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-size: 9px;
+  font-family: 'SFMono-Regular','Consolas','Menlo',monospace;
+  background: var(--ref-color, #5b21b6);
+  color: #ede9fe;
+  padding: 1px 1px 1px 7px;
+  border-radius: 3px;
+  z-index: 500;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 0 1px 5px rgba(0,0,0,.35);
+}
+.ref-chip-copy {
+  background: none;
+  border: none;
+  color: rgba(237,233,254,0.45);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+  border-radius: 2px;
+  transition: color 0.12s;
+  font-family: inherit;
+  margin-left: 3px;
+}
+.ref-chip-copy:hover { color: #fff; }
+
+/* ── Category colors ──────────────────────────────────────────
+   Purple = Page structure (default)
+   Teal   = Course cards
+   ─────────────────────────────────────────────────────────── */
+
+.card[data-ref], .card-label[data-ref], .card-title[data-ref], .card-desc[data-ref] {
+  outline-color: rgba(13,148,136,.5);
+  --ref-color: #0f766e;
+}
+
+/* ── Page intro banner ───────────────────────────────────────── */
+.ref-intro {
+  background: #f5f3ff;
+  border-bottom: 2px solid #c4b5fd;
+  padding: 20px 40px;
+  font-family: Epilogue, sans-serif;
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+.ref-intro-text h2 {
+  font-family: Epilogue, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3b0764;
+  margin: 0 0 6px;
+  letter-spacing: 0;
+  font-style: normal;
+}
+.ref-intro-text p {
+  font-size: 12.5px;
+  color: #4c1d95;
+  margin: 0;
+  line-height: 1.6;
+}
+.ref-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #6d28d9;
+  font-family: Epilogue, sans-serif;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.ref-legend-row { display: flex; align-items: center; gap: 8px; }
+.ref-legend-box { width: 70px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+.ref-legend-dash { width: 70px; height: 13px; border: 1.5px dashed rgba(109,40,217,.55); border-radius: 3px; flex-shrink: 0; }
+
+</style>
+</head>
+<body>
+
+<!-- ── Intro banner ───────────────────────────────────────── -->
+<div class="ref-intro">
+  <div class="ref-intro-text">
+    <h2>Main Hub Index — Element Reference</h2>
+    <p>Every element used in the top-level <code>index.html</code> hub page is shown below with dummy content.<br>
+    This is the page that lists all available lab guides (the entry point to the site).</p>
+  </div>
+  <div class="ref-legend">
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#5b21b6"></div>
+      <span>Page structure</span>
+    </div>
+    <div class="ref-legend-row">
+      <div class="ref-legend-box" style="background:#0f766e"></div>
+      <span>Course cards</span>
+    </div>
+    <div class="ref-legend-row" style="margin-top:4px">
+      <div class="ref-legend-dash"></div>
+      <span>= element boundary</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     HEADER
+     Note: the hub header has NO .breadcrumb and NO .motivation-banner
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<header data-ref="&lt;header&gt; — no breadcrumb or motivation-banner on the hub">
+
+  <div class="header-top" data-ref=".header-top">
+    <span class="eyebrow-chip" data-ref=".eyebrow-chip">ZSCALER HANDS-ON LABS</span>
+  </div>
+
+  <h1 data-ref="h1 — site title (use &lt;em&gt; for italic)">Zscaler <em>Lab Guides</em></h1>
+
+</header>
+
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     MAIN — COURSES LIST
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+
+<main class="courses-main" data-ref="&lt;main class='courses-main'&gt; — max-width block, centred">
+
+  <h2 data-ref="h2 — section heading">Available Lab Guides</h2>
+
+  <!-- ─── COURSE CARD ────────────────────────────────────── -->
+  <a class="card" href="#" data-ref=".card — block link, blue left border, full-width">
+
+    <div class="card-label" data-ref=".card-label — course code + lab range (blue, uppercase, small)">EDU-XXX · Labs 0–N</div>
+
+    <div class="card-title" data-ref=".card-title — course title (Fraunces serif, large)">Course Name — Subtitle</div>
+
+    <div class="card-desc" data-ref=".card-desc — short description of what the labs cover">
+      Brief description of the labs in this course. Lists the key topics covered — typically 1–3 sentences describing the main ZIA, ZPA, ZDX, or security topics practised in the hands-on environment.
+    </div>
+
+  </a>
+
+  <!-- Second card — shown without annotations to demonstrate normal appearance -->
+  <a class="card" href="#">
+    <div class="card-label">EDU-YYY · Labs 1–8</div>
+    <div class="card-title">Another Course — Subtitle</div>
+    <div class="card-desc">A second card shown without annotation labels, so you can see how the element looks in its natural state without visual noise from the reference system.</div>
+  </a>
+
+  <a class="card" href="#">
+    <div class="card-label">EDU-ZZZ · Labs 1–14</div>
+    <div class="card-title">Third Course — Subtitle</div>
+    <div class="card-desc">A third card to show how the list looks with multiple entries. Each card is a full-width block link with a left blue border and hover shadow.</div>
+  </a>
+
+</main>
+
+
+<script>
+function extractCopyText(rawLabel) {
+  var div = document.createElement('div');
+  div.innerHTML = rawLabel;
+  return div.textContent.split(' — ')[0].trim();
+}
+function makeCopyBtn(textToCopy) {
+  var btn = document.createElement('button');
+  btn.className = 'ref-chip-copy';
+  btn.title = 'Copy';
+  btn.textContent = '⎘';
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      btn.textContent = '✓';
+      setTimeout(function() { btn.textContent = '⎘'; }, 1200);
+    }).catch(function() {});
+  });
+  return btn;
+}
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.style.opacity = '1';
+  var SKIP = { textarea:1, input:1, img:1, br:1, hr:1 };
+  document.querySelectorAll('[data-ref]').forEach(function(el) {
+    if (SKIP[el.tagName.toLowerCase()]) return;
+    var raw = el.getAttribute('data-ref');
+    var copyText = extractCopyText(raw);
+    var labelDiv = document.createElement('div');
+    labelDiv.innerHTML = raw;
+    var chip = document.createElement('span');
+    chip.className = 'ref-chip';
+    chip.appendChild(document.createTextNode(labelDiv.textContent));
+    chip.appendChild(makeCopyBtn(copyText));
+    el.appendChild(chip);
+  });
+});
+</script>
+</body>
+</html>
