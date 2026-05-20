@@ -78,7 +78,7 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       <span class="qpanel-chevron" id="qpanel-chevron">&#9662;</span>
     </button>
     <div class="qpanel-body" id="qpanel-body">
-      <p class="no-questions">No questions yet. Add one below each section.</p>
+      <p class="panel-empty">No questions yet. Add one below each section.</p>
     </div>
   </div>
   <div class="notes-panel">
@@ -89,7 +89,7 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       <span class="notes-panel-chevron" id="notes-panel-chevron">&#9662;</span>
     </button>
     <div class="notes-panel-body" id="notes-panel-body">
-      <p class="no-questions">No notes yet. Add one below each section.</p>
+      <p class="panel-empty">No notes yet. Add one below each section.</p>
     </div>
   </div>
 </div>
@@ -391,7 +391,7 @@ function renderQPanel(){
   var hint=document.querySelector('.qpanel-hint');
   if(hint)hint.textContent=qs.length?'— '+qs.length+' question'+(qs.length>1?'s':'')+', click to expand':'— click to expand';
   var body=document.getElementById('qpanel-body');if(!body)return;
-  if(!qs.length){body.innerHTML='<p class="no-questions">No questions yet.</p>';return;}
+  if(!qs.length){body.innerHTML='<p class="panel-empty">No questions yet.</p>';return;}
   var groups={};Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
   qs.forEach(function(q){if(groups[q.section])groups[q.section].push(q);});
   var html='';var num=0;
@@ -427,7 +427,7 @@ function renderNotesPanel(){
   var count=document.getElementById('notes-panel-count');
   if(count){count.textContent=ns.length;count.style.display=ns.length?'inline':'none';}
   var body=document.getElementById('notes-panel-body');if(!body)return;
-  if(!ns.length){body.innerHTML='<p class="no-questions">No notes yet.</p>';return;}
+  if(!ns.length){body.innerHTML='<p class="panel-empty">No notes yet.</p>';return;}
   var groups={};Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
   ns.forEach(function(n){if(groups[n.section])groups[n.section].push(n);});
   var html='';var num=0;

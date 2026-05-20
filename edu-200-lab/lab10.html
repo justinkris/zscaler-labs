@@ -74,9 +74,9 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       <span class="qpanel-count" id="qpanel-count">0</span>
       <span class="qpanel-hint">— click to expand</span>
       <span class="qpanel-chevron" id="qpanel-chevron">▾</span>
-      <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
     </button>
     <div class="qpanel-body" id="qpanel-body"></div>
+  <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
   </div>
   <div class="notes-panel" id="notes-panel">
     <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
@@ -84,9 +84,9 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       <span class="notes-panel-count" id="notes-panel-count">0</span>
       <span class="notes-panel-hint">— click to expand</span>
       <span class="notes-panel-chevron" id="notes-panel-chevron">▾</span>
-      <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
     </button>
     <div class="notes-panel-body" id="notes-panel-body"></div>
+  <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
   </div>
 </div>
 
@@ -698,7 +698,7 @@ function renderQPanel(){
   var hint=document.querySelector('.qpanel-hint');
   if(hint)hint.textContent=qs.length?'— '+qs.length+' question'+(qs.length>1?'s':'')+', click to expand':'— click to expand';
   var body=document.getElementById('qpanel-body');if(!body)return;
-  if(!qs.length){body.innerHTML='<p class="no-questions">No questions yet. Add one below each section.</p>';return;}
+  if(!qs.length){body.innerHTML='<p class="panel-empty">No questions yet. Add one below each section.</p>';return;}
   var groups={};
   Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
   qs.forEach(function(q){if(groups[q.section])groups[q.section].push(q);});
@@ -745,7 +745,7 @@ function renderNotesPanel(){
   var hint=document.querySelector('.notes-panel-hint');
   if(hint)hint.textContent=ns.length?'— '+ns.length+' note'+(ns.length>1?'s':'')+', click to expand':'— click to expand';
   var body=document.getElementById('notes-panel-body');if(!body)return;
-  if(!ns.length){body.innerHTML='<p class="no-questions">No notes yet. Add one below each section.</p>';return;}
+  if(!ns.length){body.innerHTML='<p class="panel-empty">No notes yet. Add one below each section.</p>';return;}
   var groups={};
   Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
   ns.forEach(function(n){if(groups[n.section])groups[n.section].push(n);});
