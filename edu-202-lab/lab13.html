@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">ZDX uses synthetic probes — ZCC runs them in the background on the user's device — to continuously measure application performance. A Web probe measures HTTP response time; a Cloud Path probe traces ICMP hops to isolate where latency originates.</p>
   <ul class="socratic-questions">
-    <li>What is the difference between a Web probe and a Cloud Path probe, and what specific problem does each one help diagnose?</li>
-    <li>You configure a Web probe with a 60-second timeout and 2 attempts. A user reports slowness. The probe shows Page Fetch Time = 58s. What does this tell you about the problem?</li>
-    <li>ZDX probes run every 5 minutes. A performance issue occurs and resolves within 3 minutes. What is the implication for ZDX's ability to capture this event?</li>
-  </ul>
-  <div class="answer-area" data-section="lab13-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>What is the difference between a Web probe and a Cloud Path probe, and what specific problem does each one help diagnose?
+      <div class="answer-area" data-section="lab13-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">A Web probe sends an HTTP/HTTPS GET request to a specific URL and measures DNS time, TCP connect time, server response time, and total page fetch time — it tells you whether the application is responding and how fast. A Cloud Path probe traces the network hops (ICMP ping) between the user's ZCC and the application server, measuring per-hop latency and packet loss — it tells you where in the network path the latency originates (last-mile ISP, Zscaler node, or data centre).</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>You configure a Web probe with a 60-second timeout and 2 attempts. A user reports slowness. The probe shows Page Fetch Time = 58s. What does this tell you about the problem?
+      <div class="answer-area" data-section="lab13-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">A 58-second fetch time is just under the 60s timeout, meaning the application nearly timed out. This is a severe performance problem — the server is responding but extremely slowly. The Cloud Path probe results would help determine if this is a network path issue (high hop latency, packet loss) or a server-side issue (all hops fine but the destination server is slow to respond).</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>ZDX probes run every 5 minutes. A performance issue occurs and resolves within 3 minutes. What is the implication for ZDX's ability to capture this event?
+      <div class="answer-area" data-section="lab13-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZDX may miss a sub-5-minute performance event entirely if it occurs and resolves between two probe cycles. This is the fundamental limitation of synthetic probe-based monitoring: the resolution of detection is bounded by the probe interval. For faster detection, reduce the probe interval (min 1 minute in ZDX) or use real-user monitoring (RUM) which captures every actual user transaction.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <div class="callout callout-note">
@@ -491,7 +513,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

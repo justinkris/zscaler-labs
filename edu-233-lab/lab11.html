@@ -108,31 +108,53 @@
         </div>
         <p class="socratic-insight">ZPA + Browser Access + Isolation is the complete zero-trust access story: no endpoint agent, no network access, no lateral movement possible — the user sees only a pixel stream of the private app. Even if the unmanaged device is compromised, the application and its data stay inside the isolation container.</p>
         <ul class="socratic-questions">
-          <li>A contractor accesses Gitlab via ZPA Browser Access + Isolation (TZTE ZPA Render Only profile). They try to download a repository archive from Gitlab. What happens, and why?</li>
-          <li>The TZTE ZPA Render Only profile disables all file transfers, copy/paste, and printing. This makes the app essentially read-only. When is this the right security posture for a private application?</li>
-          <li>A new private application is added to ZPA. The admin creates an Isolation Policy but forgets to configure the application for Browser Access. What happens when an unmanaged device user tries to access the app from the User Portal?</li>
-        </ul>
-        <div class="answer-area" data-section="lab11-topic">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
+    <li>A contractor accesses Gitlab via ZPA Browser Access + Isolation (TZTE ZPA Render Only profile). They try to download a repository archive from Gitlab. What happens, and why?
+      <div class="answer-area" data-section="lab11-topic-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">The download is blocked. The TZTE ZPA Render Only profile has "File Transfer From: Isolation to local computer" disabled. The Gitlab download request executes inside the isolation container — the file is downloaded to Protected Storage — but cannot be transferred to the unmanaged device's local disk. The user sees the file in Protected Storage but has no download path to their device.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The TZTE ZPA Render Only profile disables all file transfers, copy/paste, and printing. This makes the app essentially read-only. When is this the right security posture for a private application?
+      <div class="answer-area" data-section="lab11-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Read-only isolation is appropriate for: (1) sensitive internal tools (code repos, HR systems, financial dashboards) where viewing is required but exfiltration must be prevented, (2) unmanaged/contractor devices where the organisation has no endpoint control and cannot verify device hygiene, (3) high-value intellectual property where even copy-paste creates exfiltration risk.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>A new private application is added to ZPA. The admin creates an Isolation Policy but forgets to configure the application for Browser Access. What happens when an unmanaged device user tries to access the app from the User Portal?
+      <div class="answer-area" data-section="lab11-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">The app would not appear in the User Portal if Browser Access is not configured. Browser Access requires the application to be published with an external-facing domain (a Browser Access hostname), which generates the CNAME entry. Without Browser Access, the app is only accessible to ZCC-enrolled devices via the tunnel. The Isolation Policy would have no effect since the app is not reachable via browser without it.</div>
           </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 11.1: Review the ZPA Isolation Configuration for Private Apps</h3>
@@ -395,7 +417,7 @@ function copyConfigField(id, btn) {
 
 // ── Copy buttons on inline code ────────────────────────────────────────────
 function injectCopyButtons() {
-  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+  document.querySelectorAll('.step-list code, .sub-steps code, .config-derived code').forEach(el => {
     if (el.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn'; btn.title = 'Copy';

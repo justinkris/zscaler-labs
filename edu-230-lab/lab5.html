@@ -118,31 +118,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">Browser Isolation is the safest middle ground between blocking access and allowing unrestricted browsing — users see content but the endpoint never executes remote code.</p>
         <ul class="socratic-questions">
-          <li>Why might Browser Isolation be preferred over simply blocking a URL category entirely?</li>
-          <li>What is the difference between URL Filtering-based isolation and Cloud App Control-based isolation?</li>
-          <li>How does Smart Browser Isolation's AI/ML approach improve on static policy-based isolation?</li>
-        </ul>
-        <div class="answer-area" data-section="lab5-soc">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>Why might Browser Isolation be preferred over simply blocking a URL category entirely?
+      <div class="answer-area" data-section="lab5-soc-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">Isolation allows users to access content (maintaining productivity) while preventing any data from reaching the local endpoint. A hard block creates frustration and shadow IT workarounds. Isolation is a glass wall: visible but contained.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What is the difference between URL Filtering-based isolation and Cloud App Control-based isolation?
+      <div class="answer-area" data-section="lab5-soc-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text">URL Filtering isolation triggers on URL category matches (broad — any Social Networking site). Cloud App Control isolation triggers on specific identified applications (precise — only Twitter/X or Reddit). Using both ensures you catch category-matched sites AND specifically identified apps even if miscategorized.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>How does Smart Browser Isolation's AI/ML approach improve on static policy-based isolation?
+      <div class="answer-area" data-section="lab5-soc-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">Static policy requires manual identification of risky URLs. AI/ML evaluates real-time signals (domain age, reputation, content analysis) to automatically isolate unknown or suspicious sites without requiring a policy update — responding to newly registered malicious domains instantly.</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 5.1: Build Isolation Profile</h3>
@@ -426,7 +448,7 @@ function toggleFooter(){var f=document.getElementById('site-footer');var btn=doc
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
 function injectCopyButtons(){
-  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
     var text=code.textContent.trim();if(text.length<2)return;

@@ -108,31 +108,53 @@
         </div>
         <p class="socratic-insight">URL categories group broadly (e.g., "Shopping"). Cloud App Control identifies specific applications (e.g., "Costco," "Amazon") by their traffic signatures, enabling more granular isolation decisions than category-level URL filtering.</p>
         <ul class="socratic-questions">
-          <li>Cloud App Control identifies traffic by application identity rather than URL category. What can Cloud App Control detect that URL Filtering cannot, and why does this matter for isolation policy?</li>
-          <li>The Consumer / Online Shopping Cloud App Control policy uses the "Confidential" Isolation Profile. This profile blocks copy/paste and file transfers. Why is a stricter profile used for shopping sites compared to the news sites in Lab 4?</li>
-          <li>A user accesses amazon.com, which is matched by the Consumer / Online Shopping policy. Later they navigate to amazon.com/aws, which is a SaaS/business service. Should both be isolated? How would you handle this?</li>
-        </ul>
-        <div class="answer-area" data-section="lab5-topic">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
+    <li>Cloud App Control identifies traffic by application identity rather than URL category. What can Cloud App Control detect that URL Filtering cannot, and why does this matter for isolation policy?
+      <div class="answer-area" data-section="lab5-topic-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Cloud App Control uses application signatures — URL patterns, API endpoints, request headers, and TLS fingerprints — to identify specific apps regardless of category. A shopping site might be categorised generically as "Business and Economy" but Cloud App Control can identify it as "Amazon" specifically. This enables policies like "allow Amazon for work orders but isolate consumer shopping" that URL categories cannot express.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The Consumer / Online Shopping Cloud App Control policy uses the "Confidential" Isolation Profile. This profile blocks copy/paste and file transfers. Why is a stricter profile used for shopping sites compared to the news sites in Lab 4?
+      <div class="answer-area" data-section="lab5-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">News sites are primarily read-only content consumption — copy and print are reasonable. Shopping sites pose higher data exfiltration risk (users might copy corporate credit card details into the isolated session, or merchants could exfiltrate clipboard content). The Confidential profile prevents both inbound and outbound clipboard access and file transfers, reducing the attack surface for consumer apps.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>A user accesses amazon.com, which is matched by the Consumer / Online Shopping policy. Later they navigate to amazon.com/aws, which is a SaaS/business service. Should both be isolated? How would you handle this?
+      <div class="answer-area" data-section="lab5-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">You would split the Cloud App Control rule: create a separate policy that matches AWS-specific application signatures and applies an Allow or less restrictive Isolate action. Cloud App Control can differentiate between amazon.com (consumer) and aws.amazon.com / console.aws.amazon.com (business service) using its app identification engine.</div>
           </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 5.1: Review Cloud App Control Policies with Isolate as Action</h3>
@@ -347,7 +369,7 @@ function copyConfigField(id, btn) {
 
 // ── Copy buttons on inline code ────────────────────────────────────────────
 function injectCopyButtons() {
-  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+  document.querySelectorAll('.step-list code, .sub-steps code, .config-derived code').forEach(el => {
     if (el.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn'; btn.title = 'Copy';

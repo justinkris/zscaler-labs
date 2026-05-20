@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">Wi-Fi problems are among the most common causes of degraded digital experience for remote and office workers. ZDX correlates device-level Wi-Fi metrics (signal strength, SNR, channel) with application performance scores, making it possible to confirm Wi-Fi as the root cause before dispatching an IT ticket or replacing hardware.</p>
       <ul class="socratic-questions">
-        <li>A user reports that Salesforce has been slow since yesterday morning. ZDX shows their Wi-Fi score dropped sharply at that time. What would you check next to confirm Wi-Fi is the cause and not just a coincidence — and what ZDX feature would help?</li>
-        <li>Two users on the same floor both use "CorpNet" Wi-Fi. One has a poor ZDX score, the other is fine. What are the most likely explanations, and how does the Compare feature help distinguish them?</li>
-        <li>ZDX Device Events shows a user switched from CorpNet-5GHz to CorpNet-2.4GHz. How does this event explain a sudden drop in ZDX score, and what would you tell the user to do?</li>
-      </ul>
-      <div class="answer-area" data-section="lab15-wifi">
+    <li>A user reports that Salesforce has been slow since yesterday morning. ZDX shows their Wi-Fi score dropped sharply at that time. What would you check next to confirm Wi-Fi is the cause and not just a coincidence — and what ZDX feature would help?
+      <div class="answer-area" data-section="lab15-wifi-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">Confirm Wi-Fi causation by examining the Analyze Score breakdown — if Wi-Fi accounts for the majority of the ZDX score degradation, that's strong evidence. Then check Device Events for the same timestamp: a SSID change, roaming event, or sudden drop in Wi-Fi RSSI at that time correlates the cause with the symptom. If other users on the same access point also degraded at the same time, the AP itself may be the issue. ZDX Hop View can also confirm that the first hop (Wi-Fi) shows elevated latency.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>Two users on the same floor both use "CorpNet" Wi-Fi. One has a poor ZDX score, the other is fine. What are the most likely explanations, and how does the Compare feature help distinguish them?
+      <div class="answer-area" data-section="lab15-wifi-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">Same SSID doesn't mean same access point — one user may be associated with a closer, less congested AP while the other is on an overloaded or distant one. Or one user may be on 5GHz (faster, shorter range) while the other auto-connected to 2.4GHz (slower, longer range). ZDX Compare shows side-by-side Wi-Fi metrics (RSSI, SNR, channel) for both users, making it easy to identify the difference. If RSSI is similar but SNR is poor for one user, channel congestion or interference is likely.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZDX Device Events shows a user switched from CorpNet-5GHz to CorpNet-2.4GHz. How does this event explain a sudden drop in ZDX score, and what would you tell the user to do?
+      <div class="answer-area" data-section="lab15-wifi-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">5GHz Wi-Fi offers significantly more bandwidth and less interference than 2.4GHz but has shorter range. When the user's device switched to 2.4GHz (possibly because they moved farther from the AP or the 5GHz radio was temporarily unavailable), their effective bandwidth dropped and latency increased — directly causing the ZDX score decline. The fix: tell the user to move closer to the access point, or manually prefer 5GHz SSIDs on their device. If many users are auto-downgrading, review AP placement or configure SSID steering.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 15.1 — Find Curtis Hardwick and Check ZDX Score</h3>
@@ -701,7 +723,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

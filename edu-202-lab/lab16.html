@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">The capstone integrates identity, access control, threat protection, data governance, and automation — the five pillars of zero-trust architecture. Each task builds on prior labs; a misconfiguration in one layer often surfaces as a failure in another.</p>
   <ul class="socratic-questions">
-    <li>Task 16.1 creates a ZPA Helpdesk group with Read-Only ZPA access. Why must you also assign ZIdentity admin entitlements in addition to the ZPA admin role?</li>
-    <li>Task 16.3 requires a "Do Not Inspect" SSL rule for banking sites while maintaining inspection elsewhere. What is the correct rule ordering and why?</li>
-    <li>Task 16.5 uses the OneAPI to create a URL filtering rule programmatically. What is the advantage of this over creating the rule in the ZIA admin portal?</li>
-  </ul>
-  <div class="answer-area" data-section="lab16-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>Task 16.1 creates a ZPA Helpdesk group with Read-Only ZPA access. Why must you also assign ZIdentity admin entitlements in addition to the ZPA admin role?
+      <div class="answer-area" data-section="lab16-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The ZPA admin role (Read-Only Administrator) defines what the user can do in the ZPA Admin Portal once they are there. But the ZIdentity admin entitlement is what allows the user to log into the ZPA Admin Portal in the first place — it gates the authentication step. Without the ZIdentity admin entitlement, the user cannot reach the portal even if a ZPA role exists for them.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Task 16.3 requires a "Do Not Inspect" SSL rule for banking sites while maintaining inspection elsewhere. What is the correct rule ordering and why?
+      <div class="answer-area" data-section="lab16-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The "Do Not Inspect" rule must be placed above the "Inspect" rule in the SSL policy order. SSL rules are evaluated top-down and the first match wins. If the Inspect rule is evaluated first, banking sites will be inspected before the Do Not Inspect rule is reached. Banking sites typically use certificate pinning, so inspecting them would break the connection. "Do Not Inspect" first, "Inspect All" as catch-all below.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Task 16.5 uses the OneAPI to create a URL filtering rule programmatically. What is the advantage of this over creating the rule in the ZIA admin portal?
+      <div class="answer-area" data-section="lab16-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Programmatic rule creation via OneAPI enables: (1) version control — the rule definition lives in a git repository. (2) Repeatability — deploy the same rule across multiple tenants with a single script. (3) Integration with change management — changes go through code review before deployment. (4) Auditability — the API call is logged with the API client identity. Creating rules manually in the portal is not repeatable, not version-controlled, and harder to audit.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 16.1 — Apply Identity Services Best Practices</h3>
@@ -508,7 +530,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

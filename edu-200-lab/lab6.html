@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">ZIA's content filtering stack layers three controls: Malware Protection (known-bad files), Advanced Threat Protection (suspicious behaviour), and URL Filtering (category-based access). Cloud App Control sits on top, targeting specific applications by name regardless of URL category.</p>
       <ul class="socratic-questions">
-        <li>URL Filtering blocks sites by category. Why might a gambling site initially be accessible even after you enable a Block rule for the Gambling category — and what's the common fix?</li>
-        <li>You block Streaming Media to prevent bandwidth waste, but YouTube is also in Streaming Media. You now need to allow only YouTube. Should you create a new Cloud App Control allow rule above or below the URL Filtering block, and why?</li>
-        <li>What is the difference between Malware Protection and Advanced Threat Protection in ZIA — do they operate on the same type of content, and could you safely disable one without affecting the other?</li>
-      </ul>
-      <div class="answer-area" data-section="lab6-content">
+    <li>URL Filtering blocks sites by category. Why might a gambling site initially be accessible even after you enable a Block rule for the Gambling category — and what's the common fix?
+      <div class="answer-area" data-section="lab6-content-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">After saving a URL filtering rule, the policy must be activated to push it to service edges. If the site was visited before activation, it may still be cached in the browser or DNS. The most common fix is to activate the policy, then flush the DNS cache (ipconfig /flushdns) and clear the browser cache before re-testing. If it still doesn't block, check whether the site is actually categorised as Gambling — ZIA uses its own categorisation database which may classify the site differently than expected.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>You block Streaming Media to prevent bandwidth waste, but YouTube is also in Streaming Media. You now need to allow only YouTube. Should you create a new Cloud App Control allow rule above or below the URL Filtering block, and why?
+      <div class="answer-area" data-section="lab6-content-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">Cloud App Control and URL Filtering operate as separate policy layers evaluated independently — they aren't in a shared top-down chain with each other. YouTube should be allowed via a Cloud App Control rule with Action: Allow, which acts independently from the URL Filtering block. This is by design: Cloud App Control provides application-level granularity that URL category blocking alone can't achieve.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>What is the difference between Malware Protection and Advanced Threat Protection in ZIA — do they operate on the same type of content, and could you safely disable one without affecting the other?
+      <div class="answer-area" data-section="lab6-content-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">Malware Protection inspects file downloads for known-malicious content using signature and hash matching against Zscaler's threat intelligence. Advanced Threat Protection focuses on active threats in web page content — exploit kits, drive-by downloads, C2 callback patterns, and phishing. They operate on different aspects of the same traffic and are complementary: disabling either creates a real gap in coverage. Both should remain enabled.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 6.1 — Review Threat Protection Settings</h3>
@@ -718,7 +740,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

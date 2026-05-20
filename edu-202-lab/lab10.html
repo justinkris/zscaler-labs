@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">DLP in ZIA works inline — every outbound transaction is inspected against configured engines before delivery. A DLP Engine defines what to look for; a DLP Rule defines what to do when a match is found.</p>
   <ul class="socratic-questions">
-    <li>A DLP engine uses a "Credit Cards" dictionary with a threshold of 1. What does the threshold mean, and when would you increase it?</li>
-    <li>A user uploads a file containing "4111 1111 1111 1111" (a test credit card number). Would the DLP engine trigger? What could you do to prevent false positives from test data?</li>
-    <li>DLP blocking is configured, but executives want to allow their sales team to email order receipts containing card numbers. How would you architect this exception?</li>
-  </ul>
-  <div class="answer-area" data-section="lab10-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>A DLP engine uses a "Credit Cards" dictionary with a threshold of 1. What does the threshold mean, and when would you increase it?
+      <div class="answer-area" data-section="lab10-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The threshold is the minimum number of pattern matches that must occur in a single transaction for the rule to trigger. A threshold of 1 means even a single credit card number match triggers the rule. You would increase it (e.g. to 5) to allow occasional incidental matches (e.g. a single number in a document) while still catching bulk data exfiltration.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>A user uploads a file containing "4111 1111 1111 1111" (a test credit card number). Would the DLP engine trigger? What could you do to prevent false positives from test data?
+      <div class="answer-area" data-section="lab10-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Yes — the DLP engine uses a regex pattern for credit card numbers. "4111 1111 1111 1111" is a valid Luhn-checksum test number and will match the Visa pattern. To prevent false positives from test data, you could: add a custom exclusion dictionary containing known test numbers, use a higher threshold, or apply the DLP rule only to specific protocols/file types where real card data is expected.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>DLP blocking is configured, but executives want to allow their sales team to email order receipts containing card numbers. How would you architect this exception?
+      <div class="answer-area" data-section="lab10-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Create a DLP exception rule with a higher order number (evaluated first) that has Action: Allow for the Sales group and email protocol. Place it above the Block rule in the policy order. The Allow rule matches sales team email transactions containing card numbers; the Block rule catches everyone else. This uses ZIA's rule-based exception model rather than disabling DLP.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 10.1 — Create a DLP Engine</h3>
@@ -485,7 +507,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

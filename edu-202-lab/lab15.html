@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">Zscaler OneAPI provides programmatic access to all Zscaler services (ZIA, ZPA, ZDX, ZCC, ZIdentity) through a unified OAuth 2.0 gateway. API clients replace per-service API keys with short-lived access tokens scoped to specific resources.</p>
   <ul class="socratic-questions">
-    <li>Why does OneAPI use OAuth 2.0 Client Credentials instead of a static API key for authentication?</li>
-    <li>The App Connector Group POST requires a signingCertId from the Enrollment Certificate endpoint. Why can't you hardcode this ID?</li>
-    <li>An API client is configured with ZPA Super Admin scope. A developer accidentally deletes an App Connector Group via the API. What ZPA feature would let you recover from this?</li>
-  </ul>
-  <div class="answer-area" data-section="lab15-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>Why does OneAPI use OAuth 2.0 Client Credentials instead of a static API key for authentication?
+      <div class="answer-area" data-section="lab15-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Static API keys are long-lived and if leaked, give permanent access. OAuth 2.0 Client Credentials issue short-lived access tokens (30–90 minutes) — a leaked token expires quickly, limiting the exposure window. Additionally, Client Credentials flow enables fine-grained scope control: the same client can be granted only the specific API resources it needs (e.g. ZCC read-only, ZPA full admin), following least-privilege principles.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>The App Connector Group POST requires a signingCertId from the Enrollment Certificate endpoint. Why can't you hardcode this ID?
+      <div class="answer-area" data-section="lab15-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The Enrollment Certificate ID is unique to each ZPA tenant and changes when certificates are rotated. Hardcoding it would cause the API call to fail after a certificate rotation. The correct pattern is to dynamically query the current cert ID from the Enrollment Certificate Controller at runtime, ensuring the App Connector Group is always created with a valid, current certificate.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>An API client is configured with ZPA Super Admin scope. A developer accidentally deletes an App Connector Group via the API. What ZPA feature would let you recover from this?
+      <div class="answer-area" data-section="lab15-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZPA maintains an audit log (Insights > Audit Logs) that records all API and admin portal changes with the actor, timestamp, and changed resource. However, ZPA does not have a built-in "undo" for deleted resources. Recovery would require: (1) finding the Group's configuration in the audit log; (2) recreating it via the admin portal or API; (3) re-assigning any provisioning keys and connectors to the new group. This highlights why API clients should use least-privilege scopes.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 15.1 — Add an API Client in ZIdentity</h3>
@@ -509,7 +531,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

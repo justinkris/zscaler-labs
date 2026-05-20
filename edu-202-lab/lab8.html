@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">Browser Isolation renders web pages in a remote cloud browser and streams pixels to the user's local browser. No files are downloaded, no scripts execute locally — the endpoint is protected even from zero-day exploits in the web content.</p>
   <ul class="socratic-questions">
-    <li>The "Render Only" isolation profile disables clipboard, upload, and download. In what business scenario would you create a profile that allows clipboard but not upload/download?</li>
-    <li>A user visits an isolated social media site and sees it is "read-only." They call IT saying the site is broken. How do you explain what is happening and why?</li>
-    <li>Browser Isolation increases latency compared to direct browsing. What architectural factor determines how much latency is added?</li>
-  </ul>
-  <div class="answer-area" data-section="lab8-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>The "Render Only" isolation profile disables clipboard, upload, and download. In what business scenario would you create a profile that allows clipboard but not upload/download?
+      <div class="answer-area" data-section="lab8-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">A legitimate use case: contractors who need to copy job reference numbers or customer IDs from a partner portal into your internal CRM. They need clipboard access (read) to avoid re-typing, but should not be able to upload files from the endpoint to the partner portal. A "Clipboard Read Only" profile balances productivity with data protection.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>A user visits an isolated social media site and sees it is "read-only." They call IT saying the site is broken. How do you explain what is happening and why?
+      <div class="answer-area" data-section="lab8-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZIA is protecting you by routing your access to this site through a remote cloud browser. The page is rendered on Zscaler's infrastructure — only a visual stream reaches your computer, so nothing harmful can be downloaded or executed. Some interactive features may behave differently because the site is running in a controlled remote environment, not locally.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Browser Isolation increases latency compared to direct browsing. What architectural factor determines how much latency is added?
+      <div class="answer-area" data-section="lab8-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The primary factor is the geographic distance between the user's location and the Zscaler cloud browser node (data centre). Zscaler routes the isolated session to the nearest node, but if the user is geographically far from any node, the round-trip for each rendered frame increases. Additional factors: the site's own page load time, network bandwidth, and frame compression settings.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 8.1 — Create an Isolation Profile</h3>
@@ -484,7 +506,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

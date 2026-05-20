@@ -108,31 +108,53 @@
         </div>
         <p class="socratic-insight">Document isolation converts every downloaded file into a flattened PDF before the endpoint ever sees it. This eliminates macro-based threats, embedded scripts, and zero-day exploits in Office documents — without blocking file access entirely.</p>
         <ul class="socratic-questions">
-          <li>The "Print Only" Isolation Profile has "Allow Viewing Office Files" enabled. When a user downloads a .docx from an isolated session, what happens to that file before they can read it?</li>
-          <li>Protected Storage is described as temporary. What is the security model behind purging Protected Storage when the isolation session ends?</li>
-          <li>A user needs to download a file from an isolated session to their local machine. The isolation profile's "File Transfer From: Isolation to local computer" is disabled. What options does the user have?</li>
-        </ul>
-        <div class="answer-area" data-section="lab7-topic">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
+    <li>The "Print Only" Isolation Profile has "Allow Viewing Office Files" enabled. When a user downloads a .docx from an isolated session, what happens to that file before they can read it?
+      <div class="answer-area" data-section="lab7-topic-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">The .docx is downloaded to Protected Storage inside the isolated container. Zscaler uses PDFTron (an embedded PDF engine) to convert the file into a flattened PDF. The user views the PDF rendering — not the original .docx. This process strips all macros, active content, embedded scripts, and OLE objects before the user ever interacts with the content.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>Protected Storage is described as temporary. What is the security model behind purging Protected Storage when the isolation session ends?
+      <div class="answer-area" data-section="lab7-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Protected Storage is isolated to a single session. When the session ends (browser tab closed, session timeout), the storage is wiped. This prevents data from one session being accessible to the next — particularly important in shared device scenarios or BYO environments where a second user might open an isolated session on the same machine.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>A user needs to download a file from an isolated session to their local machine. The isolation profile's "File Transfer From: Isolation to local computer" is disabled. What options does the user have?
+      <div class="answer-area" data-section="lab7-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">If file download to local is blocked by the profile, the user can (1) view the PDF rendering in isolation and manually transcribe needed content, (2) request an admin to adjust the profile to allow Flattened PDF downloads (not the original file), or (3) escalate for an exception. The admin should not enable "Original File" download for risky content — flattened PDF is the secure middle ground.</div>
           </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 7.1: Review Document Viewing Settings in the Isolation Profile</h3>
@@ -370,7 +392,7 @@ function copyConfigField(id, btn) {
 
 // ── Copy buttons on inline code ────────────────────────────────────────────
 function injectCopyButtons() {
-  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+  document.querySelectorAll('.step-list code, .sub-steps code, .config-derived code').forEach(el => {
     if (el.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn'; btn.title = 'Copy';

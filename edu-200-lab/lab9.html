@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">ZPA App Connectors are lightweight software components that establish outbound TLS tunnels to the ZPA cloud. There are no inbound firewall rules — the connector calls out, so the data centre firewall doesn't need to be opened. A provisioning key is what authorises a new connector to join a specific connector group.</p>
       <ul class="socratic-questions">
-        <li>Traditional VPNs require inbound firewall holes (port 443 or IPSec ports) to the data centre. How does the ZPA App Connector architecture eliminate this requirement, and what is the security implication of the difference?</li>
-        <li>A provisioning key is used once to activate the App Connector, after which it is consumed. Why is it designed this way rather than using a persistent shared secret or password?</li>
-        <li>If an App Connector loses its network connection to the ZPA cloud, what happens to users who are actively connected to private apps through it — and does ZPA have a mechanism to handle this?</li>
-      </ul>
-      <div class="answer-area" data-section="lab9-zpa-infra">
+    <li>Traditional VPNs require inbound firewall holes (port 443 or IPSec ports) to the data centre. How does the ZPA App Connector architecture eliminate this requirement, and what is the security implication of the difference?
+      <div class="answer-area" data-section="lab9-zpa-infra-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">The App Connector makes outbound TLS connections to the ZPA broker cloud — no inbound ports need to be opened on the data centre firewall. Traditional VPNs require inbound holes (IPSec or SSL VPN ports) that become attack surfaces: scannable, targetable, and subject to vulnerabilities in the VPN gateway software. ZPA's outbound-only model means the internal network is never directly reachable from the internet — an attacker can't scan for it.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>A provisioning key is used once to activate the App Connector, after which it is consumed. Why is it designed this way rather than using a persistent shared secret or password?
+      <div class="answer-area" data-section="lab9-zpa-infra-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">A one-time provisioning key is designed for zero-trust enrollment: the key authorises the initial registration but is consumed during activation, so there's no persistent secret that could be reused to register rogue connectors. A shared password would be a liability — if compromised, any machine could register as a connector in your environment. One-time keys limit the blast radius: a leaked key can only be used once before it expires or is used.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>If an App Connector loses its network connection to the ZPA cloud, what happens to users who are actively connected to private apps through it — and does ZPA have a mechanism to handle this?
+      <div class="answer-area" data-section="lab9-zpa-infra-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">Active sessions through a disconnected App Connector will drop — users lose their private app connections. ZPA handles this through redundancy at the connector group level: multiple App Connectors in the same group share the load, and ZPA automatically fails over to a healthy connector for new connections. For active sessions, ZPA can re-establish them through a surviving connector in the group, depending on the application's session tolerance.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 9.1 — Create App Connector Group and Provisioning Key</h3>
@@ -711,7 +733,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

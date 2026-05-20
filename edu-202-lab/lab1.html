@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">ZCC enrollment ties a device to a specific ZIdentity tenant and user. Until enrolled, no ZIA policy applies and no ZPA private apps are accessible — the device is invisible to the platform.</p>
   <ul class="socratic-questions">
-    <li>When ZCC logs into ZIdentity using student@FQDN, what two things is ZIdentity determining on the user's behalf?</li>
-    <li>Why does "Internet Security: ON" appear in ZCC but the user never configured a ZIA policy?</li>
-    <li>What would happen if a student enrolled ZCC but their user account had no ZIA service entitlement assigned?</li>
-  </ul>
-  <div class="answer-area" data-section="lab1-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>When ZCC logs into ZIdentity using student@FQDN, what two things is ZIdentity determining on the user's behalf?
+      <div class="answer-area" data-section="lab1-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZIdentity is determining: (1) authentication — verifying the user's identity via SAML/OIDC; and (2) authorization — which services the user is entitled to (ZIA, ZPA, ZDX) and which admin roles they hold. It then issues a session token that ZCC uses to activate the corresponding services.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Why does "Internet Security: ON" appear in ZCC but the user never configured a ZIA policy?
+      <div class="answer-area" data-section="lab1-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZIA has default tenant-level policies that apply to all enrolled users regardless of custom rules. The "Internet Security: ON" state simply means ZCC has successfully connected to the ZIA cloud and is forwarding traffic — it does not indicate any custom policy is active.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What would happen if a student enrolled ZCC but their user account had no ZIA service entitlement assigned?
+      <div class="answer-area" data-section="lab1-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZCC would enroll (authentication would succeed), but the Internet Security service status would remain OFF or show "No license." ZIA traffic forwarding would not be enabled because the entitlement authorization step would have returned no ZIA subscription for that user.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 1.1 — Start the Skytap Lab Environment</h3>
@@ -462,7 +484,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

@@ -118,31 +118,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">ZPA provides access control; ZIA provides content inspection. Together they deliver zero trust for both public internet and private application traffic through a single policy framework.</p>
         <ul class="socratic-questions">
-          <li>Why would you route ZPA private application traffic through ZIA for inspection?</li>
-          <li>What is the role of the App Connector Provisioning Key, and why is the filename case-sensitive?</li>
-          <li>What does "Closer to User" App Connector Selection Method mean vs "Closer to Application"?</li>
-        </ul>
-        <div class="answer-area" data-section="lab6-soc">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>Why would you route ZPA private application traffic through ZIA for inspection?
+      <div class="answer-area" data-section="lab6-soc-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">ZPA authenticates and authorises access but does not inspect application-layer content. An authenticated user could still transfer malware to a private server or exfiltrate data. Routing ZPA through ZIA adds content inspection, DLP, and threat protection to private app access.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What is the role of the App Connector Provisioning Key, and why is the filename case-sensitive?
+      <div class="answer-area" data-section="lab6-soc-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text">The provisioning key is a one-time credential used to authenticate and register the App Connector with the ZPA cloud. The connector software reads this file by exact filename from /opt/zscaler/var/ — a wrong name like provision_key.txt means the service cannot locate the key and fails to enroll.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What does "Closer to User" App Connector Selection Method mean vs "Closer to Application"?
+      <div class="answer-area" data-section="lab6-soc-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">"Closer to User" selects the connector with lowest latency to the client, minimising the ZPA tunnel hop. "Closer to Application" selects based on server proximity — useful when the application is geographically centralised and server-side consistency matters more than variable user-side latency.</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 6.1: Provision an App Connector</h3>
@@ -502,7 +524,7 @@ function toggleFooter(){var f=document.getElementById('site-footer');var btn=doc
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
 function injectCopyButtons(){
-  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
     var text=code.textContent.trim();if(text.length<2)return;

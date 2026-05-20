@@ -109,22 +109,44 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
       </div>
       <p class="socratic-insight">End-user ZDX data tells you what users experience. Hosted probes tell you what the application looks like from the cloud &mdash; without any user involved. If Hosted probes show a problem but end-user ZDX scores are good, the issue is specific to that user&rsquo;s location or device.</p>
       <ul class="socratic-questions">
-        <li>End-user ZDX scores are based on measurements from the Zscaler Client Connector on a user&rsquo;s device. Hosted Monitoring probes measure from Zscaler data centers. If Hosted Monitoring shows an application is slow but end-user ZDX scores are fine, what does this tell you about where the problem is?</li>
-        <li>A Hosted Probe can be either a Web Probe or a Cloud Path Probe. What is the key difference in what they measure, and when would you choose each type?</li>
-        <li>The Probe Run Details page shows Redirect Time, DNS, TCP, SSL Handshake, Server Response, and Page Fetch Time in milliseconds. If Server Response Time is 1142ms but DNS is only 100ms, where would you focus your investigation?</li>
-      </ul>
-      <div class="answer-area" data-section="lab12-topic">
+    <li>End-user ZDX scores are based on measurements from the Zscaler Client Connector on a user&rsquo;s device. Hosted Monitoring probes measure from Zscaler data centers. If Hosted Monitoring shows an application is slow but end-user ZDX scores are fine, what does this tell you about where the problem is?
+      <div class="answer-area" data-section="lab12-topic-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
         </div>
         <div class="model-answers" style="display:none;">
           <div class="model-answer-item"><div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div><div class="model-answer-text">If Hosted Monitoring shows slowness but end-user ZDX scores are fine, the issue is infrastructure-level but not affecting users at that moment &mdash; possibly a Zscaler data center-specific performance issue that users are routing around, or a probe-specific configuration problem (wrong target URL, wrong expected response code). Conversely, if end-user scores are Poor but Hosted Monitoring looks fine, the problem is between the user&rsquo;s device and the nearest Zscaler data center, not in the Zscaler or application infrastructure.</div></div>
+        </div>
+      </div>
+    </li>
+    <li>A Hosted Probe can be either a Web Probe or a Cloud Path Probe. What is the key difference in what they measure, and when would you choose each type?
+      <div class="answer-area" data-section="lab12-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item"><div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div><div class="model-answer-text">Web Probe measures HTTP/HTTPS layer metrics: Page Fetch Time, Server Response Time, DNS Time, Availability, SSL Handshake time. Use it for web applications where you care about full-page load time. Cloud Path Probe measures network-layer hop-by-hop ICMP latency: End-to-End Latency, Packet Loss, Jitter. Use it for non-HTTP services, network infrastructure monitoring, or when you want to identify a specific router or ISP segment causing latency.</div></div>
+        </div>
+      </div>
+    </li>
+    <li>The Probe Run Details page shows Redirect Time, DNS, TCP, SSL Handshake, Server Response, and Page Fetch Time in milliseconds. If Server Response Time is 1142ms but DNS is only 100ms, where would you focus your investigation?
+      <div class="answer-area" data-section="lab12-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item"><div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div><div class="model-answer-text">Focus on the application server or upstream infrastructure. Server Response Time of 1142ms means the server took over 1 second to return the first byte after the TCP connection was established and the HTTP request was sent &mdash; this is an application performance problem, not a network problem. DNS at 100ms is somewhat elevated but not the primary concern. Check the application server logs, CDN configuration, or backend database performance.</div></div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 12.1: View the Configuration of Hosted Monitoring</h3>
@@ -294,7 +316,7 @@ function copyConfigField(id,btn){var val=document.getElementById(id).value.trim(
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
-function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
 function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
 function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}

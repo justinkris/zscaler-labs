@@ -109,22 +109,44 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
       </div>
       <p class="socratic-insight">Individual user Wi-Fi problems (Labs 2 and 5) are reactive. The Wi-Fi Dashboard is proactive: it aggregates Wi-Fi data from all devices to give you an access-point level health view. One red AP on the dashboard = every user connected to that AP is potentially affected.</p>
       <ul class="socratic-questions">
-        <li>The Wi-Fi Dashboard shows access point performance at the AP level, while the User Overview shows Wi-Fi data per user. What is the operational advantage of the AP-level view for operations staff?</li>
-        <li>AP-Columbus-OH shows as Poor (red) with a Source to Gateway Latency of 144.4ms average. Curtis Hardwick is in the Active Users table for this AP with a ZDX Score. How does the Wi-Fi Dashboard accelerate the root cause investigation compared to starting from the User Overview?</li>
-        <li>The Wi-Fi Band Distribution shows 90% of devices on 5GHz and 40% on 2.4GHz (some devices have both). If the dashboard shows an AP is Poor but most connected devices are on 2.4GHz, what does this suggest about the root cause?</li>
-      </ul>
-      <div class="answer-area" data-section="lab14-topic">
+    <li>The Wi-Fi Dashboard shows access point performance at the AP level, while the User Overview shows Wi-Fi data per user. What is the operational advantage of the AP-level view for operations staff?
+      <div class="answer-area" data-section="lab14-topic-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
         </div>
         <div class="model-answers" style="display:none;">
           <div class="model-answer-item"><div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div><div class="model-answer-text">The AP-level view allows operations staff to identify problems that affect multiple users simultaneously without needing to review individual user reports. If one AP is red, the operations team can dispatch a site engineer to physically inspect that AP, reset it, or replace it &mdash; without having to correlate multiple user complaints. It also reveals AP health trends over time: is this AP always poor, or is it a new issue?</div></div>
+        </div>
+      </div>
+    </li>
+    <li>AP-Columbus-OH shows as Poor (red) with a Source to Gateway Latency of 144.4ms average. Curtis Hardwick is in the Active Users table for this AP with a ZDX Score. How does the Wi-Fi Dashboard accelerate the root cause investigation compared to starting from the User Overview?
+      <div class="answer-area" data-section="lab14-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item"><div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div><div class="model-answer-text">Wi-Fi Dashboard acceleration: (1) You immediately see that AP-Columbus-OH is the shared point of failure, rather than wondering if multiple users have individual issues. (2) The Active Users table shows all affected users directly &mdash; you can see Curtis Hardwick and his ZDX Score without searching. (3) Source to Gateway Latency confirms the AP-level measurement, not just the user&rsquo;s perception. You go from "user complaint" to "specific AP with high latency" in one screen.</div></div>
+        </div>
+      </div>
+    </li>
+    <li>The Wi-Fi Band Distribution shows 90% of devices on 5GHz and 40% on 2.4GHz (some devices have both). If the dashboard shows an AP is Poor but most connected devices are on 2.4GHz, what does this suggest about the root cause?
+      <div class="answer-area" data-section="lab14-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item"><div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div><div class="model-answer-text">2.4GHz is more susceptible to interference from neighbouring networks, microwaves, and Bluetooth devices because it has only 3 non-overlapping channels (1, 6, 11). If most connected devices are on 2.4GHz and the AP is Poor, the root cause is likely channel congestion or interference at 2.4GHz. Recommended action: check neighbouring APs and consumer devices for channel overlap, and consider configuring band steering to push capable devices to 5GHz.</div></div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 14.1: Accessing Wi-Fi Dashboard</h3>
@@ -289,7 +311,7 @@ function copyConfigField(id,btn){var val=document.getElementById(id).value.trim(
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
-function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
 function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
 function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}

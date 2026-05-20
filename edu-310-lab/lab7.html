@@ -109,31 +109,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
       </div>
       <p class="socratic-insight">Endpoint Analytics via Intune adds a new dimension to ZDX troubleshooting: device health telemetry that is independent of network activity. When the network is fine but the user is suffering, Endpoint Analytics often reveals why.</p>
       <ul class="socratic-questions">
-        <li>Endpoint Analytics has two score categories: Startup Performance (96/100) and Software Reliability (46/100). Given Joni&rsquo;s complaint, which category is more relevant to investigate first, and why?</li>
-        <li>chrome.exe and msedge.exe are both crashing with the same browser engine version (112.0.5815.13 / 112.0.1722.64). What does this version correlation suggest as a root cause?</li>
-        <li>ZDX surfaces Intune Endpoint Analytics data without you accessing Intune directly. What are the operational advantages of having this data in ZDX rather than requiring a separate Intune portal login?</li>
-      </ul>
-      <div class="answer-area" data-section="lab7-topic">
+    <li>Endpoint Analytics has two score categories: Startup Performance (96/100) and Software Reliability (46/100). Given Joni&rsquo;s complaint, which category is more relevant to investigate first, and why?
+      <div class="answer-area" data-section="lab7-topic-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
         </div>
         <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Software Reliability (46/100) is the primary focus because the user specifically reports Chrome crashes &mdash; a software reliability event. Startup Performance at 96/100 is healthy. Always correlate the complaint to the metric category: crashes = Software Reliability, slow boot = Startup Performance, slow sign-in = Startup Performance (sign-in subscores).</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>chrome.exe and msedge.exe are both crashing with the same browser engine version (112.0.5815.13 / 112.0.1722.64). What does this version correlation suggest as a root cause?
+      <div class="answer-area" data-section="lab7-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Both browsers sharing the same version number and both crashing simultaneously suggests a version-specific bug or an incompatible system component (e.g. a driver update, a Windows patch, or an Antivirus/EDR agent) that affects the Chromium engine at that specific version. The fix is to update the browser to a patched version, or roll back the system change that introduced the incompatibility.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZDX surfaces Intune Endpoint Analytics data without you accessing Intune directly. What are the operational advantages of having this data in ZDX rather than requiring a separate Intune portal login?
+      <div class="answer-area" data-section="lab7-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Operational advantages: (1) Single pane of glass &mdash; the helpdesk analyst can see device health in the same portal where they see network and application data, reducing tool-switching time. (2) Time-correlation &mdash; ZDX shows both the network metrics and the Endpoint Analytics data on the same timeline, making it easy to correlate a CPU spike with a software crash event. (3) No additional permissions required &mdash; the ZDX Read-Only Admin role is sufficient; no Intune admin permissions needed.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 7.1: Analyze CPU Usage</h3>
@@ -377,7 +399,7 @@ function copyConfigField(id,btn){var val=document.getElementById(id).value.trim(
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
-function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
 function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
 function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}

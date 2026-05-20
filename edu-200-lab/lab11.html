@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">ZPA access requires two independent grants: a Service Entitlement (does the user have permission to use ZPA at all?) and an Access Policy (does the user have permission to access this specific app segment?). Troubleshooting begins by separating these two layers.</p>
       <ul class="socratic-questions">
-        <li>A user logs into ZCC but the Private Access tab is not visible. What is the most likely cause — an Access Policy issue or a Service Entitlement issue — and how would you confirm which one it is?</li>
-        <li>If the ZPA service entitlement is assigned but the user still can't reach a specific private app, where should you look next, and what information would you need?</li>
-        <li>Why must a ZPA Service Entitlement be assigned in ZIdentity rather than directly in the ZPA Admin Console — and what does this design reveal about the relationship between ZIdentity and ZPA?</li>
-      </ul>
-      <div class="answer-area" data-section="lab11-zpa-troubleshoot">
+    <li>A user logs into ZCC but the Private Access tab is not visible. What is the most likely cause — an Access Policy issue or a Service Entitlement issue — and how would you confirm which one it is?
+      <div class="answer-area" data-section="lab11-zpa-troubleshoot-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">If Private Access is not visible in ZCC at all, the most likely cause is a missing ZPA Service Entitlement — the user simply doesn't have the right to use ZPA. An Access Policy issue would manifest differently: the user would have the Private Access tab, ZPA would show as active, but accessing the specific app would fail. To confirm, check the user's profile in ZIdentity under Service Entitlements and look for ZPA in the assigned services list.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>If the ZPA service entitlement is assigned but the user still can't reach a specific private app, where should you look next, and what information would you need?
+      <div class="answer-area" data-section="lab11-zpa-troubleshoot-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">If the entitlement is present but the app is unreachable, check: (1) Does the Access Policy exist and is it activated? (2) Does the policy's user criteria match this user's login name or group? (3) Is the App Segment correctly configured with the right domain and port? (4) Is the App Connector for that segment currently Connected? ZPA Diagnostics (per segment, per user) can surface which of these is failing.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>Why must a ZPA Service Entitlement be assigned in ZIdentity rather than directly in the ZPA Admin Console — and what does this design reveal about the relationship between ZIdentity and ZPA?
+      <div class="answer-area" data-section="lab11-zpa-troubleshoot-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">ZIdentity is the identity provider for the Zscaler platform — it manages which services a user can access and what their identity attributes are. ZPA inherits user and entitlement data from ZIdentity rather than maintaining its own user database. This design means a single place (ZIdentity) controls who gets which Zscaler services, keeping user lifecycle management centralised. Adding a ZPA entitlement in ZIdentity triggers a sync that makes the user ZPA-eligible without any action needed in the ZPA Admin Console.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 11.1 — Log in as Joe and Identify the Issue</h3>
@@ -680,7 +702,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

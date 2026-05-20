@@ -118,31 +118,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">Sandbox is the last line of defence for unknown files — it trades a small quarantine delay for certainty about first-seen malware before it executes on the endpoint.</p>
         <ul class="socratic-questions">
-          <li>Why is "Quarantine on first-seen" safer than "Block" for the sandbox First-Time Action?</li>
-          <li>What is Patient Zero protection and how does AI Instant Verdict improve on standard sandbox analysis?</li>
-          <li>Why configure real-time alerts specifically for Sandbox Malware rather than all security events?</li>
-        </ul>
-        <div class="answer-area" data-section="lab7-soc">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>Why is "Quarantine on first-seen" safer than "Block" for the sandbox First-Time Action?
+      <div class="answer-area" data-section="lab7-soc-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">A truly novel malicious file has no prior reputation record — blocking would prevent benign first-seen files from being delivered (false positives). Quarantine holds the file while sandbox performs dynamic analysis; if benign, it is released; if malicious, it is blocked and the hash is added to Cloud Effect for subsequent downloads.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What is Patient Zero protection and how does AI Instant Verdict improve on standard sandbox analysis?
+      <div class="answer-area" data-section="lab7-soc-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text">Standard analysis identifies malware after the sandbox detonates the file. Patient Zero / AI Instant Verdict uses behavioral indicators in real time before detonation completes, catching fast-moving threats and protecting the first user who downloads the file before full analysis finishes.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Why configure real-time alerts specifically for Sandbox Malware rather than all security events?
+      <div class="answer-area" data-section="lab7-soc-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">Sandbox Malware detections indicate an active download attempt of a novel threat — these require immediate SOC investigation. General security events are informational. High-severity targeted events like malware downloads warrant immediate notification to reduce dwell time.</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 7.1: Configure Sandbox Policies</h3>
@@ -407,7 +429,7 @@ function toggleFooter(){var f=document.getElementById('site-footer');var btn=doc
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
 function injectCopyButtons(){
-  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
     var text=code.textContent.trim();if(text.length<2)return;

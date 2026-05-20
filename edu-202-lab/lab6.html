@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">SSL Inspection is a trusted MitM — ZIA presents its own certificate to the browser, decrypts the HTTPS session, inspects the content, then re-encrypts and forwards it. The Zscaler Root CA must be trusted by the endpoint for this to work without browser warnings.</p>
   <ul class="socratic-questions">
-    <li>What is "certificate pinning" and why do you need a "Do Not Inspect" bypass rule for apps that use it?</li>
-    <li>If a user's browser doesn't trust the Zscaler Root CA, what exactly does the user experience when SSL Inspection is active?</li>
-    <li>You enable SSL Inspection but a DLP policy still misses credit card numbers in an HTTPS upload. What is the most likely configuration gap?</li>
-  </ul>
-  <div class="answer-area" data-section="lab6-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>What is "certificate pinning" and why do you need a "Do Not Inspect" bypass rule for apps that use it?
+      <div class="answer-area" data-section="lab6-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Certificate pinning is when an application hardcodes the expected certificate fingerprint or public key for a specific server. When ZIA intercepts and re-signs the traffic with the Zscaler CA, the fingerprint no longer matches, and the app throws a TLS error or refuses to connect. Apps like Dropbox, Chrome updates, and some banking apps use pinning — they need a "Do Not Inspect" rule with higher priority than the Inspect rule.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>If a user's browser doesn't trust the Zscaler Root CA, what exactly does the user experience when SSL Inspection is active?
+      <div class="answer-area" data-section="lab6-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The browser receives a certificate signed by the Zscaler CA, which is not in its trusted root store. It shows a "Your connection is not private" (NET::ERR_CERT_AUTHORITY_INVALID) error and blocks the page. The user cannot proceed unless they manually accept the certificate — which is a security warning, not normal behavior.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>You enable SSL Inspection but a DLP policy still misses credit card numbers in an HTTPS upload. What is the most likely configuration gap?
+      <div class="answer-area" data-section="lab6-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The DLP rule's protocol criteria may not include HTTPS, or SSL Inspection is not enabled for the traffic category that includes the upload destination. DLP can only inspect plaintext — if traffic bypasses SSL Inspection (due to a "Do Not Inspect" rule or category bypass), the DLP engine sees only encrypted bytes and cannot match content patterns.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 6.1 — Create an SSL Inspection Rule</h3>
@@ -448,7 +470,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

@@ -108,31 +108,53 @@
         </div>
         <p class="socratic-insight">BiB is not less secure — it is differently scoped. All traffic from the isolated browser still passes through ZIA. The editable URL bar lets SOC analysts navigate to any URL for investigation, but ZIA policies still block blocked categories from within the isolation container.</p>
         <ul class="socratic-questions">
-          <li>The Browser-In-Browser experience exposes an editable URL bar. A user tries to navigate to gambling.com from within the BiB isolated session. What happens, and why?</li>
-          <li>The default isolation experience is "Native browser experience" — the isolated page appears in the user's own browser without a visible isolation URL bar. When would you choose BiB over native experience?</li>
-          <li>BiB is described as useful for SOC investigation workflows. What specific investigation tasks does BiB enable that a normal isolated session cannot?</li>
-        </ul>
-        <div class="answer-area" data-section="lab9-topic">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
+    <li>The Browser-In-Browser experience exposes an editable URL bar. A user tries to navigate to gambling.com from within the BiB isolated session. What happens, and why?
+      <div class="answer-area" data-section="lab9-topic-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">The user is blocked. All traffic from the BiB container — including URLs the user types into the editable bar — passes through ZIA and is evaluated against all policies. Gambling.com is in a blocked URL category. The isolation container acts as just another ZIA client; its outbound traffic is inspected and policy-enforced the same as any endpoint.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The default isolation experience is "Native browser experience" — the isolated page appears in the user's own browser without a visible isolation URL bar. When would you choose BiB over native experience?
+      <div class="answer-area" data-section="lab9-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Native browser experience is appropriate for standard users — it is transparent and familiar. BiB is appropriate for security analysts and IT staff who need to investigate specific URLs in a fully controlled browser, browse to related infrastructure, or test policy responses. Exposing the isolation URL bar to general users creates confusion and potential social engineering risk (users think they can navigate freely without restrictions).</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>BiB is described as useful for SOC investigation workflows. What specific investigation tasks does BiB enable that a normal isolated session cannot?
+      <div class="answer-area" data-section="lab9-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">BiB enables: (1) navigating to a suspicious URL to observe its behaviour in isolation, (2) following redirect chains from phishing links, (3) clicking through multi-step attack flows (e.g., drive-by download sequences), (4) testing ZIA policy responses to specific URLs — all without any risk to the analyst's endpoint, since execution is fully contained in the remote browser.</div>
           </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 9.1: Review the Browser-In-Browser Isolation Profile</h3>
@@ -365,7 +387,7 @@ function copyConfigField(id, btn) {
 
 // ── Copy buttons on inline code ────────────────────────────────────────────
 function injectCopyButtons() {
-  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+  document.querySelectorAll('.step-list code, .sub-steps code, .config-derived code').forEach(el => {
     if (el.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn'; btn.title = 'Copy';

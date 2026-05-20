@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">Risk360 maps your Zscaler configuration against industry-standard threat frameworks. The MITRE ATT&CK view shows which attack techniques your controls cover — and which ones your misconfigurations leave open.</p>
   <ul class="socratic-questions">
-    <li>A Risk360 TTP tile is highlighted in blue but shows a red misconfiguration indicator. What does this combination mean?</li>
-    <li>Risk360 shows 79% MITRE ATT&CK technique coverage. What does the remaining 21% represent, and does it mean your organization is vulnerable to those techniques?</li>
-    <li>NIST CSF 1.1 and 2.0 are both supported. What is the primary structural difference between NIST CSF 1.1 and 2.0 that Risk360 would need to accommodate?</li>
-  </ul>
-  <div class="answer-area" data-section="lab12-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>A Risk360 TTP tile is highlighted in blue but shows a red misconfiguration indicator. What does this combination mean?
+      <div class="answer-area" data-section="lab12-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Blue = the technique is covered by a Zscaler protection (the product license is active and the feature is relevant). Red = the specific Zscaler configuration for that technique is misconfigured (e.g. a policy is missing, a service is unlicensed, or a recommended setting is disabled). The combination means: "Zscaler can protect you here, but your current config doesn't actually do it."</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Risk360 shows 79% MITRE ATT&CK technique coverage. What does the remaining 21% represent, and does it mean your organization is vulnerable to those techniques?
+      <div class="answer-area" data-section="lab12-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The 21% represents techniques that Zscaler's product portfolio does not cover — either because they are out-of-scope for a cloud security platform (e.g. physical attacks, firmware exploits) or because the customer hasn't licensed the relevant Zscaler product. It does not necessarily mean the organization is vulnerable — other security controls (EDR, network monitoring, physical security) may cover those techniques.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>NIST CSF 1.1 and 2.0 are both supported. What is the primary structural difference between NIST CSF 1.1 and 2.0 that Risk360 would need to accommodate?
+      <div class="answer-area" data-section="lab12-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">NIST CSF 2.0 adds a sixth function, "Govern," to the original five (Identify, Protect, Detect, Respond, Recover). It also restructures subcategories and adds supply chain risk management emphasis. Risk360 must maintain separate framework versions and map its protection categories to both the old and new subcategory IDs, since organizations may be reporting against either version.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <div class="callout callout-sdc">
@@ -456,7 +478,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

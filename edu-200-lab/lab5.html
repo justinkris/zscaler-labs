@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">Over 90% of internet traffic is encrypted. Without SSL inspection, ZIA can see that traffic exists but cannot inspect its content — malware, data exfiltration, and policy violations all hide inside TLS. SSL inspection performs a trusted man-in-the-middle using Zscaler's CA certificate.</p>
       <ul class="socratic-questions">
-        <li>SSL inspection requires re-signing every HTTPS certificate with Zscaler's CA. What must be true on the endpoint for browsers to trust that re-signed certificate — and what breaks if that condition isn't met?</li>
-        <li>Certain apps use certificate pinning, meaning they verify the server's certificate against a hard-coded expected value rather than the OS trust store. What happens to a cert-pinned app when SSL inspection is enabled, and how do you fix it without disabling inspection globally?</li>
-        <li>If you enabled "Inspect All Users" but then later added a bypass rule for a specific app — which rule wins, and why does order matter here the same way it does for firewall rules?</li>
-      </ul>
-      <div class="answer-area" data-section="lab5-ssl">
+    <li>SSL inspection requires re-signing every HTTPS certificate with Zscaler's CA. What must be true on the endpoint for browsers to trust that re-signed certificate — and what breaks if that condition isn't met?
+      <div class="answer-area" data-section="lab5-ssl-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">The Zscaler Root CA certificate must be installed in the endpoint's trusted certificate store (and in Chrome's certificate store, since Chrome has its own trust store on Windows). If the CA isn't trusted, every HTTPS site triggers a certificate error and the browser refuses the connection. This is why the HandsOnLab app profile installs the CA during ZCC enrollment — without it, inspection would break all HTTPS.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>Certain apps use certificate pinning, meaning they verify the server's certificate against a hard-coded expected value rather than the OS trust store. What happens to a cert-pinned app when SSL inspection is enabled, and how do you fix it without disabling inspection globally?
+      <div class="answer-area" data-section="lab5-ssl-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">A cert-pinned app compares the server certificate's fingerprint against a value baked into the app's binary. When ZIA re-signs the certificate with Zscaler's CA, the fingerprint changes and the app rejects the connection outright — typically as a generic network error. The fix is a "Do Not Inspect" bypass rule scoped to that specific app: ZIA lets the original TLS certificate pass through unmodified, satisfying the app's pinning check.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>If you enabled "Inspect All Users" but then later added a bypass rule for a specific app — which rule wins, and why does order matter here the same way it does for firewall rules?
+      <div class="answer-area" data-section="lab5-ssl-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">SSL inspection rules are also evaluated top-down, first match wins. A bypass rule for Threema must be placed above the "Inspect All" rule — otherwise Inspect All matches first and Threema's traffic is inspected before the bypass rule is reached. The same implicit logic as firewall rules: specific exceptions must always sit above broad rules.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 5.1 — Enable SSL Inspect All Users Rule</h3>
@@ -759,7 +781,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

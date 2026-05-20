@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">ZDX (Zscaler Digital Experience) measures the end-to-end quality of a user's experience with cloud applications — from their device's Wi-Fi, through the network path, to the cloud service. The ZDX Score is a composite metric: a lower score means worse experience. ZDX identifies whether the bottleneck is the device, Wi-Fi, the corporate network, the Zscaler service, or the application itself.</p>
       <ul class="socratic-questions">
-        <li>A user complains that Salesforce is slow. ZDX shows a ZDX Score of 35 (Poor). What does that score actually represent, and what are the next diagnostic steps to narrow down where in the path the problem exists?</li>
-        <li>The ZDX Performance Dashboard shows a geographic cluster of users with poor scores in the Asia region. What could cause a geographically correlated degradation — what would you look at next?</li>
-        <li>ZDX uses synthetic probes (web probes) to measure application performance. How do these probes work, and what is the key difference between a synthetic probe result and a user-reported complaint?</li>
-      </ul>
-      <div class="answer-area" data-section="lab14-zdx-dashboards">
+    <li>A user complains that Salesforce is slow. ZDX shows a ZDX Score of 35 (Poor). What does that score actually represent, and what are the next diagnostic steps to narrow down where in the path the problem exists?
+      <div class="answer-area" data-section="lab14-zdx-dashboards-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">A ZDX Score of 35 (Poor) indicates significantly degraded end-to-end experience. The next step is to click Analyze Score to see which factor is contributing most: Wi-Fi signal, DNS resolution time, TCP connect latency, server response time, or overall page fetch time. ZDX's Hop View shows which segment of the cloud path has elevated latency. If Wi-Fi is poor but DNS and server response are normal, the issue is local to the device. If all users in a region are poor but DNS and server are high-latency, the issue is likely the network path or the Zscaler service edge.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The ZDX Performance Dashboard shows a geographic cluster of users with poor scores in the Asia region. What could cause a geographically correlated degradation — what would you look at next?
+      <div class="answer-area" data-section="lab14-zdx-dashboards-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">A regional cluster suggests a shared infrastructure component: a Zscaler service edge serving that region, a cloud app's regional datacenter, or a major ISP route with degraded performance. Next steps: check the specific application's availability from that region, look at the cloud path latency for users in that region (Hop View), and check whether the issue correlates with the Zscaler service edge serving those users or with the application's regional endpoint.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZDX uses synthetic probes (web probes) to measure application performance. How do these probes work, and what is the key difference between a synthetic probe result and a user-reported complaint?
+      <div class="answer-area" data-section="lab14-zdx-dashboards-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">ZDX synthetic probes are small background tests that the ZCC agent runs periodically — fetching a known URL, measuring DNS time, TCP connect time, and page fetch time without the user doing anything. They provide continuous, objective performance data independent of user activity. The key difference from user complaints: probes are consistent and comparable over time, while user complaints are subjective, infrequent, and often reported after the problem has resolved. Probes can detect degradation before users even notice or complain.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <div class="callout callout-note">
@@ -822,7 +844,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

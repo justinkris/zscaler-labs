@@ -114,31 +114,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">NSS is how Zscaler log data leaves the cloud and enters your SIEM. Two delivery modes exist: an on-prem NSS virtual appliance and a Cloud NSS Feed. Both are configured in ZIA, but understanding where the data flows &mdash; and why a feed might be Disabled &mdash; determines where you troubleshoot.</p>
         <ul class="socratic-questions">
-          <li>NSS (Nanolog Streaming Service) uses an on-premises virtual appliance, while Cloud NSS Feeds stream logs directly from the Zscaler cloud to a SIEM. What is the key operational difference in terms of infrastructure ownership, and what failure modes exist in each model?</li>
-          <li>An NSS Feed shows <strong>Status: Disabled</strong> in the ZIA Admin Portal. What are the two most likely reasons for this, and what is the first thing you should check to determine which one applies?</li>
-          <li>A Cloud NSS Feed connectivity test returns <strong>OK (200)</strong>, but logs are not appearing in the SIEM. What does the 200 response actually verify, and what could still prevent logs from flowing downstream?</li>
-        </ul>
-        <div class="answer-area" data-section="lab8-nss">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>NSS (Nanolog Streaming Service) uses an on-premises virtual appliance, while Cloud NSS Feeds stream logs directly from the Zscaler cloud to a SIEM. What is the key operational difference in terms of infrastructure ownership, and what failure modes exist in each model?
+      <div class="answer-area" data-section="lab8-nss-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">On-prem NSS requires a virtual machine (NSS Server) deployed on the customer&rsquo;s network. This appliance pulls log data from the Zscaler Nanolog cluster and forwards it to the SIEM. Failure modes include: VM health, network connectivity between NSS appliance and SIEM, TCP port accessibility, and VM resource exhaustion. Cloud NSS Feeds require no on-prem infrastructure — Zscaler directly pushes log streams to a SIEM listener (IP/port). Failure modes shift to: SIEM listener availability, firewall rules allowing inbound connections from Zscaler cloud IPs, and feed configuration errors (wrong port or output format).</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>An NSS Feed shows <strong>Status: Disabled</strong> in the ZIA Admin Portal. What are the two most likely reasons for this, and what is the first thing you should check to determine which one applies?
+      <div class="answer-area" data-section="lab8-nss-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text">Status: Disabled most often means either (a) the feed was explicitly disabled in the ZIA Admin Portal (intentional — no logs will stream) or (b) the NSS server is unreachable and ZIA automatically disabled the feed to prevent log accumulation. The first check is the <strong>NSS Servers tab</strong> — confirm the NSS appliance shows a healthy status. If the server is healthy and the feed is still Disabled, an administrator deliberately turned it off. Click the feed&rsquo;s edit icon to re-enable it.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>A Cloud NSS Feed connectivity test returns <strong>OK (200)</strong>, but logs are not appearing in the SIEM. What does the 200 response actually verify, and what could still prevent logs from flowing downstream?
+      <div class="answer-area" data-section="lab8-nss-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">The connectivity test (cloud icon → Test Connectivity → OK 200) only verifies that the ZIA cloud can open a TCP connection to the SIEM listener on the configured IP and port. It does NOT verify: (a) the SIEM is correctly parsing the feed output format (CSV, JSON, LEEF, CEF), (b) the SIEM has the correct log source or connector configured, (c) the feed is in an Enabled state, or (d) the feed output type matches what the SIEM expects. A 200 means the network path is open — not that logs are flowing end-to-end.</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 8.1: Check NSS Servers and NSS Feeds Configuration</h3>
@@ -329,7 +351,7 @@ function copyConfigField(id,btn){var val=document.getElementById(id).value.trim(
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
-function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
 function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
 function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}else{ma.style.display='none';btn.textContent='👁 See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}

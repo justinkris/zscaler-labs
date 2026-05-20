@@ -6,7 +6,7 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
 
 /* HEADER */
 header{background:#0d1a2e;padding:28px 40px 24px;border-bottom:3px solid #1a3a6e;}
-.breadcrumb{font-size:11px;color:#93c5fd;letter-spacing:0.08em;margin-bottom:10px;opacity:0.8;}.breadcrumb a{color:#93c5fd;}
+.breadcrumb{font-size:13px;color:#93c5fd;letter-spacing:0.06em;margin-bottom:10px;opacity:0.9;}.breadcrumb a{color:#93c5fd;}
 .header-top{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
 .eyebrow-chip{background:rgba(147,197,253,0.15);border:1px solid rgba(147,197,253,0.3);color:#93c5fd;font-size:10px;font-weight:700;letter-spacing:0.14em;padding:4px 12px;border-radius:20px;text-transform:uppercase;}
 .header-dot{width:8px;height:8px;border-radius:50%;background:#93c5fd;animation:pulse 2s infinite;}
@@ -51,6 +51,9 @@ header h1 em{color:#93c5fd;font-style:italic;}
 .copy-inline{display:inline-flex;align-items:center;background:none;border:1px solid transparent;color:var(--text-muted);font-size:9px;cursor:pointer;padding:0 3px;margin-left:3px;vertical-align:middle;border-radius:3px;line-height:1.4;opacity:0.35;transition:opacity 0.15s,color 0.15s,border-color 0.15s,background 0.15s;}
 .copy-inline:hover{opacity:1;color:var(--blue);border-color:var(--blue-dim);background:var(--blue-glow);}
 .copy-inline.copied{color:var(--green)!important;border-color:var(--green-border)!important;background:var(--green-light)!important;opacity:1!important;}
+.config-derived .copy-inline{color:#2a4a6e;opacity:0.6;}
+.config-derived .copy-inline:hover{color:#93c5fd;border-color:#1a3a6e;background:rgba(147,197,253,0.08);opacity:1;}
+.config-derived .copy-inline.copied{color:#4ade80!important;border-color:#22c55e!important;background:rgba(74,222,128,0.12)!important;opacity:1!important;}
 
 /* TOP PANELS */
 .top-panels{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);}
@@ -150,6 +153,7 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .socratic-questions li:last-child{border-bottom:none;}
 .socratic-questions li::before{content:'?';color:#d97706;font-weight:700;font-size:14px;position:absolute;left:0;top:8px;}
 .answer-area{border-top:1px solid #fde68a;padding:14px 0 0 28px;margin-top:4px;}
+.socratic-questions li .answer-area{padding-left:0;margin-top:10px;}
 .answer-textarea{width:100%;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;font-size:13px;font-family:'Epilogue',sans-serif;resize:vertical;color:#78350f;background:#fefce8;transition:border-color 0.15s;}
 .answer-textarea:focus{outline:none;border-color:#d97706;box-shadow:0 0 0 3px rgba(217,119,6,0.12);}
 .answer-buttons{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;padding-bottom:16px;}

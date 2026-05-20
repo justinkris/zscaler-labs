@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">DLP in ZIA operates inline on HTTP/HTTPS traffic — it inspects file uploads, form posts, and web content for sensitive data patterns. For DLP to inspect encrypted traffic, SSL inspection must already be enabled.</p>
       <ul class="socratic-questions">
-        <li>Why is SSL inspection a hard prerequisite for DLP to work on HTTPS traffic — and what does DLP see if SSL inspection is disabled?</li>
-        <li>A DLP Engine defines what counts as sensitive data. A DLP Rule defines what to do when it's found. What's the consequence of creating a DLP rule without a properly configured engine — would it ever trigger?</li>
-        <li>A user uploads a file containing credit card numbers to a personal cloud storage service. The DLP rule blocks the upload and shows a notification. What must be true about the user's network path for ZIA to have been able to intercept and inspect that upload?</li>
-      </ul>
-      <div class="answer-area" data-section="lab8-dlp">
+    <li>Why is SSL inspection a hard prerequisite for DLP to work on HTTPS traffic — and what does DLP see if SSL inspection is disabled?
+      <div class="answer-area" data-section="lab8-dlp-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">DLP analyzes the plaintext content of HTTP/HTTPS traffic. Without SSL inspection, HTTPS payloads are encrypted — ZIA sees only ciphertext and cannot identify patterns like credit card numbers or SSNs inside the encrypted stream. DLP simply has nothing to inspect. SSL inspection decrypts the traffic first, allowing DLP engines to scan the plaintext before re-encryption and forwarding.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>A DLP Engine defines what counts as sensitive data. A DLP Rule defines what to do when it's found. What's the consequence of creating a DLP rule without a properly configured engine — would it ever trigger?
+      <div class="answer-area" data-section="lab8-dlp-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">A DLP rule without a properly configured engine would never match any content — an engine with no dictionaries or conditions matches nothing. The engine is the definition of what sensitive content looks like (credit card patterns, SSN regex, etc.). The rule is the action layer. Without a functional engine attached, the rule has no criteria to evaluate and will never trigger, even if files containing matching data are uploaded.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>A user uploads a file containing credit card numbers to a personal cloud storage service. The DLP rule blocks the upload and shows a notification. What must be true about the user's network path for ZIA to have been able to intercept and inspect that upload?
+      <div class="answer-area" data-section="lab8-dlp-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">The user's traffic must be flowing through ZIA — either via ZCC with Z-Tunnel 2.0 active, or through a Zscaler proxy/gateway. ZIA must be acting as the SSL inspection proxy for HTTPS uploads. If the user bypassed ZCC (VPN split-tunnel, trusted network exemption, or no ZCC), the upload goes directly to the internet and ZIA never sees it. DLP enforcement is only as good as the enforcement boundary.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <div class="callout callout-note">
@@ -680,7 +702,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

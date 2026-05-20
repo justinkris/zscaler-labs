@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">Browser Access lets users reach internal web applications without ZCC. Zscaler acts as a reverse proxy — the CNAME points the app's public hostname to a Zscaler edge node, which forwards authenticated requests to the App Connector.</p>
   <ul class="socratic-questions">
-    <li>Browser Access requires a certificate for the external hostname. Why can't you use a self-signed certificate here?</li>
-    <li>The HVAC app is accessed at hvac.patraining.safemarch.com. The internal server is at an RFC-1918 IP. How does Zscaler know where to forward the request?</li>
-    <li>A vendor using Browser Access submits a web form that POSTs 5 MB of data. What would break if ZPA's max body size limit is exceeded, and why does this matter for BA?</li>
-  </ul>
-  <div class="answer-area" data-section="lab3-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>Browser Access requires a certificate for the external hostname. Why can't you use a self-signed certificate here?
+      <div class="answer-area" data-section="lab3-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Browser Access proxies traffic through Zscaler's cloud edge. The browser connects to Zscaler's node and validates its TLS certificate. A self-signed cert would cause a browser TLS error because it isn't trusted by a public CA. The certificate must be signed by a CA the user's browser trusts — either a public CA or an enterprise CA whose root is distributed via GPO.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>The HVAC app is accessed at hvac.patraining.safemarch.com. The internal server is at an RFC-1918 IP. How does Zscaler know where to forward the request?
+      <div class="answer-area" data-section="lab3-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The App Segment in ZPA maps the external hostname (hvac.patraining.safemarch.com) to the internal domain/IP and port. The App Connector, sitting in the corporate network, resolves and reaches the internal server on behalf of the request.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>A vendor using Browser Access submits a web form that POSTs 5 MB of data. What would break if ZPA's max body size limit is exceeded, and why does this matter for BA?
+      <div class="answer-area" data-section="lab3-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZPA Browser Access is a reverse proxy with configurable body size limits. If the POST body exceeds the limit, ZPA returns an error and the upload fails. This matters because BA is designed for browser-based web apps — large file transfers should use ZPA private app segments with ZCC instead.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 3.1 — Create and Sign a Certificate</h3>
@@ -517,7 +539,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">ZIdentity acts as both an IdP and an authorization hub — it authenticates users and determines which Zscaler services they can use, and at what admin level. Separating service entitlements from admin entitlements allows least-privilege access at scale.</p>
   <ul class="socratic-questions">
-    <li>A user has a ZIA service entitlement but no ZPA service entitlement. What happens when they install ZCC?</li>
-    <li>Why would you assign admin entitlements to a group rather than individual users?</li>
-    <li>What is the risk of giving a helpdesk team a ZPA "Super Admin" role rather than a "Read-Only" role?</li>
-  </ul>
-  <div class="answer-area" data-section="lab2-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>A user has a ZIA service entitlement but no ZPA service entitlement. What happens when they install ZCC?
+      <div class="answer-area" data-section="lab2-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZCC will enroll successfully and Internet Security (ZIA) will activate with an ON status, but Private Access will remain off or show no subscription. The user can browse the internet via ZIA but cannot reach any ZPA-protected internal applications.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Why would you assign admin entitlements to a group rather than individual users?
+      <div class="answer-area" data-section="lab2-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Group-based entitlements scale with the directory — new employees added to the group automatically inherit access without requiring individual admin intervention. They also make auditing cleaner: you can see at a glance what a role grants rather than piecing it together user by user.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What is the risk of giving a helpdesk team a ZPA "Super Admin" role rather than a "Read-Only" role?
+      <div class="answer-area" data-section="lab2-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">A Super Admin can modify access policies, delete app segments, or provision new connectors — potentially opening internal resources to unintended users. A helpdesk team only needs to view session logs and diagnostics, so Read-Only prevents accidental or malicious policy changes while still enabling troubleshooting.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 2.1 — Review User Groups</h3>
@@ -452,7 +474,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

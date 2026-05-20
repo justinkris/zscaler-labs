@@ -118,31 +118,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">SSL inspection gives Zscaler visibility into 90%+ of modern web traffic — but breaks apps that hard-code expected certificate hashes. Understanding this trade-off is essential before deploying SSL inspection to production.</p>
         <ul class="socratic-questions">
-          <li>Why does Z-Tunnel 2.0 with the Packet Filter Based driver matter for Firewall functionality?</li>
-          <li>What is certificate pinning and why does it cause application failures when SSL inspection is enabled?</li>
-          <li>How would you proactively identify pinned-certificate apps before rolling SSL inspection to production?</li>
-        </ul>
-        <div class="answer-area" data-section="lab2-soc">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>Why does Z-Tunnel 2.0 with the Packet Filter Based driver matter for Firewall functionality?
+      <div class="answer-area" data-section="lab2-soc-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">Z-Tunnel 2.0 with Packet Filter Based driver allows ZIA to enforce Cloud Firewall policies on all traffic from the endpoint, not just HTTP/HTTPS. Without this combination, non-web protocols and ports bypass ZIA inspection entirely.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What is certificate pinning and why does it cause application failures when SSL inspection is enabled?
+      <div class="answer-area" data-section="lab2-soc-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text">Certificate pinning is where an application validates the server certificate against a hard-coded expected value. When Zscaler presents its intermediate CA certificate instead, the pinned check fails — triggering the "failed to connect" errors seen in Signal and Adobe.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>How would you proactively identify pinned-certificate apps before rolling SSL inspection to production?
+      <div class="answer-area" data-section="lab2-soc-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answers…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">Pilot on a small user group, review Web Insights logs for "Dropped due to failed client SSL handshake", consult vendor documentation for known pinned apps, and maintain an SSL bypass list that grows as issues are discovered.</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 2.1: Configure Forwarding Options</h3>
@@ -478,7 +500,7 @@ function toggleFooter(){var f=document.getElementById('site-footer');var btn=doc
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
 function injectCopyButtons(){
-  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
     var text=code.textContent.trim();if(text.length<2)return;

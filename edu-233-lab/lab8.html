@@ -108,31 +108,53 @@
         </div>
         <p class="socratic-insight">Sandbox + Isolation solves a classic security-vs-productivity tradeoff. Instead of "block and wait" (frustrating) or "allow and hope" (risky), users get immediate safe access to content while Sandbox analyses the original — parallel processing of safety and productivity.</p>
         <ul class="socratic-questions">
-          <li>The Sandbox policy uses "Quarantine and Isolate" as the First-Time Action. What does "first-time" mean in this context, and why is this a practical approach rather than analysing every downloaded file?</li>
-          <li>When a potentially malicious file is in Sandbox analysis, the user sees it in Protected Storage with a "semi-closed circle" status icon. What exactly is the user viewing at this point, and is it the original file?</li>
-          <li>The Sandbox Detail Report shows a MITRE ATT&CK mapping. Why is this level of detail valuable to a security analyst rather than just a benign/malicious verdict?</li>
-        </ul>
-        <div class="answer-area" data-section="lab8-topic">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
+    <li>The Sandbox policy uses "Quarantine and Isolate" as the First-Time Action. What does "first-time" mean in this context, and why is this a practical approach rather than analysing every downloaded file?
+      <div class="answer-area" data-section="lab8-topic-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">"First-time" means Zscaler has never seen this specific file hash (MD5) before — it has no prior analysis record. Sandbox uses this to prioritise analysis resources: known-good files (seen many times, already verdicted benign) pass through immediately. Only truly novel files are quarantined, which keeps the system scalable without degrading performance for routine downloads.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>When a potentially malicious file is in Sandbox analysis, the user sees it in Protected Storage with a "semi-closed circle" status icon. What exactly is the user viewing at this point, and is it the original file?
+      <div class="answer-area" data-section="lab8-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">The user is viewing a flattened PDF rendered from the original file inside the isolation container. It is NOT the original file. The PDFTron engine converted the file to PDF, stripping all macros and active content. The original file is held by Sandbox for analysis. Even if the file is malicious, the PDF rendering is safe — the endpoint never receives executable content.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The Sandbox Detail Report shows a MITRE ATT&CK mapping. Why is this level of detail valuable to a security analyst rather than just a benign/malicious verdict?
+      <div class="answer-area" data-section="lab8-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">A MITRE ATT&CK mapping tells the analyst exactly which techniques the file attempted to use (e.g., T1566.001 Spearphishing Attachment, T1059.001 PowerShell). This enables precise detection rule updates, IR playbook selection, and reporting to leadership using the industry-standard threat taxonomy. A binary benign/malicious verdict only tells you the outcome — the ATT&CK map tells you the method.</div>
           </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 8.1: Review the Cloud Sandbox + Isolation Configuration</h3>
@@ -380,7 +402,7 @@ function copyConfigField(id, btn) {
 
 // ── Copy buttons on inline code ────────────────────────────────────────────
 function injectCopyButtons() {
-  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+  document.querySelectorAll('.step-list code, .sub-steps code, .config-derived code').forEach(el => {
     if (el.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn'; btn.title = 'Copy';

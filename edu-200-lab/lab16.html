@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">DNS resolution is the first step in every HTTPS request. A slow DNS response adds directly to Page Fetch Time, often without the user understanding why the "page is slow" — they just see it as a generally slow experience. ZDX's web probe metrics break Page Fetch Time into its components, making DNS latency visible as a distinct, measurable factor.</p>
       <ul class="socratic-questions">
-        <li>A user's ZDX score is Poor across all apps. How does "all apps affected" help you narrow down where the problem is — in the device, Wi-Fi, DNS, the Zscaler ZTE, or the applications themselves?</li>
-        <li>ZDX shows DNS Time = 3000ms for a user. What are the two most likely causes of high DNS latency, and how would you distinguish between them?</li>
-        <li>ZDX Copilot uses AI to surface insights. What is the risk of relying solely on Copilot's output rather than verifying the underlying metrics yourself — and in what scenario would Copilot's answer be wrong?</li>
-      </ul>
-      <div class="answer-area" data-section="lab16-dns">
+    <li>A user's ZDX score is Poor across all apps. How does "all apps affected" help you narrow down where the problem is — in the device, Wi-Fi, DNS, the Zscaler ZTE, or the applications themselves?
+      <div class="answer-area" data-section="lab16-dns-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">If all apps are affected, the issue is in the shared path — something every application request passes through. App-specific issues (server down, CDN problem) affect only one app. A shared path problem points to the device itself (CPU, memory, disk I/O), the Wi-Fi or LAN connection, DNS resolution, or the Zscaler ZTE the user is routed through. Compare Web Probe metrics across multiple apps: if DNS Time is high for all of them, DNS is the bottleneck. If TCP Connect and Server Response are high but DNS is normal, the ZTE or network path is the bottleneck.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZDX shows DNS Time = 3000ms for a user. What are the two most likely causes of high DNS latency, and how would you distinguish between them?
+      <div class="answer-area" data-section="lab16-dns-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">Two likely causes of high DNS latency: (1) The user's DNS server is slow, overloaded, or far away — check the device's configured DNS server and whether ZCC is using Zscaler's DNS resolver or a corporate DNS server; (2) ZIA DNS Control is applying complex processing or the Zscaler service edge nearest the user has a slow DNS path to authoritative servers. Distinguish them by comparing with other users on the same network/ZTE: if only this user has high DNS time, it's device-specific DNS configuration. If all users on the same ZTE show high DNS, it's the ZTE or its upstream DNS.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZDX Copilot uses AI to surface insights. What is the risk of relying solely on Copilot's output rather than verifying the underlying metrics yourself — and in what scenario would Copilot's answer be wrong?
+      <div class="answer-area" data-section="lab16-dns-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">ZDX Copilot's answer is only as good as the data available to it and the patterns it was trained on. It could be wrong if the issue is subtle (e.g., intermittent DNS that averages out over the probe window) or if it draws from a limited time range that misses the root cause. Always verify Copilot's suggested root cause by checking the underlying probe metrics yourself — Copilot should accelerate your investigation, not replace it. Treat it as a first hypothesis, not a final verdict.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 16.1 — Use ZDX Copilot to Surface the Issue</h3>
@@ -683,7 +705,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

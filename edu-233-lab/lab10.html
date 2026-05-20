@@ -108,31 +108,53 @@
         </div>
         <p class="socratic-insight">ZPA User Portal 2.0 + BI is the "zero-footprint" BYOD solution. No endpoint agent, no VPN, no corporate image required. The device only needs a browser. All access is isolated — exfiltration controls apply even on unmanaged hardware.</p>
         <ul class="socratic-questions">
-          <li>The ZPA Isolation Profile for BYOD has "Forward Internet Traffic via ZIA" enabled. Why is this setting necessary when the SaaS app (M365) is accessed via ZPA Browser Access?</li>
-          <li>The BYOD Access Policy allows Client Types: Web Browser AND Client Connector. Why include both, and what happens if a managed device user (with ZCC installed) clicks the same M365 tile in the User Portal?</li>
-          <li>The lab uses IdP Conditional Access to block direct M365 access from unmanaged devices. Why is this the right enforcement point rather than a ZPA policy?</li>
-        </ul>
-        <div class="answer-area" data-section="lab10-topic">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
+    <li>The ZPA Isolation Profile for BYOD has "Forward Internet Traffic via ZIA" enabled. Why is this setting necessary when the SaaS app (M365) is accessed via ZPA Browser Access?
+      <div class="answer-area" data-section="lab10-topic-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">ZPA Browser Access routes the SaaS app connection through ZPA App Connectors for private/corporate apps. But inside the M365 isolated session, the user's isolated browser may load internet resources (CDN scripts, fonts, API endpoints). "Forward Internet Traffic via ZIA" ensures those outbound internet calls from the isolation container are inspected by ZIA, maintaining full policy coverage even inside the isolated SaaS session.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The BYOD Access Policy allows Client Types: Web Browser AND Client Connector. Why include both, and what happens if a managed device user (with ZCC installed) clicks the same M365 tile in the User Portal?
+      <div class="answer-area" data-section="lab10-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">A managed device user (ZCC installed) accesses the same M365 tile and gets isolation applied — the Isolate BYOD policy matches both Web Browser and Client Connector client types. This is intentional: even managed device users accessing M365 via the User Portal get the same BYOD Restricted isolation controls. If you want to differentiate, create separate policies scoped by client type.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The lab uses IdP Conditional Access to block direct M365 access from unmanaged devices. Why is this the right enforcement point rather than a ZPA policy?
+      <div class="answer-area" data-section="lab10-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">ZPA policies control ZPA-mediated access (through the User Portal / Browser Access). They cannot control direct browser access to M365 (which goes directly to Microsoft). IdP Conditional Access is enforced by the IdP (e.g., Azure AD) — it checks the source IP before allowing authentication. If the request comes from a Zscaler IP (proving it went through ZPA/ZIA), access is granted. If it comes from a random ISP IP, access is denied.</div>
           </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 10.1: Review the ZPA Isolation Profile for BYOD</h3>
@@ -539,7 +561,7 @@ function copyConfigField(id, btn) {
 
 // ── Copy buttons on inline code ────────────────────────────────────────────
 function injectCopyButtons() {
-  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+  document.querySelectorAll('.step-list code, .sub-steps code, .config-derived code').forEach(el => {
     if (el.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn'; btn.title = 'Copy';

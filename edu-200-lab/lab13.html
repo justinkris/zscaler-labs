@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">ZPA can proxy any TCP-based protocol, not just HTTP. RDP (port 3389) access via ZPA means the user connects to the internal Windows server using their standard RDP client, but the connection is brokered through ZPA — no VPN required, no direct network path between the user and the server.</p>
       <ul class="socratic-questions">
-        <li>An RDP connection via ZPA works even though the user's machine has no direct network route to the internal server. How is this possible — what does ZPA do to bridge the connection?</li>
-        <li>You've added port 3389 to the Intranet app segment and RDP works. A colleague now needs SSH access (port 22) to the same server. What is the minimal change required — do you need a new app segment or just a port addition?</li>
-        <li>ZPA Diagnostics shows a "Policy Not Configured" error for the Intranet segment. What does this mean, and is it necessarily a problem?</li>
-      </ul>
-      <div class="answer-area" data-section="lab13-rdp">
+    <li>An RDP connection via ZPA works even though the user's machine has no direct network route to the internal server. How is this possible — what does ZPA do to bridge the connection?
+      <div class="answer-area" data-section="lab13-rdp-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">ZPA creates a secure, brokered connection: the ZCC on the user's machine establishes a tunnel to the ZPA cloud broker, the App Connector in the data centre establishes a reverse tunnel to the same broker, and ZPA stitches them together into a single end-to-end session. The user's RDP client connects to localhost or a ZPA-assigned address; the App Connector connects to the actual RDP server. No direct network path exists — ZPA is the broker in the middle.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>You've added port 3389 to the Intranet app segment and RDP works. A colleague now needs SSH access (port 22) to the same server. What is the minimal change required — do you need a new app segment or just a port addition?
+      <div class="answer-area" data-section="lab13-rdp-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">Only a port addition is required — add port 22 to the existing Intranet app segment's port ranges. A new app segment is not needed unless you want different access policies for SSH vs. RDP (e.g., different allowed users). App segments define the destination resource; ports within that segment define which protocols are allowed. Adding port 22 to Intranet makes SSH available to anyone who already has access to the Intranet segment.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZPA Diagnostics shows a "Policy Not Configured" error for the Intranet segment. What does this mean, and is it necessarily a problem?
+      <div class="answer-area" data-section="lab13-rdp-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">"Policy Not Configured" in ZPA Diagnostics means the diagnostic test ran but no Access Policy rule evaluated to either allow or block — the user or app segment wasn't matched by any policy rule. If the user can still access the app, it may mean the diagnostic was run with a different user context or the access policy exists but wasn't captured by the diagnostic. It becomes a problem only if the user is actually experiencing access failures — then it confirms the missing policy is the cause.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 13.1 — Add RDP Port and Connect via Remote Desktop</h3>
@@ -694,7 +716,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

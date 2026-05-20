@@ -120,31 +120,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">Authentication failures are the most common Tier-1 ticket — and the most misdiagnosed. Before testing, think about the layers: network reachability, ZCC enrollment, and SAML assertion correctness are three completely different failure modes.</p>
         <ul class="socratic-questions">
-          <li>What is the difference between a user failing to reach <code>login.zscalerthree.net</code> and a user failing SAML authentication at the IdP? How would the symptom differ from the user&rsquo;s perspective?</li>
-          <li>The <code>--userDomain</code> CLI flag routes ZCC directly to the org&rsquo;s SAML SSO page. What problem does this solve compared to the default enrollment flow?</li>
-          <li>If a SAML response shows <code>NotOnOrAfter</code> in the past, what does that tell you about the root cause — and which team is responsible for fixing it?</li>
-        </ul>
-        <div class="answer-area" data-section="lab2-auth">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>What is the difference between a user failing to reach <code>login.zscalerthree.net</code> and a user failing SAML authentication at the IdP? How would the symptom differ from the user&rsquo;s perspective?
+      <div class="answer-area" data-section="lab2-auth-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">Network reachability failure means ZCC cannot reach the Zscaler cloud at all — the user gets no internet access and ZCC shows "Service Status: OFF". SAML failure means ZCC can reach Zscaler, but authentication with the IdP (Azure AD) fails — ZCC shows as connected but the user may be stuck in a login loop or get a "Can't access your account" error. The first requires network diagnosis; the second requires identity/SAML diagnosis.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>The <code>--userDomain</code> CLI flag routes ZCC directly to the org&rsquo;s SAML SSO page. What problem does this solve compared to the default enrollment flow?
+      <div class="answer-area" data-section="lab2-auth-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text">By default ZCC shows a service enrollment screen where the user must choose their organisation. With <code>--userDomain</code>, ZCC skips that screen and redirects the user directly to the SAML IdP page for the specified domain. This prevents users from accidentally authenticating to the wrong tenant and simplifies large deployments via MDM (SCCM/Intune) where no user interaction should be needed.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>If a SAML response shows <code>NotOnOrAfter</code> in the past, what does that tell you about the root cause — and which team is responsible for fixing it?
+      <div class="answer-area" data-section="lab2-auth-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">A <code>NotOnOrAfter</code> timestamp in the past means the SAML assertion has already expired by the time Zscaler received it — this is a clock synchronisation (NTP) issue between the IdP server and the Zscaler service. The IdP admin team is responsible. Confirm by comparing the IdP server time to UTC and check if the gap exceeds the SAML validity window (typically 5 minutes).</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 2.1: Check Client Connectivity to the Zero Trust Exchange</h3>
@@ -563,7 +585,7 @@ function copyConfigField(id,btn){var val=document.getElementById(id).value.trim(
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
-function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
 function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
 function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}else{ma.style.display='none';btn.textContent='👁 See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}

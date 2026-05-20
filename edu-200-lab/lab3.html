@@ -116,11 +116,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">ZCC uses a Forwarding Profile to decide how traffic is sent to Zscaler depending on the network context (on-trusted, off-trusted, VPN). Z-Tunnel 2.0 with Packet Filter-Based driver intercepts all protocols — not just HTTP/HTTPS — enabling full firewall functionality. The Windows App Profile links the forwarding config to specific devices and users.</p>
       <ul class="socratic-questions">
-        <li>Z-Tunnel 2.0 is required for Firewall functionality. What does Z-Tunnel 1.0 support that makes it insufficient for firewall policy enforcement?</li>
-        <li>You set VPN Trusted Network and Off-Trusted Network to "Same as On-Trusted Network." In what real-world scenario would you want different forwarding behavior for VPN vs. Off-Trusted traffic?</li>
-        <li>The Windows App Profile sets "Install Zscaler SSL Certificate: On." Why is the SSL certificate installation necessary, and what would break if it were missing?</li>
-      </ul>
-      <div class="answer-area" data-section="lab3-zcc">
+    <li>Z-Tunnel 2.0 is required for Firewall functionality. What does Z-Tunnel 1.0 support that makes it insufficient for firewall policy enforcement?
+      <div class="answer-area" data-section="lab3-zcc-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -131,16 +128,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">Z-Tunnel 1.0 only forwards HTTP and HTTPS proxy traffic — it works at the application layer for web browsing but ignores other protocols like SSH, DNS, ICMP, or custom TCP/UDP. Z-Tunnel 2.0 operates at the network layer, intercepting all IP traffic regardless of protocol, which is what gives the Zscaler Cloud Firewall visibility and enforcement capability over non-web traffic.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>You set VPN Trusted Network and Off-Trusted Network to "Same as On-Trusted Network." In what real-world scenario would you want different forwarding behavior for VPN vs. Off-Trusted traffic?
+      <div class="answer-area" data-section="lab3-zcc-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">A company might want VPN traffic to use "None" (bypass Zscaler) if the corporate VPN already provides equivalent security inspection. Off-Trusted traffic (home networks, coffee shops) might need a stricter "Tunnel" mode with no local proxy bypass. Setting these the same simplifies the lab, but in production the differences often align with how much the organization trusts each network type.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The Windows App Profile sets "Install Zscaler SSL Certificate: On." Why is the SSL certificate installation necessary, and what would break if it were missing?
+      <div class="answer-area" data-section="lab3-zcc-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">Zscaler performs SSL inspection by acting as a man-in-the-middle for HTTPS traffic, re-signing certificates with the Zscaler CA. For the browser to trust these re-signed certs, the Zscaler root CA must be installed in the system trust store. Without it, every HTTPS site would show an untrusted certificate error, rendering secure web browsing unusable.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 3.1: Configure Traffic Forwarding Options</h3>
@@ -763,7 +785,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

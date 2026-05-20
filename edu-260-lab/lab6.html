@@ -115,31 +115,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">DLP has three architectural layers that build on each other: dictionaries contain the detection patterns; engines combine dictionaries with Boolean logic; rules apply engines to traffic. Troubleshooting a DLP gap requires knowing which layer broke.</p>
         <ul class="socratic-questions">
-          <li>A DLP rule uses the <em>PCI-Medium</em> DLP engine. The engine uses the <em>Credit Cards</em> dictionary with a threshold of <code>&gt; 5</code> matches. A file with 3 credit card numbers passes uninspected. Is this a misconfigured rule, engine, or dictionary — and how would you diagnose it?</li>
-          <li>Zscaler DLP supports EDM (Exact Data Match), IDM (Indexed Document Match), and regex pattern dictionaries. For protecting a list of 10,000 specific employee SSNs, which dictionary type would you use and why?</li>
-          <li>A DLP rule is set to Block, but the Zscaler Incident Receiver is set to <em>None</em>. What happens to block events — are they visible anywhere, and what is the admin missing?</li>
-        </ul>
-        <div class="answer-area" data-section="lab6-dlp">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>A DLP rule uses the <em>PCI-Medium</em> DLP engine. The engine uses the <em>Credit Cards</em> dictionary with a threshold of <code>&gt; 5</code> matches. A file with 3 credit card numbers passes uninspected. Is this a misconfigured rule, engine, or dictionary — and how would you diagnose it?
+      <div class="answer-area" data-section="lab6-dlp-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">This is likely working as designed. The engine threshold (<code>&gt; 5</code>) means the file must contain <em>more than 5</em> credit card numbers before the engine triggers. A file with 3 credit card numbers won&rsquo;t match the PCI-Medium engine — it would match PCI-Low (with a lower threshold) if that rule/engine existed. To diagnose: check the engine expression to confirm the threshold; check if there&rsquo;s a separate PCI-Low rule for 1–5 matches; then check whether a file with &gt;5 numbers is correctly blocked.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Zscaler DLP supports EDM (Exact Data Match), IDM (Indexed Document Match), and regex pattern dictionaries. For protecting a list of 10,000 specific employee SSNs, which dictionary type would you use and why?
+      <div class="answer-area" data-section="lab6-dlp-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text"><strong>EDM (Exact Data Match)</strong> is designed for this use case. You upload a structured data file (CSV/TSV) containing the 10,000 SSNs as an index template. ZIA checks each piece of content against the exact values in the index — no false positives from regex patterns that might match non-employee numbers. EDM is much more precise than regex for protecting specific known PII datasets, at the cost of needing to keep the index template updated.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>A DLP rule is set to Block, but the Zscaler Incident Receiver is set to <em>None</em>. What happens to block events — are they visible anywhere, and what is the admin missing?
+      <div class="answer-area" data-section="lab6-dlp-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">The block is still enforced — the user sees a block page and the upload fails. Block events <em>are</em> visible in Web Insights logs (Policy Action = Block, Blocked Policy Type = Data Loss Prevention). However, without an Incident Receiver configured, the DLP admin receives <em>no notification</em> and no incident evidence is captured (file content, matched strings). The admin is missing the forensic and compliance data needed to respond to violations — a critical gap for audit and incident response.</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 6.1: Review DLP Configurations</h3>
@@ -586,7 +608,7 @@ function copyConfigField(id,btn){var val=document.getElementById(id).value.trim(
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
-function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
 function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
 function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}else{ma.style.display='none';btn.textContent='👁 See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}

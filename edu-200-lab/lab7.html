@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">DNS is the first step in almost every network connection. By controlling DNS resolution, ZIA can block access to malicious or policy-violating domains before a TCP connection is even attempted — lighter and faster than blocking at the HTTP/HTTPS layer.</p>
       <ul class="socratic-questions">
-        <li>A DNS Control block rule prevents resolution of a gambling domain. But if a user has a hardcoded DNS server (8.8.8.8) set on their NIC rather than using the default DNS, will your DNS Control rule still apply — and why?</li>
-        <li>After creating a DNS Control block rule, you run nslookup and the domain still resolves. What are the two most likely reasons, and what's the correct fix for each?</li>
-        <li>Why does the App Profile's DNS wildcard domain inclusion (*.labtenant.com) matter for ZPA — and what would happen to ZPA private app resolution if you omitted it?</li>
-      </ul>
-      <div class="answer-area" data-section="lab7-dns">
+    <li>A DNS Control block rule prevents resolution of a gambling domain. But if a user has a hardcoded DNS server (8.8.8.8) set on their NIC rather than using the default DNS, will your DNS Control rule still apply — and why?
+      <div class="answer-area" data-section="lab7-dns-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">With Z-Tunnel 2.0 enabled, ZCC intercepts all network traffic including DNS queries regardless of the configured DNS server. The user's NIC might point to 8.8.8.8, but the DNS query packet is intercepted by the ZCC kernel driver and forwarded to Zscaler's service edge for resolution — DNS Control applies. Without Z-Tunnel 2.0 (e.g., only Z-Tunnel 1.0 which operates at TCP/HTTPS level), UDP-based DNS bypasses ZCC entirely and the block would fail.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>After creating a DNS Control block rule, you run nslookup and the domain still resolves. What are the two most likely reasons, and what's the correct fix for each?
+      <div class="answer-area" data-section="lab7-dns-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">Two common causes: (1) Policy not activated — the rule was saved but not pushed to service edges; click Activate and re-test. (2) Stale DNS cache — the domain was resolved before the block rule took effect and the response is cached locally; run ipconfig /flushdns then re-test. A third cause is that ZCC hasn't received the updated policy; click Update Policy in the ZCC More tab.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>Why does the App Profile's DNS wildcard domain inclusion (*.labtenant.com) matter for ZPA — and what would happen to ZPA private app resolution if you omitted it?
+      <div class="answer-area" data-section="lab7-dns-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">The DNS wildcard inclusion (*.labtenant.com) tells the App Profile to handle DNS for the private domain through ZPA rather than forwarding it to a public DNS server. Without it, a DNS query for intranet.labtenant.com would be sent to the internet-facing DNS resolver, which either returns NXDOMAIN or a wrong IP — the private app becomes unreachable even if the ZPA app segment is correctly configured. Private domain DNS must be directed through ZPA's resolution path.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 7.1 — Configure DNS Domain Inclusion in the App Profile</h3>
@@ -733,7 +755,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

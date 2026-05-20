@@ -108,31 +108,53 @@
         </div>
         <p class="socratic-insight">Isolate as an action in URL Filtering is the primary tool for category-based Browser Isolation. It removes the false choice between "block and frustrate users" or "allow and accept risk" for entire URL categories.</p>
         <ul class="socratic-questions">
-          <li>A URL Filtering policy with Isolate action is configured for "News and Media." A user navigates to bbc.com. Describe the full traffic flow from endpoint to isolated browser.</li>
-          <li>The "Isolate News Media" policy uses the Copy-Print-Watermark profile. What specific data exfiltration paths does this profile allow, and which does it block?</li>
-          <li>If a user in an isolated news session tries to paste text from their local clipboard into the page, what happens — and why?</li>
-        </ul>
-        <div class="answer-area" data-section="lab4-topic">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
+    <li>A URL Filtering policy with Isolate action is configured for "News and Media." A user navigates to bbc.com. Describe the full traffic flow from endpoint to isolated browser.
+      <div class="answer-area" data-section="lab4-topic-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">ZCC forwards the HTTPS request to ZIA. ZIA decrypts the traffic (SSL inspection), evaluates URL Filtering policies, matches "Isolate News Media," and instead of returning the page content directly, ZIA spins up an isolated container in the configured region. The container fetches bbc.com, renders it, and streams a pixel-stream back to the user's browser. The user interacts with the stream; all requests originate from the container, not the endpoint.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The "Isolate News Media" policy uses the Copy-Print-Watermark profile. What specific data exfiltration paths does this profile allow, and which does it block?
+      <div class="answer-area" data-section="lab4-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Copy-Print-Watermark allows: (1) copying content from the isolated page to the local clipboard ("Isolation to local computer"), and (2) printing from the isolated session. It blocks: uploading files to the isolated page and downloading files from it to the local machine. Additionally, the session is watermarked with the user's identity and timestamp.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>If a user in an isolated news session tries to paste text from their local clipboard into the page, what happens — and why?
+      <div class="answer-area" data-section="lab4-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Pasting from the local clipboard to the isolated page is blocked because "Copy from Local Computer to Isolation" is disabled in the Copy-Print-Watermark profile. The clipboard bridge from the user's OS to the isolation container is severed, preventing data exfiltration into the remote site.</div>
           </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 4.1: Review URL Filtering Policies with Isolate as Action</h3>
@@ -350,7 +372,7 @@ function copyConfigField(id, btn) {
 
 // ── Copy buttons on inline code ────────────────────────────────────────────
 function injectCopyButtons() {
-  document.querySelectorAll('.step-list code, .sub-steps code').forEach(el => {
+  document.querySelectorAll('.step-list code, .sub-steps code, .config-derived code').forEach(el => {
     if (el.querySelector('.copy-btn')) return;
     const btn = document.createElement('button');
     btn.className = 'copy-btn'; btn.title = 'Copy';

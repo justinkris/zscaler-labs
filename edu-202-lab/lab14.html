@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">ZDX Alerts notify helpdesk proactively when performance degrades — before users call. Diagnostic sessions collect deep packet-level trace data from the user's device on demand, giving helpdesk a precise root-cause dataset.</p>
   <ul class="socratic-questions">
-    <li>An alert rule has criteria: Page Fetch Time ≥ 800 ms AND ZDX Score < 20. How does the AND logic affect alert noise compared to using OR?</li>
-    <li>A Diagnostic Session uses Deep Tracing. What specific data does Deep Tracing collect that a regular ZDX probe does not?</li>
-    <li>The "Alert Only if Repeated: 2" throttle setting means the alert fires only after the condition is met 2 times in a row. Why is this throttle important in a production environment?</li>
-  </ul>
-  <div class="answer-area" data-section="lab14-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>An alert rule has criteria: Page Fetch Time ≥ 800 ms AND ZDX Score < 20. How does the AND logic affect alert noise compared to using OR?
+      <div class="answer-area" data-section="lab14-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">AND logic requires both conditions to be true simultaneously, which is a much narrower trigger than OR. A high Page Fetch Time alone might be a one-off slow server response; a low ZDX Score alone might reflect a brief DNS hiccup. When both conditions are simultaneously true, it strongly indicates a sustained performance problem. AND logic significantly reduces false-positive alerts compared to OR, which would fire on every individual metric fluctuation.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>A Diagnostic Session uses Deep Tracing. What specific data does Deep Tracing collect that a regular ZDX probe does not?
+      <div class="answer-area" data-section="lab14-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Deep Tracing captures per-packet network flow data (similar to a Wireshark trace) from the ZCC endpoint — including detailed DNS resolution timing, TCP handshake, TLS negotiation, and application-layer transaction timings. Regular ZDX probes only report aggregated metrics (total DNS time, TCP connect time, page fetch time). Deep Tracing gives the precise millisecond-level breakdown needed to pinpoint whether a problem is in the last mile, the Zscaler node, or the server.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>The "Alert Only if Repeated: 2" throttle setting means the alert fires only after the condition is met 2 times in a row. Why is this throttle important in a production environment?
+      <div class="answer-area" data-section="lab14-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Without throttling, a sustained performance degradation (e.g. a server that is slow for 30 minutes) would send a new alert email every 5 minutes as each probe cycle exceeds the threshold. Helpdesk would be buried in redundant notifications. "Alert Only if Repeated: 2" means the condition must persist for at least 2 consecutive probe cycles before alerting, filtering out one-off transient spikes and reducing alert fatigue.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 14.1 — Create an Alert Rule</h3>
@@ -494,7 +516,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

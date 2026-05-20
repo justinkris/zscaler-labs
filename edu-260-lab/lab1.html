@@ -120,31 +120,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <p class="socratic-insight">Before touching a live environment, a good troubleshooter builds a mental map of what should be there — topology, roles, access constraints.</p>
         <ul class="socratic-questions">
-          <li>What three types of resources does your Skytap training pod give you access to, and why does that separation matter for troubleshooting?</li>
-          <li>You can access ZIA, ZPA, and ZDX Admin Portals as a Read-Only Administrator. What does this restriction prevent you from doing, and how does it affect the labs?</li>
-          <li>What would happen to your ZCC enrollment and ongoing tests if the Corp: Client PC VM shuts down mid-lab?</li>
-        </ul>
-        <div class="answer-area" data-section="lab1-env">
-          <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
-          <div class="answer-buttons">
-            <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-            <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
-          </div>
-          <div class="model-answers" style="display:none;">
-            <div class="model-answer-item">
+    <li>What three types of resources does your Skytap training pod give you access to, and why does that separation matter for troubleshooting?
+      <div class="answer-area" data-section="lab1-env-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q1 — MODEL ANSWER</div>
               <div class="model-answer-text">Your pod gives you: (1) a Corp: Client PC virtual machine for end-user simulation, (2) admin/user credentials for all Zscaler services, and (3) access to ZIA, ZPA, and ZDX Admin Portals. The separation matters because real-world issues span all three layers — you often need to correlate what the client is seeing with what the admin portal logs are showing.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>You can access ZIA, ZPA, and ZDX Admin Portals as a Read-Only Administrator. What does this restriction prevent you from doing, and how does it affect the labs?
+      <div class="answer-area" data-section="lab1-env-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q2 — MODEL ANSWER</div>
               <div class="model-answer-text">Read-Only access means you can view all configuration, policies, and logs — but cannot save changes. In these labs that is intentional: you verify that existing configurations are correct, rather than making changes. It mirrors a real HelpDesk Tier 1 scenario where the analyst needs to diagnose before escalating to someone with write access.</div>
             </div>
-            <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>What would happen to your ZCC enrollment and ongoing tests if the Corp: Client PC VM shuts down mid-lab?
+      <div class="answer-area" data-section="lab1-env-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
               <div class="model-answer-q">Q3 — MODEL ANSWER</div>
               <div class="model-answer-text">ZCC enrollment state is stored on the VM. If the VM shuts down, ZCC loses its session and must re-authenticate when restarted. Ongoing packet captures would be lost. For labs that span multiple tasks this means you may need to re-enroll the IT_department_user after a restart — always check Service Status in ZCC before continuing.</div>
             </div>
-          </div>
         </div>
+      </div>
+    </li>
+      </ul>
+
       </div>
 
       <h3>Task 1.1: Test Your Lab Access and Start Your Environment</h3>
@@ -409,7 +431,7 @@ function toggleFooter(){var f=document.getElementById('site-footer');var btn=doc
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
 function injectCopyButtons(){
-  document.querySelectorAll('.step-list > li code, .sub-steps li code, .creds-table td code, .task-block code').forEach(function(code){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .creds-table td code, .task-block code, .config-derived code').forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
     var text=code.textContent.trim();if(text.length<2)return;

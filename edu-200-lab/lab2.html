@@ -116,11 +116,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">Entitlements in Zscaler determine what services a user can access (service entitlements) and what they can configure in the admin console (administrative entitlements). Getting the identity hierarchy right — department → user group → user — is what makes policies and role-based access work at scale.</p>
       <ul class="socratic-questions">
-        <li>Bev is placed in the built-in "Zscaler Global Administrators" group rather than a custom group. What is the risk of always granting full super-admin access, even to trusted IT staff?</li>
-        <li>Joe receives the "Executive Insights App" role for ZIA — a predefined read-only role. Why might Zscaler provide pre-built roles rather than requiring admins to always create custom ones?</li>
-        <li>A service entitlement (ZIA) is assigned to Helpdesk L1 group, while an administrative entitlement (ZIA read-only) is also assigned. What is the difference between these two types, and could you have one without the other?</li>
-      </ul>
-      <div class="answer-area" data-section="lab2-entitlements">
+    <li>Bev is placed in the built-in "Zscaler Global Administrators" group rather than a custom group. What is the risk of always granting full super-admin access, even to trusted IT staff?
+      <div class="answer-area" data-section="lab2-entitlements-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -131,16 +128,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">Super-admin access means Bev can change any policy, delete rules, or reconfigure the entire tenant — with no guardrails. In production this violates separation of duties (e.g., someone who configures firewall rules shouldn't also have access to DLP policies). The principle of least privilege requires even IT admins to receive only the access their role demands, not blanket super-admin.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>Joe receives the "Executive Insights App" role for ZIA — a predefined read-only role. Why might Zscaler provide pre-built roles rather than requiring admins to always create custom ones?
+      <div class="answer-area" data-section="lab2-entitlements-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">Pre-built roles represent common use cases (read-only analyst, helpdesk, SOC) without requiring every organization to reinvent the permission matrix. They also encode Zscaler's own recommended permission boundaries, reducing the risk of over-permissioning by accident. Custom roles are still available when a pre-built role doesn't fit the exact job function.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>A service entitlement (ZIA) is assigned to Helpdesk L1 group, while an administrative entitlement (ZIA read-only) is also assigned. What is the difference between these two types, and could you have one without the other?
+      <div class="answer-area" data-section="lab2-entitlements-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">A service entitlement grants access to use a Zscaler service (ZIA forwards your traffic). An administrative entitlement grants access to configure that service in the admin console. Yes, you can have one without the other: Joe has both — he uses ZIA (service) and can view-only its analytics (admin). A regular end-user would only have the service entitlement with no admin console access at all.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <p>The table below summarizes what you'll configure:</p>
@@ -890,7 +912,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

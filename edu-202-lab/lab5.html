@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">ZIA's Cloud Firewall Filtering operates on non-HTTP/HTTPS traffic. It requires Z-Tunnel 2.0 because Z-Tunnel 1.0 only tunnels web protocols. Without ZT2, firewall rules exist but traffic bypasses them entirely.</p>
   <ul class="socratic-questions">
-    <li>ZIA has a default "Allow All" policy for new tenants. Why is this dangerous in a real deployment, and what should the last rule in the firewall policy always be?</li>
-    <li>You create an Allow SSH rule but a tech reports they can't SSH to a server. The rule matches the source IP and destination port 22. What else could be blocking the traffic?</li>
-    <li>If a user switches from Off-Trusted to Trusted Network (e.g. they connect to corporate VPN), does the ZIA firewall still inspect their traffic? Why or why not?</li>
-  </ul>
-  <div class="answer-area" data-section="lab5-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>ZIA has a default "Allow All" policy for new tenants. Why is this dangerous in a real deployment, and what should the last rule in the firewall policy always be?
+      <div class="answer-area" data-section="lab5-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">A permissive default allows any unmatched traffic — including reconnaissance, lateral movement, and data exfiltration via non-web ports. The last rule should always be an explicit Block/Drop with no criteria (catch-all) so all unmatched traffic is denied by policy rather than passing by default.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>You create an Allow SSH rule but a tech reports they can't SSH to a server. The rule matches the source IP and destination port 22. What else could be blocking the traffic?
+      <div class="answer-area" data-section="lab5-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Possible causes: (1) The Forwarding Profile is still on Z-Tunnel 1.0 — SSH traffic is not being tunneled through ZIA at all, so the rule is never evaluated. (2) The destination IP is in an excluded subnet. (3) The rule action is configured as "Drop" rather than "Allow" — check the rule order and action type.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>If a user switches from Off-Trusted to Trusted Network (e.g. they connect to corporate VPN), does the ZIA firewall still inspect their traffic? Why or why not?
+      <div class="answer-area" data-section="lab5-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">When ZCC detects a Trusted Network (based on the trusted network criteria in the Forwarding Profile — e.g. internal DNS domain, corporate gateway IP), it may switch to a different tunnel mode or disable tunneling entirely, depending on the Forwarding Profile configuration. If tunneling is disabled on Trusted Network, ZIA firewall rules do not apply — the traffic goes directly on the corporate network.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 5.1 — Enable Z-Tunnel 2.0</h3>
@@ -495,7 +517,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

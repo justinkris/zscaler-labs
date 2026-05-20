@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">ZIA log streaming uses a Network Security Service (NSS) relay VM in the customer network to push logs to SIEM. ZPA has native log streaming built in — it sends directly to a receiver without a relay VM.</p>
   <ul class="socratic-questions">
-    <li>ZIA requires a dedicated Log Streaming Connector VM but ZPA does not. What architectural difference explains this?</li>
-    <li>Log streaming uses syslog over UDP by default. What data loss risk does this introduce, and how would you mitigate it in production?</li>
-    <li>You configure a ZPA log receiver targeting siem.patraining.safemarch.com on port 514. ZPA log streaming stops working after the SIEM's IP changes. What single change fixes this?</li>
-  </ul>
-  <div class="answer-area" data-section="lab4-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>ZIA requires a dedicated Log Streaming Connector VM but ZPA does not. What architectural difference explains this?
+      <div class="answer-area" data-section="lab4-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">ZIA is a proxy that runs entirely in the cloud — its logs live in Zscaler's cloud infrastructure. To get them out, an NSS relay VM in the customer network creates an outbound tunnel to ZIA cloud and pulls the log stream, then pushes it to the SIEM. ZPA connectors are already in the customer network, so ZPA can stream logs directly from its cloud control plane to a SIEM endpoint without a relay.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Log streaming uses syslog over UDP by default. What data loss risk does this introduce, and how would you mitigate it in production?
+      <div class="answer-area" data-section="lab4-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">UDP syslog is fire-and-forget — if the SIEM is overloaded or unreachable, log packets are dropped silently. Mitigation: use TCP syslog (guaranteed delivery) or TLS-encrypted syslog where supported, and configure a local syslog buffer/queue on the NSS VM or a syslog aggregator between ZIA and the SIEM.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>You configure a ZPA log receiver targeting siem.patraining.safemarch.com on port 514. ZPA log streaming stops working after the SIEM's IP changes. What single change fixes this?
+      <div class="answer-area" data-section="lab4-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">Update the ZPA Log Receiver's destination to the new SIEM IP address (or switch to a hostname that resolves to the new IP). The log streaming configuration uses the IP/hostname you specify, so no other change is needed.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 4.1 — Configure ZIA Log Streaming</h3>
@@ -470,7 +492,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

@@ -118,31 +118,53 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </div>
   <p class="socratic-insight">The Zscaler Sandbox detonates unknown files in an isolated environment before delivering them to the user. "First-Time Good" would let unknown files through once — "First-Time Quarantine" is stricter: the user waits until analysis completes.</p>
   <ul class="socratic-questions">
-    <li>What is the trade-off between "First-Time Good" and "First-Time Quarantine" sandbox policies?</li>
-    <li>A known malware sample (MD5 hash already in Zscaler's threat database) is downloaded. Does it need to go through the sandbox? Why or why not?</li>
-    <li>Sandbox inspection only works for files in the supported format list. What happens when a user downloads a file type not supported by the sandbox?</li>
-  </ul>
-  <div class="answer-area" data-section="lab7-think">
-    <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
-    <div class="answer-buttons">
-      <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-      <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
-    </div>
-    <div class="model-answers" style="display:none;">
-      <div class="model-answer-item">
+    <li>What is the trade-off between "First-Time Good" and "First-Time Quarantine" sandbox policies?
+      <div class="answer-area" data-section="lab7-think-q1">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">"First-Time Good" allows an unknown file through immediately and sends it to sandbox in parallel — faster user experience but the file reaches the endpoint before analysis. "First-Time Quarantine" blocks delivery until sandbox completes — eliminates zero-day delivery risk but adds latency (often 30–120 seconds). Use Quarantine in high-security environments; use Good for productivity-sensitive users.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>A known malware sample (MD5 hash already in Zscaler's threat database) is downloaded. Does it need to go through the sandbox? Why or why not?
+      <div class="answer-area" data-section="lab7-think-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">No. Known malware is caught by ZIA's inline hash-based threat intelligence before sandbox analysis is even triggered. The sandbox is specifically for files with unknown verdicts. This is why sandbox and threat detection are complementary — hash lookups are instant; sandbox covers what hash lookups miss.</div>
       </div>
-      <div class="model-answer-item">
+        </div>
+      </div>
+    </li>
+    <li>Sandbox inspection only works for files in the supported format list. What happens when a user downloads a file type not supported by the sandbox?
+      <div class="answer-area" data-section="lab7-think-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
+          <div class="model-answer-item">
         <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
         <div class="model-answer-text">The file passes through uninspected by the sandbox (sandbox cannot analyze it). It is still subject to other ZIA policies — URL filtering, DLP, cloud app control — but the sandbox verdict will not be applied. Supported formats typically include: PE executables, Office documents, PDF, ZIP, and script files.</div>
       </div>
-    </div>
-  </div>
+        </div>
+      </div>
+    </li>
+      </ul>
+
 </div>
 
       <h3>Task 7.1 — Create a Sandbox Catch-All Rule</h3>
@@ -447,7 +469,7 @@ function copyToClipboard(text,btn){
   }).catch(function(){});
 }
 function injectCopyButtons(){
-  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code';
+  var sel='.step-list > li code, .sub-steps li code, .config-table td code, .creds-table td code, .task-block code, .config-derived code';
   document.querySelectorAll(sel).forEach(function(code){
     if(code.closest('.callout'))return;
     if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;

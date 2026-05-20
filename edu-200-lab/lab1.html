@@ -117,11 +117,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">Before any configuration can begin, you need a working connection to both the Skytap VM environment and the Zscaler Experience Center. These are two separate systems: Skytap gives you the VMs; the Experience Center is the Zscaler management console. Understanding how credentials flow between them prevents login confusion later.</p>
       <ul class="socratic-questions">
-        <li>Your admin password for the Experience Center is the same as the VM passwords in this lab. Why is this a convenience for a lab environment but a security risk in production?</li>
-        <li>The VM clipboard in Skytap exists because your local machine and the VM have separate clipboard contexts. What does this tell you about the network isolation of the Skytap environment — can the VM directly reach the internet on its own?</li>
-        <li>You are forced to change the Experience Center admin password on first login. Why does Zscaler enforce this, and what would happen if you forgot the new password mid-lab?</li>
-      </ul>
-      <div class="answer-area" data-section="lab1-connect">
+    <li>Your admin password for the Experience Center is the same as the VM passwords in this lab. Why is this a convenience for a lab environment but a security risk in production?
+      <div class="answer-area" data-section="lab1-connect-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -132,16 +129,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">Sharing a single password across all accounts simplifies lab setup and reset scripts, since everything can be reset to one known value. In production this violates least-privilege — a compromised user password would also unlock admin console access, collapsing the separation between end-user credentials and administrative credentials.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The VM clipboard in Skytap exists because your local machine and the VM have separate clipboard contexts. What does this tell you about the network isolation of the Skytap environment — can the VM directly reach the internet on its own?
+      <div class="answer-area" data-section="lab1-connect-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">The VM clipboard bridge is needed precisely because the Skytap VM runs in an isolated virtual network. It cannot freely access the internet independently — that's the point of the lab: all internet traffic must be forwarded through ZCC to Zscaler. Without ZCC configured, the VM's internet access may be limited or none at all.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>You are forced to change the Experience Center admin password on first login. Why does Zscaler enforce this, and what would happen if you forgot the new password mid-lab?
+      <div class="answer-area" data-section="lab1-connect-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">Zscaler enforces a password change on first login to prevent labs or demos from being accessed with default vendor-set credentials, which are well-known and searchable. If you forget the new password mid-lab, you'd need to use the Zscaler emergency access account (if configured) or contact the instructor to reset the pod — there's no self-service recovery in a lab tenant.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 1.1: Verify Lab Access</h3>
@@ -670,7 +692,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

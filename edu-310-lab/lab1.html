@@ -109,31 +109,53 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
       </div>
       <p class="socratic-insight">A skilled ZDX operator knows which dashboard to open before they know what the problem is. The portal organises data by scope: fleet-wide incidents, per-application trends, per-user drill-downs.</p>
       <ul class="socratic-questions">
-        <li>The Performance Overview shows Most Impacted Applications and a ZDX Score map. What is the ZDX Score and how is it calculated from 0&ndash;100?</li>
-        <li>ZDX has Performance Overview, Incidents Overview, and Self Service Overview dashboards. When would you start at Incidents instead of Performance?</li>
-        <li>If the Y-Engine reports Low Wifi Signal with 90% confidence but the user insists their Wifi is fine, what would you check next to validate or disprove the finding?</li>
-      </ul>
-      <div class="answer-area" data-section="lab1-topic">
+    <li>The Performance Overview shows Most Impacted Applications and a ZDX Score map. What is the ZDX Score and how is it calculated from 0&ndash;100?
+      <div class="answer-area" data-section="lab1-topic-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
-          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>&#128274; See Model Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
         </div>
         <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q1 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">The ZDX Score is a composite 0&ndash;100 metric derived from Web Probe measurements (Page Fetch Time, Server Response Time, DNS Time, Availability) and Cloud Path latency. Higher is better. The score normalises raw measurements against a per-user baseline so that a user with a slow connection scores fairly against one with a fast connection.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZDX has Performance Overview, Incidents Overview, and Self Service Overview dashboards. When would you start at Incidents instead of Performance?
+      <div class="answer-area" data-section="lab1-topic-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Start at Incidents Overview when a user reports an issue that seems to affect a location or subnet, not just their own device. Incidents track events affecting multiple users simultaneously &mdash; Wi-Fi degradation, Last Mile ISP problems, Zscaler Data Center issues. If only one user is impacted, go to Performance Overview and drill into Users.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>If the Y-Engine reports Low Wifi Signal with 90% confidence but the user insists their Wifi is fine, what would you check next to validate or disprove the finding?
+      <div class="answer-area" data-section="lab1-topic-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer&hellip;" rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 &mdash; MODEL ANSWER</div>
             <div class="model-answer-text">Check the Cloud Path Hop View at the same timestamp. A Wifi issue would manifest as high latency on the first hop between the client and its gateway. Also check User Device Events &mdash; the Network interface tab will show SSID changes or Wifi signal strength drops at the exact moment the score dropped.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 1.1: View ZDX Dashboard</h3>
@@ -597,7 +619,7 @@ function copyConfigField(id,btn){var val=document.getElementById(id).value.trim(
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'&#9660; Show':'&#9650; Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='&#9660; Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='&#10003;';setTimeout(function(){btn.classList.remove('copied');btn.textContent='&#10760;';},1500);}).catch(function(){});}
-function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='&#10760;';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
 function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim())return;var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='&#128065; See Model Answer';btn.textContent='&#10003; Answer Saved';btn.style.background='var(--green)';try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);}
 function revealSocAnswer(btn){var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma.style.display==='none'){ma.style.display='block';btn.textContent='&#128275; Hide Model Answer';}else{ma.style.display='none';btn.textContent='&#128065; See Model Answer';}}
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}

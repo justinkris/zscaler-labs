@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">SIPA (Secure Internet and Private Access) routes internet-bound traffic from ZPA App Connectors through ZIA before it reaches the internet. Normally, app connector traffic egresses directly to the internet with the connector's IP. SIPA changes the egress to a Zscaler service edge IP — enabling consistent policy enforcement and a predictable egress address.</p>
       <ul class="socratic-questions">
-        <li>Without SIPA, internet traffic from a ZPA App Connector exits directly to the internet with the connector's public IP. What problem does this create for an organisation that wants consistent, auditable internet egress from all users including those in data centres?</li>
-        <li>SIPA involves configuring both ZPA (app segment + gateway) and ZIA (forwarding rule). Why must both be configured — what does each side contribute, and what happens if only one is configured?</li>
-        <li>After SIPA is configured, checking ip.zscaler.com shows a different egress IP than before. What does this new IP represent, and how would you tell if the traffic was going through ZIA versus exiting directly?</li>
-      </ul>
-      <div class="answer-area" data-section="lab12-sipa">
+    <li>Without SIPA, internet traffic from a ZPA App Connector exits directly to the internet with the connector's public IP. What problem does this create for an organisation that wants consistent, auditable internet egress from all users including those in data centres?
+      <div class="answer-area" data-section="lab12-sipa-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">Without SIPA, each App Connector (and the servers behind it) egresses with the data centre's public IP — a different IP from the ZCC users who egress through ZIA service edges. This creates two egress profiles that are difficult to manage consistently: allow-lists, IP reputation policies, and audit logs show different IPs for the same organisation. SIPA routes all data centre internet traffic through ZIA, giving it the same consistent Zscaler egress IP and the same policy enforcement as user traffic.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>SIPA involves configuring both ZPA (app segment + gateway) and ZIA (forwarding rule). Why must both be configured — what does each side contribute, and what happens if only one is configured?
+      <div class="answer-area" data-section="lab12-sipa-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">ZPA's side (app segment + gateway) defines the destination for internet-bound traffic from the connector and routes it to a ZIA forwarding point. ZIA's side (forwarding rule) tells ZIA how to handle traffic arriving from the ZPA connector — which policy to apply, which service edge to use for egress. If only ZPA is configured, traffic reaches the ZIA forwarding point but ZIA doesn't know what to do with it. If only ZIA is configured, the connector never knows to send its traffic there in the first place.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>After SIPA is configured, checking ip.zscaler.com shows a different egress IP than before. What does this new IP represent, and how would you tell if the traffic was going through ZIA versus exiting directly?
+      <div class="answer-area" data-section="lab12-sipa-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">The new egress IP is a Zscaler service edge IP — the same category of IP that ZCC users see when they visit ip.zscaler.com. The key confirmation is that ip.zscaler.com returns a response showing "You are accessing the Internet via Zscaler" with a ZTE service edge location, rather than showing a raw data centre IP. To distinguish ZIA from direct exit: check ip.zscaler.com for the Zscaler branding, and check Analytics in ZIA for traffic logs sourced from the connector.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 12.1 — Configure SIPA in ZPA</h3>
@@ -767,7 +789,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

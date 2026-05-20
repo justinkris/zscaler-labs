@@ -115,11 +115,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">ZPA App Segments define which internal resources (by domain/IP + port) are accessible via ZPA. Until you create an App Segment, ZPA has no idea what's "behind" the connector — and no access policy can reference it. Application Discovery helps admins find what apps the connector can actually reach.</p>
       <ul class="socratic-questions">
-        <li>A wildcard Discovery segment (*.labtenant.com) enables Application Discovery. What risk exists in exposing a wildcard segment to all ZPA users before you have specific access policies in place?</li>
-        <li>You create an Intranet app segment on port 80 and an access policy allowing student to access it. The user can reach the intranet site in a browser, but ping times out. Why — and what do you need to change?</li>
-        <li>ZPA access policies use identity (username, group) rather than IP address as the primary selector. Why is this a fundamental shift from traditional network-based access control, and what does it enable?</li>
-      </ul>
-      <div class="answer-area" data-section="lab10-segments">
+    <li>A wildcard Discovery segment (*.labtenant.com) enables Application Discovery. What risk exists in exposing a wildcard segment to all ZPA users before you have specific access policies in place?
+      <div class="answer-area" data-section="lab10-segments-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -130,16 +127,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">A wildcard Discovery segment effectively makes every reachable service in the *.labtenant.com domain a candidate ZPA resource. If an access policy accidentally allows all users to access the Discovery segment, users could reach services that were never intended to be ZPA-accessible — AD domain controllers, internal management interfaces, backup servers. Discovery should use a restrictive access policy (admin-only) or be disabled after the discovery phase.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>You create an Intranet app segment on port 80 and an access policy allowing student to access it. The user can reach the intranet site in a browser, but ping times out. Why — and what do you need to change?
+      <div class="answer-area" data-section="lab10-segments-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">ICMP (ping) is not a TCP or UDP protocol and is not included in a port-range configuration. ZPA app segments specify access by port ranges, which cover TCP and UDP but not ICMP by default. To enable ping, ICMP must be explicitly added to the segment's port configuration. HTTP (port 80) access works because it's covered by the TCP port range, but ICMP is a separate IP protocol (protocol 1) that requires its own entry.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>ZPA access policies use identity (username, group) rather than IP address as the primary selector. Why is this a fundamental shift from traditional network-based access control, and what does it enable?
+      <div class="answer-area" data-section="lab10-segments-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">Traditional ACLs grant access based on source IP — if you're on the corporate network, you're trusted. Identity-based access means the same policy applies regardless of where the user is connecting from (home, airport, office). It also enables per-user and per-group granularity: student gets Intranet access, contractors get only specific apps, admins get broader access — all without network segmentation. Access follows the user, not the network.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Task 10.1 — Create a Discovery App Segment</h3>
@@ -820,7 +842,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;

@@ -123,11 +123,8 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       </div>
       <p class="socratic-insight">The lab runs inside a Skytap virtual environment with three pre-configured VMs. Each student gets a unique pod with its own FQDN. Before you can configure anything, you need to know exactly who can log in and how traffic is meant to flow.</p>
       <ul class="socratic-questions">
-        <li>Why does each student need a unique FQDN (e.g., zs9901.labtenant.com) rather than a shared domain? What problems would a shared domain create in a multi-tenant lab?</li>
-        <li>The lab has three VMs: Corp: Client PC, Corp: Win Svr 2016, and Corp: App Connector. Which VM acts as the endpoint being protected by ZCC, and which enables ZPA private access — and why does that distinction matter?</li>
-        <li>The SyncZPA attribute is set on lab users. What would happen in later ZPA labs if you forgot to set it, and what does that tell you about how identity sync works between ZIdentity and ZPA?</li>
-      </ul>
-      <div class="answer-area" data-section="lab0-setup">
+    <li>Why does each student need a unique FQDN (e.g., zs9901.labtenant.com) rather than a shared domain? What problems would a shared domain create in a multi-tenant lab?
+      <div class="answer-area" data-section="lab0-setup-q1">
         <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
         <div class="answer-buttons">
           <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -138,16 +135,41 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
             <div class="model-answer-q">Q1 — MODEL ANSWER</div>
             <div class="model-answer-text">Each student pod needs an isolated FQDN so that user accounts, policies, and Zscaler cloud configuration don't collide between students. A shared domain would mean Joe in one student's pod could inherit policies or entitlements set by another student, making validation impossible and breaking the lab reset mechanism.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The lab has three VMs: Corp: Client PC, Corp: Win Svr 2016, and Corp: App Connector. Which VM acts as the endpoint being protected by ZCC, and which enables ZPA private access — and why does that distinction matter?
+      <div class="answer-area" data-section="lab0-setup-q2">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q2 — MODEL ANSWER</div>
             <div class="model-answer-text">The Corp: Client PC is the endpoint being protected — it's the Windows 10 machine where ZCC is installed to forward traffic through ZIA and connect to private apps via ZPA. The Corp: App Connector is the ZPA component that sits in the data center and creates the outbound tunnel to the ZPA cloud, allowing the Client PC to reach private resources without inbound firewall rules.</div>
           </div>
+        </div>
+      </div>
+    </li>
+    <li>The SyncZPA attribute is set on lab users. What would happen in later ZPA labs if you forgot to set it, and what does that tell you about how identity sync works between ZIdentity and ZPA?
+      <div class="answer-area" data-section="lab0-setup-q3">
+        <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+        <div class="answer-buttons">
+          <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+          <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+        </div>
+        <div class="model-answers" style="display:none;">
           <div class="model-answer-item">
             <div class="model-answer-q">Q3 — MODEL ANSWER</div>
             <div class="model-answer-text">Without SyncZPA set to "Zscaler", the lab automation scripts won't sync the user into ZPA's identity store. This means the user won't appear as a valid ZPA identity, and ZPA access policies based on user identity would fail. It reveals that ZPA maintains its own identity directory that must be populated from ZIdentity — it isn't automatic unless explicitly triggered by this attribute.</div>
           </div>
         </div>
       </div>
+    </li>
+      </ul>
+
     </div>
 
       <h3>Lab Description and Scenario</h3>
@@ -655,7 +677,8 @@ function injectCopyButtons(){
     '.sub-steps li code',
     '.config-table td code',
     '.creds-table td code',
-    '.task-block code'
+    '.task-block code',
+    '.config-derived code'
   ];
   document.querySelectorAll(selectors.join(',')).forEach(function(code){
     if(code.closest('.callout'))return;
