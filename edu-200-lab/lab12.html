@@ -212,10 +212,14 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
       <div class="task-block">
         <h4><span class="task-num">3</span> Configure the ZPA Gateway for SIPA</h4>
         <ol class="step-list">
-          <li>In ZPA, navigate to the <strong>Gateway</strong> settings.</li>
-          <li>Edit the existing gateway or add a SIPA configuration to enable SIPA forwarding.</li>
-          <li>Associate the gateway with the SIPA app segment.</li>
+          <li>In the ZPA Admin Portal, go to <strong>Infrastructure → App Connectors → Gateways</strong>.</li>
+          <li>Click the existing gateway to open it (or click <strong>Add Gateway</strong> if none exists yet). In the gateway form, locate the <strong>SIPA</strong> section and set <strong>SIPA Forwarding</strong> to <strong>Enabled</strong>.</li>
+          <li>In the <strong>SIPA App Segments</strong> field, select the <code>SIPA</code> app segment you created in step 2. Save the gateway.</li>
         </ol>
+        <div class="callout callout-troubleshoot">
+          <strong>Troubleshoot</strong>
+          <p>If no gateway appears in the list, the App Connector may not have registered yet — check <strong>Infrastructure → App Connectors</strong> to confirm the On-Prem connector shows <strong>Connected</strong> status. If the SIPA section is absent from the gateway form, verify your ZPA subscription includes the SIPA add-on under <strong>Administration → Subscriptions</strong>.</p>
+        </div>
       </div>
       <div class="screenshot-embed narrow">
         <img src="screenshots/lab12-edit-gateway-zpa-sipa.png" alt="ZPA Gateway settings showing SIPA configuration">
@@ -471,8 +475,9 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
 </div>
 
 <footer>
-  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Centre</span>
+  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Center</span>
   <span>Lab 12: SIPA Forwarding</span>
+  <span>LAB 12 of 16</span>
 </footer>
 
 <script>

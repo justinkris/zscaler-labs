@@ -42,13 +42,34 @@
 </header>
 
 <div class="hub-main">
+<details class="zscaler-one-min">
+  <summary>&#9432; Zscaler in one minute — key terms</summary>
+  <div class="zom-body">
+    <div class="zom-term"><strong>ZIA</strong><span>Zscaler Internet Access — cloud-based secure web gateway. Inspects and enforces policy on all internet traffic from users and devices.</span></div>
+    <div class="zom-term"><strong>ZPA</strong><span>Zscaler Private Access — zero-trust network access for internal apps. Users connect to apps, never to the network.</span></div>
+    <div class="zom-term"><strong>ZDX</strong><span>Zscaler Digital Experience — end-to-end performance monitoring for users, devices, and SaaS applications.</span></div>
+    <div class="zom-term"><strong>ZCC</strong><span>Zscaler Client Connector — the endpoint agent (formerly Z-App) that routes traffic to ZIA/ZPA and collects ZDX telemetry.</span></div>
+    <div class="zom-term"><strong>ZTE</strong><span>Zscaler Tenant — your organisation's isolated Zscaler environment, accessed via a unique portal URL and admin credentials.</span></div>
+    <div class="zom-term"><strong>ZIdentity</strong><span>Zscaler's identity and authentication platform — manages IdP integration, MFA, and user provisioning across ZIA and ZPA.</span></div>
+  </div>
+</details>
+
   <p class="hub-intro">These labs walk you through building a layered cyberthreat protection strategy using Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), and Zscaler Deception. Work sequentially — each lab builds on configurations from the previous one. Labs 7 and 8 include SDC (Solutions Demo Center) read-only tasks that use pre-populated data.</p>
 
   <div class="phase-section">
     <div class="phase-label" style="background:#1a6dcc20;color:#1a6dcc;">SETUP</div>
-    <div class="phase-title">Lab 1 — Environment Setup</div>
-    <div class="phase-desc">Establish a baseline security posture before applying any Zscaler policies.</div>
+    <div class="phase-title">Labs 0–1 — Environment Setup</div>
+    <div class="phase-desc">Review the lab topology and credentials, then establish a baseline security posture before applying any Zscaler policies.</div>
     <div class="lab-grid">
+    <a class="lab-card" href="lab0.html">
+      <div class="lab-card-top">
+        <span class="lab-card-num" style="background:#1a6dcc20;color:#1a6dcc;">LAB 0</span>
+        <span class="lab-card-time">&#9201; 5 min</span>
+      </div>
+      <div class="lab-card-title">About the EDU-230 Hands-On Lab</div>
+      <div class="lab-card-desc">Explore the lab topology, VMs, credential structure, and admin portal access. Understand the safemarch.com environment before your first configuration.</div>
+      <div class="lab-card-cta" style="color:#1a6dcc;">Start Lab &#8594;</div>
+    </a>
     <a class="lab-card" href="lab1.html">
       <div class="lab-card-top">
         <span class="lab-card-num" style="background:#1a6dcc20;color:#1a6dcc;">LAB 1</span>

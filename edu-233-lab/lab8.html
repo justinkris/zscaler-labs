@@ -13,7 +13,7 @@
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-233 Hub</a> &rsaquo; <a href="lab7.html">Lab 7</a> &rsaquo; Lab 8</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-233</a> › Lab 8</div>
   <div class="lab-eyebrow">
     <span class="lab-chip">LAB 8</span>
   </div>
@@ -320,6 +320,7 @@
 
 <footer>
   <span>EDU-233 &middot; Zscaler Browser Isolation &middot; Lab 8</span>
+  <span>LAB 8 of 11</span>
 </footer>
 
 <script>
@@ -550,6 +551,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
 function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 </script>
 </body>
 </html>

@@ -19,17 +19,35 @@
   <div class="motivation-banner">
     <p>8 hands-on labs covering authentication, traffic forwarding, policy settings, security services, data protection, ZDX, and NSS — practised in a live Skytap environment with real Zscaler portals.</p>
   </div>
+  <div class="callout-note callout" style="margin-top:12px;"><p><strong>Part 2 of 2:</strong> This lab course builds on EDU-259 (Introduction to Troubleshooting — Part 1 of 2). If you haven't completed Part 1 yet, start there first to establish the foundational troubleshooting workflow and environment context before continuing here.</p></div>
 </header>
 
 <div class="hub-main">
+<details class="zscaler-one-min">
+  <summary>&#9432; Zscaler in one minute — key terms</summary>
+  <div class="zom-body">
+    <div class="zom-term"><strong>ZIA</strong><span>Zscaler Internet Access — cloud-based secure web gateway. Inspects and enforces policy on all internet traffic from users and devices.</span></div>
+    <div class="zom-term"><strong>ZPA</strong><span>Zscaler Private Access — zero-trust network access for internal apps. Users connect to apps, never to the network.</span></div>
+    <div class="zom-term"><strong>ZDX</strong><span>Zscaler Digital Experience — end-to-end performance monitoring for users, devices, and SaaS applications.</span></div>
+    <div class="zom-term"><strong>ZCC</strong><span>Zscaler Client Connector — the endpoint agent (formerly Z-App) that routes traffic to ZIA/ZPA and collects ZDX telemetry.</span></div>
+    <div class="zom-term"><strong>ZTE</strong><span>Zscaler Tenant — your organisation's isolated Zscaler environment, accessed via a unique portal URL and admin credentials.</span></div>
+    <div class="zom-term"><strong>ZIdentity</strong><span>Zscaler's identity and authentication platform — manages IdP integration, MFA, and user provisioning across ZIA and ZPA.</span></div>
+  </div>
+</details>
 
   <div class="phase-section">
     <div class="phase-header">
       <span class="phase-label">SETUP</span>
       <div class="phase-title">Lab Environment Setup</div>
-      <div class="phase-range">Lab 1 · Access Skytap, start your Corp: Client PC VM, and locate credentials</div>
+      <div class="phase-range">Labs 0–1 · Review topology &amp; credentials, then access Skytap and start your Corp: Client PC VM</div>
     </div>
     <div class="lab-grid">
+      <a class="lab-card" href="lab0.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 0</span><span class="lab-card-time">~5 min</span></div>
+        <div class="lab-card-title">About the EDU-260 Hands-On Lab</div>
+        <div class="lab-card-desc">Meet the Safemarch HelpDesk environment: one Corp: Client PC VM, seven department user accounts, and read-only ZIA/ZPA/ZDX portal access. Understand credentials and topology before Lab 1.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
       <a class="lab-card" href="lab1.html">
         <div class="lab-card-header"><span class="lab-card-num">LAB 1</span><span class="lab-card-time">~15 min</span></div>
         <div class="lab-card-title">Connecting to the Virtual Lab</div>

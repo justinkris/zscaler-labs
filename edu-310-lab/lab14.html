@@ -15,7 +15,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 </head>
 <body>
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 14</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-310</a> › Lab 14</div>
   <div class="header-top">
     <span class="eyebrow-chip">LAB 14 &middot; ANALYTICS</span>
     <div class="header-dot"></div>
@@ -288,6 +288,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </div>
 </footer>
 
+<div class="recap-block">
+  <span class="recap-label">EDU-310 complete</span>
+  <p class="recap-item"><strong>You just finished the ZDX Operationalization track.</strong> You can now navigate every major ZDX dashboard, diagnose individual user issues across Wi-Fi, CPU, DNS, network paths, and call quality, monitor fleet-level incidents proactively, and use ZDX Copilot, Hosted Probes, and Data Explorer for advanced analytics.</p>
+  <p class="recap-item">Return to the <a href="index.html">EDU-310 hub</a> to review what you covered, or head to the <a href="../index.html">Zscaler Labs home</a> to start another course.</p>
+</div>
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab13.html">&#8592; Lab 13: Understanding Data Explorer</a>
   <div class="page-nav-message">Wi-Fi Dashboard ties signal strength to the access point. Root cause found.</div>
@@ -343,6 +348,8 @@ document.addEventListener('DOMContentLoaded',function(){
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
 });
+
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 </script>
 </body>
 </html>

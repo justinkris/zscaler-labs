@@ -15,7 +15,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 </head>
 <body>
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 2</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-310</a> › Lab 2</div>
   <div class="header-top">
     <span class="eyebrow-chip">LAB 2 &middot; TROUBLESHOOTING</span>
     <div class="header-dot"></div>
@@ -218,6 +218,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
           <img src="screenshots/lab2-ss06.png" alt="Y-Engine analysis results: Low Wifi Signal at 91.67% confidence and Suboptimal Wifi at 8.33% confidence.">
           <div class="screenshot-caption">Y-Engine analysis results: Low Wifi Signal at 91.67% confidence and Suboptimal Wifi at 8.33% confidence.</div>
         </div>
+      <div class="callout callout-troubleshoot">
+        <strong>Troubleshoot — Y-Engine shows no root cause or "Insufficient data"</strong>
+        <p>Y-Engine analysis requires at least one complete probe cycle in the selected interval. If you see "Insufficient data" or an empty factors table: (1) Try zooming in on a longer Poor-score period — a single data point may not have enough probe history. (2) Select a different application — some applications may have fewer probes configured. (3) Verify the time range includes at least 15–30 minutes of Poor score (not just a single point). Since this is a shared read-only environment, data is pre-populated — your view may differ slightly from the screenshots.</p>
+      </div>
       <div class="section-qa" data-section="t2-2">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
           <span class="section-qa-title">Questions &amp; Notes &mdash; Task 2.2</span>
@@ -484,6 +488,8 @@ document.addEventListener('DOMContentLoaded',function(){
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
 });
+
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 </script>
 </body>
 </html>

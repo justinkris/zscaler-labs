@@ -221,6 +221,10 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
         <img src="screenshots/lab5-wikipedia-cert-zscaler-after.png" alt="Wikipedia certificate showing Zscaler Intermediate Root CA after inspection enabled">
         <div class="screenshot-caption">After: Zscaler Intermediate Root CA — ZIA has re-signed the certificate, confirming inspection is active.</div>
       </div>
+      <div class="callout callout-troubleshoot">
+        <strong>Troubleshoot — certificate still shows original issuer</strong>
+        <p>If the certificate issuer is still Let's Encrypt (or another CA) after adding the SSL Inspection rule, check three things: (1) Confirm the rule is <strong>Enabled</strong> in the SSL Inspection rules list — a newly saved rule shows as Enabled by default, but verify. (2) Confirm you clicked <strong>Activate</strong> — ZIA policy changes require an explicit Activate before they propagate to service edges. (3) Confirm ZCC is showing Internet Security status as <strong>ON</strong> (Lab 3, Task 3.2) — if ZCC is tunnelling with Z-Tunnel 1.0, SSL inspection may not intercept all traffic. Allow 30–60 seconds after Activate, then refresh the page and recheck the certificate.</p>
+      </div>
 
       <h3>Task 5.2 — Verify Zscaler Root CA Certificate (Optional)</h3>
       <div class="task-block">
@@ -463,8 +467,9 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
 </div>
 
 <footer>
-  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Centre</span>
+  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Center</span>
   <span>Lab 5: SSL Inspection</span>
+  <span>LAB 5 of 16</span>
 </footer>
 
 <script>

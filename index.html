@@ -48,6 +48,70 @@
     <div class="card-title">ZDX Operationalization</div>
     <div class="card-desc">14 hands-on labs covering ZDX dashboard navigation, Wi-Fi and CPU troubleshooting, DNS and network hop analysis, call quality, Intune integration, incident monitoring, ZDX Copilot, Hosted Monitoring, Data Explorer, and the Wi-Fi Dashboard.</div>
   </a>
+
+  <div class="progress-panel" id="progress-panel">
+    <div class="progress-panel-hdr">
+      <span class="progress-panel-title">Your Progress</span>
+      <button class="progress-refresh" onclick="buildProgress()" title="Refresh progress">&#8635; Refresh</button>
+    </div>
+    <div id="progress-body"><p class="progress-empty">Loading progress&hellip;</p></div>
+  </div>
 </main>
+
+<script>
+const COURSES = [
+  {name:'EDU-200', prefix:'edu-200-lab-lab', nums:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], href:'edu-200-lab/index.html'},
+  {name:'EDU-202', prefix:'edu-202-lab-lab', nums:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], href:'edu-202-lab/index.html'},
+  {name:'EDU-233', prefix:'edu233-lab-lab',  nums:[0,1,2,3,4,5,6,7,8,9,10,11], href:'edu-233-lab/index.html'},
+  {name:'EDU-230', prefix:'edu230-lab-lab',  nums:[1,2,3,4,5,6,7,8], href:'edu-230-lab/index.html'},
+  {name:'EDU-260', prefix:'edu260-lab-lab',  nums:[1,2,3,4,5,6,7,8], href:'edu-260-lab/index.html'},
+  {name:'EDU-310', prefix:'edu310-lab-lab',  nums:[1,2,3,4,5,6,7,8,9,10,11,12,13,14], href:'edu-310-lab/index.html'},
+];
+
+function buildProgress() {
+  const allKeys = [];
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      allKeys.push(localStorage.key(i));
+    }
+  } catch(e) {}
+
+  var body = document.getElementById('progress-body');
+  if (!body) return;
+
+  var rows = COURSES.map(function(course) {
+    var explored = 0;
+    var checkedCount = 0;
+    course.nums.forEach(function(n) {
+      var pfx = course.prefix + n;
+      var labKeys = allKeys.filter(function(k){ return k.startsWith(pfx + '-'); });
+      if (labKeys.length > 0) explored++;
+      labKeys.filter(function(k){ return k.includes('-chk-'); }).forEach(function(k) {
+        if (localStorage.getItem(k) === 'true') checkedCount++;
+      });
+    });
+    var total = course.nums.length;
+    var pct = total > 0 ? Math.round((explored / total) * 100) : 0;
+    var taskNote = checkedCount > 0 ? explored + ' of ' + total + ' labs · ' + checkedCount + ' tasks checked' : explored + ' of ' + total + ' labs explored';
+    return '<div class="progress-row">'
+      + '<a class="progress-course" href="' + course.href + '">' + course.name + '</a>'
+      + '<div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:' + pct + '%"></div></div>'
+      + '<span class="progress-stat">' + taskNote + '</span>'
+      + '</div>';
+  });
+
+  var anyData = COURSES.some(function(c){
+    return c.nums.some(function(n){
+      return allKeys.some(function(k){ return k.startsWith(c.prefix + n + '-'); });
+    });
+  });
+
+  body.innerHTML = anyData
+    ? rows.join('')
+    : '<p class="progress-empty">No lab progress yet — start a lab and your progress will appear here.</p>';
+}
+
+document.addEventListener('DOMContentLoaded', buildProgress);
+</script>
 </body>
 </html>

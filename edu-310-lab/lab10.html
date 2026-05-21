@@ -15,7 +15,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 </head>
 <body>
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 10</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-310</a> › Lab 10</div>
   <div class="header-top">
     <span class="eyebrow-chip">LAB 10 &middot; OPERATIONS</span>
     <div class="header-dot"></div>
@@ -315,6 +315,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </div>
 </footer>
 
+<div class="recap-block">
+  <span class="recap-label">Operations phase complete</span>
+  <p class="recap-item"><strong>You just:</strong> moved from individual user troubleshooting to fleet-level operations — Incidents Dashboard, Self-Service Notifications for users, and Snapshot sharing for cross-team collaboration. You now know how to surface ZDX data to end users and stakeholders without admin access.</p>
+  <p class="recap-item"><strong>Next up:</strong> Lab 11 introduces ZDX Copilot — AI-powered root cause analysis that explains ZDX Score drops in plain language. The final four labs (11–14) cover hosted probes, Data Explorer analytics, and the Wi-Fi Dashboard: tools for proactive monitoring rather than reactive troubleshooting.</p>
+</div>
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab9.html">&#8592; Lab 9: Monitoring Self Service Notifications</a>
   <div class="page-nav-message">A snapshot URL turns a complex report into a one-click share.</div>
@@ -370,6 +375,8 @@ document.addEventListener('DOMContentLoaded',function(){
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
 });
+
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 </script>
 </body>
 </html>

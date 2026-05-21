@@ -13,7 +13,7 @@
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-233 Hub</a> &rsaquo; <a href="lab10.html">Lab 10</a> &rsaquo; Lab 11</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-233</a> › Lab 11</div>
   <div class="lab-eyebrow">
     <span class="lab-chip">LAB 11</span>
   </div>
@@ -327,6 +327,11 @@
   </aside>
 </main>
 
+<div class="recap-block">
+  <span class="recap-label">EDU-233 complete</span>
+  <p class="recap-item"><strong>You just finished the Zscaler Browser Isolation track.</strong> You can now configure Smart Isolation for URL and Cloud App policies, apply document controls, chain Sandbox with Isolation for unknown files, deliver a Browser-In-Browser user experience, and provide agentless BYOD access to ZPA private apps with zero local data transfer.</p>
+  <p class="recap-item">Return to the <a href="index.html">EDU-233 hub</a> to review what you covered, or head to the <a href="../index.html">Zscaler Labs home</a> to start another course.</p>
+</div>
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab10.html"><span class="page-nav-label">&larr; PREVIOUS</span><span class="page-nav-title">Lab 10: ZPA SaaS BYOD</span></a>
   <div class="page-nav-message">No agent. No network access. Just a pixel stream of the app. That&rsquo;s Zero Trust.</div>
@@ -335,6 +340,7 @@
 
 <footer>
   <span>EDU-233 &middot; Zscaler Browser Isolation &middot; Lab 11</span>
+  <span>LAB 11 of 11</span>
 </footer>
 
 <script>
@@ -565,6 +571,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
 function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 </script>
 </body>
 </html>

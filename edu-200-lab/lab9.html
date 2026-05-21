@@ -266,6 +266,10 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
         <img src="screenshots/lab9-connector-service-active-running.png" alt="Terminal showing ZPA connector service status as active/running">
         <div class="screenshot-caption">Service status: active (running) — the App Connector has registered with ZPA and established its outbound TLS tunnel.</div>
       </div>
+      <div class="callout callout-troubleshoot">
+        <strong>Troubleshoot — service fails to start</strong>
+        <p>If <code>systemctl status zpa-connector</code> shows <strong>failed</strong> or <strong>inactive</strong>: run <code>ls /opt/zscaler/var/</code> and confirm <code>provision_key</code> is present and non-empty. If missing or empty, re-copy it: <code>cp /tmp/provision_key /opt/zscaler/var/provision_key</code>, then start the service again. If the key is present but the service still fails, check the journalctl log: <code>journalctl -u zpa-connector -n 50 --no-pager</code> — look for "invalid key" or "registration timeout" messages indicating the key was already consumed or network access to the ZPA cloud is blocked.</p>
+      </div>
 
       <div class="task-block">
         <h4><span class="task-num">4</span> Verify connector appears in ZPA console</h4>
@@ -415,8 +419,9 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
 </div>
 
 <footer>
-  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Centre</span>
+  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Center</span>
   <span>Lab 9: ZPA Infrastructure</span>
+  <span>LAB 9 of 16</span>
 </footer>
 
 <script>

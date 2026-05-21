@@ -15,7 +15,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 </head>
 <body>
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 3</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-310</a> › Lab 3</div>
   <div class="header-top">
     <span class="eyebrow-chip">LAB 3 &middot; TROUBLESHOOTING</span>
     <div class="header-dot"></div>
@@ -295,6 +295,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
           <img src="screenshots/lab3-ss09.png" alt="Top Processes by CPU Incidents graph confirming Adobe Premiere Pro as the dominant CPU consumer across the 48-hour period.">
           <div class="screenshot-caption">Top Processes by CPU Incidents graph confirming Adobe Premiere Pro as the dominant CPU consumer across the 48-hour period.</div>
         </div>
+      <div class="callout callout-troubleshoot">
+        <strong>Troubleshoot — Device Health section is empty or missing CPU data</strong>
+        <p>Device Health data (CPU, RAM, battery) is only collected when the ZDX agent on the device has the Device Inventory add-on enabled. In this shared read-only environment, the data is pre-populated for Barry Bogdown's device. If the <strong>CPU Usage</strong> graph shows no data: (1) Confirm you are on Barry Bogdown's user page — not a different user. (2) Try switching the time range to <strong>7 Days</strong> to widen the data window. (3) The "Most Impacted Processes" popup only appears when you click directly on a data point with >90% CPU — click exactly on the spike at the peak timestamp, not elsewhere in the graph.</p>
+      </div>
       <div class="section-qa" data-section="t3-4">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
           <span class="section-qa-title">Questions &amp; Notes &mdash; Task 3.4</span>
@@ -429,6 +433,8 @@ document.addEventListener('DOMContentLoaded',function(){
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
 });
+
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 </script>
 </body>
 </html>

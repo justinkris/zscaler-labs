@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}function copyAllQs(){try{var qs=getQArr();navigator.clipboard.writeText(qs.map(function(q){return q.text;}).join('\n'));}catch(e){}}
+function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.map(function(n){return n.text;}).join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 0: About the EDU-310 Hands-On Lab — EDU-310</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-310</a> › Lab 0</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">Lab 0 · EDU-310</span>
+    <span class="header-dot"></span>
+  </div>
+  <h1>About the EDU-310 <em>Hands-On Lab</em></h1>
+  <div class="motivation-banner">
+    <p>Understand the ZDX lab environment before your first dashboard investigation: your single admin credential, the ZDX Admin Portal at admin.zdxcloud.net, and the read-only role that mirrors a real ZDX Helpdesk analyst.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb76" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZDX Admin:</strong> <code id="d-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>ZDX Portal:</strong> <code>https://admin.zdxcloud.net/</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel" id="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel()" id="qpanel-header">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="qpanel-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron" id="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="qpanel-body"></div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel" id="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-count" id="notes-panel-count">0</span>
+      <span class="notes-panel-hint">— click to expand</span>
+      <span class="notes-panel-chevron" id="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="notes-panel-body"></div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab0">
+      <h2>Lab 0: About the EDU-310 Hands-On Lab</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">OVERVIEW</div>
+        <p>Welcome to the <strong>ZDX Operationalization (EDU-310)</strong> Self-Guided Hands-on Lab. You are a <strong>ZDX Helpdesk Administrator</strong> at a Zero Trust Exchange demonstration organisation. All 14 labs use a shared pre-populated ZDX tenant accessed as a <strong>Read-Only Administrator</strong>. By the end of this lab series you will be able to:</p>
+        <ul style="margin-top:10px;">
+          <li>Navigate all major ZDX dashboards — Performance, Incidents, Applications, Users, Y-Engine, Call Quality, Inventory, Deep Tracing, and Alerts</li>
+          <li>Diagnose end-user experience issues caused by Wi-Fi degradation, high CPU, slow DNS, and network hop latency</li>
+          <li>Use the Y-Engine (Analyze Score / Analyze Range / Compare To) to identify root causes with confidence levels</li>
+          <li>Investigate Microsoft Teams call quality using ZDX Meeting Monitoring Metrics and Cloud Path data</li>
+          <li>Monitor incidents proactively using the Incidents Dashboard and Alerts system</li>
+          <li>Generate and share ZDX Snapshots for escalation and collaboration</li>
+          <li>Explore advanced capabilities: ZDX Copilot, Hosted Monitoring, Data Explorer, and the Wi-Fi Dashboard</li>
+        </ul>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Course:</strong> EDU-310</div>
+          <div class="lab-meta-item"><strong>Portal:</strong> https://admin.zdxcloud.net/ (Read-Only Admin)</div>
+          <div class="lab-meta-item"><strong>Labs:</strong> 14 total · ~7 hours estimated</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab0">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · ZDX ENVIRONMENT</span>
+        </div>
+        <p class="socratic-insight">The ZDX lab uses a shared tenant with pre-populated historical data — you are not generating live events but rather interpreting data that already exists. Understanding this distinction shapes how you read every graph and score in the labs.</p>
+        <ul class="socratic-questions">
+          <li>All 14 labs use a single ZDX Admin Portal with pre-populated data and a Read-Only role. What are the advantages and limitations of using shared historical data rather than a live isolated tenant for a troubleshooting course?
+            <div class="answer-area" data-section="lab0-edu310-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Advantages: Pre-populated data guarantees interesting incidents, score dips, Y-Engine findings, and Call Quality issues exist — no waiting for live events to occur. It also means all students see the same data, so lab instructions can point to specific users or timestamps with confidence. Limitation: you cannot trigger new ZCC enrollments, configure probes, or test policy changes — the Read-Only role prevents any writes. This mirrors a Tier 1 analyst role but limits hands-on configuration practice.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>Lab 1 asks you to navigate all major ZDX dashboards before troubleshooting. Why does a structured orientation to the portal reduce mean-time-to-diagnose when a real user reports a problem?
+            <div class="answer-area" data-section="lab0-edu310-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Orientation builds a mental map of where data lives before the pressure of a live incident. When a user reports slow performance, a ZDX operator who has already explored every dashboard can immediately decide: Is this fleet-wide (Incidents Overview) or user-specific (Users → drill-down)? Is it app-related (Applications) or device-related (Device Health)? Without prior orientation, analysts waste diagnostic time navigating unfamiliar menus under pressure.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <h3>Before You Start</h3>
+      <div class="task-block">
+        <ul class="step-list">
+          <li><strong>Assumed prior knowledge:</strong> Familiarity with basic Zscaler concepts — ZIA, ZPA, ZCC, and the Zero Trust Exchange architecture. Prior exposure to ZDX concepts from study materials (EDU-302 Section 10 or equivalent) is helpful but not required. No prior ZDX admin portal experience is assumed — Lab 1 provides full orientation.</li>
+          <li><strong>Environment needed:</strong> A browser-accessible Zscaler ZDX Admin Portal at <code>https://admin.zdxcloud.net/</code>. No Skytap VM is required for most labs — the ZDX portal is a cloud service you access directly from your laptop. Your Student Prefix and Session Password are provided in your lab confirmation email or the Resources tab. No VM downloads or Skytap access are needed unless your instructor specifies otherwise.</li>
+          <li><strong>Estimated total lab time:</strong> Approximately 7 hours across all 14 labs. Lab 1 (Portal Orientation) is the longest at ~60 minutes. Labs 4, 7, 10, 13, and 14 are the shortest at ~15 minutes each. Labs can be paused and resumed — all data in the shared tenant is persistent.</li>
+        </ul>
+      </div>
+
+      <h3>Lab Description and Scenario</h3>
+      <p>You are a <strong>ZDX Helpdesk Administrator</strong> at a Zero Trust Exchange demonstration organisation. Users across departments and geolocations report a variety of experience issues — poor Wi-Fi, CPU spikes, slow DNS, bad Teams call quality, and device startup problems. Your job is to investigate each scenario using ZDX data, identify the root cause, and document your findings using the same workflow a real ZDX operator would follow.</p>
+      <p>Labs 2–7 each focus on a specific user and problem type. Labs 8–10 cover proactive monitoring and sharing. Labs 11–14 introduce advanced capabilities including ZDX Copilot, Hosted Monitoring probes, Data Explorer, and the Wi-Fi Dashboard.</p>
+
+      <h3>Lab Environment</h3>
+      <p>This lab is entirely portal-based. You access the <strong>ZDX Admin Portal</strong> at <code>https://admin.zdxcloud.net/</code> directly from your local browser. The tenant is pre-populated with historical data from real device telemetry — ZDX Score time series, Web Probe metrics, Cloud Path hops, User Device Events, Deep Tracing sessions, and Active Alerts are all available to explore.</p>
+
+      <h4>Access Points</h4>
+      <div class="task-block">
+        <ul class="step-list">
+          <li><strong>ZDX Admin Portal</strong> — <code>https://admin.zdxcloud.net/</code>. Your primary workspace for all 14 labs. Login: <code class="d-username-admin">ptcb76-ADMIN@thezerotrustexchange.com</code> with Session Password.</li>
+          <li><strong>Access role:</strong> Read-Only Administrator. You can view all dashboards, drill into user and device data, run Y-Engine analysis, and explore all report sections — but cannot save policy changes, create probes, or configure alerts.</li>
+          <li><strong>No Skytap VM required:</strong> Unlike EDU-200 and EDU-230, there is no Corp: Client PC VM in this lab. All tasks are performed in the ZDX Admin Portal from your laptop browser.</li>
+        </ul>
+      </div>
+
+      <h3>Credential Reference</h3>
+      <table class="creds-table">
+        <thead><tr><th>System</th><th>Login</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>ZDX Admin Portal</td><td><code id="tc-admin">ptcb76-ADMIN@thezerotrustexchange.com</code></td><td>Read-Only Administrator role</td></tr>
+          <tr><td>ZDX Portal URL</td><td><code>https://admin.zdxcloud.net/</code></td><td>Access from any browser</td></tr>
+          <tr><td>Session Password</td><td colspan="2">&lt;from Resources tab or lab confirmation email&gt;</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-note">
+        <p><strong>Note:</strong> Enter your Student Prefix in the Lab Configuration panel above to auto-populate your ZDX Admin username throughout this guide. The Session Password is the same for all labs in this course.</p>
+      </div>
+      <div class="callout callout-warning">
+        <p><strong>Important:</strong> You access the ZDX Admin Portal as a <strong>Read-Only Administrator</strong>. You can view all dashboards and data but cannot save any configuration changes, create new probes, or modify alert rules.</p>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">No VM — all labs run in your browser at <code>https://admin.zdxcloud.net/</code>. One credential: <code>&lt;prefix&gt;-ADMIN@thezerotrustexchange.com</code> + Session Password. Read-Only role throughout. ZDX Score = 0–100 composite (higher is better; &lt;50 = Poor, 50–79 = Okay, 80+ = Good). Navigation flow: Performance Overview (fleet) → Applications (per-app) → Users (per-user) → Y-Engine Analyze Score (root cause). 14 labs, ~7 hours total.</div>
+        </div>
+      </div>
+
+      <div class="lesson-tools">
+        <div class="lesson-tools-grid">
+          <div>
+            <div class="tool-label">ASK A QUESTION</div>
+            <textarea class="tool-textarea" id="q-lab0" placeholder="What are you unsure about?" rows="3"></textarea>
+            <div class="tool-row"><button class="btn-add-q" onclick="addQuestion('lab0','Lab 0: About')">Add Question</button></div>
+          </div>
+          <div>
+            <div class="tool-label">ADD A NOTE</div>
+            <textarea class="tool-textarea" id="note-lab0" placeholder="Write a note for this section..." rows="3"></textarea>
+            <div class="tool-row"><button class="btn-add-q" onclick="addNote('lab0')">+ Add Note</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-col -->
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a href="index.html" class="hub-link">← EDU-310 Lab Hub</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item"><input type="checkbox" id="chk-lab0-env" onchange="toggleDone(this)"><label for="chk-lab0-env">Lab 0: Environment reviewed</label></li>
+        <li class="progress-item"><input type="checkbox" id="chk-lab0-creds" onchange="toggleDone(this)"><label for="chk-lab0-creds">Prefix & password saved to config panel</label></li>
+        <li class="progress-item"><input type="checkbox" id="chk-lab0-portal" onchange="toggleDone(this)"><label for="chk-lab0-portal">ZDX portal accessible at admin.zdxcloud.net</label></li>
+      </ul>
+    </div>
+
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">▲</span></div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">ZDX Portal URL</div>
+          <div class="qr-def"><code>https://admin.zdxcloud.net/</code> — your primary workspace for all 14 labs.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZDX Score</div>
+          <div class="qr-def">0–100 composite metric from Web Probe + Cloud Path data, normalised to per-user baseline. &lt;50 = Poor, 50–79 = Okay, 80+ = Good.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Y-Engine</div>
+          <div class="qr-def">ZDX AI/ML engine — Analyze Score or Analyze Range on a score point to get ranked root-cause factors with confidence percentages.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Web Probe</div>
+          <div class="qr-def">Synthetic probe measuring Page Fetch Time, Server Response Time, DNS Time, and Availability from the user's device to the application.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Cloud Path</div>
+          <div class="qr-def">ICMP traceroute-style hop-by-hop latency from the client to the application server. Hop View shows per-hop detail; Command Line View shows traceroute output.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Deep Tracing</div>
+          <div class="qr-def">On-demand diagnostic session capturing detailed device health and network path data for a specific user and time window.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Incidents</div>
+          <div class="qr-def">ZDX-detected events affecting multiple users simultaneously. Distinguished from single-user performance issues by scope and epicenter mapping.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZDX Snapshot</div>
+          <div class="qr-def">Shareable URL capturing a point-in-time view of a user's ZDX report for escalation or cross-team collaboration.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="index.html">
+    <span class="page-nav-label">← PREVIOUS</span>
+    <span class="page-nav-title">EDU-310 Lab Hub</span>
+  </a>
+  <div class="page-nav-message">Every expert was once an explorer. Start here.</div>
+  <a class="page-nav-btn page-nav-next" href="lab1.html">
+    <span class="page-nav-label">NEXT →</span>
+    <span class="page-nav-title">Lab 1: Navigating the ZDX Admin Portal</span>
+  </a>
+</div>
+
+<footer>
+  <span>EDU-310 · ZDX Operationalization · Lab 0</span>
+  <span>Lab 0: About</span>
+</footer>
+
+<script>
+
+/* ══════════════════════════════════════════════════
+   CONFIG PANEL
+══════════════════════════════════════════════════ */
+const CONFIG_KEY='edu310-expc-lab-config';
+
+function updateSidebarOffset(){
+  var h=document.getElementById('config-panel').offsetHeight;
+  document.documentElement.style.setProperty('--config-h',(h+16)+'px');
+}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function toggleConfig(){
+  var panel=document.getElementById('config-panel');
+  var btn=document.getElementById('config-toggle-btn');
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed
+    ?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand'
+    :'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem('edu310-config-collapsed',collapsed?'1':'0');}catch(e){}
+}
+
+function updateToggleSummary(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  s.textContent=prefix?' — '+prefix:'';
+}
+
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){
+      var cfg=JSON.parse(saved);
+      document.getElementById('prefix-input').value=cfg.prefix||'';
+      document.getElementById('pass-input').value=cfg.pass||'';
+    }
+    if(localStorage.getItem('edu310-config-collapsed')==='1'){
+      var panel=document.getElementById('config-panel');
+      var btn=document.getElementById('config-toggle-btn');
+      panel.classList.add('collapsed');
+      btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';
+    }
+  }catch(e){}
+  applyConfig();
+}
+
+function saveConfig(){
+  var cfg={
+    prefix:document.getElementById('prefix-input').value.trim(),
+    pass:document.getElementById('pass-input').value.trim()
+  };
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();
+  updateToggleSummary();
+  var btn=document.querySelector('.config-btn');
+  var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+
+function clearConfig(){
+  document.getElementById('prefix-input').value='';
+  document.getElementById('pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();
+  updateToggleSummary();
+}
+
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d='thezerotrustexchange.com';
+  var admin=prefix?prefix+'-ADMIN@'+d:'ptcb76-ADMIN@'+d;
+
+  ['d-admin','tc-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.var-pass').forEach(function(el){
+    if(pass){el.textContent=pass;el.classList.add('filled');}
+    else{el.textContent='<Session Password>';el.classList.remove('filled');}
+  });
+}
+
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value.trim();
+  if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){
+    var orig=btn.textContent;
+    btn.textContent='✓';btn.classList.add('copied');
+    setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);
+  }).catch(function(){});
+}
+
+['prefix-input','pass-input'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',applyConfig);
+});
+
+const PAGE_KEY='edu310-lab0';
+const SECTIONS={
+  'lab0':'Lab 0: About'
+};
+
+// Socratic collapse
+document.querySelectorAll('.socratic-header').forEach(function(h){
+  h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});
+});
+
+function saveSocAnswer(btn){
+  var area=btn.closest('.answer-area');
+  var ta=area.querySelector('.answer-textarea');
+  if(!ta.value.trim()){ta.focus();return;}
+  var key=PAGE_KEY+'-socans-'+area.dataset.section;
+  try{localStorage.setItem(key,ta.value);}catch(e){}
+  ta.disabled=true;
+  btn.textContent='✓ Answer saved';btn.disabled=true;
+  var sb=area.querySelector('.btn-see-answer');
+  sb.disabled=false;sb.textContent='💡 See Model Answer';
+}
+function revealSocAnswer(btn){
+  if(btn.disabled)return;
+  var ans=btn.closest('.answer-area').querySelector('.model-answers');
+  var hidden=ans.style.display==='none'||!ans.style.display;
+  ans.style.display=hidden?'block':'none';
+  btn.textContent=hidden?'▲ Hide Model Answer':'💡 See Model Answer';
+}
+
+function navTo(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// Q Panel
+function getQArr(){return JSON.parse(localStorage.getItem(PAGE_KEY+'-questions')||'[]');}
+function saveQArr(qs){localStorage.setItem(PAGE_KEY+'-questions',JSON.stringify(qs));}
+function addQuestion(key,sectionName){
+  var ta=document.getElementById('q-'+key);
+  var text=ta.value.trim();if(!text){ta.focus();return;}
+  var qs=getQArr();
+  qs.push({id:Date.now(),section:key,sectionName:sectionName,text:text});
+  saveQArr(qs);ta.value='';renderQPanel();window.scrollTo({top:0,behavior:'smooth'});
+  if(!document.getElementById('qpanel-body').classList.contains('open'))toggleQPanel();
+}
+function deleteQuestion(id){saveQArr(getQArr().filter(function(q){return q.id!==id;}));renderQPanel();}
+function toggleQPanel(){
+  var body=document.getElementById('qpanel-body');
+  var header=document.getElementById('qpanel-header');
+  var chevron=document.getElementById('qpanel-chevron');
+  var open=body.classList.toggle('open');
+  header.classList.toggle('open',open);
+  chevron.textContent=open?'▴':'▾';
+  localStorage.setItem(PAGE_KEY+'-qpanel-open',open);
+}
+function renderQPanel(){
+  var qs=getQArr();
+  var count=document.getElementById('qpanel-count');
+  if(count){count.textContent=qs.length;count.style.display=qs.length?'inline':'none';}
+  var hint=document.querySelector('.qpanel-hint');
+  if(hint)hint.textContent=qs.length?'— '+qs.length+' question'+(qs.length>1?'s':'')+', click to expand':'— click to expand';
+  var body=document.getElementById('qpanel-body');if(!body)return;
+  if(!qs.length){body.innerHTML='<p class="panel-empty">No questions yet. Add one below.</p>';return;}
+  var html='';var num=0;
+  var groups={};
+  Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
+  qs.forEach(function(q){if(groups[q.section])groups[q.section].push(q);});
+  Object.entries(groups).forEach(function(e){
+    var key=e[0];var items=e[1];
+    if(!items.length)return;
+    html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
+    items.forEach(function(q){
+      num++;
+      html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteQuestion('+q.id+')" title="Remove">−</button></div>';
+    });
+    html+='</div>';
+  });
+  body.innerHTML=html;
+}
+
+// Notes Panel
+function getNotesArr(){return JSON.parse(localStorage.getItem(PAGE_KEY+'-notes')||'[]');}
+function saveNotesArr(ns){localStorage.setItem(PAGE_KEY+'-notes',JSON.stringify(ns));}
+function addNote(key){
+  var ta=document.getElementById('note-'+key);
+  var text=ta.value.trim();if(!text){ta.focus();return;}
+  var ns=getNotesArr();
+  var name=SECTIONS[key]||key;
+  ns.push({id:Date.now(),section:key,sectionName:name,text:text});
+  saveNotesArr(ns);ta.value='';renderNotesPanel();window.scrollTo({top:0,behavior:'smooth'});
+  if(!document.getElementById('notes-panel-body').classList.contains('open'))toggleNotesPanel();
+}
+function deleteNote(id){saveNotesArr(getNotesArr().filter(function(n){return n.id!==id;}));renderNotesPanel();}
+function toggleNotesPanel(){
+  var body=document.getElementById('notes-panel-body');
+  var header=document.getElementById('notes-panel-header');
+  var chevron=document.getElementById('notes-panel-chevron');
+  var open=body.classList.toggle('open');
+  header.classList.toggle('open',open);
+  chevron.textContent=open?'▴':'▾';
+  localStorage.setItem(PAGE_KEY+'-notes-panel-open',open);
+}
+function renderNotesPanel(){
+  var ns=getNotesArr();
+  var count=document.getElementById('notes-panel-count');
+  if(count){count.textContent=ns.length;count.style.display=ns.length?'inline':'none';}
+  var hint=document.querySelector('.notes-panel-hint');
+  if(hint)hint.textContent=ns.length?'— '+ns.length+' note'+(ns.length>1?'s':'')+', click to expand':'— click to expand';
+  var body=document.getElementById('notes-panel-body');if(!body)return;
+  if(!ns.length){body.innerHTML='<p class="panel-empty">No notes yet. Add one below.</p>';return;}
+  var html='';var num=0;
+  var groups={};
+  Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
+  ns.forEach(function(n){if(groups[n.section])groups[n.section].push(n);});
+  Object.entries(groups).forEach(function(e){
+    var key=e[0];var items=e[1];
+    if(!items.length)return;
+    html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
+    items.forEach(function(n){
+      num++;
+      html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteNote('+n.id+')" title="Remove">−</button></div>';
+    });
+    html+='</div>';
+  });
+  body.innerHTML=html;
+}
+
+// Progress checklist
+function toggleDone(cb){
+  localStorage.setItem(PAGE_KEY+'-chk-'+cb.id, cb.checked);
+  cb.closest('.progress-item').classList.toggle('done',cb.checked);
+}
+function initChecks(){
+  document.querySelectorAll('.progress-item input[type=checkbox]').forEach(function(cb){
+    var saved=localStorage.getItem(PAGE_KEY+'-chk-'+cb.id);
+    if(saved==='true'){cb.checked=true;cb.closest('.progress-item').classList.add('done');}
+  });
+}
+
+// Copy buttons
+function copyToClipboard(text,btn){
+  navigator.clipboard.writeText(text).then(function(){
+    btn.classList.add('copied');btn.textContent='✓';
+    setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);
+  }).catch(function(){});
+}
+function injectCopyButtons(){
+  var selectors=['.step-list > li code','.sub-steps li code','.creds-table td code','.task-block code','.config-derived code'];
+  document.querySelectorAll(selectors.join(',')).forEach(function(code){
+    if(code.closest('.callout'))return;
+    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
+    var text=code.textContent.trim();
+    if(text.length<2)return;
+    var btn=document.createElement('button');
+    btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
+    code.after(btn);
+  });
+}
+
+// Page transition
+document.addEventListener('DOMContentLoaded',function(){
+  loadConfig();updateToggleSummary();updateSidebarOffset();
+  renderQPanel();renderNotesPanel();initChecks();
+  injectCopyButtons();
+  if(localStorage.getItem(PAGE_KEY+'-qpanel-open')==='true'){
+    document.getElementById('qpanel-body').classList.add('open');
+    document.getElementById('qpanel-header').classList.add('open');
+    document.getElementById('qpanel-chevron').textContent='▴';
+  }
+  if(localStorage.getItem(PAGE_KEY+'-notes-panel-open')==='true'){
+    document.getElementById('notes-panel-body').classList.add('open');
+    document.getElementById('notes-panel-header').classList.add('open');
+    document.getElementById('notes-panel-chevron').textContent='▴';
+  }
+  document.querySelectorAll('.answer-area').forEach(function(area){
+    var key=PAGE_KEY+'-socans-'+area.dataset.section;
+    try{
+      var saved=localStorage.getItem(key);
+      if(saved){
+        var ta=area.querySelector('.answer-textarea');
+        ta.value=saved;ta.disabled=true;
+        var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;
+        var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';
+      }
+    }catch(e){}
+  });
+  document.body.style.transition='opacity 0.3s ease';
+  document.body.style.opacity='1';
+  sessionStorage.setItem('pt','1');
+});
+
+</script>
+</body>
+</html>

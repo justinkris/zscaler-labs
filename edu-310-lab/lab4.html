@@ -15,7 +15,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 </head>
 <body>
 <header>
-  <div class="breadcrumb"><a href="index.html">EDU-310</a> &rsaquo; Lab 4</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-310</a> › Lab 4</div>
   <div class="header-top">
     <span class="eyebrow-chip">LAB 4 &middot; TROUBLESHOOTING</span>
     <div class="header-dot"></div>
@@ -255,6 +255,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         <div class="callout callout-success">
           <p><strong>Result:</strong> <strong>High DNS</strong> is listed as the root cause at 100% confidence. The DNS server for LINDA-PC-ROUTE5 is <code>10.0.1.53</code> &mdash; this is the specific DNS server to investigate.</p>
         </div>
+        <div class="callout callout-troubleshoot">
+          <strong>Troubleshoot — Y-Engine shows "High Server Response" instead of "High DNS"</strong>
+          <p>In a live environment, Y-Engine results depend on current probe data and may differ from the expected outcome. If your result shows a different root cause: compare your factor against the web probe breakdown — if <strong>DNS Resolve Time</strong> is the largest component of Page Fetch Time in the Web Probe metrics (Task 4.2), then High DNS is the correct root cause regardless of what Y-Engine labels it. Use the quantitative data to verify the conclusion, not just the Y-Engine label.</p>
+        </div>
       </div>
       <div class="section-qa" data-section="t4-3">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
@@ -389,6 +393,8 @@ document.addEventListener('DOMContentLoaded',function(){
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
 });
+
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 </script>
 </body>
 </html>

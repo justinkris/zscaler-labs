@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}function copyAllQs(){try{var qs=getQArr();navigator.clipboard.writeText(qs.map(function(q){return q.text;}).join('\n'));}catch(e){}}
+function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.map(function(n){return n.text;}).join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 0: About the EDU-260 Hands-On Lab — EDU-260</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-260</a> › Lab 0</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">Lab 0 · EDU-260</span>
+    <span class="header-dot"></span>
+  </div>
+  <h1>About the EDU-260 <em>Hands-On Lab</em></h1>
+  <div class="motivation-banner">
+    <p>Meet your Safemarch HelpDesk environment: one Corp: Client PC, seven department user accounts, and read-only access to ZIA, ZPA, and ZDX portals. Understand the topology and credential structure before troubleshooting begins.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb32" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZIA Admin:</strong> <code id="d-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>IT Dept:</strong> <code id="d-it">ptcb32-IT@thezerotrustexchange.com</code></span>
+      <span><strong>HR Dept:</strong> <code id="d-hr">ptcb32-HR@thezerotrustexchange.com</code></span>
+      <span><strong>MKT Dept:</strong> <code id="d-mkt">ptcb32-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor:</strong> <code id="d-con">ptcb32-CON@thezerotrustexchange.com</code></span>
+      <span><strong>OT User:</strong> <code id="d-ot">ptcb32-OT@thezerotrustexchange.com</code></span>
+      <span><strong>Sales:</strong> <code id="d-sales">ptcb32-SALES@thezerotrustlab.com</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel" id="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel()" id="qpanel-header">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="qpanel-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron" id="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="qpanel-body"></div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel" id="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNotesPanel()" id="notes-panel-header">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-count" id="notes-panel-count">0</span>
+      <span class="notes-panel-hint">— click to expand</span>
+      <span class="notes-panel-chevron" id="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="notes-panel-body"></div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab0">
+      <h2>Lab 0: About the EDU-260 Hands-On Lab</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">OVERVIEW</div>
+        <p>Welcome to the <strong>Introduction to Troubleshooting — Part 2 of 2 (EDU-260)</strong> Hands-on Lab. You play the role of a <strong>Level 1 HelpDesk analyst at Safemarch</strong>, investigating reported issues using read-only access to ZIA, ZPA, and ZDX admin portals. By the end of this lab series you will be able to:</p>
+        <ul style="margin-top:10px;">
+          <li>Verify client connectivity and trace ZIA and ZPA SAML authentication flows</li>
+          <li>Capture and interpret ZCC packet logs to diagnose traffic-forwarding problems</li>
+          <li>Review SSL inspection certificates and identify misconfigured ZIA access policies</li>
+          <li>Confirm threat protection, sandbox, Browser Isolation, Firewall, and DNS control behaviour</li>
+          <li>Investigate DLP rule mismatches using block logs and dictionary inspection</li>
+          <li>Diagnose user-experience issues by correlating ZDX scores, Cloud Path data, and User Device Events</li>
+          <li>Verify NSS server and feed configuration for SIEM connectivity</li>
+        </ul>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Course:</strong> EDU-260</div>
+          <div class="lab-meta-item"><strong>Platform:</strong> Skytap + Zscaler Portals (thezerotrustexchange.com)</div>
+          <div class="lab-meta-item"><strong>Admin role:</strong> Read-Only · Labs: 8 total · ~4.5 hours estimated</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab0">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · LAB ENVIRONMENT</span>
+        </div>
+        <p class="socratic-insight">This course intentionally restricts your portal access to Read-Only. Understanding why that constraint exists — and how to work effectively within it — is itself a troubleshooting skill.</p>
+        <ul class="socratic-questions">
+          <li>You access ZIA, ZPA, and ZDX admin portals as a Read-Only Administrator. What specific actions does that role prevent, and why is that restriction realistic for a Tier 1 HelpDesk analyst?
+            <div class="answer-area" data-section="lab0-edu260-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Read-Only prevents saving configuration changes — you can view all policies, logs, and settings but cannot modify them. This is realistic because Tier 1 analysts diagnose and escalate; they don't change production policy. It also prevents accidental mis-configuration during a training lab where multiple students share tenant infrastructure.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>This lab uses seven distinct department user accounts (IT, HR, MKT, CON, OT, SALES, plus ADMIN). Why do multiple personas matter in a troubleshooting course rather than just using one admin account?
+            <div class="answer-area" data-section="lab0-edu260-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer..." rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Policy in ZIA and ZPA is often scoped to specific users or departments. A block that affects the IT department user might not affect HR, which means the root cause is a user-group policy assignment, not an infrastructure issue. Multiple personas let you reproduce user-specific issues, compare policy application across groups, and test whether a problem is universal or identity-specific.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <h3>Before You Start</h3>
+      <div class="task-block">
+        <ul class="step-list">
+          <li><strong>Assumed prior knowledge:</strong> Completion of EDU-259 (Introduction to Troubleshooting — Part 1 of 2) or equivalent. You should be familiar with the Zscaler troubleshooting methodology — Gather, Identify, Plan, Implement, Verify — and comfortable navigating ZIA Web Insights and ZPA Diagnostics logs.</li>
+          <li><strong>Environment needed:</strong> A Skytap lab pod containing at least one Windows Client PC VM, plus read-only admin credentials for a shared Zscaler tenant (<code>thezerotrustexchange.com</code> domain). All seven department user accounts and the Session Password are provided in the <strong>Resources tab</strong> of your Skytap environment.</li>
+          <li><strong>Estimated total lab time:</strong> Approximately 4.5 hours across all 8 labs. Lab 2 (Authentication) and Lab 5 (Security Services) are the longest at ~40–45 min each. Lab 1 (environment setup) and Lab 8 (NSS) are the shortest at ~15 min each.</li>
+        </ul>
+      </div>
+
+      <h3>Lab Description and Scenario</h3>
+      <p>You are a member of the <strong>Level 1 HelpDesk team at Safemarch</strong>. Users from multiple departments report Zscaler-related issues — authentication failures, traffic not forwarding, unexpected policy blocks, poor performance, and logging gaps. Your job is to diagnose each issue using the read-only admin portals, ZCC diagnostics, and browser developer tools, then produce a finding that could be escalated to a Tier 2 engineer.</p>
+      <p>Labs build on each other sequentially. You will use a single Corp: Client PC VM as your test endpoint throughout, switching between department user identities as needed by each lab scenario.</p>
+
+      <h3>Lab Topology</h3>
+      <p>Your Skytap pod provides one Corp: Client PC VM running Windows. ZCC is pre-installed on the Client PC. The ZIA, ZPA, and ZDX admin portals are cloud services accessible from any browser — some tasks require you to open them from inside the Client PC VM to simulate a corporate endpoint, while others can be done from your local laptop browser.</p>
+
+      <h4>Virtual Machines and Portals</h4>
+      <div class="task-block">
+        <ul class="step-list">
+          <li><strong>Corp: Client PC</strong> — Windows VM in Skytap. ZCC is pre-installed. Used for all end-user simulation tasks — packet captures, SAML flow tracing, and policy testing. Login: <code>Student</code> / <code>Admin-123!</code></li>
+          <li><strong>ZIA Admin Portal</strong> — <code>https://admin.zscalerthree.net</code>. Read-Only admin role. Login: <code id="t-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></li>
+          <li><strong>ZPA Admin Portal</strong> — Accessible via Experience Center. Read-Only admin role. Used in Labs 2 and 4 for SAML flow and access policy review.</li>
+          <li><strong>ZDX Admin Portal</strong> — Accessible via Experience Center. Used in Lab 7 for user experience troubleshooting.</li>
+        </ul>
+      </div>
+
+      <h3>Credential Reference</h3>
+      <p style="font-size:13.5px;color:var(--text-soft);line-height:1.65;margin-bottom:12px;">Enter your Student Prefix in the Lab Configuration panel above to auto-populate all username fields throughout this guide. The Session Password is the same for all accounts.</p>
+      <table class="creds-table">
+        <thead><tr><th>Role</th><th>Username</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>ZIA Admin (Read-Only)</td><td><code id="tc-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></td><td>Main admin login for portal navigation</td></tr>
+          <tr><td>IT Department User</td><td><code id="tc-it">ptcb32-IT@thezerotrustexchange.com</code></td><td>Primary test user — ZCC enrollment & packet captures</td></tr>
+          <tr><td>HR Department User</td><td><code id="tc-hr">ptcb32-HR@thezerotrustexchange.com</code></td><td>DLP and policy assignment tests</td></tr>
+          <tr><td>Marketing Department User</td><td><code id="tc-mkt">ptcb32-MKT@thezerotrustexchange.com</code></td><td>URL filtering and cloud app scenarios</td></tr>
+          <tr><td>Contractor User</td><td><code id="tc-con">ptcb32-CON@thezerotrustexchange.com</code></td><td>Restricted-access policy verification</td></tr>
+          <tr><td>OT User</td><td><code id="tc-ot">ptcb32-OT@thezerotrustexchange.com</code></td><td>Operational technology persona</td></tr>
+          <tr><td>Sales Department User</td><td><code id="tc-sales">ptcb32-SALES@thezerotrustlab.com</code></td><td>Note: different domain (thezerotrustlab.com)</td></tr>
+          <tr class="section-row"><td>VM Login</td><td>Username</td><td>Password</td></tr>
+          <tr><td>Corp: Client PC</td><td>Student</td><td>Admin-123!</td></tr>
+          <tr><td>Session Password (all Zscaler accounts)</td><td colspan="2">&lt;from Resources tab in Skytap&gt;</td></tr>
+          <tr><td>ZIA Admin Portal URL</td><td colspan="2"><code>https://admin.zscalerthree.net</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-warning">
+        <p><strong>Important:</strong> In this lab you access the ZIA, ZPA, and ZDX Admin Portals as a <strong>Read-Only Administrator</strong>. You can view all settings and logs but cannot save any configuration changes.</p>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">One Corp: Client PC VM (Student / Admin-123!) + read-only access to ZIA, ZPA, ZDX portals. Seven department accounts share one Session Password — format is <code>&lt;prefix&gt;-DEPT@thezerotrustexchange.com</code> (SALES uses <code>thezerotrustlab.com</code>). ZIA Admin Portal: <code>https://admin.zscalerthree.net</code>. Always check ZCC Service Status before any client-side troubleshooting step.</div>
+        </div>
+      </div>
+
+      <div class="lesson-tools">
+        <div class="lesson-tools-grid">
+          <div>
+            <div class="tool-label">ASK A QUESTION</div>
+            <textarea class="tool-textarea" id="q-lab0" placeholder="What are you unsure about?" rows="3"></textarea>
+            <div class="tool-row"><button class="btn-add-q" onclick="addQuestion('lab0','Lab 0: About')">Add Question</button></div>
+          </div>
+          <div>
+            <div class="tool-label">ADD A NOTE</div>
+            <textarea class="tool-textarea" id="note-lab0" placeholder="Write a note for this section..." rows="3"></textarea>
+            <div class="tool-row"><button class="btn-add-q" onclick="addNote('lab0')">+ Add Note</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-col -->
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a href="index.html" class="hub-link">← EDU-260 Lab Hub</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item"><input type="checkbox" id="chk-lab0-env" onchange="toggleDone(this)"><label for="chk-lab0-env">Lab 0: Environment reviewed</label></li>
+        <li class="progress-item"><input type="checkbox" id="chk-lab0-creds" onchange="toggleDone(this)"><label for="chk-lab0-creds">Prefix & password saved to config panel</label></li>
+      </ul>
+    </div>
+
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">▲</span></div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">Student Prefix</div>
+          <div class="qr-def">Your unique pod identifier, e.g. <code>ptcb32</code>. Prepended to all department usernames (e.g. <code>ptcb32-IT@…</code>).</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Read-Only Admin</div>
+          <div class="qr-def">Your portal role for all labs. You can view all settings, logs, and policies but cannot save any changes.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Session Password</div>
+          <div class="qr-def">Single shared password for all seven department accounts and the ADMIN account. Found in the Resources tab.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZIA Admin Portal</div>
+          <div class="qr-def"><code>https://admin.zscalerthree.net</code> — ZIA policy, analytics, and Web Insights logs.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">SAML Flow</div>
+          <div class="qr-def">Authentication chain: ZCC → ZIA IdP → Customer IdP → assertion back to ZIA. Traced in Lab 2 using browser DevTools and samltool.com.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZCC Packet Log</div>
+          <div class="qr-def">Captured from ZCC Diagnostics → Packet Capture. Saved as .pcapng; opened in Wireshark for traffic forwarding analysis in Lab 3.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Web Insights</div>
+          <div class="qr-def">ZIA log that shows every proxied transaction — policy action, URL, category, threat name. Primary source for policy troubleshooting.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZPA Diagnostics</div>
+          <div class="qr-def">Per-session log in ZPA Admin Portal showing App Segment matches, access policy decisions, and connector selection.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="index.html">
+    <span class="page-nav-label">← PREVIOUS</span>
+    <span class="page-nav-title">EDU-260 Lab Hub</span>
+  </a>
+  <div class="page-nav-message">Every troubleshooting journey starts with knowing your terrain.</div>
+  <a class="page-nav-btn page-nav-next" href="lab1.html">
+    <span class="page-nav-label">NEXT →</span>
+    <span class="page-nav-title">Lab 1: Connecting to the Virtual Lab</span>
+  </a>
+</div>
+
+<footer>
+  <span>EDU-260 · Introduction to Troubleshooting Part 2 of 2 · Lab 0</span>
+  <span>Lab 0: About</span>
+</footer>
+
+<script>
+
+/* ══════════════════════════════════════════════════
+   CONFIG PANEL
+══════════════════════════════════════════════════ */
+const CONFIG_KEY='edu260-expc-lab-config';
+
+function updateSidebarOffset(){
+  var h=document.getElementById('config-panel').offsetHeight;
+  document.documentElement.style.setProperty('--config-h',(h+16)+'px');
+}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function toggleConfig(){
+  var panel=document.getElementById('config-panel');
+  var btn=document.getElementById('config-toggle-btn');
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed
+    ?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand'
+    :'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem('edu260-config-collapsed',collapsed?'1':'0');}catch(e){}
+}
+
+function updateToggleSummary(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  s.textContent=prefix?' — '+prefix:'';
+}
+
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){
+      var cfg=JSON.parse(saved);
+      document.getElementById('prefix-input').value=cfg.prefix||'';
+      document.getElementById('pass-input').value=cfg.pass||'';
+    }
+    if(localStorage.getItem('edu260-config-collapsed')==='1'){
+      var panel=document.getElementById('config-panel');
+      var btn=document.getElementById('config-toggle-btn');
+      panel.classList.add('collapsed');
+      btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';
+    }
+  }catch(e){}
+  applyConfig();
+}
+
+function saveConfig(){
+  var cfg={
+    prefix:document.getElementById('prefix-input').value.trim(),
+    pass:document.getElementById('pass-input').value.trim()
+  };
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();
+  updateToggleSummary();
+  var btn=document.querySelector('.config-btn');
+  var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+
+function clearConfig(){
+  document.getElementById('prefix-input').value='';
+  document.getElementById('pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();
+  updateToggleSummary();
+}
+
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';
+  var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;
+  var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;
+  var hr=prefix?prefix+'-HR@'+d1:'ptcb32-HR@'+d1;
+  var mkt=prefix?prefix+'-MKT@'+d1:'ptcb32-MKT@'+d1;
+  var con=prefix?prefix+'-CON@'+d1:'ptcb32-CON@'+d1;
+  var ot=prefix?prefix+'-OT@'+d1:'ptcb32-OT@'+d1;
+  var sales=prefix?prefix+'-SALES@'+d2:'ptcb32-SALES@'+d2;
+
+  ['d-admin','t-admin','tc-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});
+  ['d-it','tc-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});
+  ['d-hr','tc-hr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=hr;});
+  ['d-mkt','tc-mkt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=mkt;});
+  ['d-con','tc-con'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=con;});
+  ['d-ot','tc-ot'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ot;});
+  ['d-sales','tc-sales'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=sales;});
+
+  document.querySelectorAll('.var-pass').forEach(function(el){
+    if(pass){el.textContent=pass;el.classList.add('filled');}
+    else{el.textContent='<Session Password>';el.classList.remove('filled');}
+  });
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});
+}
+
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value.trim();
+  if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){
+    var orig=btn.textContent;
+    btn.textContent='✓';btn.classList.add('copied');
+    setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);
+  }).catch(function(){});
+}
+
+['prefix-input','pass-input'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',applyConfig);
+});
+
+const PAGE_KEY='edu260-lab0';
+const SECTIONS={
+  'lab0':'Lab 0: About'
+};
+
+// Socratic collapse
+document.querySelectorAll('.socratic-header').forEach(function(h){
+  h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});
+});
+
+function saveSocAnswer(btn){
+  var area=btn.closest('.answer-area');
+  var ta=area.querySelector('.answer-textarea');
+  if(!ta.value.trim()){ta.focus();return;}
+  var key=PAGE_KEY+'-socans-'+area.dataset.section;
+  try{localStorage.setItem(key,ta.value);}catch(e){}
+  ta.disabled=true;
+  btn.textContent='✓ Answer saved';btn.disabled=true;
+  var sb=area.querySelector('.btn-see-answer');
+  sb.disabled=false;sb.textContent='💡 See Model Answer';
+}
+function revealSocAnswer(btn){
+  if(btn.disabled)return;
+  var ans=btn.closest('.answer-area').querySelector('.model-answers');
+  var hidden=ans.style.display==='none'||!ans.style.display;
+  ans.style.display=hidden?'block':'none';
+  btn.textContent=hidden?'▲ Hide Model Answer':'💡 See Model Answer';
+}
+
+function navTo(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// Q Panel
+function getQArr(){return JSON.parse(localStorage.getItem(PAGE_KEY+'-questions')||'[]');}
+function saveQArr(qs){localStorage.setItem(PAGE_KEY+'-questions',JSON.stringify(qs));}
+function addQuestion(key,sectionName){
+  var ta=document.getElementById('q-'+key);
+  var text=ta.value.trim();if(!text){ta.focus();return;}
+  var qs=getQArr();
+  qs.push({id:Date.now(),section:key,sectionName:sectionName,text:text});
+  saveQArr(qs);ta.value='';renderQPanel();window.scrollTo({top:0,behavior:'smooth'});
+  if(!document.getElementById('qpanel-body').classList.contains('open'))toggleQPanel();
+}
+function deleteQuestion(id){saveQArr(getQArr().filter(function(q){return q.id!==id;}));renderQPanel();}
+function toggleQPanel(){
+  var body=document.getElementById('qpanel-body');
+  var header=document.getElementById('qpanel-header');
+  var chevron=document.getElementById('qpanel-chevron');
+  var open=body.classList.toggle('open');
+  header.classList.toggle('open',open);
+  chevron.textContent=open?'▴':'▾';
+  localStorage.setItem(PAGE_KEY+'-qpanel-open',open);
+}
+function renderQPanel(){
+  var qs=getQArr();
+  var count=document.getElementById('qpanel-count');
+  if(count){count.textContent=qs.length;count.style.display=qs.length?'inline':'none';}
+  var hint=document.querySelector('.qpanel-hint');
+  if(hint)hint.textContent=qs.length?'— '+qs.length+' question'+(qs.length>1?'s':'')+', click to expand':'— click to expand';
+  var body=document.getElementById('qpanel-body');if(!body)return;
+  if(!qs.length){body.innerHTML='<p class="panel-empty">No questions yet. Add one below.</p>';return;}
+  var html='';var num=0;
+  var groups={};
+  Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
+  qs.forEach(function(q){if(groups[q.section])groups[q.section].push(q);});
+  Object.entries(groups).forEach(function(e){
+    var key=e[0];var items=e[1];
+    if(!items.length)return;
+    html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
+    items.forEach(function(q){
+      num++;
+      html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+q.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteQuestion('+q.id+')" title="Remove">−</button></div>';
+    });
+    html+='</div>';
+  });
+  body.innerHTML=html;
+}
+
+// Notes Panel
+function getNotesArr(){return JSON.parse(localStorage.getItem(PAGE_KEY+'-notes')||'[]');}
+function saveNotesArr(ns){localStorage.setItem(PAGE_KEY+'-notes',JSON.stringify(ns));}
+function addNote(key){
+  var ta=document.getElementById('note-'+key);
+  var text=ta.value.trim();if(!text){ta.focus();return;}
+  var ns=getNotesArr();
+  var name=SECTIONS[key]||key;
+  ns.push({id:Date.now(),section:key,sectionName:name,text:text});
+  saveNotesArr(ns);ta.value='';renderNotesPanel();window.scrollTo({top:0,behavior:'smooth'});
+  if(!document.getElementById('notes-panel-body').classList.contains('open'))toggleNotesPanel();
+}
+function deleteNote(id){saveNotesArr(getNotesArr().filter(function(n){return n.id!==id;}));renderNotesPanel();}
+function toggleNotesPanel(){
+  var body=document.getElementById('notes-panel-body');
+  var header=document.getElementById('notes-panel-header');
+  var chevron=document.getElementById('notes-panel-chevron');
+  var open=body.classList.toggle('open');
+  header.classList.toggle('open',open);
+  chevron.textContent=open?'▴':'▾';
+  localStorage.setItem(PAGE_KEY+'-notes-panel-open',open);
+}
+function renderNotesPanel(){
+  var ns=getNotesArr();
+  var count=document.getElementById('notes-panel-count');
+  if(count){count.textContent=ns.length;count.style.display=ns.length?'inline':'none';}
+  var hint=document.querySelector('.notes-panel-hint');
+  if(hint)hint.textContent=ns.length?'— '+ns.length+' note'+(ns.length>1?'s':'')+', click to expand':'— click to expand';
+  var body=document.getElementById('notes-panel-body');if(!body)return;
+  if(!ns.length){body.innerHTML='<p class="panel-empty">No notes yet. Add one below.</p>';return;}
+  var html='';var num=0;
+  var groups={};
+  Object.keys(SECTIONS).forEach(function(k){groups[k]=[];});
+  ns.forEach(function(n){if(groups[n.section])groups[n.section].push(n);});
+  Object.entries(groups).forEach(function(e){
+    var key=e[0];var items=e[1];
+    if(!items.length)return;
+    html+='<div class="q-group"><div class="q-group-label">'+SECTIONS[key]+'</div>';
+    items.forEach(function(n){
+      num++;
+      html+='<div class="q-item"><div class="q-num">'+num+'</div><div class="q-text">'+n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</div><button class="q-del" onclick="deleteNote('+n.id+')" title="Remove">−</button></div>';
+    });
+    html+='</div>';
+  });
+  body.innerHTML=html;
+}
+
+// Progress checklist
+function toggleDone(cb){
+  localStorage.setItem(PAGE_KEY+'-chk-'+cb.id, cb.checked);
+  cb.closest('.progress-item').classList.toggle('done',cb.checked);
+}
+function initChecks(){
+  document.querySelectorAll('.progress-item input[type=checkbox]').forEach(function(cb){
+    var saved=localStorage.getItem(PAGE_KEY+'-chk-'+cb.id);
+    if(saved==='true'){cb.checked=true;cb.closest('.progress-item').classList.add('done');}
+  });
+}
+
+// Copy buttons
+function copyToClipboard(text,btn){
+  navigator.clipboard.writeText(text).then(function(){
+    btn.classList.add('copied');btn.textContent='✓';
+    setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);
+  }).catch(function(){});
+}
+function injectCopyButtons(){
+  var selectors=['.step-list > li code','.sub-steps li code','.creds-table td code','.task-block code','.config-derived code'];
+  document.querySelectorAll(selectors.join(',')).forEach(function(code){
+    if(code.closest('.callout'))return;
+    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
+    var text=code.textContent.trim();
+    if(text.length<2)return;
+    var btn=document.createElement('button');
+    btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
+    code.after(btn);
+  });
+}
+
+// Page transition
+document.addEventListener('DOMContentLoaded',function(){
+  loadConfig();updateToggleSummary();updateSidebarOffset();
+  renderQPanel();renderNotesPanel();initChecks();
+  injectCopyButtons();
+  if(localStorage.getItem(PAGE_KEY+'-qpanel-open')==='true'){
+    document.getElementById('qpanel-body').classList.add('open');
+    document.getElementById('qpanel-header').classList.add('open');
+    document.getElementById('qpanel-chevron').textContent='▴';
+  }
+  if(localStorage.getItem(PAGE_KEY+'-notes-panel-open')==='true'){
+    document.getElementById('notes-panel-body').classList.add('open');
+    document.getElementById('notes-panel-header').classList.add('open');
+    document.getElementById('notes-panel-chevron').textContent='▴';
+  }
+  document.querySelectorAll('.answer-area').forEach(function(area){
+    var key=PAGE_KEY+'-socans-'+area.dataset.section;
+    try{
+      var saved=localStorage.getItem(key);
+      if(saved){
+        var ta=area.querySelector('.answer-textarea');
+        ta.value=saved;ta.disabled=true;
+        var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;
+        var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';
+      }
+    }catch(e){}
+  });
+  document.body.style.transition='opacity 0.3s ease';
+  document.body.style.opacity='1';
+  sessionStorage.setItem('pt','1');
+});
+
+</script>
+</body>
+</html>

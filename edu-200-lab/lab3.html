@@ -238,6 +238,10 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
         <img src="screenshots/lab3-add-windows-policy.png" alt="Add Windows Policy form showing HandsOnLab name, Rule Order 1, Enabled status, HandsOnLab forwarding profile, SSL cert On, All Selected user groups">
         <div class="screenshot-caption">Windows Policy configuration: Name = HandsOnLab, Rule Order = 1, Forwarding Profile = HandsOnLab, SSL Certificate = On, User Groups = All Selected.</div>
       </div>
+      <div class="callout callout-troubleshoot">
+        <strong>Troubleshoot — ZCC still shows old profile after sign-in</strong>
+        <p>If ZCC is already open and signed in, a new App Profile may not take effect until ZCC re-syncs. Right-click the ZCC tray icon and choose <strong>Restart Zscaler</strong>, then sign in again. If the HandsOnLab forwarding profile still doesn't appear in ZCC's status, confirm the Windows Policy is <strong>Enabled</strong> and the Forwarding Profile field shows <strong>HandsOnLab</strong> — not an older default profile. Policy changes can take 60–90 seconds to propagate to the client after saving.</p>
+      </div>
 
       <h3>Task 3.2: Sign In to ZCC and Verify Protection</h3>
       <div class="task-block">
@@ -454,6 +458,11 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
   </aside>
 </main>
 
+<div class="recap-block">
+  <span class="recap-label">Setup phase complete</span>
+  <p class="recap-item"><strong>You just:</strong> configured ZCC traffic forwarding (Z-Tunnel 2.0) and verified that ZIA, ZPA, and ZDX are all ON for the student account. The Corp: Client PC is now routing all internet and private-app traffic through Zscaler.</p>
+  <p class="recap-item"><strong>Next up:</strong> Lab 4 begins the ZIA Policies phase — Firewall rules that control non-web traffic. Z-Tunnel 2.0, which you enabled in this lab, is a prerequisite: without it, non-web ports won't be intercepted and your Firewall rules won't fire.</p>
+</div>
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab2.html">
     <span class="page-nav-label">← PREVIOUS</span>
@@ -467,8 +476,9 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
 </div>
 
 <footer>
-  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Centre</span>
+  <span>EDU-200 · Zscaler for Users — Administrator · Hands-On Lab Guide · Experience Center</span>
   <span>Lab 3: ZCC Forwarding</span>
+  <span>LAB 3 of 16</span>
 </footer>
 
 <script>
