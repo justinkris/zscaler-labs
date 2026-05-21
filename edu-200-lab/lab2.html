@@ -12,6 +12,18 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>html.pt-init body{opacity:0;}</style>
 <link rel="stylesheet" href="../lab-style.css">
+<style>
+.task-collapsible{border:1px solid #dde1e7;border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:#f7f8fa;border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:#dde1e7;background:#eef0f5;}
+.task-collapsible-header:hover{background:#eaecf2;}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#1a1a2e;color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:#1a1a2e;flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+</style>
 </head>
 <body>
 
@@ -175,286 +187,324 @@ function copyAllNs(){try{var ns=getNotesArr();navigator.clipboard.writeText(ns.m
         </tbody>
       </table>
 
-      <h3>Task 2.1: Create Departments and User Groups</h3>
-      <div class="task-block">
-        <h4><span class="task-num">1</span> Navigate to Departments</h4>
-        <ol class="step-list">
-          <li>In the <strong>Zscaler Admin Console</strong>, select the <strong>Administration</strong> tab.</li>
-          <li>Go to <strong>Identity &gt; Departments</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-identity-departments-nav.png" alt="Administration menu open showing Identity tab with Departments highlighted">
-        <div class="screenshot-caption">Administration → Identity → Departments. The Identity menu is your central hub for all user, group, and department management.</div>
-      </div>
+      <div class="task-collapsible open" id="task-2-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.1</span>
+          <span class="task-collapsible-title">Create Departments and User Groups</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
 
-      <div class="task-block">
-        <h4><span class="task-num">2</span> Create the Support department</h4>
-        <ol class="step-list">
-          <li>Select <strong>Add Department</strong>.</li>
-          <li>Enter: Department Name: <strong>Support</strong> | Description: <strong>Support Department</strong></li>
-          <li>Click <strong>Save</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-add-support-dept.png" alt="Add Department form with Support and Support Department filled in">
-        <div class="screenshot-caption">Add Department form for the Support department — name and description fields.</div>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">1</span> Navigate to Departments</h4>
+            <ol class="step-list">
+              <li>In the <strong>Zscaler Admin Console</strong>, select the <strong>Administration</strong> tab.</li>
+              <li>Go to <strong>Identity &gt; Departments</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-identity-departments-nav.png" alt="Administration menu open showing Identity tab with Departments highlighted">
+            <div class="screenshot-caption">Administration → Identity → Departments. The Identity menu is your central hub for all user, group, and department management.</div>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">3</span> Create the IT department</h4>
-        <ol class="step-list">
-          <li>Select <strong>Add Department</strong> and enter: Department Name: <strong>IT</strong> | Description: <strong>IT Department</strong></li>
-          <li>Select <strong>Save</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-edit-it-dept.png" alt="Edit Department form with IT and IT Department filled in">
-        <div class="screenshot-caption">IT department creation — confirm both Support and IT appear in the Departments list after saving.</div>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">2</span> Create the Support department</h4>
+            <ol class="step-list">
+              <li>Select <strong>Add Department</strong>.</li>
+              <li>Enter: Department Name: <strong>Support</strong> | Description: <strong>Support Department</strong></li>
+              <li>Click <strong>Save</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-add-support-dept.png" alt="Add Department form with Support and Support Department filled in">
+            <div class="screenshot-caption">Add Department form for the Support department — name and description fields.</div>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">4</span> Confirm departments and create Helpdesk L1 user group</h4>
-        <ol class="step-list">
-          <li>Confirm that <strong>IT</strong> and <strong>Support</strong> appear in the Departments section.</li>
-          <li>Go to <strong>Identity &gt; User Groups</strong>.</li>
-          <li>Select <strong>Add User Group</strong>.</li>
-          <li>Enter User Group Name: <strong>Helpdesk L1</strong></li>
-          <li>Click <strong>Save</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-identity-user-groups-nav.png" alt="Administration Identity menu with User Groups highlighted">
-        <div class="screenshot-caption">Navigate to Identity → User Groups to create the Helpdesk L1 group that Joe will inherit entitlements through.</div>
-      </div>
-      <div class="screenshot-embed dialog">
-        <img src="screenshots/lab2-add-helpdesk-l1-group.png" alt="Add Group form with Helpdesk L1 in User Group Name field">
-        <div class="screenshot-caption">Add Group form — the group name Helpdesk L1 is what links Joe's account to the entitlements configured in Task 2.3.</div>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">3</span> Create the IT department</h4>
+            <ol class="step-list">
+              <li>Select <strong>Add Department</strong> and enter: Department Name: <strong>IT</strong> | Description: <strong>IT Department</strong></li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-edit-it-dept.png" alt="Edit Department form with IT and IT Department filled in">
+            <div class="screenshot-caption">IT department creation — confirm both Support and IT appear in the Departments list after saving.</div>
+          </div>
 
-      <h3>Task 2.2: Create Users</h3>
-      <div class="task-block">
-        <h4><span class="task-num">1</span> Create User Joe</h4>
-        <ol class="step-list">
-          <li>From the left navigation panel, go to <strong>Users</strong>.</li>
-          <li>Click <strong>Add User</strong> and set:
-            <ul class="sub-steps">
-              <li>Login ID: <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code></li>
-              <li>Name: <strong>Joe</strong> | First Name: <strong>Joe</strong></li>
-              <li>Same As Login ID: <strong>Enabled</strong></li>
-              <li>Primary Email: <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code></li>
-              <li>Department: <strong>Support</strong></li>
-            </ul>
-          </li>
-          <li>Click <strong>Assign Groups</strong> and select <strong>Helpdesk L1</strong>.</li>
-          <li>Click <strong>Security Settings</strong> tab:
-            <ul class="sub-steps">
-              <li>Password option: <strong>Set By Administrator</strong></li>
-              <li>Password / Confirm Password: <strong>Admin-123!</strong></li>
-              <li>Prompt for Password Change After Initial Login: <strong>Unchecked</strong></li>
-              <li>Multi-Factor Bypass — Skip Second Factor Authentication: <strong>Enabled</strong></li>
-              <li>Skip until: <strong>Set as far out as allowed</strong></li>
-            </ul>
-          </li>
-          <li>Navigate to <strong>Additional Attributes</strong> tab. Under INFORMATION set: SyncZPA: <strong>Zscaler</strong></li>
-          <li>Click <strong>Save</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-users-left-nav.png" alt="Left navigation panel showing Identity > User Management > Users selected">
-        <div class="screenshot-caption">Navigate to Users via the left nav panel under Identity → User Management.</div>
-      </div>
-      <div class="screenshot-embed narrow">
-        <img src="screenshots/lab2-add-user-security-settings.png" alt="Add User Security Settings tab showing Set By Administrator password option and MFA bypass enabled">
-        <div class="screenshot-caption">Security Settings: Set password as Administrator, disable the initial password change prompt, and enable MFA bypass for lab purposes.</div>
-      </div>
-      <div class="screenshot-embed narrow">
-        <img src="screenshots/lab2-add-user-syncZPA.png" alt="Additional Attributes pane showing SyncZPA field set to Zscaler">
-        <div class="screenshot-caption">SyncZPA = "Zscaler" ensures this user is synced into the ZPA identity store so ZPA labs and lab-reset scripts work correctly.</div>
-      </div>
-      <div class="callout callout-note">
-        <p><strong>Note:</strong> Setting SyncZPA to Zscaler tells the lab environment to sync this user with ZPA so later ZPA labs and lab-reset scripts function correctly. For lab purposes, the second factor of authentication is skipped. Zscaler recommends enabling MFA for all users in production.</p>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">4</span> Confirm departments and create Helpdesk L1 user group</h4>
+            <ol class="step-list">
+              <li>Confirm that <strong>IT</strong> and <strong>Support</strong> appear in the Departments section.</li>
+              <li>Go to <strong>Identity &gt; User Groups</strong>.</li>
+              <li>Select <strong>Add User Group</strong>.</li>
+              <li>Enter User Group Name: <strong>Helpdesk L1</strong></li>
+              <li>Click <strong>Save</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-identity-user-groups-nav.png" alt="Administration Identity menu with User Groups highlighted">
+            <div class="screenshot-caption">Navigate to Identity → User Groups to create the Helpdesk L1 group that Joe will inherit entitlements through.</div>
+          </div>
+          <div class="screenshot-embed dialog">
+            <img src="screenshots/lab2-add-helpdesk-l1-group.png" alt="Add Group form with Helpdesk L1 in User Group Name field">
+            <div class="screenshot-caption">Add Group form — the group name Helpdesk L1 is what links Joe's account to the entitlements configured in Task 2.3.</div>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">2</span> Create User Bev</h4>
-        <ol class="step-list">
-          <li>Click <strong>Add User</strong> and set:
-            <ul class="sub-steps">
-              <li>Login ID: <code class="d-username-bev">bev@&lt;Student FQDN&gt;</code></li>
-              <li>Name / First Name: <strong>Bev</strong></li>
-              <li>Same As Login ID: <strong>Enabled</strong></li>
-              <li>Primary Email: <code class="d-username-bev">bev@&lt;Student FQDN&gt;</code></li>
-              <li>Department: <strong>IT</strong></li>
-            </ul>
-          </li>
-          <li>Click <strong>Assign Groups</strong> and select <strong>Zscaler Global Administrators</strong>.</li>
-          <li>Click <strong>Security Settings</strong> tab — configure same password settings as Joe (Admin-123!, MFA bypass enabled, skip as far out as allowed).</li>
-          <li>Navigate to <strong>Additional Attributes</strong> — set SyncZPA: <strong>Zscaler</strong></li>
-          <li>Click <strong>Save</strong>.</li>
-        </ol>
-      </div>
+        </div><!-- /task-collapsible-body -->
+      </div><!-- /task-2-1 -->
 
-      <h3>Task 2.3: Add Administrative and Service Entitlements</h3>
-      <div class="task-block">
-        <h4><span class="task-num">1</span> Assign ZIA Admin Entitlement to Helpdesk L1</h4>
-        <ol class="step-list">
-          <li>Navigate to <strong>Administration &gt; Admin Management &gt; Role Based Access Control &gt; Administrative Entitlements</strong>.</li>
-          <li>Click <strong>Zscaler Internet Access</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-admin-management-entitlements.png" alt="Administration > Admin Management menu with Administrative Entitlements highlighted">
-        <div class="screenshot-caption">Administration → Admin Management → Role Based Access Control → Administrative Entitlements — your access control hub for all Zscaler services.</div>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-admin-entitlements-list.png" alt="Administrative Entitlements list showing all services including ZIA, ZDX, ZPA, ZCC, Business Insights">
-        <div class="screenshot-caption">The Administrative Entitlements list — each entry controls who can access that service's admin console. Click ZIA to assign Helpdesk L1.</div>
-      </div>
-      <div class="task-block">
-        <h4><span class="task-num">2</span> Assign Helpdesk L1 to ZIA with Executive Insights App role</h4>
-        <ol class="step-list">
-          <li>In the <strong>ZIA Administrative</strong> pane, click <strong>Assign Groups</strong>.</li>
-          <li>Select the checkbox for <strong>Helpdesk L1 Group</strong>.</li>
-          <li>From the <strong>Role</strong> drop-down, select <strong>Executive Insights App</strong>.</li>
-          <li>Click <strong>Next</strong> and <strong>Assign</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-zia-admin-assign-groups.png" alt="ZIA Administrative entitlement page showing Assign Groups button and existing groups list">
-        <div class="screenshot-caption">ZIA Administrative pane — click Assign Groups to add Helpdesk L1 with the read-only Executive Insights App role.</div>
-      </div>
-      <div class="screenshot-embed menu">
-        <img src="screenshots/lab2-zia-select-groups-roles.png" alt="Select Groups and Roles dialog showing Helpdesk L1 checked with Executive Insights App role selected">
-        <div class="screenshot-caption">Select Groups &amp; Roles — Helpdesk L1 checked, Executive Insights App role selected from the dropdown. Click Next to confirm.</div>
-      </div>
-      <div class="callout callout-note">
-        <p><strong>Note:</strong> The Executive Insights App role provides read-only access to the Zscaler portal. In production, create a custom role under Administration &gt; Admin Management &gt; Role Based Access Control &gt; Roles for finer control.</p>
-      </div>
+      <div class="task-collapsible open" id="task-2-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.2</span>
+          <span class="task-collapsible-title">Create Users</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <h4><span class="task-num">1</span> Create User Joe</h4>
+            <ol class="step-list">
+              <li>From the left navigation panel, go to <strong>Users</strong>.</li>
+              <li>Click <strong>Add User</strong> and set:
+                <ul class="sub-steps">
+                  <li>Login ID: <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code></li>
+                  <li>Name: <strong>Joe</strong> | First Name: <strong>Joe</strong></li>
+                  <li>Same As Login ID: <strong>Enabled</strong></li>
+                  <li>Primary Email: <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code></li>
+                  <li>Department: <strong>Support</strong></li>
+                </ul>
+              </li>
+              <li>Click <strong>Assign Groups</strong> and select <strong>Helpdesk L1</strong>.</li>
+              <li>Click <strong>Security Settings</strong> tab:
+                <ul class="sub-steps">
+                  <li>Password option: <strong>Set By Administrator</strong></li>
+                  <li>Password / Confirm Password: <strong>Admin-123!</strong></li>
+                  <li>Prompt for Password Change After Initial Login: <strong>Unchecked</strong></li>
+                  <li>Multi-Factor Bypass — Skip Second Factor Authentication: <strong>Enabled</strong></li>
+                  <li>Skip until: <strong>Set as far out as allowed</strong></li>
+                </ul>
+              </li>
+              <li>Navigate to <strong>Additional Attributes</strong> tab. Under INFORMATION set: SyncZPA: <strong>Zscaler</strong></li>
+              <li>Click <strong>Save</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-users-left-nav.png" alt="Left navigation panel showing Identity > User Management > Users selected">
+            <div class="screenshot-caption">Navigate to Users via the left nav panel under Identity → User Management.</div>
+          </div>
+          <div class="screenshot-embed narrow">
+            <img src="screenshots/lab2-add-user-security-settings.png" alt="Add User Security Settings tab showing Set By Administrator password option and MFA bypass enabled">
+            <div class="screenshot-caption">Security Settings: Set password as Administrator, disable the initial password change prompt, and enable MFA bypass for lab purposes.</div>
+          </div>
+          <div class="screenshot-embed narrow">
+            <img src="screenshots/lab2-add-user-syncZPA.png" alt="Additional Attributes pane showing SyncZPA field set to Zscaler">
+            <div class="screenshot-caption">SyncZPA = "Zscaler" ensures this user is synced into the ZPA identity store so ZPA labs and lab-reset scripts work correctly.</div>
+          </div>
+          <div class="callout callout-note">
+            <p><strong>Note:</strong> Setting SyncZPA to Zscaler tells the lab environment to sync this user with ZPA so later ZPA labs and lab-reset scripts function correctly. For lab purposes, the second factor of authentication is skipped. Zscaler recommends enabling MFA for all users in production.</p>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">3</span> Assign ZDX Admin Entitlement to Helpdesk L1</h4>
-        <ol class="step-list">
-          <li>Select the <strong>Back</strong> option next to "Assign Groups" to return to the entitlements list.</li>
-          <li>Click <strong>Zscaler Digital Experience</strong>.</li>
-          <li>Click <strong>Assign Groups</strong>. Select <strong>Helpdesk L1</strong>. From the Role drop-down, select <strong>ZDX Read-only Admin</strong>.</li>
-          <li>Click <strong>Next</strong> and <strong>Assign</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-zdx-entitlements-list.png" alt="Administrative Entitlements list with Zscaler Digital Experience highlighted">
-        <div class="screenshot-caption">Return to the entitlements list and click Zscaler Digital Experience to assign Helpdesk L1 read-only ZDX access.</div>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-zdx-select-groups-roles.png" alt="Select Groups and Roles for ZDX showing Helpdesk L1 checked with ZDX Read-only Admin role">
-        <div class="screenshot-caption">ZDX Select Groups &amp; Roles — Helpdesk L1 gets ZDX Read-only Admin. This pre-built role is purpose-built for Level 1 support monitoring.</div>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">2</span> Create User Bev</h4>
+            <ol class="step-list">
+              <li>Click <strong>Add User</strong> and set:
+                <ul class="sub-steps">
+                  <li>Login ID: <code class="d-username-bev">bev@&lt;Student FQDN&gt;</code></li>
+                  <li>Name / First Name: <strong>Bev</strong></li>
+                  <li>Same As Login ID: <strong>Enabled</strong></li>
+                  <li>Primary Email: <code class="d-username-bev">bev@&lt;Student FQDN&gt;</code></li>
+                  <li>Department: <strong>IT</strong></li>
+                </ul>
+              </li>
+              <li>Click <strong>Assign Groups</strong> and select <strong>Zscaler Global Administrators</strong>.</li>
+              <li>Click <strong>Security Settings</strong> tab — configure same password settings as Joe (Admin-123!, MFA bypass enabled, skip as far out as allowed).</li>
+              <li>Navigate to <strong>Additional Attributes</strong> — set SyncZPA: <strong>Zscaler</strong></li>
+              <li>Click <strong>Save</strong>.</li>
+            </ol>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">4</span> Assign ZIA Service Entitlement to Helpdesk L1</h4>
-        <ol class="step-list">
-          <li>Navigate to <strong>Administration &gt; Entitlements &gt; End User Entitlements &gt; Service Entitlements</strong>.</li>
-          <li>Click <strong>Zscaler Internet Access</strong>.</li>
-          <li>Click <strong>Assign Groups</strong>. Select checkbox for <strong>Helpdesk L1</strong>.</li>
-          <li>Click <strong>Next</strong> and <strong>Assign</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-service-entitlements.png" alt="Service Entitlements list showing ZIA, ZPA, ZDX services">
-        <div class="screenshot-caption">Service Entitlements (distinct from Admin Entitlements) — assigning ZIA here means Helpdesk L1 users can actually use the ZIA service via ZCC.</div>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-zia-service-assign-groups.png" alt="ZIA Service Entitlements Assign Groups dialog with Helpdesk L1 selected">
-        <div class="screenshot-caption">ZIA Service Entitlements — Helpdesk L1 selected. This is what enables Joe's traffic to be forwarded through ZIA when he logs into ZCC.</div>
-      </div>
+        </div><!-- /task-collapsible-body -->
+      </div><!-- /task-2-2 -->
 
-      <h3>Task 2.4: Validate Entitlement Access for Users</h3>
-      <div class="task-block">
-        <h4><span class="task-num">1</span> Verify Joe's entitlements in the user profile</h4>
-        <ol class="step-list">
-          <li>Navigate to <strong>Administration &gt; Identity &gt; Users</strong>.</li>
-          <li>Click the <strong>Edit</strong> button (pencil icon) for user <strong>Joe</strong>.</li>
-          <li>Navigate to the <strong>Entitlements</strong> tab and verify both Administrative and Service entitlements are assigned.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-users-list-joe.png" alt="Users list showing Joe with Active status and the edit pencil icon highlighted">
-        <div class="screenshot-caption">Users list — click the pencil icon for Joe to verify entitlements have been applied correctly.</div>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-joe-entitlements-tab.png" alt="Edit User Joe showing Entitlements tab with ZDX Read-only Admin, ZIA Executive Insights App, and ZIA Service Entitlement">
-        <div class="screenshot-caption">Joe's Entitlements tab confirms: ZDX Read-only Admin (admin), ZIA Executive Insights App (admin), and ZIA (service) — all inherited through Helpdesk L1 group membership.</div>
-      </div>
+      <div class="task-collapsible open" id="task-2-3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.3</span>
+          <span class="task-collapsible-title">Add Administrative and Service Entitlements</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <h4><span class="task-num">1</span> Assign ZIA Admin Entitlement to Helpdesk L1</h4>
+            <ol class="step-list">
+              <li>Navigate to <strong>Administration &gt; Admin Management &gt; Role Based Access Control &gt; Administrative Entitlements</strong>.</li>
+              <li>Click <strong>Zscaler Internet Access</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-admin-management-entitlements.png" alt="Administration > Admin Management menu with Administrative Entitlements highlighted">
+            <div class="screenshot-caption">Administration → Admin Management → Role Based Access Control → Administrative Entitlements — your access control hub for all Zscaler services.</div>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-admin-entitlements-list.png" alt="Administrative Entitlements list showing all services including ZIA, ZDX, ZPA, ZCC, Business Insights">
+            <div class="screenshot-caption">The Administrative Entitlements list — each entry controls who can access that service's admin console. Click ZIA to assign Helpdesk L1.</div>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">2</span> Validate Joe's restricted admin view</h4>
-        <ol class="step-list">
-          <li>On the <strong>Corp: Client PC</strong>, open a <strong>new incognito window</strong> in Chrome.</li>
-          <li>Navigate to the Experience Center: <code>https://console.zscaler.com/</code></li>
-          <li>Authenticate as Joe: Username <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code> | Password: <strong>Admin-123!</strong></li>
-          <li>Confirm that the <strong>Administration</strong> and <strong>Policy</strong> tabs are restricted compared to the Student admin user — Joe cannot access Admin Management or Sign-On Policies.</li>
-          <li>Confirm Joe can only view existing Digital Experience data and cannot create or modify objects.</li>
-          <li>Click the <strong>Account settings icon</strong> (top right) to <strong>Sign out</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed dialog">
-        <img src="screenshots/lab2-joe-login-zidentity.png" alt="ZIdentity login screen with joe@zs....labtenant.com entered">
-        <div class="screenshot-caption">Log in as Joe in an incognito window to verify his restricted admin view without affecting your student session.</div>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-joe-restricted-admin-view.png" alt="Experience Center Admin Management view as Joe showing only Role Based Access Control and Digital Experience options">
-        <div class="screenshot-caption">Joe's restricted view — only Role Based Access Control and Digital Experience sections are visible. Admin Management, Sign-On Policies, and most configuration areas are hidden.</div>
-      </div>
-      <div class="screenshot-embed menu">
-        <img src="screenshots/lab2-joe-account-signout.png" alt="Account settings dropdown showing Sign Out option for joe@zs000205.labtenant.com">
-        <div class="screenshot-caption">Sign out Joe using the Account settings icon in the top-right corner before logging in as Bev.</div>
-      </div>
-      <div class="callout callout-note">
-        <p><strong>Note:</strong> The Helpdesk Level 1 Group has read-only privileges for ZIA and ZDX. Joe inherits this read-only access, which removes access to core administrative areas and limits him to view-only analytics and experience data.</p>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">2</span> Assign Helpdesk L1 to ZIA with Executive Insights App role</h4>
+            <ol class="step-list">
+              <li>In the <strong>ZIA Administrative</strong> pane, click <strong>Assign Groups</strong>.</li>
+              <li>Select the checkbox for <strong>Helpdesk L1 Group</strong>.</li>
+              <li>From the <strong>Role</strong> drop-down, select <strong>Executive Insights App</strong>.</li>
+              <li>Click <strong>Next</strong> and <strong>Assign</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-zia-admin-assign-groups.png" alt="ZIA Administrative entitlement page showing Assign Groups button and existing groups list">
+            <div class="screenshot-caption">ZIA Administrative pane — click Assign Groups to add Helpdesk L1 with the read-only Executive Insights App role.</div>
+          </div>
+          <div class="screenshot-embed menu">
+            <img src="screenshots/lab2-zia-select-groups-roles.png" alt="Select Groups and Roles dialog showing Helpdesk L1 checked with Executive Insights App role selected">
+            <div class="screenshot-caption">Select Groups &amp; Roles — Helpdesk L1 checked, Executive Insights App role selected from the dropdown. Click Next to confirm.</div>
+          </div>
+          <div class="callout callout-note">
+            <p><strong>Note:</strong> The Executive Insights App role provides read-only access to the Zscaler portal. In production, create a custom role under Administration &gt; Admin Management &gt; Role Based Access Control &gt; Roles for finer control.</p>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">3</span> Validate Bev's full admin access</h4>
-        <ol class="step-list">
-          <li>In the same incognito window, navigate to <code>https://console.zscaler.com/</code></li>
-          <li>Authenticate as Bev: Username <code class="d-username-bev">bev@&lt;Student FQDN&gt;</code> | Password: <strong>Admin-123!</strong></li>
-          <li>Navigate to <strong>Administration &gt; Admin Management &gt; Sign-On Policies</strong>.</li>
-          <li>Confirm the <strong>Add Rule</strong> button is enabled — Bev has full admin access as a member of Zscaler Global Administrators.</li>
-          <li>Sign out via the Account settings icon.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-bev-admin-sign-on-policy.png" alt="Admin Sign-On Policy page as Bev showing Add Rule button is enabled">
-        <div class="screenshot-caption">Bev's Admin Sign-On Policy view — Add Rule is enabled, confirming full administrative access. Joe's view of this same page would not show the Add Rule button.</div>
-      </div>
-      <div class="screenshot-embed menu">
-        <img src="screenshots/lab2-bev-account-signout.png" alt="Account settings dropdown showing Sign Out option for bev@zs000205.labtenant.com">
-        <div class="screenshot-caption">Sign out Bev after validation. Next you'll validate Joe's ZIA service entitlement via ZCC on the Client PC.</div>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">3</span> Assign ZDX Admin Entitlement to Helpdesk L1</h4>
+            <ol class="step-list">
+              <li>Select the <strong>Back</strong> option next to "Assign Groups" to return to the entitlements list.</li>
+              <li>Click <strong>Zscaler Digital Experience</strong>.</li>
+              <li>Click <strong>Assign Groups</strong>. Select <strong>Helpdesk L1</strong>. From the Role drop-down, select <strong>ZDX Read-only Admin</strong>.</li>
+              <li>Click <strong>Next</strong> and <strong>Assign</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-zdx-entitlements-list.png" alt="Administrative Entitlements list with Zscaler Digital Experience highlighted">
+            <div class="screenshot-caption">Return to the entitlements list and click Zscaler Digital Experience to assign Helpdesk L1 read-only ZDX access.</div>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-zdx-select-groups-roles.png" alt="Select Groups and Roles for ZDX showing Helpdesk L1 checked with ZDX Read-only Admin role">
+            <div class="screenshot-caption">ZDX Select Groups &amp; Roles — Helpdesk L1 gets ZDX Read-only Admin. This pre-built role is purpose-built for Level 1 support monitoring.</div>
+          </div>
 
-      <div class="task-block">
-        <h4><span class="task-num">4</span> Validate Joe's ZIA service entitlement via Zscaler Client Connector</h4>
-        <ol class="step-list">
-          <li>On the <strong>Corp: Client PC</strong>, in the Windows taskbar (bottom-right corner), click the <strong>Show hidden icons arrow ^</strong>.</li>
-          <li>Select the <strong>Zscaler Client Connector</strong> icon, then click <strong>Open Zscaler</strong>.</li>
-          <li>Authenticate with Joe's account: <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code> / <strong>Admin-123!</strong></li>
-          <li>Click <strong>Sign in</strong>.</li>
-          <li>In the ZCC console, verify that <strong>Internet Security</strong> is <strong>ON</strong> for user Joe.</li>
-          <li>After verifying, <strong>log out of Zscaler Client Connector</strong>.</li>
-        </ol>
-      </div>
-      <div class="screenshot-embed menu">
-        <img src="screenshots/lab2-zcc-tray-menu.png" alt="Windows taskbar showing Zscaler Client Connector tray icon with Open Zscaler context menu">
-        <div class="screenshot-caption">Right-click or hover the ZCC tray icon to access the Open Zscaler menu — this is how you authenticate a different user into ZCC.</div>
-      </div>
-      <div class="screenshot-embed dialog">
-        <img src="screenshots/lab2-zcc-login-joe.png" alt="Zscaler Client Connector login screen showing ZIdentity login for Joe">
-        <div class="screenshot-caption">ZCC login screen — enter Joe's credentials to verify that his ZIA service entitlement allows ZCC to authenticate and forward traffic.</div>
-      </div>
-      <div class="screenshot-embed">
-        <img src="screenshots/lab2-zcc-joe-internet-security-on.png" alt="ZCC console showing Internet Security status ON for joe@labtenant.com with Off-Trusted Network and Tunnel Version v2.0-DTLS">
-        <div class="screenshot-caption">ZCC Internet Security ON for Joe — Service Status ON confirms the ZIA service entitlement is active. Log Joe out after verification; you'll re-authenticate with the student account in Lab 3.</div>
-      </div>
+          <div class="task-block">
+            <h4><span class="task-num">4</span> Assign ZIA Service Entitlement to Helpdesk L1</h4>
+            <ol class="step-list">
+              <li>Navigate to <strong>Administration &gt; Entitlements &gt; End User Entitlements &gt; Service Entitlements</strong>.</li>
+              <li>Click <strong>Zscaler Internet Access</strong>.</li>
+              <li>Click <strong>Assign Groups</strong>. Select checkbox for <strong>Helpdesk L1</strong>.</li>
+              <li>Click <strong>Next</strong> and <strong>Assign</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-service-entitlements.png" alt="Service Entitlements list showing ZIA, ZPA, ZDX services">
+            <div class="screenshot-caption">Service Entitlements (distinct from Admin Entitlements) — assigning ZIA here means Helpdesk L1 users can actually use the ZIA service via ZCC.</div>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-zia-service-assign-groups.png" alt="ZIA Service Entitlements Assign Groups dialog with Helpdesk L1 selected">
+            <div class="screenshot-caption">ZIA Service Entitlements — Helpdesk L1 selected. This is what enables Joe's traffic to be forwarded through ZIA when he logs into ZCC.</div>
+          </div>
+
+        </div><!-- /task-collapsible-body -->
+      </div><!-- /task-2-3 -->
+
+      <div class="task-collapsible open" id="task-2-4">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.4</span>
+          <span class="task-collapsible-title">Validate Entitlement Access for Users</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <h4><span class="task-num">1</span> Verify Joe's entitlements in the user profile</h4>
+            <ol class="step-list">
+              <li>Navigate to <strong>Administration &gt; Identity &gt; Users</strong>.</li>
+              <li>Click the <strong>Edit</strong> button (pencil icon) for user <strong>Joe</strong>.</li>
+              <li>Navigate to the <strong>Entitlements</strong> tab and verify both Administrative and Service entitlements are assigned.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-users-list-joe.png" alt="Users list showing Joe with Active status and the edit pencil icon highlighted">
+            <div class="screenshot-caption">Users list — click the pencil icon for Joe to verify entitlements have been applied correctly.</div>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-joe-entitlements-tab.png" alt="Edit User Joe showing Entitlements tab with ZDX Read-only Admin, ZIA Executive Insights App, and ZIA Service Entitlement">
+            <div class="screenshot-caption">Joe's Entitlements tab confirms: ZDX Read-only Admin (admin), ZIA Executive Insights App (admin), and ZIA (service) — all inherited through Helpdesk L1 group membership.</div>
+          </div>
+
+          <div class="task-block">
+            <h4><span class="task-num">2</span> Validate Joe's restricted admin view</h4>
+            <ol class="step-list">
+              <li>On the <strong>Corp: Client PC</strong>, open a <strong>new incognito window</strong> in Chrome.</li>
+              <li>Navigate to the Experience Center: <code>https://console.zscaler.com/</code></li>
+              <li>Authenticate as Joe: Username <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code> | Password: <strong>Admin-123!</strong></li>
+              <li>Confirm that the <strong>Administration</strong> and <strong>Policy</strong> tabs are restricted compared to the Student admin user — Joe cannot access Admin Management or Sign-On Policies.</li>
+              <li>Confirm Joe can only view existing Digital Experience data and cannot create or modify objects.</li>
+              <li>Click the <strong>Account settings icon</strong> (top right) to <strong>Sign out</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed dialog">
+            <img src="screenshots/lab2-joe-login-zidentity.png" alt="ZIdentity login screen with joe@zs....labtenant.com entered">
+            <div class="screenshot-caption">Log in as Joe in an incognito window to verify his restricted admin view without affecting your student session.</div>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-joe-restricted-admin-view.png" alt="Experience Center Admin Management view as Joe showing only Role Based Access Control and Digital Experience options">
+            <div class="screenshot-caption">Joe's restricted view — only Role Based Access Control and Digital Experience sections are visible. Admin Management, Sign-On Policies, and most configuration areas are hidden.</div>
+          </div>
+          <div class="screenshot-embed menu">
+            <img src="screenshots/lab2-joe-account-signout.png" alt="Account settings dropdown showing Sign Out option for joe@zs000205.labtenant.com">
+            <div class="screenshot-caption">Sign out Joe using the Account settings icon in the top-right corner before logging in as Bev.</div>
+          </div>
+          <div class="callout callout-note">
+            <p><strong>Note:</strong> The Helpdesk Level 1 Group has read-only privileges for ZIA and ZDX. Joe inherits this read-only access, which removes access to core administrative areas and limits him to view-only analytics and experience data.</p>
+          </div>
+
+          <div class="task-block">
+            <h4><span class="task-num">3</span> Validate Bev's full admin access</h4>
+            <ol class="step-list">
+              <li>In the same incognito window, navigate to <code>https://console.zscaler.com/</code></li>
+              <li>Authenticate as Bev: Username <code class="d-username-bev">bev@&lt;Student FQDN&gt;</code> | Password: <strong>Admin-123!</strong></li>
+              <li>Navigate to <strong>Administration &gt; Admin Management &gt; Sign-On Policies</strong>.</li>
+              <li>Confirm the <strong>Add Rule</strong> button is enabled — Bev has full admin access as a member of Zscaler Global Administrators.</li>
+              <li>Sign out via the Account settings icon.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-bev-admin-sign-on-policy.png" alt="Admin Sign-On Policy page as Bev showing Add Rule button is enabled">
+            <div class="screenshot-caption">Bev's Admin Sign-On Policy view — Add Rule is enabled, confirming full administrative access. Joe's view of this same page would not show the Add Rule button.</div>
+          </div>
+          <div class="screenshot-embed menu">
+            <img src="screenshots/lab2-bev-account-signout.png" alt="Account settings dropdown showing Sign Out option for bev@zs000205.labtenant.com">
+            <div class="screenshot-caption">Sign out Bev after validation. Next you'll validate Joe's ZIA service entitlement via ZCC on the Client PC.</div>
+          </div>
+
+          <div class="task-block">
+            <h4><span class="task-num">4</span> Validate Joe's ZIA service entitlement via Zscaler Client Connector</h4>
+            <ol class="step-list">
+              <li>On the <strong>Corp: Client PC</strong>, in the Windows taskbar (bottom-right corner), click the <strong>Show hidden icons arrow ^</strong>.</li>
+              <li>Select the <strong>Zscaler Client Connector</strong> icon, then click <strong>Open Zscaler</strong>.</li>
+              <li>Authenticate with Joe's account: <code class="d-username-joe">joe@&lt;Student FQDN&gt;</code> / <strong>Admin-123!</strong></li>
+              <li>Click <strong>Sign in</strong>.</li>
+              <li>In the ZCC console, verify that <strong>Internet Security</strong> is <strong>ON</strong> for user Joe.</li>
+              <li>After verifying, <strong>log out of Zscaler Client Connector</strong>.</li>
+            </ol>
+          </div>
+          <div class="screenshot-embed menu">
+            <img src="screenshots/lab2-zcc-tray-menu.png" alt="Windows taskbar showing Zscaler Client Connector tray icon with Open Zscaler context menu">
+            <div class="screenshot-caption">Right-click or hover the ZCC tray icon to access the Open Zscaler menu — this is how you authenticate a different user into ZCC.</div>
+          </div>
+          <div class="screenshot-embed dialog">
+            <img src="screenshots/lab2-zcc-login-joe.png" alt="Zscaler Client Connector login screen showing ZIdentity login for Joe">
+            <div class="screenshot-caption">ZCC login screen — enter Joe's credentials to verify that his ZIA service entitlement allows ZCC to authenticate and forward traffic.</div>
+          </div>
+          <div class="screenshot-embed">
+            <img src="screenshots/lab2-zcc-joe-internet-security-on.png" alt="ZCC console showing Internet Security status ON for joe@labtenant.com with Off-Trusted Network and Tunnel Version v2.0-DTLS">
+            <div class="screenshot-caption">ZCC Internet Security ON for Joe — Service Status ON confirms the ZIA service entitlement is active. Log Joe out after verification; you'll re-authenticate with the student account in Lab 3.</div>
+          </div>
+
+        </div><!-- /task-collapsible-body -->
+      </div><!-- /task-2-4 -->
 
       <div class="mental-note-block">
         <div class="mental-note-block-icon">🧠</div>
@@ -755,6 +805,22 @@ function togglePrompt(btn){
   if(h){c.removeAttribute('hidden');btn.textContent='▴ Hide image generation prompt';}
   else{c.setAttribute('hidden','');btn.textContent='▾ Show image generation prompt';}
 }
+
+// Task collapsible
+function toggleTask(header){
+  var tc=header.closest('.task-collapsible');
+  tc.classList.toggle('open');
+  try{localStorage.setItem(PAGE_KEY+'-tc-'+tc.id,tc.classList.contains('open')?'1':'0');}catch(e){}
+}
+(function(){
+  document.querySelectorAll('.task-collapsible').forEach(function(tc){
+    var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);
+    if(saved==='0')tc.classList.remove('open');
+  });
+  document.querySelectorAll('.task-collapsible-header').forEach(function(h){
+    h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});
+  });
+})();
 
 // Section nav
 function navTo(id){
