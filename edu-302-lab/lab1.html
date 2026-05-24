@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 1: Configure Identity Services — EDU-302</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 1</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 1 · IDENTITY</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Configure <em>Identity Services</em></h1>
+  <div class="motivation-banner">
+    <p>Identity is the foundation of Zero Trust. Before any policy can be applied, Safemarch needs departments, users, and entitlements provisioned in ZIdentity — so that every access decision is tied to a known, authenticated identity.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb83" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZIA Admin:</strong> <code id="d-admin">ptcb83-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>IT Dept:</strong> <code id="d-it">ptcb83-IT@thezerotrustexchange.com</code></span>
+      <span><strong>HR Dept:</strong> <code id="d-hr">ptcb83-HR@thezerotrustexchange.com</code></span>
+      <span><strong>MKT Dept:</strong> <code id="d-mkt">ptcb83-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor:</strong> <code id="d-con">ptcb83-CON@thezerotrustexchange.com</code></span>
+      <span><strong>OT User:</strong> <code id="d-ot">ptcb83-OT@thezerotrustexchange.com</code></span>
+      <span><strong>Sales:</strong> <code id="d-sales">ptcb83-SALES@thezerotrustlab.com</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+  <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+  <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab1">
+      <h2>Lab 1: Configure Identity Services</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 1</div>
+        <p><strong>Scenario:</strong> Safemarch is deploying Zscaler services and needs organisation-specific departments and users provisioned in ZIdentity so that role-based policies can be enforced across ZIA, ZPA, and ZDX. You must also enable Zscaler Support Remote Assistance so the support team can observe your tenant during troubleshooting.</p>
+        <figure class="lab-hero">
+          <img src="images/lab1-hero.png" alt="Lab 1 — Configure Identity Services" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
+          <div class="lab-meta-item"><strong>Portal:</strong> ZIdentity Admin</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab1">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · IDENTITY FOUNDATION</span>
+        </div>
+        <p class="socratic-insight">ZIdentity is the single control plane for authentication across ZIA, ZPA, and ZDX — departments and users here directly drive which policies fire and which access decisions are made.</p>
+        <ul class="socratic-questions">
+          <li>Why does Zscaler require users to be provisioned in ZIdentity rather than relying solely on an external IdP like Azure AD or Okta?
+            <div class="answer-area" data-section="lab1-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">ZIdentity acts as the authoritative source of truth for Zscaler-specific attributes such as department membership, service entitlements, and admin roles. External IdPs authenticate the user identity, but ZIdentity maps that identity to Zscaler-specific policy groups. Without provisioned users, ZIA and ZPA cannot resolve which department-based policies to apply at the point of access.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>What is the risk of enabling "Prompt for Password Change After Initial Log In" when setting passwords by administrator for multiple lab users?
+            <div class="answer-area" data-section="lab1-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">In a lab environment where the session password is shared, a forced password change after first login would immediately break all subsequent logins for that account — the lab steps that try to authenticate as finance-ptcb83@domain.com would fail with "wrong password." You disable the prompt so the lab password remains stable. In production, this setting exists for security; in a time-boxed lab pod it creates friction that prevents you from completing the exercise.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>What would break in the overall Zscaler deployment if users were added to the wrong department — for example, if the marketing user was placed in IT Security?
+            <div class="answer-area" data-section="lab1-q3">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Department membership is the key attribute used to scope ZIA URL filtering rules, ZPA access policies, and DLP policies. A marketing user placed in IT Security would inherit IT Security department exemptions — such as access to eicar.org and SSH firewall allow rules. Conversely, they would lose the marketing-only exemption for LinkedIn posting. The misconfiguration would silently give over-permissive access without triggering any error; policies would still evaluate, just against the wrong department context.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="task-collapsible open" id="task-1-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 1.1</span>
+          <span class="task-collapsible-title">Create Departments and Users in ZIdentity</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <h4><span class="task-num">1</span> Create the Safemarch Departments</h4>
+            <ol class="step-list">
+              <li>Log in to the ZIdentity Admin portal using your <strong>ZIA Admin</strong> account: <code class="d-username-admin">ptcb83-ADMIN@thezerotrustexchange.com</code> and Session Password <code class="var-pass">&lt;Session Password&gt;</code>.</li>
+              <li>Navigate to <strong>Directory &gt; Departments</strong>.</li>
+              <li>Create each of the following departments:
+                <ul class="sub-steps">
+                  <li><code>Marketing</code></li>
+                  <li><code>Finance</code></li>
+                  <li><code>IT Security</code></li>
+                  <li><code>Administrator</code></li>
+                  <li><code>Maintenance</code></li>
+                </ul>
+              </li>
+            </ol>
+          </div>
+
+          <div class="task-block">
+            <h4><span class="task-num">2</span> Create Users and Assign to Departments</h4>
+            <p style="font-size:13.5px;color:var(--text-soft);margin-bottom:10px;">Create the following users using the table below. Replace <strong>&lt;cd&gt;</strong> with your student prefix and <strong>&lt;zsabcd&gt;</strong> with your tenant FQDN (e.g. <code>zsptcb83.safemarch.com</code>).</p>
+            <table class="creds-table">
+              <thead><tr><th>User Name (Email)</th><th>Password</th><th>Department</th></tr></thead>
+              <tbody>
+                <tr><td><code>marketing-&lt;cd&gt;@&lt;zsabcd&gt;.safemarch.com</code></td><td><code>Zscaler123!</code></td><td>Marketing</td></tr>
+                <tr><td><code>finance-&lt;cd&gt;@&lt;zsabcd&gt;.safemarch.com</code></td><td><code>Zscaler123!</code></td><td>Finance</td></tr>
+                <tr><td><code>itsecurity-&lt;cd&gt;@&lt;zsabcd&gt;.safemarch.com</code></td><td><code>Zscaler123!</code></td><td>IT Security</td></tr>
+                <tr><td><code>admin-&lt;cd&gt;@&lt;zsabcd&gt;.safemarch.com</code></td><td><code>Zscaler123!</code></td><td>Administrator</td></tr>
+                <tr><td><code>maintenance-&lt;cd&gt;@&lt;zsabcd&gt;.safemarch.com</code></td><td><code>Zscaler123!</code></td><td>Maintenance</td></tr>
+              </tbody>
+            </table>
+            <div class="callout callout-warning">
+              <p><strong>Important — Security Settings for each user:</strong></p>
+              <ul style="margin:6px 0 0 16px;font-size:13.5px;">
+                <li>Use the <strong>Student Admin</strong> account for <strong>Assign Groups</strong> and enable <strong>Skip Second Factor Authentication</strong> in Security Settings to bypass MFA.</li>
+                <li>Set the <strong>Primary email address</strong> to your student account (<code>student@&lt;zsabcd&gt;.safemarch.com</code>).</li>
+                <li>Select <strong>"Set by Administrator"</strong> in the password option under Security Settings.</li>
+                <li>Uncheck <strong>"Prompt for Password Change After the Initial Log In"</strong>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t1-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 1.1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <figure class="task-hero">
+                <img src="images/lab1-task1.png" alt="Task 1.1 — Create Departments and Users" loading="lazy">
+              </figure>
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t1-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t1-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t1-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t1-1" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t1-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t1-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-collapsible open" id="task-1-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 1.2</span>
+          <span class="task-collapsible-title">Configure Zscaler Support Remote Assistance</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <h4><span class="task-num">1</span> Enable Remote Assistance</h4>
+            <ol class="step-list">
+              <li>In ZIdentity Admin, navigate to <strong>Settings &gt; Remote Assistance</strong>.</li>
+              <li>Enable Zscaler Support Remote Assistance with the following configuration:
+                <ul class="sub-steps">
+                  <li>Access Type: <strong>View-Only</strong></li>
+                  <li>Duration: <strong>90 days</strong></li>
+                </ul>
+              </li>
+              <li>Click <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> View-only access allows Zscaler support engineers to observe your portal's status and data during troubleshooting sessions without the ability to make configuration changes.</p>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <p><strong>Verification:</strong> Confirm that the Remote Assistance status shows <strong>Active</strong> with your selected expiry date 90 days from today.</p>
+          </div>
+
+          <div class="section-qa" data-section="t1-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 1.2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <figure class="task-hero">
+                <img src="images/lab1-task2.png" alt="Task 1.2 — Remote Assistance" loading="lazy">
+              </figure>
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t1-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t1-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t1-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t1-2" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t1-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t1-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">ZIdentity departments are the key attribute for all downstream policy scoping in ZIA, ZPA, and ZDX. Five departments created: Marketing, Finance, IT Security, Administrator, Maintenance. When creating users, always set "Set by Administrator" for password and uncheck the forced-change prompt — otherwise lab credentials break on first use. Remote Assistance view-only for 90 days lets Zscaler support observe without write access.</div>
+        </div>
+      </div>
+
+    </div><!-- /.section-block -->
+  </div><!-- /.content-col -->
+
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">← Back to Lab Hub</a>
+
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 1 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-1-1" onchange="saveChecklist()"><span>Logged in to ZIdentity Admin</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-1-2" onchange="saveChecklist()"><span>5 departments created</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-1-3" onchange="saveChecklist()"><span>5 users created with correct departments</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-1-4" onchange="saveChecklist()"><span>Skip SFA enabled for each user</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-1-5" onchange="saveChecklist()"><span>Forced password change unchecked</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-1-6" onchange="saveChecklist()"><span>Remote Assistance enabled (90 days, view-only)</span></label>
+    </div>
+
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">▲</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">ZIdentity</div>
+          <div class="qr-def">Zscaler's cloud identity platform. Manages users, departments, admin roles, and IdP federation across all Zscaler services.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Department</div>
+          <div class="qr-def">The primary attribute used by ZIA URL filtering, ZPA access policy, and DLP rules to scope which policy applies to which user group.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Skip SFA</div>
+          <div class="qr-def">Bypasses the second-factor authentication step for a user. Required for lab accounts where MFA is not provisioned.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Remote Assistance</div>
+          <div class="qr-def">Grants Zscaler support engineers view-only or edit access to your tenant for a defined duration — useful during escalated troubleshooting.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Help Links</div>
+          <div class="qr-def">
+            <a href="https://help.zscaler.com/zidentity/configuring-authentication-session" target="_blank" style="color:var(--blue);font-size:12px;">Configuring Authentication Session</a><br>
+            <a href="https://help.zscaler.com/zidentity/enabling-remote-assistance" target="_blank" style="color:var(--blue);font-size:12px;">Enabling Remote Assistance</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Practice Labs</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">LAB 1 of 10</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <span class="page-nav-btn page-nav-prev page-nav-disabled">
+    <span class="page-nav-label">← PREVIOUS</span>
+    <span class="page-nav-title">&nbsp;</span>
+  </span>
+  <div class="page-nav-message">Identity first. Every Zero Trust policy begins with knowing who the user is.</div>
+  <a class="page-nav-btn page-nav-next" href="lab2.html">
+    <span class="page-nav-label">NEXT →</span>
+    <span class="page-nav-title">Lab 2: Traffic Forwarding</span>
+  </a>
+</div>
+
+<script>
+const CONFIG_KEY='edu302-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
+const FOOTER_KEY='edu302-footer-collapsed';
+const PAGE_KEY='edu302-lab-lab1';
+
+function toggleConfig(){
+  var panel=document.getElementById('config-panel');
+  var btn=document.getElementById('config-toggle-btn');
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
+}
+function updateSidebarOffset(){
+  var panel=document.getElementById('config-panel');
+  var h=panel?panel.offsetHeight:52;
+  document.documentElement.style.setProperty('--config-h',(h+16)+'px');
+}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function updateToggleSummary(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  s.textContent=prefix?' — '+prefix:'';
+}
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';
+  var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb83-ADMIN@'+d1;
+  var it=prefix?prefix+'-IT@'+d1:'ptcb83-IT@'+d1;
+  var hr=prefix?prefix+'-HR@'+d1:'ptcb83-HR@'+d1;
+  var mkt=prefix?prefix+'-MKT@'+d1:'ptcb83-MKT@'+d1;
+  var con=prefix?prefix+'-CON@'+d1:'ptcb83-CON@'+d1;
+  var ot=prefix?prefix+'-OT@'+d1:'ptcb83-OT@'+d1;
+  var sales=prefix?prefix+'-SALES@'+d2:'ptcb83-SALES@'+d2;
+  ['d-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});
+  ['d-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});
+  ['d-hr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=hr;});
+  ['d-mkt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=mkt;});
+  ['d-con'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=con;});
+  ['d-ot'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ot;});
+  ['d-sales'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=sales;});
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});
+  document.querySelectorAll('.d-username-hr').forEach(function(el){el.textContent=hr;});
+  document.querySelectorAll('.d-username-mkt').forEach(function(el){el.textContent=mkt;});
+  document.querySelectorAll('.d-username-con').forEach(function(el){el.textContent=con;});
+  document.querySelectorAll('.d-username-ot').forEach(function(el){el.textContent=ot;});
+  document.querySelectorAll('.d-username-sales').forEach(function(el){el.textContent=sales;});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
+}
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}
+    else{document.getElementById('prefix-input').value='ptcb83';document.getElementById('pass-input').value='89+jZ+Hq';}
+    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
+  }catch(e){document.getElementById('prefix-input').value='ptcb83';document.getElementById('pass-input').value='89+jZ+Hq';}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){
+  var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();updateToggleSummary();
+  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+function clearConfig(){
+  document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();updateToggleSummary();
+}
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value.trim();if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
+}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){
+  document.querySelectorAll('.step-list > li code, .sub-steps li code, .creds-table td code, .task-block code, .config-derived code').forEach(function(code){
+    if(code.closest('.callout'))return;
+    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
+    var text=code.textContent.trim();if(text.length<2)return;
+    var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
+    code.after(btn);
+  });
+}
+function saveSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');
+  if(!ta.value.trim())return;
+  var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';
+  btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';
+  try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}
+  setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);
+}
+function revealSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');
+  if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
+  else{ma.style.display='none';btn.textContent='👁 See Model Answer';}
+}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+function saveChecklist(){try{var state={};document.querySelectorAll('[id^="chk-"]').forEach(function(cb){state[cb.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var cb=document.getElementById(id);if(cb)cb.checked=state[id];});}catch(e){}}
+var SECTION_IDS=['t1-1','t1-2'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'q\')">'+escHtml(q)+'</span><button class="qa-item-del" onclick="delSectionQ(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'n\')">'+escHtml(n)+'</span><button class="qa-item-del" onclick="delSectionN(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}renderSectionQ(id);}
+function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
+function editQAItem(span,id,idx,type){var text=span.textContent;var ta=document.createElement('textarea');ta.className='section-qa-textarea';ta.style.cssText='margin:0;min-height:32px;padding:4px 8px;font-size:12.5px;font-family:Epilogue,sans-serif;';ta.value=text;span.replaceWith(ta);ta.focus();ta.select();var done=false;function commit(){if(done)return;done=true;var val=ta.value.trim();if(val&&val!==text){try{var key=PAGE_KEY+(type==='q'?'-sq-':'-sn-')+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr[idx]=val;localStorage.setItem(key,JSON.stringify(arr));}catch(e){}}type==='q'?renderSectionQ(id):renderSectionN(id);}ta.addEventListener('blur',commit);ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ta.blur();}if(e.key==='Escape'){done=true;type==='q'?renderSectionQ(id):renderSectionN(id);}});}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+function toggleTask(header){var container=header.closest('.task-collapsible');var wasOpen=container.classList.contains('open');container.classList.toggle('open');try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-tasks')||'{}');state[container.id]=!wasOpen;localStorage.setItem(PAGE_KEY+'-tasks',JSON.stringify(state));}catch(e){}}
+function loadTaskStates(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-tasks')||'{}');Object.keys(state).forEach(function(id){var el=document.getElementById(id);if(el){if(state[id])el.classList.add('open');else el.classList.remove('open');}});}catch(e){}}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();loadTaskStates();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+});
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
+</script>
+</body>
+</html>

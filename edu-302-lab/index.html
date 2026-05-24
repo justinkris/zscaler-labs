@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-302 Hands-On Lab Guide — Zscaler Digital Delivery Consultant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › EDU-302</div>
+  <div class="header-top"><span class="eyebrow-chip">EDU-302 · Hands-On Lab</span></div>
+  <h1>Zscaler Digital Delivery <em>Consultant</em> Practice Labs</h1>
+  <div class="motivation-banner">
+    <p>10 hands-on labs covering identity services, traffic forwarding, ZIA policy, ZIA/ZPA logging, ZPA access policy, DLP, ZDX monitoring, and Zero Trust automation — practised in a live Skytap environment with real Zscaler portals.</p>
+  </div>
+</header>
+
+<div class="hub-main">
+
+<details class="zscaler-one-min">
+  <summary>&#9432; Zscaler in one minute — key terms</summary>
+  <div class="zom-body">
+    <div class="zom-term"><strong>ZIA</strong><span>Zscaler Internet Access — cloud-based secure web gateway. Inspects and enforces policy on all internet traffic from users and devices.</span></div>
+    <div class="zom-term"><strong>ZPA</strong><span>Zscaler Private Access — zero-trust network access for internal apps. Users connect to apps, never to the network.</span></div>
+    <div class="zom-term"><strong>ZDX</strong><span>Zscaler Digital Experience — end-to-end performance monitoring for users, devices, and SaaS applications.</span></div>
+    <div class="zom-term"><strong>ZCC</strong><span>Zscaler Client Connector — the endpoint agent that routes traffic to ZIA/ZPA and collects ZDX telemetry.</span></div>
+    <div class="zom-term"><strong>ZIdentity</strong><span>Zscaler's identity and authentication platform — manages IdP integration, MFA, and user provisioning across ZIA and ZPA.</span></div>
+    <div class="zom-term"><strong>NSS / LSS</strong><span>Nanolog Streaming Service (ZIA) and Log Streaming Service (ZPA) — stream logs to a SIEM in real time.</span></div>
+  </div>
+</details>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label">IDENTITY</span>
+      <div class="phase-title">Identity &amp; Authentication Services</div>
+      <div class="phase-range">Lab 1 · Create departments, users, and configure ZIdentity support access</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab1.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 1</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Configure Identity Services</div>
+        <div class="lab-card-desc">Create Safemarch departments and users in ZIdentity with department-specific email addresses. Configure Zscaler Support Remote Assistance for 90-day view-only troubleshooting access.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label amber">TRAFFIC</span>
+      <div class="phase-title">Traffic Forwarding Configuration</div>
+      <div class="phase-range">Lab 2 · Configure ZCC forwarding profiles and client connector settings</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab2.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 2</span><span class="lab-card-time">~45 min</span></div>
+        <div class="lab-card-title">Configure ZIA and ZPA Traffic Forwarding</div>
+        <div class="lab-card-desc">Set up Zscaler Client Connector forwarding profiles to ensure all traffic from all ports is tunnelled to the Zero Trust Exchange. Configure password protection, SSL cert auto-install, and ZPA re-authentication timers.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label amber">ZIA POLICY</span>
+      <div class="phase-title">ZIA Policy Configuration</div>
+      <div class="phase-range">Labs 3–4 · SSL inspection, URL filtering, firewall, DLP, cloud app control, and log streaming</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab3.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 3</span><span class="lab-card-time">~60 min</span></div>
+        <div class="lab-card-title">Configure ZIA Policy</div>
+        <div class="lab-card-desc">Implement SSL inspection, URL filtering (legal liability, social networking, eicar.org), firewall rules, Office 365 tenant restrictions, cloud app controls, and advanced policy settings including SafeSearch and AI/ML categorisation.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab4.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 4</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Configure ZIA Logging &amp; Reporting</div>
+        <div class="lab-card-desc">Configure Nanolog Streaming Service (NSS) to stream ZIA web logs in CSV format to an on-premises SIEM server. Filter to block-only records and verify receipt on the SIEM VM.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label green">ZPA POLICY</span>
+      <div class="phase-title">ZPA Policy Configuration</div>
+      <div class="phase-range">Labs 5–6 · App connectors, access policy, timeout policy, and ZPA log streaming</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab5.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 5</span><span class="lab-card-time">~60 min</span></div>
+        <div class="lab-card-title">Configure ZPA Policy</div>
+        <div class="lab-card-desc">Provision the ZPA App Connector, define Application Segments for Intranet, File Share, HVAC, SIEM, and RDP. Create access policies with department-level controls, device posture, idle timeout, and client forwarding bypass rules.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab6.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 6</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Configure ZPA Logging &amp; Reporting</div>
+        <div class="lab-card-desc">Configure Log Streaming Service (LSS) using the Corp: Log Streaming Connector to send User Activity and App Connector Status logs to the on-premises SIEM over TCP 514.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label" style="background:rgba(139,92,246,0.18);color:#6d28d9;">DLP</span>
+      <div class="phase-title">Data Loss Prevention</div>
+      <div class="phase-range">Lab 7 · HIPAA DLP policy to block sensitive medical file uploads</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab7.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 7</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Protect the Leaking of HIPAA Documents</div>
+        <div class="lab-card-desc">Configure ZIA DLP policies to inspect all file upload traffic and block medical information containing HIPAA-sensitive data. Test with a Medical Info PDF from the DLP Test Files folder.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label" style="background:rgba(139,92,246,0.18);color:#6d28d9;">ZDX</span>
+      <div class="phase-title">Zscaler Digital Experience</div>
+      <div class="phase-range">Labs 8–9 · Custom application probes and custom alerting</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab8.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 8</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Adding Custom Application &amp; Creating Custom Probes</div>
+        <div class="lab-card-desc">Add a custom application in the ZDX Admin Portal, then create a Web Probe (Test_Web) and Cloud Path Probe (Test_CloudPath) with specific frequency, retry, and ICMP parameters.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+      <a class="lab-card" href="lab9.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 9</span><span class="lab-card-time">~20 min</span></div>
+        <div class="lab-card-title">Creating a Custom Alert</div>
+        <div class="lab-card-desc">Create a ZDX custom alert (TestApp_Alert) triggered on Page Fetch Time ≥ 800ms and ZDX Score &lt; 10 for Europe-geolocated devices, repeated 3 times, with email delivery.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-header">
+      <span class="phase-label">AUTOMATION</span>
+      <div class="phase-title">Zero Trust Automation</div>
+      <div class="phase-range">Lab 10 · OneAPI client configuration and URL filtering via REST API</div>
+    </div>
+    <div class="lab-grid">
+      <a class="lab-card" href="lab10.html">
+        <div class="lab-card-header"><span class="lab-card-num">LAB 10</span><span class="lab-card-time">~30 min</span></div>
+        <div class="lab-card-title">Apply Zero Trust Automation: Adding URL Filtering Policy</div>
+        <div class="lab-card-desc">Configure a ZIdentity OneAPI client, authenticate a Postman session, and call the ZIA REST API to programmatically create a URL filtering rule that blocks gambling websites.</div>
+        <div class="lab-card-cta">Start Lab →</div>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /.hub-main -->
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Practice Labs</span>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  document.querySelectorAll('.lab-card').forEach(function(card){
+    card.addEventListener('click',function(){sessionStorage.setItem('pt','1');});
+  });
+});
+</script>
+</body>
+</html>
