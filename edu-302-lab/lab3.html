@@ -265,11 +265,11 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → Advanced Policy Settings (or File Type Controls)</li>
+                  <li>Navigate to Policy → Advanced Policy Settings</li>
                   <li>Click Add Rule — name it "IT Security - Executable Caution"</li>
-                  <li>Set Action to Caution</li>
-                  <li>Add file type: Executable</li>
-                  <li>Add Department criteria: IT Security</li>
+                  <li>Set Action to Caution (warns the user but allows the download)</li>
+                  <li>Under File Types, add: Executable</li>
+                  <li>Under Departments, add: IT Security</li>
                   <li>Place this rule ABOVE the block-all rule (req 5) — click Save</li>
                 </ol>
               </div>
@@ -360,11 +360,11 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → URL Filtering → click Add Rule</li>
+                  <li>Navigate to Policy → URL &amp; Cloud App Control → URL Filtering Policy → Add URL Filtering Rule</li>
                   <li>Name it "Block Legal Liability"</li>
                   <li>Set Action to Block</li>
-                  <li>Add URL categories: Adult Material, Drugs, Gambling, Illegal or Questionable, Militancy/Hate and Extremism</li>
-                  <li>Also add the Safemarch-Blocked custom category (req 9)</li>
+                  <li>Under URL Categories, add: Adult Material, Drugs, Gambling, Illegal or Questionable, Militancy/Hate and Extremism</li>
+                  <li>Also add the Safemarch-Blocked custom category (create in req 9 first if not already done)</li>
                   <li>Leave users as Any — click Save</li>
                 </ol>
               </div>
@@ -404,11 +404,10 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In Policy → URL Filtering, add a rule "eicar.org - IT Security Allow"</li>
-                  <li>Add URL: eicar.org. Set Action to Allow. Scope to IT Security department</li>
-                  <li>Place this rule ABOVE the block-all rule</li>
-                  <li>Add another rule "eicar.org - Block All". Add URL: eicar.org. Action: Block. No department scope</li>
-                  <li>Click Save on both rules</li>
+                  <li>In Policy → URL &amp; Cloud App Control → URL Filtering Policy, click Add URL Filtering Rule</li>
+                  <li>Name: "eicar.org - IT Security Allow". Add the URL eicar.org. Action: Allow. Under Departments: IT Security</li>
+                  <li>Add a second rule: "eicar.org - Block All". URL: eicar.org. Action: Block. No department scope</li>
+                  <li>Place the IT Security Allow rule ABOVE both the Block All rule and the Block Legal Liability rule — click Save on both</li>
                 </ol>
               </div>
             </div>
@@ -426,10 +425,10 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Add a rule "Marketing - LinkedIn Allow" — URL category: LinkedIn (if available) or add linkedin.com as a URL. Action: Allow. Scope to Marketing department</li>
-                  <li>Add a rule "Block Social Networking" — URL category: Social Networking. Action: Block. No department scope</li>
-                  <li>Place the Marketing allow rule ABOVE the block-all rule</li>
-                  <li>Click Save on both</li>
+                  <li>In URL Filtering Policy, click Add URL Filtering Rule. Name: "Marketing - LinkedIn Allow"</li>
+                  <li>Under URL Categories, add: Social Networking. Action: Allow. Under Departments: Marketing</li>
+                  <li>Add a second rule: "Block Social Networking". URL Category: Social Networking. Action: Block. Leave users as Any</li>
+                  <li>Place the Marketing Allow rule ABOVE the Block Social Networking rule — click Save on both</li>
                 </ol>
               </div>
             </div>
@@ -447,11 +446,11 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → URL Filtering</li>
-                  <li>Find the Office 365 section or click the Microsoft Recommended One-Click button</li>
-                  <li>Enable the Microsoft Recommended One-Click configuration</li>
-                  <li>This auto-creates optimised forwarding rules for O365 endpoints</li>
-                  <li>Click Save / Apply</li>
+                  <li>Navigate to Policy → URL &amp; Cloud App Control → URL Filtering Policy</li>
+                  <li>Look for the Microsoft 365 One-Click Setup button or banner near the top of the page</li>
+                  <li>Click Apply Microsoft Recommended Settings (or similar — the label varies by portal version)</li>
+                  <li>This auto-creates optimised forwarding and bypass rules for all O365 service endpoints — you do not need to create these manually</li>
+                  <li>Click Save / Apply — a set of O365-related rules will now appear in the policy list</li>
                 </ol>
               </div>
             </div>
@@ -470,11 +469,11 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → URL Filtering → Advanced Policy Settings</li>
-                  <li>Enable: Suspicious New Domains Lookup</li>
+                  <li>Navigate to Policy → URL &amp; Cloud App Control → URL Filtering Policy → Advanced Policy Settings (tab or link at top of page)</li>
+                  <li>Enable: Suspicious Newly Registered Domains</li>
                   <li>Enable: AI/ML based Content Categorisation</li>
                   <li>Enable: Embedded Sites Categorisation</li>
-                  <li>Enable: Enforce SafeSearch</li>
+                  <li>Enable: Enforce SafeSearch (forces Google, Bing, and Yahoo to return only safe results)</li>
                   <li>Click Save</li>
                 </ol>
               </div>
@@ -500,10 +499,10 @@
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
                   <li>Navigate to Policy → Cloud App Control → Microsoft</li>
-                  <li>Click Add Tenant Profile</li>
-                  <li>Name: "Safemarch Microsoft O365". Tenant Directory: deadbeef-0001-ffee-0001-314159265358. O365 Tenant: safemarch.com</li>
-                  <li>Save the profile, then create a Cloud App Control rule that allows login only to this tenant</li>
-                  <li>Configure a rule to block personal O365 logins (OneDrive, Outlook, etc.)</li>
+                  <li>Click Add Tenant Profile (or Microsoft 365 Tenant Profile)</li>
+                  <li>Name: "Safemarch Microsoft O365". Tenant Directory ID: (find this in the lab topology — it is a GUID in format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx). O365 Tenant Domain: safemarch.com</li>
+                  <li>Click Save to store the tenant profile</li>
+                  <li>Create a Cloud App Control rule referencing this Tenant Profile — Action: Allow only for the Safemarch tenant. Add a second rule to Block personal Microsoft account logins (Live, Hotmail, personal OneDrive)</li>
                 </ol>
               </div>
             </div>
@@ -526,11 +525,12 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → Firewall</li>
-                  <li>Click Add Rule — name it "IT Security - SSH Allow"</li>
-                  <li>Add network service: SSH (port 22 TCP)</li>
-                  <li>Click Add Criteria → User and Session Attributes → Department → IT Security</li>
-                  <li>Set Action to Allow — place above the default block rule — click Save</li>
+                  <li>Navigate to Policy → Firewall Control → Firewall Filtering Policy</li>
+                  <li>Click Add Firewall Filtering Rule — name it "IT Security - SSH Allow"</li>
+                  <li>Under Services, add: SSH (port 22 TCP)</li>
+                  <li>Click Add Criteria → User and Session Attributes → Department → select IT Security</li>
+                  <li>Set Action to Allow — use the Order field to place this rule ABOVE the default Block and Drop rule — click Save</li>
+                  <li>Click Activate to push the policy to all service edges</li>
                 </ol>
               </div>
             </div>

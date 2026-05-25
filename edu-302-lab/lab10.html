@@ -221,11 +221,12 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Open Postman on the Corp: Win Svr VM</li>
-                  <li>Create a new request — POST to the ZIdentity token endpoint (from the OneAPI client configuration)</li>
-                  <li>In the Body, send: grant_type=client_credentials, client_id=&lt;your Client ID&gt;, client_secret=&lt;your Client Secret&gt;</li>
-                  <li>Send the request and copy the access_token from the response</li>
-                  <li>In future requests, set the Authorization header to: Bearer &lt;access_token&gt;</li>
+                  <li>Open Postman on the Corp: Win Svr VM — File → Import → select the Zscaler OneAPI Postman collection JSON (available from automate.zscaler.com → Tools → Postman)</li>
+                  <li>In the Collections panel, click the collection root (Updated OneAPI Collection) and open the Authorization tab</li>
+                  <li>Set Access Token URL to your ZIdentity URL with suffix /oauth2/v1/token (e.g. https://zs4803safemarch.zslogin.net/oauth2/v1/token)</li>
+                  <li>Enter your Client ID and Client Secret from requirement 1</li>
+                  <li>Scroll down and click Get New Access Token — when the popup appears, click Use Token</li>
+                  <li>All requests in the collection now automatically include the Bearer token in the Authorization header</li>
                 </ol>
               </div>
             </div>
@@ -249,11 +250,11 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In Postman, create a new POST request to the ZIA URL Filtering API endpoint</li>
-                  <li>Set Authorization header: Bearer &lt;access_token&gt;</li>
-                  <li>Set Content-Type to application/json</li>
-                  <li>In the Body (raw JSON), include at minimum: name, order, action (BLOCK), urlCategories (Gambling), and "protocols": ["ANY_RULE"]</li>
-                  <li>Send the request — confirm you receive HTTP 200 or 201</li>
+                  <li>In the Postman collection, navigate to ZIA → URL Filtering Policy → find the POST (create rule) endpoint</li>
+                  <li>Click the Body tab — select raw / JSON</li>
+                  <li>Enter the rule payload: <code>{"name":"Block-Gambling","order":1,"action":"BLOCK","urlCategories":["GAMBLING"],"protocols":["ANY_RULE"],"state":"ENABLED"}</code></li>
+                  <li>Click Send — confirm the response is HTTP 200 or 201 and the body contains the new rule's ID</li>
+                  <li>Activate the change: in ZIA Admin Portal, click Activate (API calls do not auto-activate)</li>
                 </ol>
               </div>
             </div>
