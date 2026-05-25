@@ -18,6 +18,9 @@
 .lab-cmd-note{background:rgba(30,120,255,0.07);border-left:3px solid rgba(30,120,255,0.3);padding:7px 11px;border-radius:0 4px 4px 0;font-size:12px;color:var(--text-soft);margin:7px 0;font-family:'Epilogue',sans-serif;line-height:1.6;}
 .lab-cmd-success{background:rgba(34,160,73,0.07);border-left:3px solid rgba(34,160,73,0.35);padding:7px 11px;border-radius:0 4px 4px 0;font-size:12px;color:#1a7f38;margin:7px 0;font-family:'Epilogue',sans-serif;line-height:1.6;font-weight:600;}
 .lab-cmd-warn{background:rgba(247,185,48,0.08);border-left:3px solid rgba(247,185,48,0.45);padding:9px 12px;border-radius:0 4px 4px 0;font-size:12px;color:#7a5a00;margin:0 0 14px;font-family:'Epilogue',sans-serif;line-height:1.6;}
+.lab-cfg-block{background:rgba(13,26,46,0.03);border:1px solid var(--border);border-radius:6px;margin:7px 0;overflow:hidden;}
+.lab-cfg-label{font-family:'Epilogue',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase;padding:5px 12px;background:rgba(13,26,46,0.06);border-bottom:1px solid var(--border-dim);display:block;}
+.lab-cfg-block code{display:block;font-family:'Courier New',Courier,monospace;font-size:12px;color:#1e4d8c;padding:10px 12px;line-height:1.7;white-space:pre-wrap;}
 </style>
 </head>
 <body>
@@ -261,49 +264,81 @@
 
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.9;">
 
-                  <li style="margin-bottom:10px;">
-                    <span style="font-weight:600;color:var(--navy);">Update package lists</span>
-                    <div class="lab-cmd-block"><code>sudo apt-get update</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Update package lists and install rsyslog</span>
+                    <div class="lab-cmd-block"><code>sudo apt-get update
+sudo apt-get install rsyslog -y</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
                   </li>
 
-                  <li style="margin-bottom:10px;">
-                    <span style="font-weight:600;color:var(--navy);">Install rsyslog</span>
-                    <div class="lab-cmd-block"><code>sudo apt-get install rsyslog -y</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
-
-                  <li style="margin-bottom:10px;">
-                    <span style="font-weight:600;color:var(--navy);">Enable TCP reception in rsyslog.conf</span> — open the config file:
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Open rsyslog.conf for editing</span>
                     <div class="lab-cmd-block"><code>sudo nano /etc/rsyslog.conf</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    Uncomment (or add) these two lines to enable TCP input on port 514:
-                    <div class="lab-cmd-block"><code>module(load="imtcp")
-input(type="imtcp" port="514")</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    Also add this rule at the bottom of the file to write all received logs to syslog:
-                    <div class="lab-cmd-block"><code>*.* /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    <div class="lab-cmd-note">💡 In nano: <strong>Ctrl+O</strong> to save, then <strong>Ctrl+X</strong> to exit.</div>
                   </li>
 
-                  <li style="margin-bottom:10px;">
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Enable UDP and TCP input on port 514</span> — find and uncomment (or add) all four lines in the MODULES section:
+                    <div class="lab-cfg-block">
+                      <span class="lab-cfg-label">/etc/rsyslog.conf — uncomment or add (MODULES section)</span>
+                      <code>module(load="imudp")
+input(type="imudp" port="514")
+
+# provides TCP syslog reception
+module(load="imtcp")
+input(type="imtcp" port="514")
+
+$template RemInputLogs, "/var/log/remotelogs/%FROMHOST-IP%/%PROGRAMNAME%.log"
+*.* ?RemInputLogs</code>
+                    </div>
+                  </li>
+
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Add log routing rule</span> — paste this at the very bottom of the file:
+                    <div class="lab-cfg-block">
+                      <span class="lab-cfg-label">/etc/rsyslog.conf — add at bottom</span>
+                      <code>*.* /var/log/syslog</code>
+                    </div>
+                    <div class="lab-cmd-note">💡 Save with <strong>Ctrl+O ↵</strong>, then exit with <strong>Ctrl+X</strong>.</div>
+                  </li>
+
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Validate the config file syntax</span> — catch errors before restarting:
+                    <div class="lab-cmd-block"><code>rsyslogd -f /etc/rsyslog.conf -N1</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    <div class="lab-cmd-note">💡 Output should end with <strong>rsyslogd: End of config validation run.</strong> — fix any errors before proceeding.</div>
+                  </li>
+
+                  <li style="margin-bottom:14px;">
                     <span style="font-weight:600;color:var(--navy);">Create the syslog file and set permissions</span>
                     <div class="lab-cmd-block"><code>sudo touch /var/log/syslog
 sudo chmod 640 /var/log/syslog
 sudo chown syslog:adm /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    Create the remotelogs directory to prevent permission errors:
+                  </li>
+
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Create the remotelogs directory</span>
                     <div class="lab-cmd-block"><code>sudo mkdir -p /var/log/remotelogs
 sudo chown -R syslog:syslog /var/log/remotelogs
 sudo chmod -R 755 /var/log/remotelogs</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
                   </li>
 
-                  <li style="margin-bottom:10px;">
-                    <span style="font-weight:600;color:var(--navy);">Start and enable rsyslog</span>
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Allow port 514 through the firewall</span>
+                    <div class="lab-cmd-block"><code>sudo ufw allow 514/tcp
+sudo ufw allow 514/udp</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                  </li>
+
+                  <li style="margin-bottom:14px;">
+                    <span style="font-weight:600;color:var(--navy);">Start, enable, and restart rsyslog</span>
                     <div class="lab-cmd-block"><code>sudo systemctl start rsyslog
-sudo systemctl enable rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+sudo systemctl enable rsyslog
+sudo systemctl restart rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
                   </li>
 
                   <li>
-                    <span style="font-weight:600;color:var(--navy);">Restart and verify status</span>
-                    <div class="lab-cmd-block"><code>sudo systemctl restart rsyslog
-sudo systemctl status rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    <div class="lab-cmd-success">✅ Look for <strong>Active: active (running)</strong> in the output before proceeding.</div>
+                    <span style="font-weight:600;color:var(--navy);">Verify status and confirm port 514 is listening</span>
+                    <div class="lab-cmd-block"><code>sudo systemctl status rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    <div class="lab-cmd-success">✅ Look for <strong>Active: active (running)</strong> before continuing.</div>
+                    <div class="lab-cmd-block" style="margin-top:8px;"><code>ss -antpl | grep 514</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    <div class="lab-cmd-success">✅ You should see rsyslogd listed, confirming it is bound to port 514.</div>
                   </li>
 
                 </ol>
@@ -366,6 +401,8 @@ sudo systemctl status rsyslog</code><button class="lab-cmd-copy" onclick="copyCm
         <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.9;">
           <li><a href="https://help.zscaler.com/zia/about-nanolog-streaming-service" target="_blank">Zscaler Help — Nanolog Streaming Service Overview</a></li>
           <li><a href="https://help.zscaler.com/zia/adding-nss-feeds" target="_blank">Zscaler Help — Configuring NSS Feeds</a></li>
+          <li><a href="https://help.zscaler.com/zia/nss-deployment-guide-vmware-vsphere" target="_blank">Zscaler Help — NSS Deployment Guide (VMware vSphere)</a></li>
+          <li><a href="https://www.linkedin.com/pulse/how-install-set-up-rsyslog-server-linux-ubuntu-20041-akshay-sharma" target="_blank">How to Install &amp; Set Up rsyslog on Ubuntu — Akshay Sharma (LinkedIn)</a></li>
           <li><a href="https://community.zscaler.com" target="_blank">Zscaler Community Forums</a></li>
         </ul>
       </div>
