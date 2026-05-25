@@ -192,12 +192,12 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → SSL Inspection</li>
-                  <li>Click Add Rule — name it "Inspect All Traffic"</li>
-                  <li>Set Action to Decrypt</li>
+                  <li>Navigate to Policy → SSL Inspection → SSL/TLS Inspection Policy</li>
+                  <li>Click Add SSL Inspection Rule — name it "Inspect All Traffic"</li>
+                  <li>Set Action to Inspect</li>
                   <li>Leave all criteria as Any (catch-all)</li>
                   <li>Position this rule at the BOTTOM — exemption rules must go above it</li>
-                  <li>Click Save</li>
+                  <li>Click Save, then click Activate to push the policy</li>
                 </ol>
               </div>
             </div>
@@ -215,12 +215,12 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In Policy → SSL Inspection, click Add Rule — name it "SSL Exemptions"</li>
-                  <li>Add URL category: Health (built-in category)</li>
-                  <li>Create a custom bypass category first: Policy → Resources → Custom URL Categories → Add — name it e.g. "SSL-Bypass", add a placeholder URL, Save</li>
-                  <li>Add that custom category to the exemption rule</li>
-                  <li>Add predefined applications: Adobe Acrobat Reader (Fill &amp; Sign) and Apple iMessage</li>
-                  <li>Set Action to Do Not Decrypt — place this rule ABOVE the catch-all rule — Save</li>
+                  <li>In Policy → SSL Inspection → SSL/TLS Inspection Policy, click Add SSL Inspection Rule — name it "SSL Exemptions"</li>
+                  <li>Add URL category: Health (medical/health privacy — do not inspect)</li>
+                  <li>Create a custom category first: Policy → Resources → Custom URL Categories → Add Custom Category — name it "SSL-Bypass", add a placeholder URL (e.g. example-bypass.com), Save</li>
+                  <li>Back in the SSL rule, add the SSL-Bypass custom category</li>
+                  <li>Add predefined applications: Adobe Acrobat Reader (Fill &amp; Sign) and Apple iMessage (cert-pinned — break under inspection)</li>
+                  <li>Set Action to Do Not Inspect — place this rule ABOVE the Inspect All Traffic catch-all rule — Save</li>
                 </ol>
               </div>
             </div>
@@ -238,11 +238,11 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In Policy → SSL Inspection, click Add Rule — name it "MS Login Services"</li>
+                  <li>In Policy → SSL Inspection → SSL/TLS Inspection Policy, click Add SSL Inspection Rule — name it "MS Login Services"</li>
                   <li>Add predefined URL category: Microsoft Login Services</li>
-                  <li>Set Action to Decrypt</li>
-                  <li>Position this rule ABOVE the Office 365 One Click rule (which will appear after configuring O365 in req 12)</li>
-                  <li>Click Save</li>
+                  <li>Set Action to Inspect</li>
+                  <li>Position this rule ABOVE the Office 365 One Click bypass rule (which appears after configuring O365 in requirement 12)</li>
+                  <li>Click Save — this ensures the tenant restriction header is injected before O365 traffic bypasses inspection</li>
                 </ol>
               </div>
             </div>

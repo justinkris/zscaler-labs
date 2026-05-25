@@ -193,11 +193,12 @@
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
                   <li>Log in to ZPA Admin Portal</li>
-                  <li>Navigate to Infrastructure → App Connectors → Add App Connector Group (if not already present)</li>
-                  <li>Then navigate to Infrastructure → App Connector Provisioning Keys → Add Key</li>
-                  <li>Copy the provisioning key</li>
-                  <li>On the App Connector VM (10.0.0.3), paste the key into /opt/zscaler/var/ and restart the connector service</li>
-                  <li>Return to ZPA Admin Portal and confirm the connector shows as Connected</li>
+                  <li>Navigate to Infrastructure → App Connectors → Connector Groups → Add App Connector Group — name it (e.g. "Safemarch-On-Prem"), click Save</li>
+                  <li>Navigate to Infrastructure → App Connectors → Connector Keys → Add Provisioning Key</li>
+                  <li>Select the connector group you just created, click Save — copy the full key value immediately</li>
+                  <li>On the App Connector VM (10.0.0.3), place the key: <code>cp &lt;keyfile&gt; /opt/zscaler/var/provision_key</code></li>
+                  <li>Start the connector service: <code>/opt/zscaler/bin/zsproxy start</code></li>
+                  <li>Return to ZPA Admin Portal → Infrastructure → App Connectors and confirm the connector shows status Connected before proceeding</li>
                 </ol>
               </div>
             </div>

@@ -194,9 +194,10 @@
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
                   <li>Log in to ZIA Admin Portal at https://admin.zscalerthree.net</li>
                   <li>Navigate to Infrastructure → Client Connector → Forwarding Profiles</li>
-                  <li>Click Add Forwarding Profile and give it a name (e.g. "Safemarch - All Ports")</li>
-                  <li>Enable All ports and protocols</li>
-                  <li>Set Tunnel Type to Zscaler Tunnel 2.0</li>
+                  <li>Click Add Forwarding Profile — name it (e.g. "Safemarch-AllPorts")</li>
+                  <li>Set Windows Driver Selection to Packet Filter Based</li>
+                  <li>Under Forwarding Profile Action for ZIA — set On-Trusted Network, VPN Trusted Network, and Off-Trusted Network all to Tunnel, Tunnel version: Z-Tunnel 2.0</li>
+                  <li>Under Forwarding Profile Action for ZPA — set all network states to Tunnel</li>
                   <li>Click Save</li>
                 </ol>
               </div>
@@ -217,9 +218,10 @@
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
                   <li>Navigate to Infrastructure → Client Connector → ZCC Profiles</li>
-                  <li>Create a new profile or open the existing default profile</li>
-                  <li>Under ZIA settings, enable Require a password to disable ZIA</li>
-                  <li>Under ZPA settings, enable Require a password to disable ZPA</li>
+                  <li>Click Add ZCC Profile — name it (e.g. "Safemarch-Default")</li>
+                  <li>Under ZIA settings, set Disable ZIA to Require Password</li>
+                  <li>Under ZPA settings, set Disable ZPA to Require Password</li>
+                  <li>Note: also complete requirements 3, 4, and 5 in this same profile before saving</li>
                   <li>Click Save</li>
                 </ol>
               </div>
@@ -283,10 +285,10 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In the same ZCC Profile, find the Forwarding Profile field</li>
-                  <li>Select the profile you created in requirement 1</li>
-                  <li>This links the all-ports forwarding policy to this client profile</li>
-                  <li>Click Save</li>
+                  <li>In the same ZCC Profile, find the Forwarding Profile dropdown</li>
+                  <li>Select the forwarding profile you created in requirement 1 (e.g. "Safemarch-AllPorts")</li>
+                  <li>This attaches the all-ports forwarding policy to every device enrolled in this profile</li>
+                  <li>Click Save — this saves requirements 2, 3, 4, and 5 together</li>
                 </ol>
               </div>
             </div>

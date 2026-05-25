@@ -194,9 +194,10 @@
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
                   <li>Log in to ZIdentity Admin Portal at the URL shown in Lab Configuration above</li>
-                  <li>Navigate to OneAPI Clients → Add Client</li>
-                  <li>Give the client a name (e.g. "ZIA API Client") and set the appropriate scopes for ZIA policy management</li>
-                  <li>Save and copy the Client ID and Client Secret — you will need these in Postman</li>
+                  <li>Navigate to Administration → Integration → API Clients → + Add API Client</li>
+                  <li>In the Client tab: Name: "ZIA-API-Client", Access Token Lifetime: 90 minutes, Validation Type: Secret. Click + Add to generate the client secret — copy it immediately, it will not be shown again</li>
+                  <li>In the Resources tab: under ZIA, assign the Super Admin scope. Click Save</li>
+                  <li>Note the auto-generated Client ID alongside the copied Client Secret — you need both in Postman</li>
                 </ol>
               </div>
             </div>
