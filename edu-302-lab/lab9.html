@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 1: Configure Identity Services — EDU-302</title>
+<title>Lab 9: Creating a Custom Alert — EDU-302</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,13 +14,13 @@
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 1</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 9</div>
   <div class="header-top">
-    <span class="eyebrow-chip">LAB 1 · IDENTITY</span>
+    <span class="eyebrow-chip">LAB 9 · ZDX</span>
   </div>
-  <h1>Configure <em>Identity Services</em></h1>
+  <h1>Creating a <em>Custom Alert</em></h1>
   <div class="motivation-banner">
-    <p>Identity is the foundation of Zero Trust. Before any policy can be applied, Safemarch needs departments, users, and entitlements provisioned in ZIdentity — so that every access decision is tied to a known, authenticated identity.</p>
+    <p>Monitoring without alerting is just watching. A properly configured ZDX alert fires automatically when user experience degrades — so your team acts before users complain.</p>
   </div>
 </header>
 
@@ -102,30 +102,30 @@
 <main>
   <div class="content-col">
 
-    <div class="section-block" id="section-lab1">
-      <h2>Lab 1: Configure Identity Services</h2>
+    <div class="section-block" id="section-lab9">
+      <h2>Lab 9: Creating a Custom Alert</h2>
 
       <div class="lab-header-card">
-        <div class="lab-badge">LAB 1</div>
-        <p><strong>Scenario:</strong> Safemarch is deploying Zscaler services and needs organisation-specific departments and users provisioned in ZIdentity so that role-based policies can be enforced across ZIA, ZPA, and ZDX. You must also enable Zscaler Support Remote Assistance so the support team can observe your tenant during troubleshooting.</p>
+        <div class="lab-badge">LAB 9</div>
+        <p><strong>Scenario:</strong> Create a custom ZDX alert for the Test Application that triggers when Page Fetch Time exceeds 800ms AND ZDX Score drops below 10 for Europe-geolocated devices, firing 3 times in a row before sending an email notification.</p>
         <figure class="lab-hero">
-          <img src="images/lab1-hero.png" alt="Lab 1 — Configure Identity Services" loading="lazy">
+          <img src="images/lab9-hero.png" alt="Lab 9 — Creating a Custom Alert" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
-          <div class="lab-meta-item"><strong>Portal:</strong> ZIdentity Admin</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 min</div>
+          <div class="lab-meta-item"><strong>Portal:</strong> ZDX Admin Portal</div>
         </div>
       </div>
 
-      <div class="socratic-block" id="soc-lab1">
+      <div class="socratic-block" id="soc-lab9">
         <div class="socratic-header">
           <span class="socratic-icon">💭</span>
-          <span class="socratic-label">THINK FIRST · IDENTITY FOUNDATION</span>
+          <span class="socratic-label">THINK FIRST · ZDX ALERTING</span>
         </div>
-        <p class="socratic-insight">ZIdentity is the single control plane for authentication across ZIA, ZPA, and ZDX — departments and users here directly drive which policies fire and which access decisions are made.</p>
+        <p class="socratic-insight">Alert thresholds need careful tuning — too sensitive and you get alert fatigue, too loose and you miss real incidents. The "Alert Only if Repeated" setting is the primary tool for eliminating noise.</p>
         <ul class="socratic-questions">
-          <li>Why does Zscaler require users to be provisioned in ZIdentity rather than relying solely on an external IdP like Azure AD or Okta?
-            <div class="answer-area" data-section="lab1-q1">
+          <li>Why is "Alert Only if Repeated: 3 times in a Row" a better default than alerting on the first occurrence of a threshold breach?
+            <div class="answer-area" data-section="lab9-q1">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -134,13 +134,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-                  <div class="model-answer-text">ZIdentity acts as the authoritative source of truth for Zscaler-specific attributes such as department membership, service entitlements, and admin roles. External IdPs authenticate the user identity, but ZIdentity maps that identity to Zscaler-specific policy groups. Without provisioned users, ZIA and ZPA cannot resolve which department-based policies to apply at the point of access.</div>
+                  <div class="model-answer-text">A single Page Fetch Time spike of 800ms can be caused by a momentary network blip, browser caching behaviour, or a one-off server GC pause — none of which indicate a real problem requiring intervention. Alerting on three consecutive occurrences means the probe must detect the threshold breach three times in a row (across 3 probe cycles = 15 minutes at 5-minute frequency) before firing. This eliminates transient false positives while ensuring that sustained degradation — which real users are experiencing — does generate an alert. It's the minimum viable noise filter for a production ZDX deployment.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What is the risk of enabling "Prompt for Password Change After Initial Log In" when setting passwords by administrator for multiple lab users?
-            <div class="answer-area" data-section="lab1-q2">
+          <li>Why is the alert scoped to "Geolocation: Europe" rather than all devices — what operational scenario does this reflect?
+            <div class="answer-area" data-section="lab9-q2">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -149,13 +149,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-                  <div class="model-answer-text">In a lab environment where the session password is shared, a forced password change after first login would immediately break all subsequent logins for that account — the lab steps that try to authenticate as finance-ptcb83@domain.com would fail with "wrong password." You disable the prompt so the lab password remains stable. In production, this setting exists for security; in a time-boxed lab pod it creates friction that prevents you from completing the exercise.</div>
+                  <div class="model-answer-text">A geolocation filter reflects the operational reality that performance issues are often regional — a Zscaler data center in Frankfurt could be experiencing congestion, or the ISP path through Europe could be degraded, while North American users are unaffected. Scoping the alert to Europe means you get a signal specific enough to act on ("Europe users are degraded") rather than a global alert that could mean anything. It also prevents an issue affecting 10 European users from being masked by good data from 990 users in other regions.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What would break in the overall Zscaler deployment if users were added to the wrong department — for example, if the marketing user was placed in IT Security?
-            <div class="answer-area" data-section="lab1-q3">
+          <li>What is a ZDX Score, and why is a threshold of less than 10 combined with Page Fetch Time ≥ 800ms appropriate as dual alert criteria?
+            <div class="answer-area" data-section="lab9-q3">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -164,7 +164,7 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-                  <div class="model-answer-text">Department membership is the key attribute used to scope ZIA URL filtering rules, ZPA access policies, and DLP policies. A marketing user placed in IT Security would inherit IT Security department exemptions — such as access to eicar.org and SSH firewall allow rules. Conversely, they would lose the marketing-only exemption for LinkedIn posting. The misconfiguration would silently give over-permissive access without triggering any error; policies would still evaluate, just against the wrong department context.</div>
+                  <div class="model-answer-text">The ZDX Score (0-100) is a composite metric aggregating probe results, cloud path quality, and device health signals. A score below 10 represents severely degraded experience. Using dual criteria (Page Fetch Time ≥ 800ms AND ZDX Score &lt; 10) ensures the alert fires only when BOTH the application layer (slow HTTP response) AND the overall experience score are simultaneously bad. This avoids alerting when: the page is slow but the device is healthy overall (transient app-side issue), or the ZDX Score is low but HTTP is fast (device-side problem, not app-related). Dual criteria = precision.</div>
                 </div>
               </div>
             </div>
@@ -175,84 +175,95 @@
       <!-- Configuration Requirements -->
       <div class="task-block" style="margin-top:28px;">
         <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
-        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through these three requirements. Check each one off as you complete it.</p>
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through these four requirements in the ZDX Admin Portal. Check each one off as you complete it.</p>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">ZIdentity Departments &amp; Users · ZIA Admin Portal → Infrastructure → ZIdentity</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
-
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
-              <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create 5 departments in ZIdentity</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Marketing, Human Resources, IT Security, Finance, OT. Each department will scope ZIA/ZPA policies to the correct user group.</div>
-              </div>
-            </label>
-            <div style="border-top:1px solid var(--border-dim);">
-              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:0 16px 14px 44px;">
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Log in to ZIA Admin Portal at https://admin.zscalerthree.net</li>
-                  <li>Navigate to Infrastructure → ZIdentity → Departments</li>
-                  <li>Click Add Department and enter "Marketing" — click Save</li>
-                  <li>Repeat for: Human Resources, IT Security, Finance, OT</li>
-                  <li>Confirm all 5 departments appear in the list</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
-              <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Create 5 users — one per department — with department email addresses</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Use the email format below. The prefix and domain update automatically when you set your Student Prefix above.</div>
-                <div style="margin-top:6px;display:flex;flex-direction:column;gap:2px;">
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">marketing-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">hr-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">itsecurity-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">finance-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">ot-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                </div>
-              </div>
-            </label>
-            <div style="border-top:1px solid var(--border-dim);">
-              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:0 16px 14px 44px;">
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Infrastructure → ZIdentity → Users</li>
-                  <li>Click Add User — set First Name, Last Name, and Email to the department address shown above</li>
-                  <li>Set Department to the matching department created in requirement 1</li>
-                  <li>Set Role to User</li>
-                  <li>Click Save — repeat for all 5 users</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Support Access · ZIA Admin Portal → Administration → Company Profile</div>
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Alert Configuration · ZDX Admin Portal → Alerts</div>
         <div style="display:flex;flex-direction:column;gap:10px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-9-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Enable Zscaler Support Remote Assistance</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Duration: 90 days. Access type: View-only. Allows Zscaler Support to troubleshoot the tenant without making changes.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create a custom alert — TestApp_Alert</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Alert name: TestApp_Alert. Alert type: Application. Severity: High. Application: Test Application.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">ZDX Admin Portal → Alerts → Add Alert</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Administration → Company Profile</li>
-                  <li>Scroll to the Zscaler Support Remote Assistance section</li>
-                  <li>Enable the toggle</li>
-                  <li>Set duration to 90 days and access type to View-only</li>
-                  <li>Click Save</li>
+                  <li>Log in to ZDX Admin Portal</li>
+                  <li>Navigate to Alerts → Add Alert</li>
+                  <li>Name: TestApp_Alert. Alert type: Application. Severity: High</li>
+                  <li>Select Application: Test Application</li>
+                  <li>Continue to the next step</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-9-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Set the geolocation filter</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Scope the alert to devices geolocated in Europe only. This limits noise from global test infrastructure.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">Alert Filters → Probe Filters → Geolocation: Europe</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In the alert configuration, find the Device Filters section</li>
+                  <li>Add a geolocation filter: select Europe (continent or region as available)</li>
+                  <li>This scopes the alert to devices physically located in Europe only</li>
+                  <li>Continue to the next step</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-9-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Set alert criteria</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Two conditions (AND logic): Page Fetch Time ≥ 800ms AND ZDX Score &lt; 10. Both must be true simultaneously to trigger the alert.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">Alert Criteria → Page Fetch Time + ZDX Score</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In the Criteria section, add the first condition: Page Fetch Time ≥ 800 (ms)</li>
+                  <li>Add the second condition: ZDX Score &lt; 10</li>
+                  <li>Ensure the logic is set to AND (both must be true simultaneously)</li>
+                  <li>Continue to the next step</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-9-4" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">4 · Configure the alert action</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Trigger condition: 3 consecutive times in a row. Delivery method: Email notification.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">Alert Action → Alert Only if Repeated: 3 times in a Row → Delivery: Email</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In the Trigger section, set "Alert when condition is met" to 3 consecutive times</li>
+                  <li>Set delivery method to Email</li>
+                  <li>Add the recipient email address(es)</li>
+                  <li>Click Save to activate the alert</li>
                 </ol>
               </div>
             </div>
@@ -264,44 +275,42 @@
       <!-- Testing Requirements -->
       <div class="callout callout-success" style="margin-top:24px;">
         <p><strong>Testing Requirements</strong></p>
-        <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.7;">
-          <li>Log in to ZIdentity with the Student Admin account.</li>
-          <li>Confirm 5 departments are visible in the Departments list.</li>
-          <li>Confirm each user exists and is assigned to the correct department.</li>
-          <li>Navigate to Administration → Company Profile and confirm Support Access shows 90-day view-only enabled.</li>
-        </ol>
+        <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.8;">
+          <li>Save the alert and confirm it appears in the Alerts list as active</li>
+          <li>Review the configured criteria — confirm application, geolocation filter, thresholds, and email action are all correct</li>
+          <li>(Live triggering requires a degraded-experience event from a Europe device — verify configuration correctness rather than waiting for a real trigger)</li>
+        </ul>
       </div>
 
       <!-- Where to get help -->
       <div class="callout callout-note" style="margin-top:16px;">
         <p><strong>Where to get help</strong></p>
         <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.9;">
-          <li><a href="https://help.zscaler.com/zidentity/managing-departments" target="_blank">Zscaler Help — Managing Departments in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/managing-users" target="_blank">Zscaler Help — Managing Users in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/enabling-remote-assistance" target="_blank">Zscaler Help — Zscaler Support Remote Assistance</a></li>
+          <li><a href="https://help.zscaler.com/zdx/configuring-alerts" target="_blank">Zscaler Help — ZDX Custom Alerts</a></li>
+          <li><a href="https://help.zscaler.com/zdx/about-alerts" target="_blank">Zscaler Help — ZDX Alert Criteria Reference</a></li>
           <li><a href="https://community.zscaler.com" target="_blank">Zscaler Community Forums</a></li>
         </ul>
       </div>
 
       <!-- Questions & Notes -->
-      <div class="section-qa" data-section="t1-1" style="margin-top:24px;">
+      <div class="section-qa" data-section="t9-1" style="margin-top:24px;">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes — Lab 1</span>
+          <span class="section-qa-title">Questions &amp; Notes — Lab 9</span>
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t1-1" placeholder="Questions about this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sq-t9-1" placeholder="Questions about this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t9-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t9-1"></div>
             </div>
             <div>
               <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t1-1" placeholder="Key takeaways from this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sn-t9-1" placeholder="Key takeaways from this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t9-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t9-1"></div>
             </div>
           </div>
         </div>
@@ -311,7 +320,7 @@
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Two ZIdentity tasks: (1) create 5 departments + 5 users with department-scoped email addresses — the last two digits of the prefix and the prefix.safemarch.com domain are unique per student instance. (2) Enable Support Remote Assistance for 90-day view-only access — this lets Zscaler Support troubleshoot without admin credentials.</div>
+          <div class="mental-note-block-text">A ZDX alert has four components: (1) the entity (which app), (2) the scope (which devices — by geolocation here), (3) the criteria (the thresholds — Page Fetch Time ≥ 800ms AND Score &lt; 10), and (4) the action (when to fire — after 3 consecutive hits — and how — email). AND logic means both criteria must be met simultaneously; using OR would create too many false positives.</div>
         </div>
       </div>
 
@@ -322,10 +331,11 @@
     <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
     <div class="checklist-card">
-      <div class="checklist-title">LAB 1 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-1" disabled><span>5 departments created in ZIdentity</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-2" disabled><span>5 users created with correct departments</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-3" disabled><span>Remote Assistance enabled (90 days, view-only)</span></label>
+      <div class="checklist-title">LAB 9 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-9-1" disabled><span>TestApp_Alert created (Application type, High severity)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-9-2" disabled><span>Geolocation filter set to Europe</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-9-3" disabled><span>Criteria: Page Fetch Time ≥ 800ms AND ZDX Score &lt; 10</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-9-4" disabled><span>Action: 3 consecutive times, Email delivery</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -334,16 +344,20 @@
       </div>
       <div class="qr-body">
         <div class="qr-item">
-          <div class="qr-term">ZIdentity</div>
-          <div class="qr-def">Identity platform managing users and departments for ZIA and ZPA policy scoping.</div>
+          <div class="qr-term">Alert Criteria</div>
+          <div class="qr-def">The threshold conditions — combined with AND/OR logic.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Department</div>
-          <div class="qr-def">Organisational unit used to scope ZIA/ZPA rules — always create departments before users.</div>
+          <div class="qr-term">Consecutive Trigger</div>
+          <div class="qr-def">Fires only after N matching data points in a row — reduces alert fatigue from transient spikes.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Support Remote Assistance</div>
-          <div class="qr-def">View-only time-limited access granted to Zscaler Support for troubleshooting.</div>
+          <div class="qr-term">Page Fetch Time</div>
+          <div class="qr-def">Time to fully load a page, measured by the Web Probe — key latency indicator.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZDX Score</div>
+          <div class="qr-def">Composite 0–100 experience score — below 10 indicates a severe problem.</div>
         </div>
       </div>
     </div>
@@ -354,19 +368,19 @@
   <div class="footer-inner">
     <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Practice Labs</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 1 of 10</span>
+    <span class="footer-content">LAB 9 of 10</span>
   </div>
 </footer>
 
 <div class="page-nav">
-  <span class="page-nav-btn page-nav-prev page-nav-disabled">
+  <a class="page-nav-btn page-nav-prev" href="lab8.html">
     <span class="page-nav-label">← PREVIOUS</span>
-    <span class="page-nav-title">&nbsp;</span>
-  </span>
-  <div class="page-nav-message">Identity is the foundation of every Zero Trust policy.</div>
-  <a class="page-nav-btn page-nav-next" href="lab2.html">
+    <span class="page-nav-title">Lab 8: ZDX Probes</span>
+  </a>
+  <div class="page-nav-message">Your monitoring now has teeth — poor experience triggers action automatically.</div>
+  <a class="page-nav-btn page-nav-next" href="lab10.html">
     <span class="page-nav-label">NEXT →</span>
-    <span class="page-nav-title">Lab 2: Traffic Forwarding</span>
+    <span class="page-nav-title">Lab 10: Automation</span>
   </a>
 </div>
 
@@ -374,10 +388,16 @@
 const CONFIG_KEY='edu302-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
 const FOOTER_KEY='edu302-footer-collapsed';
-const PAGE_KEY='edu302-lab-lab1';
-var SECTION_IDS=['t1-1'];
-var CHK_IDS=['chk-1-1','chk-1-2','chk-1-3'];
+const PAGE_KEY='edu302-lab-lab9';
+var SECTION_IDS=['t9-1'];
+var CHK_IDS=['chk-9-1','chk-9-2','chk-9-3','chk-9-4'];
 
+function toggleReqHow(btn){
+  var body=btn.nextElementSibling;
+  var open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  btn.innerHTML=(open?'▾ ':'▸ ')+'How to do it';
+}
 function toggleConfig(){
   var panel=document.getElementById('config-panel');
   var btn=document.getElementById('config-toggle-btn');
@@ -511,12 +531,6 @@ function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY
 function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
 function editQAItem(span,id,idx,type){var text=span.textContent;var ta=document.createElement('textarea');ta.className='section-qa-textarea';ta.style.cssText='margin:0;min-height:32px;padding:4px 8px;font-size:12.5px;font-family:Epilogue,sans-serif;';ta.value=text;span.replaceWith(ta);ta.focus();ta.select();var done=false;function commit(){if(done)return;done=true;var val=ta.value.trim();if(val&&val!==text){try{var key=PAGE_KEY+(type==='q'?'-sq-':'-sn-')+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr[idx]=val;localStorage.setItem(key,JSON.stringify(arr));}catch(e){}}type==='q'?renderSectionQ(id):renderSectionN(id);}ta.addEventListener('blur',commit);ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ta.blur();}if(e.key==='Escape'){done=true;type==='q'?renderSectionQ(id):renderSectionN(id);}});}
 function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
-function toggleReqHow(btn){
-  var body=btn.nextElementSibling;
-  var open=body.style.display==='none';
-  body.style.display=open?'block':'none';
-  btn.innerHTML=(open?'▾ ':'▸ ')+'How to do it';
-}
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();

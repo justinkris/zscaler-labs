@@ -1,0 +1,99 @@
+EDU-302 Lab Hero Image Prompts
+================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background color #eef4ff (pale sky-blue).
+  Color palette: deep navy, sky-blue, and relevant accent colors.
+  No text, no words, no letters, no labels, no UI strings, no captions anywhere in the image — pure visual illustration only.
+  Dimensions: 1200 × 400 px (3:1 landscape banner).
+  Format: PNG.
+
+================================
+LAB 1 — Configure Identity Services
+File: lab1-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A friendly admin figure in navy sits at a floating desk in the center. Around them, five department identity cards (each a distinct pastel color) orbit in a gentle arc — representing different teams (one per card, symbolized by a tiny icon: briefcase, stethoscope, bar chart, wrench, hard hat). Each card connects via a thin sky-blue line to a central glowing shield icon labeled with a lock symbol. On the right side, a stylized cloud with a keyhole represents the ZIdentity portal. A small calendar icon with "90" circled floats in the upper-right, suggesting the 90-day support access window.
+Color palette: navy, sky-blue, soft lavender for identity cards, gold for the lock highlight.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 2 — Configure ZIA and ZPA Traffic Forwarding
+File: lab2-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A laptop on the left sends streams of traffic (shown as flowing blue arrows) upward into a large glowing cloud in the center labeled only with a shield icon. From the cloud, two distinct colored tunnels emerge: one in sky-blue (representing internet traffic via ZIA) curving right toward globe icons, and one in teal-green (representing private app traffic via ZPA) curving downward toward a locked server rack. A small ZCC agent badge icon sits on the laptop screen. Padlock icons and checkmarks float along each tunnel path.
+Color palette: navy, sky-blue, teal-green, white cloud fill, soft grey server.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 3 — Configure ZIA Policy
+File: lab3-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A large navy shield dominates the center, with five distinct policy tiles arranged in a fan around it — each tile uses a different accent color and shows only an icon: a magnifying glass (SSL inspection), a filter funnel (URL filtering), a flame (firewall), a building/office icon (tenant restriction), and a cloud app icon. Traffic represented as thin colored arrows approaches from the left side; some arrows pass through the shield (allowed) and others are deflected with a gentle red X (blocked). A SafeSearch padlock icon floats in the upper left.
+Color palette: navy, sky-blue, amber, green, soft red for blocked traffic.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 4 — Configure ZIA Logging & Reporting (NSS)
+File: lab4-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A stylized cloud gateway in the center streams log data (represented as tiny rectangles in a flowing river) from the cloud down a glowing pipeline toward an on-premises server rack on the right. The server rack has a small antenna/signal icon. The pipeline is labeled only with a TCP/stream visual (zigzag signal lines). On the left of the cloud, tiny web-traffic icons (browser, arrow) feed into the cloud. A small CSV document icon floats near the pipeline mid-point. Filter icons suggest only "block" events are included.
+Color palette: navy, sky-blue, amber for the log stream, grey server rack.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 5 — Configure ZPA Policy
+File: lab5-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A user figure on the left connects via a glowing green zero-trust tunnel to a floating connector node in the center (represented as a small server with a Zscaler-style Z shield). From the connector, four separate color-coded paths branch right toward different app icons: a globe (Intranet), a folder (File Share), a thermostat (HVAC), a chart (SIEM), and a monitor (RDP). Each path has a tiny lock icon. A device posture badge (shield with a checkmark) floats above the user. Department labels are shown only as colored dot indicators (no text).
+Color palette: navy, teal-green, sky-blue, soft purple for each app path, white connector.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 6 — Configure ZPA Logging & Reporting (LSS)
+File: lab6-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A ZPA connector node in the center emits two streams of log data (represented as flowing dot-dash lines) — one labeled only with a "user" silhouette icon (User Activity logs) and one with a server rack icon (App Connector Status logs). Both streams flow rightward into a SIEM server rack icon. The connection path shows a TCP signal wave. A small port/plug icon floats near the server indicating TCP 514. The overall scene feels like clean, organized data routing.
+Color palette: navy, teal-green, sky-blue for log streams, grey SIEM server.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 7 — Protect the Leaking of HIPAA Documents
+File: lab7-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A large DLP shield in deep navy occupies the center with a medical cross icon embedded in it. On the left, a user silhouette attempts to upload a document (shown as a PDF page with a medical cross watermark) upward via an arrow toward a cloud upload icon. The DLP shield intercepts the upload — the document bounces back with a red X overlay, blocked mid-flight. Small data-pattern dots inside the document glow to indicate content inspection. On the right, a compliance badge (checkmark in a circle) floats serenely.
+Color palette: navy, purple, medical red/pink for the document highlight, sky-blue background, gold compliance badge.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 8 — Adding Custom Application & Creating Custom Probes
+File: lab8-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A ZDX monitoring dashboard globe sits in the center radiating soft concentric rings. Two probe "rockets" launch from the left toward it — one is a web probe (shaped like a browser window icon with a signal wave) and one is a cloud path probe (shaped like a network node graph with ICMP packet dots). Each probe traces a dotted arc path toward the globe, indicating monitoring frequency. A custom application tile (with a star/custom badge) floats above the globe. Small timing clock icons float near each probe.
+Color palette: navy, sky-blue, teal-green for probes, soft gold for the custom badge.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 9 — Creating a Custom Alert
+File: lab9-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A ZDX score dial on the left shows a needle dipping below a red threshold line (score dropping). Next to it, a stopwatch icon shows an overrun timer (page fetch time exceeded). Both signals flow as arrow lines into a central alert bell icon, which is mid-ring (with concentric sound-wave arcs). From the bell, an email envelope icon flies rightward toward a small figure silhouette (the admin receiving the alert). A Europe map outline (continent shape only, no labels) floats subtly in the upper right as a geolocation reference. Three small dot indicators suggest "3 times in a row."
+Color palette: navy, amber for the alert elements, red for threshold indicators, sky-blue background.
+No text, no words, no letters, no labels anywhere in the image.
+
+================================
+LAB 10 — Apply Zero Trust Automation: Adding URL Filtering Policy
+File: lab10-hero.png
+================================
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A developer figure sits at a laptop on the left, with a Postman-style API client window on screen (shown as a simple colored rectangle with a send-arrow icon, no text). From the laptop, a REST API call (visualized as a structured bracket/JSON shape flowing as a beam) travels rightward through the air toward a ZIA cloud portal icon. The ZIA cloud receives the API call and a URL filtering rule tile materializes below it — showing a blocked gambling chip/card icon enclosed in a red circle. A OneAPI key icon floats between the laptop and cloud as the authentication step.
+Color palette: navy, sky-blue, orange for the API beam, red for the block icon, teal for the OneAPI key.
+No text, no words, no letters, no labels anywhere in the image.

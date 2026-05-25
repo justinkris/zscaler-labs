@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 1: Configure Identity Services — EDU-302</title>
+<title>Lab 2: Configure ZIA and ZPA Traffic Forwarding — EDU-302</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,13 +14,13 @@
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 1</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 2</div>
   <div class="header-top">
-    <span class="eyebrow-chip">LAB 1 · IDENTITY</span>
+    <span class="eyebrow-chip">LAB 2 · TRAFFIC</span>
   </div>
-  <h1>Configure <em>Identity Services</em></h1>
+  <h1>Configure <em>ZIA and ZPA</em> Traffic Forwarding</h1>
   <div class="motivation-banner">
-    <p>Identity is the foundation of Zero Trust. Before any policy can be applied, Safemarch needs departments, users, and entitlements provisioned in ZIdentity — so that every access decision is tied to a known, authenticated identity.</p>
+    <p>Traffic forwarding is the on-ramp to the Zero Trust Exchange. Without a correctly configured forwarding profile, none of your ZIA or ZPA policies will ever fire.</p>
   </div>
 </header>
 
@@ -102,30 +102,30 @@
 <main>
   <div class="content-col">
 
-    <div class="section-block" id="section-lab1">
-      <h2>Lab 1: Configure Identity Services</h2>
+    <div class="section-block" id="section-lab2">
+      <h2>Lab 2: Configure ZIA and ZPA Traffic Forwarding</h2>
 
       <div class="lab-header-card">
-        <div class="lab-badge">LAB 1</div>
-        <p><strong>Scenario:</strong> Safemarch is deploying Zscaler services and needs organisation-specific departments and users provisioned in ZIdentity so that role-based policies can be enforced across ZIA, ZPA, and ZDX. You must also enable Zscaler Support Remote Assistance so the support team can observe your tenant during troubleshooting.</p>
+        <div class="lab-badge">LAB 2</div>
+        <p><strong>Scenario:</strong> Safemarch needs all ZCC users to have every byte of traffic tunnelled to the Zero Trust Exchange, regardless of port or protocol. You will configure a forwarding profile, a Client Connector profile, and ZPA re-authentication settings so security policy applies to every user, everywhere.</p>
         <figure class="lab-hero">
-          <img src="images/lab1-hero.png" alt="Lab 1 — Configure Identity Services" loading="lazy">
+          <img src="images/lab2-hero.png" alt="Lab 2 — Configure ZIA and ZPA Traffic Forwarding" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
-          <div class="lab-meta-item"><strong>Portal:</strong> ZIdentity Admin</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~45 minutes</div>
+          <div class="lab-meta-item"><strong>Portals:</strong> ZIA Admin · Client Connector · ZPA Admin</div>
         </div>
       </div>
 
-      <div class="socratic-block" id="soc-lab1">
+      <div class="socratic-block" id="soc-lab2">
         <div class="socratic-header">
           <span class="socratic-icon">💭</span>
-          <span class="socratic-label">THINK FIRST · IDENTITY FOUNDATION</span>
+          <span class="socratic-label">THINK FIRST · TRAFFIC FORWARDING</span>
         </div>
-        <p class="socratic-insight">ZIdentity is the single control plane for authentication across ZIA, ZPA, and ZDX — departments and users here directly drive which policies fire and which access decisions are made.</p>
+        <p class="socratic-insight">The forwarding profile is the policy engine's gatekeeper — if traffic doesn't reach the Zscaler cloud, no policy can inspect or control it.</p>
         <ul class="socratic-questions">
-          <li>Why does Zscaler require users to be provisioned in ZIdentity rather than relying solely on an external IdP like Azure AD or Okta?
-            <div class="answer-area" data-section="lab1-q1">
+          <li>What is the difference between a ZIA Forwarding Profile and a ZCC Client Connector Profile, and why do both need to be configured?
+            <div class="answer-area" data-section="lab2-q1">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -134,13 +134,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-                  <div class="model-answer-text">ZIdentity acts as the authoritative source of truth for Zscaler-specific attributes such as department membership, service entitlements, and admin roles. External IdPs authenticate the user identity, but ZIdentity maps that identity to Zscaler-specific policy groups. Without provisioned users, ZIA and ZPA cannot resolve which department-based policies to apply at the point of access.</div>
+                  <div class="model-answer-text">A ZIA Forwarding Profile defines HOW traffic is sent to Zscaler — tunnel type, ports, protocols. A ZCC Client Connector Profile defines WHO gets which forwarding profile applied, plus client-side settings like log mode and SSL cert auto-install. You need both: the forwarding policy is meaningless if the client isn't configured to use it, and the client profile is useless if there's no forwarding profile telling it how to tunnel.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What is the risk of enabling "Prompt for Password Change After Initial Log In" when setting passwords by administrator for multiple lab users?
-            <div class="answer-area" data-section="lab1-q2">
+          <li>Why would you set ZPA Re-authentication time to 10 minutes, and what is the security tradeoff?
+            <div class="answer-area" data-section="lab2-q2">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -149,13 +149,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-                  <div class="model-answer-text">In a lab environment where the session password is shared, a forced password change after first login would immediately break all subsequent logins for that account — the lab steps that try to authenticate as finance-ptcb83@domain.com would fail with "wrong password." You disable the prompt so the lab password remains stable. In production, this setting exists for security; in a time-boxed lab pod it creates friction that prevents you from completing the exercise.</div>
+                  <div class="model-answer-text">A 10-minute window limits how long a compromised ZPA session token can be used — at most 10 minutes before the user must re-authenticate. The tradeoff is friction: for long-running sessions like RDP or file transfers, the user is interrupted frequently. Organisations balance this based on app sensitivity.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What would break in the overall Zscaler deployment if users were added to the wrong department — for example, if the marketing user was placed in IT Security?
-            <div class="answer-area" data-section="lab1-q3">
+          <li>What happens to traffic on non-standard ports if "All ports and protocols" is NOT enabled in the forwarding profile?
+            <div class="answer-area" data-section="lab2-q3">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -164,7 +164,7 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-                  <div class="model-answer-text">Department membership is the key attribute used to scope ZIA URL filtering rules, ZPA access policies, and DLP policies. A marketing user placed in IT Security would inherit IT Security department exemptions — such as access to eicar.org and SSH firewall allow rules. Conversely, they would lose the marketing-only exemption for LinkedIn posting. The misconfiguration would silently give over-permissive access without triggering any error; policies would still evaluate, just against the wrong department context.</div>
+                  <div class="model-answer-text">Traffic on non-standard ports bypasses the Zscaler tunnel entirely — uninspected, unlogged, and outside all ZIA policy. An attacker or data exfiltration tool using a non-standard port would be completely invisible to your security controls.</div>
                 </div>
               </div>
             </div>
@@ -175,17 +175,17 @@
       <!-- Configuration Requirements -->
       <div class="task-block" style="margin-top:28px;">
         <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
-        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through these three requirements. Check each one off as you complete it.</p>
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through these six requirements in the ZIA Admin and ZPA portals. Check each one off as you complete it.</p>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">ZIdentity Departments &amp; Users · ZIA Admin Portal → Infrastructure → ZIdentity</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-2-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create 5 departments in ZIdentity</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Marketing, Human Resources, IT Security, Finance, OT. Each department will scope ZIA/ZPA policies to the correct user group.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create a ZCC Forwarding Profile</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">All traffic from all ports and protocols must be forwarded to the Zero Trust Exchange.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">ZIA Admin Portal → Infrastructure → Client Connector → Forwarding Profiles</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
@@ -193,10 +193,11 @@
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
                   <li>Log in to ZIA Admin Portal at https://admin.zscalerthree.net</li>
-                  <li>Navigate to Infrastructure → ZIdentity → Departments</li>
-                  <li>Click Add Department and enter "Marketing" — click Save</li>
-                  <li>Repeat for: Human Resources, IT Security, Finance, OT</li>
-                  <li>Confirm all 5 departments appear in the list</li>
+                  <li>Navigate to Infrastructure → Client Connector → Forwarding Profiles</li>
+                  <li>Click Add Forwarding Profile and give it a name (e.g. "Safemarch - All Ports")</li>
+                  <li>Enable All ports and protocols</li>
+                  <li>Set Tunnel Type to Zscaler Tunnel 2.0</li>
+                  <li>Click Save</li>
                 </ol>
               </div>
             </div>
@@ -204,54 +205,109 @@
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-2-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Create 5 users — one per department — with department email addresses</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Use the email format below. The prefix and domain update automatically when you set your Student Prefix above.</div>
-                <div style="margin-top:6px;display:flex;flex-direction:column;gap:2px;">
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">marketing-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">hr-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">itsecurity-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">finance-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">ot-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                </div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Enable password protection to disable ZIA and ZPA</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Users must use a password to disable ZIA and ZPA in the Client Connector.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">ZIA Admin Portal → Infrastructure → Client Connector → ZCC Profiles</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Infrastructure → ZIdentity → Users</li>
-                  <li>Click Add User — set First Name, Last Name, and Email to the department address shown above</li>
-                  <li>Set Department to the matching department created in requirement 1</li>
-                  <li>Set Role to User</li>
-                  <li>Click Save — repeat for all 5 users</li>
+                  <li>Navigate to Infrastructure → Client Connector → ZCC Profiles</li>
+                  <li>Create a new profile or open the existing default profile</li>
+                  <li>Under ZIA settings, enable Require a password to disable ZIA</li>
+                  <li>Under ZPA settings, enable Require a password to disable ZPA</li>
+                  <li>Click Save</li>
                 </ol>
               </div>
             </div>
           </div>
 
-        </div>
-
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Support Access · ZIA Admin Portal → Administration → Company Profile</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-2-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Enable Zscaler Support Remote Assistance</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Duration: 90 days. Access type: View-only. Allows Zscaler Support to troubleshoot the tenant without making changes.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Set Client Connector Log Mode to Warn</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Logs warnings and errors without verbose debug output — appropriate for production.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">ZIA Admin Portal → Infrastructure → Client Connector → ZCC Profiles</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Administration → Company Profile</li>
-                  <li>Scroll to the Zscaler Support Remote Assistance section</li>
-                  <li>Enable the toggle</li>
-                  <li>Set duration to 90 days and access type to View-only</li>
+                  <li>In the same ZCC Profile (Infrastructure → Client Connector → ZCC Profiles)</li>
+                  <li>Locate the Log Mode field</li>
+                  <li>Set it to Warn</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-2-4" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">4 · Enable Auto-install Zscaler SSL Certificate</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">The Zscaler root CA is automatically installed on the device so SSL inspection works without browser warnings.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">ZIA Admin Portal → Infrastructure → Client Connector → ZCC Profiles</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In the same ZCC Profile</li>
+                  <li>Enable the Auto-install Zscaler SSL Certificate toggle</li>
+                  <li>This causes the Zscaler root CA to be installed automatically on the endpoint at enrollment</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-2-5" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">5 · Assign the Forwarding Profile to the ZCC Profile</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Link the Forwarding Profile you created to this Client Connector Profile so users receive the all-ports forwarding policy.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">ZIA Admin Portal → Infrastructure → Client Connector → ZCC Profiles</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In the same ZCC Profile, find the Forwarding Profile field</li>
+                  <li>Select the profile you created in requirement 1</li>
+                  <li>This links the all-ports forwarding policy to this client profile</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-2-6" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">6 · Set ZPA Re-authentication time to 10 minutes</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Limits how long a captured ZPA session token can be used before the user must re-authenticate.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">ZPA Admin Portal → Policy → Re-authentication Policy</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Log in to the ZPA Admin Portal</li>
+                  <li>Navigate to Policy → Re-authentication Policy</li>
+                  <li>Set the re-authentication timeout to 10 minutes</li>
                   <li>Click Save</li>
                 </ol>
               </div>
@@ -265,10 +321,10 @@
       <div class="callout callout-success" style="margin-top:24px;">
         <p><strong>Testing Requirements</strong></p>
         <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.7;">
-          <li>Log in to ZIdentity with the Student Admin account.</li>
-          <li>Confirm 5 departments are visible in the Departments list.</li>
-          <li>Confirm each user exists and is assigned to the correct department.</li>
-          <li>Navigate to Administration → Company Profile and confirm Support Access shows 90-day view-only enabled.</li>
+          <li>Log in to the Corp: Client PC VM using your admin credentials.</li>
+          <li>Open Zscaler Client Connector and sign in.</li>
+          <li>Browse the internet from the VM.</li>
+          <li>In the ZIA Admin Portal, go to <strong>Analytics → Web Insights</strong> and confirm traffic records appear, showing the tunnel is active.</li>
         </ol>
       </div>
 
@@ -276,32 +332,32 @@
       <div class="callout callout-note" style="margin-top:16px;">
         <p><strong>Where to get help</strong></p>
         <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.9;">
-          <li><a href="https://help.zscaler.com/zidentity/managing-departments" target="_blank">Zscaler Help — Managing Departments in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/managing-users" target="_blank">Zscaler Help — Managing Users in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/enabling-remote-assistance" target="_blank">Zscaler Help — Zscaler Support Remote Assistance</a></li>
+          <li><a href="https://help.zscaler.com/client-connector/configuring-forwarding-profiles" target="_blank">Zscaler Help — Configuring Forwarding Profiles</a></li>
+          <li><a href="https://help.zscaler.com/client-connector/configuring-zcc-profiles" target="_blank">Zscaler Help — Configuring ZCC Profiles</a></li>
+          <li><a href="https://help.zscaler.com/zpa/configuring-reauthentication-policy" target="_blank">Zscaler Help — Configuring Re-authentication Policy</a></li>
           <li><a href="https://community.zscaler.com" target="_blank">Zscaler Community Forums</a></li>
         </ul>
       </div>
 
       <!-- Questions & Notes -->
-      <div class="section-qa" data-section="t1-1" style="margin-top:24px;">
+      <div class="section-qa" data-section="t2-1" style="margin-top:24px;">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes — Lab 1</span>
+          <span class="section-qa-title">Questions &amp; Notes — Lab 2</span>
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t1-1" placeholder="Questions about this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sq-t2-1" placeholder="Questions about this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t2-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t2-1"></div>
             </div>
             <div>
               <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t1-1" placeholder="Key takeaways from this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sn-t2-1" placeholder="Key takeaways from this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t2-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t2-1"></div>
             </div>
           </div>
         </div>
@@ -311,7 +367,7 @@
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Two ZIdentity tasks: (1) create 5 departments + 5 users with department-scoped email addresses — the last two digits of the prefix and the prefix.safemarch.com domain are unique per student instance. (2) Enable Support Remote Assistance for 90-day view-only access — this lets Zscaler Support troubleshoot without admin credentials.</div>
+          <div class="mental-note-block-text">Two separate things must be configured: (1) a Forwarding Profile specifying all-port/protocol tunnelling, and (2) a ZCC Profile that attaches the forwarding profile and sets client behaviour. ZPA re-auth is set independently in the ZPA portal. All three must be in place before traffic inspection begins.</div>
         </div>
       </div>
 
@@ -322,10 +378,13 @@
     <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
     <div class="checklist-card">
-      <div class="checklist-title">LAB 1 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-1" disabled><span>5 departments created in ZIdentity</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-2" disabled><span>5 users created with correct departments</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-3" disabled><span>Remote Assistance enabled (90 days, view-only)</span></label>
+      <div class="checklist-title">LAB 2 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-1" onchange="saveChecklist()" disabled><span>Forwarding Profile created (all ports &amp; protocols)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-2" onchange="saveChecklist()" disabled><span>Password-to-disable enabled</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-3" onchange="saveChecklist()" disabled><span>Log Mode set to Warn</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-4" onchange="saveChecklist()" disabled><span>SSL cert auto-install enabled</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-5" onchange="saveChecklist()" disabled><span>Forwarding Profile assigned to ZCC Profile</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-2-6" onchange="saveChecklist()" disabled><span>ZPA re-auth set to 10 minutes</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -334,16 +393,20 @@
       </div>
       <div class="qr-body">
         <div class="qr-item">
-          <div class="qr-term">ZIdentity</div>
-          <div class="qr-def">Identity platform managing users and departments for ZIA and ZPA policy scoping.</div>
+          <div class="qr-term">Forwarding Profile</div>
+          <div class="qr-def">Defines how ZCC tunnels traffic — ports, protocols, and tunnel type (Zscaler Tunnel 2.0).</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Department</div>
-          <div class="qr-def">Organisational unit used to scope ZIA/ZPA rules — always create departments before users.</div>
+          <div class="qr-term">ZCC Profile</div>
+          <div class="qr-def">Client-side settings: log level, SSL cert install, disable password, and which forwarding profile to apply.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Support Remote Assistance</div>
-          <div class="qr-def">View-only time-limited access granted to Zscaler Support for troubleshooting.</div>
+          <div class="qr-term">ZPA Re-auth</div>
+          <div class="qr-def">How often users must re-authenticate to ZPA. 10 min is aggressive — balance security against friction for long-running sessions.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Log Mode (Warn)</div>
+          <div class="qr-def">ZCC logs warnings and errors only. Reduces noise in production; use Debug only when troubleshooting.</div>
         </div>
       </div>
     </div>
@@ -354,19 +417,19 @@
   <div class="footer-inner">
     <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Practice Labs</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 1 of 10</span>
+    <span class="footer-content">LAB 2 of 10</span>
   </div>
 </footer>
 
 <div class="page-nav">
-  <span class="page-nav-btn page-nav-prev page-nav-disabled">
+  <a class="page-nav-btn page-nav-prev" href="lab1.html">
     <span class="page-nav-label">← PREVIOUS</span>
-    <span class="page-nav-title">&nbsp;</span>
-  </span>
-  <div class="page-nav-message">Identity is the foundation of every Zero Trust policy.</div>
-  <a class="page-nav-btn page-nav-next" href="lab2.html">
+    <span class="page-nav-title">Lab 1: Identity Services</span>
+  </a>
+  <div class="page-nav-message">Every user's traffic now flows through the cloud. That's Zero Trust in motion.</div>
+  <a class="page-nav-btn page-nav-next" href="lab3.html">
     <span class="page-nav-label">NEXT →</span>
-    <span class="page-nav-title">Lab 2: Traffic Forwarding</span>
+    <span class="page-nav-title">Lab 3: ZIA Policy</span>
   </a>
 </div>
 
@@ -374,9 +437,8 @@
 const CONFIG_KEY='edu302-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
 const FOOTER_KEY='edu302-footer-collapsed';
-const PAGE_KEY='edu302-lab-lab1';
-var SECTION_IDS=['t1-1'];
-var CHK_IDS=['chk-1-1','chk-1-2','chk-1-3'];
+const PAGE_KEY='edu302-lab-lab2';
+var SECTION_IDS=['t2-1'];
 
 function toggleConfig(){
   var panel=document.getElementById('config-panel');
@@ -477,8 +539,8 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 function saveChecklist(){
   try{
     var state={};
-    CHK_IDS.forEach(function(id){
-      var el=document.querySelector('.content-col input[id="'+id+'"]');
+    ['chk-2-1','chk-2-2','chk-2-3','chk-2-4','chk-2-5','chk-2-6'].forEach(function(id){
+      var el=document.querySelector('input[id="'+id+'"]:not([disabled])');
       if(el)state[id]=el.checked;
     });
     localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));
@@ -486,7 +548,7 @@ function saveChecklist(){
   }catch(e){}
 }
 function syncSidebarChecklist(state){
-  CHK_IDS.forEach(function(id){
+  ['chk-2-1','chk-2-2','chk-2-3','chk-2-4','chk-2-5','chk-2-6'].forEach(function(id){
     var sidebar=document.querySelector('aside input[id="'+id+'"]');
     if(sidebar&&state&&state[id]!==undefined)sidebar.checked=state[id];
   });
@@ -494,7 +556,7 @@ function syncSidebarChecklist(state){
 function loadChecklist(){
   try{
     var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');
-    CHK_IDS.forEach(function(id){
+    ['chk-2-1','chk-2-2','chk-2-3','chk-2-4','chk-2-5','chk-2-6'].forEach(function(id){
       var main=document.querySelector('.content-col input[id="'+id+'"]');
       if(main&&state[id]!==undefined)main.checked=state[id];
     });

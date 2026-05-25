@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 1: Configure Identity Services — EDU-302</title>
+<title>Lab 5: Configure ZPA Policy — EDU-302</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,13 +14,13 @@
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 1</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 5</div>
   <div class="header-top">
-    <span class="eyebrow-chip">LAB 1 · IDENTITY</span>
+    <span class="eyebrow-chip">LAB 5 · ZPA POLICY</span>
   </div>
-  <h1>Configure <em>Identity Services</em></h1>
+  <h1>Configure <em>ZPA Policy</em></h1>
   <div class="motivation-banner">
-    <p>Identity is the foundation of Zero Trust. Before any policy can be applied, Safemarch needs departments, users, and entitlements provisioned in ZIdentity — so that every access decision is tied to a known, authenticated identity.</p>
+    <p>ZPA gives users access to applications, not the network. Every application segment you define here replaces a VPN tunnel with a zero-trust connection.</p>
   </div>
 </header>
 
@@ -102,30 +102,30 @@
 <main>
   <div class="content-col">
 
-    <div class="section-block" id="section-lab1">
-      <h2>Lab 1: Configure Identity Services</h2>
+    <div class="section-block" id="section-lab5">
+      <h2>Lab 5: Configure ZPA Policy</h2>
 
       <div class="lab-header-card">
-        <div class="lab-badge">LAB 1</div>
-        <p><strong>Scenario:</strong> Safemarch is deploying Zscaler services and needs organisation-specific departments and users provisioned in ZIdentity so that role-based policies can be enforced across ZIA, ZPA, and ZDX. You must also enable Zscaler Support Remote Assistance so the support team can observe your tenant during troubleshooting.</p>
+        <div class="lab-badge">LAB 5</div>
+        <p><strong>Scenario:</strong> Provision the ZPA App Connector on the Safemarch corporate network, define Application Segments for all internal resources, and create access policies with department-level controls and idle timeout rules so only the right users reach the right apps.</p>
         <figure class="lab-hero">
-          <img src="images/lab1-hero.png" alt="Lab 1 — Configure Identity Services" loading="lazy">
+          <img src="images/lab5-hero.png" alt="Lab 5 — Configure ZPA Policy" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
-          <div class="lab-meta-item"><strong>Portal:</strong> ZIdentity Admin</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~60 min</div>
+          <div class="lab-meta-item"><strong>Portals:</strong> ZPA Admin Portal + Corp: App Connector VM</div>
         </div>
       </div>
 
-      <div class="socratic-block" id="soc-lab1">
+      <div class="socratic-block" id="soc-lab5">
         <div class="socratic-header">
           <span class="socratic-icon">💭</span>
-          <span class="socratic-label">THINK FIRST · IDENTITY FOUNDATION</span>
+          <span class="socratic-label">THINK FIRST · ZPA POLICY DESIGN</span>
         </div>
-        <p class="socratic-insight">ZIdentity is the single control plane for authentication across ZIA, ZPA, and ZDX — departments and users here directly drive which policies fire and which access decisions are made.</p>
+        <p class="socratic-insight">ZPA works on a deny-by-default model — if there is no matching access policy rule, the user cannot reach the app. Every application you want accessible must have an explicit rule.</p>
         <ul class="socratic-questions">
-          <li>Why does Zscaler require users to be provisioned in ZIdentity rather than relying solely on an external IdP like Azure AD or Okta?
-            <div class="answer-area" data-section="lab1-q1">
+          <li>Why does Safemarch use a Client Forwarding Policy (bypass rule) for apps like erp.safemarch.com and crm.safemarch.com, and what does this mean for their security posture?
+            <div class="answer-area" data-section="lab5-q1">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -134,13 +134,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-                  <div class="model-answer-text">ZIdentity acts as the authoritative source of truth for Zscaler-specific attributes such as department membership, service entitlements, and admin roles. External IdPs authenticate the user identity, but ZIdentity maps that identity to Zscaler-specific policy groups. Without provisioned users, ZIA and ZPA cannot resolve which department-based policies to apply at the point of access.</div>
+                  <div class="model-answer-text">A Client Forwarding Policy tells ZCC to NOT send traffic for those destinations through ZPA — the client sends it directly (or via ZIA). This is used for apps that: (1) have their own security controls and don't need ZPA's micro-segmentation, (2) are accessible only from inside the corporate network anyway, or (3) use protocols incompatible with ZPA. The security implication: these apps do NOT benefit from ZPA's per-request authentication and zero-trust policy. They rely on whatever perimeter security is in front of them.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What is the risk of enabling "Prompt for Password Change After Initial Log In" when setting passwords by administrator for multiple lab users?
-            <div class="answer-area" data-section="lab1-q2">
+          <li>Why is device posture required for SIEM server SSH access specifically, but not for Intranet or File Share access?
+            <div class="answer-area" data-section="lab5-q2">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -149,13 +149,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-                  <div class="model-answer-text">In a lab environment where the session password is shared, a forced password change after first login would immediately break all subsequent logins for that account — the lab steps that try to authenticate as finance-ptcb83@domain.com would fail with "wrong password." You disable the prompt so the lab password remains stable. In production, this setting exists for security; in a time-boxed lab pod it creates friction that prevents you from completing the exercise.</div>
+                  <div class="model-answer-text">The SIEM server contains security logs and forensic data — the highest-sensitivity target in the environment. Domain-joined device posture ensures only corporate-managed machines (not personal or contractor laptops) can SSH in. Intranet and file share are general-purpose resources where the risk of a non-domain-joined device is lower. Device posture is an additional verification layer on top of user identity — "who you are" + "what device you're using" = higher trust.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What would break in the overall Zscaler deployment if users were added to the wrong department — for example, if the marketing user was placed in IT Security?
-            <div class="answer-area" data-section="lab1-q3">
+          <li>What happens if the idle timeout policy for HVAC (15 minutes) is not configured, and why does it matter specifically for that application?
+            <div class="answer-area" data-section="lab5-q3">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -164,7 +164,7 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-                  <div class="model-answer-text">Department membership is the key attribute used to scope ZIA URL filtering rules, ZPA access policies, and DLP policies. A marketing user placed in IT Security would inherit IT Security department exemptions — such as access to eicar.org and SSH firewall allow rules. Conversely, they would lose the marketing-only exemption for LinkedIn posting. The misconfiguration would silently give over-permissive access without triggering any error; policies would still evaluate, just against the wrong department context.</div>
+                  <div class="model-answer-text">Without idle timeout, a ZPA connection to hvac.patraining.safemarch.com stays open indefinitely after the user stops interacting. HVAC/OT systems are frequently left connected by maintenance staff who then walk away from their workstations. An open, unattended ZPA connection to an industrial control system is a lateral movement risk — if the user's machine is compromised, the attacker inherits the live session. The 15-minute idle close directly limits this window.</div>
                 </div>
               </div>
             </div>
@@ -175,57 +175,29 @@
       <!-- Configuration Requirements -->
       <div class="task-block" style="margin-top:28px;">
         <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
-        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through these three requirements. Check each one off as you complete it.</p>
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all seven requirements. Check each one off as you complete it.</p>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">ZIdentity Departments &amp; Users · ZIA Admin Portal → Infrastructure → ZIdentity</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">App Connector · ZPA Admin Portal → Infrastructure → App Connectors</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-5-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create 5 departments in ZIdentity</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Marketing, Human Resources, IT Security, Finance, OT. Each department will scope ZIA/ZPA policies to the correct user group.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Provision the ZPA App Connector</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Generate a provisioning key in the ZPA Admin Portal. Deploy the key to the App Connector VM at 10.0.0.3 — place the key file at <code style="font-size:11.5px;">/opt/zscaler/var/</code> on the connector VM. The connector must appear as Connected in the portal before proceeding.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Log in to ZIA Admin Portal at https://admin.zscalerthree.net</li>
-                  <li>Navigate to Infrastructure → ZIdentity → Departments</li>
-                  <li>Click Add Department and enter "Marketing" — click Save</li>
-                  <li>Repeat for: Human Resources, IT Security, Finance, OT</li>
-                  <li>Confirm all 5 departments appear in the list</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
-              <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Create 5 users — one per department — with department email addresses</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Use the email format below. The prefix and domain update automatically when you set your Student Prefix above.</div>
-                <div style="margin-top:6px;display:flex;flex-direction:column;gap:2px;">
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">marketing-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">hr-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">itsecurity-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">finance-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">ot-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                </div>
-              </div>
-            </label>
-            <div style="border-top:1px solid var(--border-dim);">
-              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:0 16px 14px 44px;">
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Infrastructure → ZIdentity → Users</li>
-                  <li>Click Add User — set First Name, Last Name, and Email to the department address shown above</li>
-                  <li>Set Department to the matching department created in requirement 1</li>
-                  <li>Set Role to User</li>
-                  <li>Click Save — repeat for all 5 users</li>
+                  <li>Log in to ZPA Admin Portal</li>
+                  <li>Navigate to Infrastructure → App Connectors → Add App Connector Group (if not already present)</li>
+                  <li>Then navigate to Infrastructure → App Connector Provisioning Keys → Add Key</li>
+                  <li>Copy the provisioning key</li>
+                  <li>On the App Connector VM (10.0.0.3), paste the key into /opt/zscaler/var/ and restart the connector service</li>
+                  <li>Return to ZPA Admin Portal and confirm the connector shows as Connected</li>
                 </ol>
               </div>
             </div>
@@ -233,25 +205,132 @@
 
         </div>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Support Access · ZIA Admin Portal → Administration → Company Profile</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Application Segments · ZPA Admin Portal → Application Management → Application Segments</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-5-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Enable Zscaler Support Remote Assistance</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Duration: 90 days. Access type: View-only. Allows Zscaler Support to troubleshoot the tenant without making changes.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Create Application Segment: Intranet</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Assign to the App Connector group. Define the correct internal domain and port(s) for the Intranet resource.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Administration → Company Profile</li>
-                  <li>Scroll to the Zscaler Support Remote Assistance section</li>
-                  <li>Enable the toggle</li>
-                  <li>Set duration to 90 days and access type to View-only</li>
+                  <li>Navigate to Application Management → Application Segments → Add Application Segment</li>
+                  <li>Name: Intranet. Add the internal intranet domain/IP and port(s)</li>
+                  <li>Assign to the App Connector Group created in req 1</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-5-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Create Application Segment: File Share</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Assign to the App Connector group. Define the correct internal domain and port(s) for the File Share resource.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Add Application Segment — name: File Share</li>
+                  <li>Add the file share server address and SMB port (445) or other relevant ports</li>
+                  <li>Assign to the App Connector Group — click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-5-4" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">4 · Create Application Segment: HVAC</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Assign to the App Connector group. Define the correct internal domain and port(s) for the HVAC resource.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Add Application Segment — name: HVAC</li>
+                  <li>Add the HVAC system's internal IP and port(s)</li>
+                  <li>Assign to the App Connector Group — click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-5-5" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">5 · Create Application Segment: SIEM</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Destination: 10.0.0.2. Assign to the App Connector group. Define the correct port(s) for SIEM access.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Add Application Segment — name: SIEM</li>
+                  <li>Add IP 10.0.0.2 and the relevant ports (e.g. 514, 8080, or as required)</li>
+                  <li>Assign to the App Connector Group — click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Access &amp; Timeout Policy · ZPA Admin Portal → Policy → Access Policy</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-5-6" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">6 · Create department-level access policy rules</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Different departments get access to different application segments. Set idle timeout per rule. Department-specific allow rules must sit above the default deny. Map each department to its permitted segments with appropriate idle timeout values.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → Access Policy → Add Rule</li>
+                  <li>For each department, create a rule specifying: allowed user/department, allowed application segments, and idle timeout value</li>
+                  <li>Place department-specific allow rules above the default deny rule</li>
+                  <li>Set Idle Network Timeout per rule as required by the scenario</li>
+                  <li>Click Save after each rule</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-5-7" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">7 · Create a Client Forwarding bypass rule</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Bypass ZPA tunnelling for traffic that should not be forwarded — e.g. local subnet traffic or the ZPA connector's own management traffic.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → Client Forwarding Policy → Add Rule</li>
+                  <li>Add the destination addresses/subnets that should NOT be tunnelled through ZPA (e.g. local subnet 10.0.0.0/24 or the connector's own IP)</li>
+                  <li>Set Action to Bypass</li>
                   <li>Click Save</li>
                 </ol>
               </div>
@@ -265,10 +344,9 @@
       <div class="callout callout-success" style="margin-top:24px;">
         <p><strong>Testing Requirements</strong></p>
         <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.7;">
-          <li>Log in to ZIdentity with the Student Admin account.</li>
-          <li>Confirm 5 departments are visible in the Departments list.</li>
-          <li>Confirm each user exists and is assigned to the correct department.</li>
-          <li>Navigate to Administration → Company Profile and confirm Support Access shows 90-day view-only enabled.</li>
+          <li>Log in to the Corp: Client PC VM and attempt to reach each application segment by its internal address.</li>
+          <li>Confirm ZPA access logs show the correct policy rule matching each connection.</li>
+          <li>Attempt access from a department that should be denied — confirm it is blocked.</li>
         </ol>
       </div>
 
@@ -276,32 +354,32 @@
       <div class="callout callout-note" style="margin-top:16px;">
         <p><strong>Where to get help</strong></p>
         <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.9;">
-          <li><a href="https://help.zscaler.com/zidentity/managing-departments" target="_blank">Zscaler Help — Managing Departments in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/managing-users" target="_blank">Zscaler Help — Managing Users in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/enabling-remote-assistance" target="_blank">Zscaler Help — Zscaler Support Remote Assistance</a></li>
+          <li><a href="https://help.zscaler.com/zpa/about-app-connectors" target="_blank">Zscaler Help — ZPA App Connector Provisioning</a></li>
+          <li><a href="https://help.zscaler.com/zpa/configuring-application-segments" target="_blank">Zscaler Help — Configuring Application Segments</a></li>
+          <li><a href="https://help.zscaler.com/zpa/configuring-access-policies" target="_blank">Zscaler Help — ZPA Access Policy</a></li>
           <li><a href="https://community.zscaler.com" target="_blank">Zscaler Community Forums</a></li>
         </ul>
       </div>
 
       <!-- Questions & Notes -->
-      <div class="section-qa" data-section="t1-1" style="margin-top:24px;">
+      <div class="section-qa" data-section="t5-1" style="margin-top:24px;">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes — Lab 1</span>
+          <span class="section-qa-title">Questions &amp; Notes — Lab 5</span>
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t1-1" placeholder="Questions about this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sq-t5-1" placeholder="Questions about this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t5-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t5-1"></div>
             </div>
             <div>
               <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t1-1" placeholder="Key takeaways from this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sn-t5-1" placeholder="Key takeaways from this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t5-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t5-1"></div>
             </div>
           </div>
         </div>
@@ -311,7 +389,7 @@
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Two ZIdentity tasks: (1) create 5 departments + 5 users with department-scoped email addresses — the last two digits of the prefix and the prefix.safemarch.com domain are unique per student instance. (2) Enable Support Remote Assistance for 90-day view-only access — this lets Zscaler Support troubleshoot without admin credentials.</div>
+          <div class="mental-note-block-text">ZPA setup has three layers: (1) App Connector — the on-prem VM that brokers connections from the Zscaler cloud to internal apps, (2) Application Segments — define which internal resources are reachable and through which connector, (3) Access Policy — controls which users/departments can reach which segments, with idle timeout enforcing re-authentication on dormant sessions.</div>
         </div>
       </div>
 
@@ -322,10 +400,14 @@
     <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
     <div class="checklist-card">
-      <div class="checklist-title">LAB 1 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-1" disabled><span>5 departments created in ZIdentity</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-2" disabled><span>5 users created with correct departments</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-3" disabled><span>Remote Assistance enabled (90 days, view-only)</span></label>
+      <div class="checklist-title">LAB 5 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-1" disabled><span>App Connector provisioned and Connected</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-2" disabled><span>App Segment: Intranet</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-3" disabled><span>App Segment: File Share</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-4" disabled><span>App Segment: HVAC</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-5" disabled><span>App Segment: SIEM (10.0.0.2)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-6" disabled><span>Department access policy rules created</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-7" disabled><span>Client Forwarding bypass rule created</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -334,16 +416,20 @@
       </div>
       <div class="qr-body">
         <div class="qr-item">
-          <div class="qr-term">ZIdentity</div>
-          <div class="qr-def">Identity platform managing users and departments for ZIA and ZPA policy scoping.</div>
+          <div class="qr-term">App Connector</div>
+          <div class="qr-def">On-prem agent that connects internal resources to the Zscaler cloud — users never connect directly to it.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Department</div>
-          <div class="qr-def">Organisational unit used to scope ZIA/ZPA rules — always create departments before users.</div>
+          <div class="qr-term">Application Segment</div>
+          <div class="qr-def">Defines an internal app's address, ports, and connector group — the unit ZPA policy acts on.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Support Remote Assistance</div>
-          <div class="qr-def">View-only time-limited access granted to Zscaler Support for troubleshooting.</div>
+          <div class="qr-term">Idle Timeout</div>
+          <div class="qr-def">Automatically terminates a ZPA session after N minutes of inactivity — reduces risk from unattended sessions.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Client Forwarding Bypass</div>
+          <div class="qr-def">Excludes specific traffic from the ZPA tunnel — needed for local network access and connector management.</div>
         </div>
       </div>
     </div>
@@ -354,19 +440,19 @@
   <div class="footer-inner">
     <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Practice Labs</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 1 of 10</span>
+    <span class="footer-content">LAB 5 of 10</span>
   </div>
 </footer>
 
 <div class="page-nav">
-  <span class="page-nav-btn page-nav-prev page-nav-disabled">
+  <a class="page-nav-btn page-nav-prev" href="lab4.html">
     <span class="page-nav-label">← PREVIOUS</span>
-    <span class="page-nav-title">&nbsp;</span>
-  </span>
-  <div class="page-nav-message">Identity is the foundation of every Zero Trust policy.</div>
-  <a class="page-nav-btn page-nav-next" href="lab2.html">
+    <span class="page-nav-title">Lab 4: ZIA Logging</span>
+  </a>
+  <div class="page-nav-message">Users reach internal apps without ever touching the network. That's zero trust in action.</div>
+  <a class="page-nav-btn page-nav-next" href="lab6.html">
     <span class="page-nav-label">NEXT →</span>
-    <span class="page-nav-title">Lab 2: Traffic Forwarding</span>
+    <span class="page-nav-title">Lab 6: ZPA Logging</span>
   </a>
 </div>
 
@@ -374,9 +460,9 @@
 const CONFIG_KEY='edu302-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
 const FOOTER_KEY='edu302-footer-collapsed';
-const PAGE_KEY='edu302-lab-lab1';
-var SECTION_IDS=['t1-1'];
-var CHK_IDS=['chk-1-1','chk-1-2','chk-1-3'];
+const PAGE_KEY='edu302-lab-lab5';
+var SECTION_IDS=['t5-1'];
+var CHK_IDS=['chk-5-1','chk-5-2','chk-5-3','chk-5-4','chk-5-5','chk-5-6','chk-5-7'];
 
 function toggleConfig(){
   var panel=document.getElementById('config-panel');

@@ -4,7 +4,7 @@
 <script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lab 1: Configure Identity Services — EDU-302</title>
+<title>Lab 6: Configure ZPA Logging &amp; Reporting — EDU-302</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,13 +14,13 @@
 <body>
 
 <header>
-  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 1</div>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 6</div>
   <div class="header-top">
-    <span class="eyebrow-chip">LAB 1 · IDENTITY</span>
+    <span class="eyebrow-chip">LAB 6 · ZPA POLICY</span>
   </div>
-  <h1>Configure <em>Identity Services</em></h1>
+  <h1>Configure ZPA Logging <em>&amp; Reporting</em></h1>
   <div class="motivation-banner">
-    <p>Identity is the foundation of Zero Trust. Before any policy can be applied, Safemarch needs departments, users, and entitlements provisioned in ZIdentity — so that every access decision is tied to a known, authenticated identity.</p>
+    <p>ZPA logs give your SOC full visibility into private application access — who connected, when, to what, and via which policy rule.</p>
   </div>
 </header>
 
@@ -102,30 +102,30 @@
 <main>
   <div class="content-col">
 
-    <div class="section-block" id="section-lab1">
-      <h2>Lab 1: Configure Identity Services</h2>
+    <div class="section-block" id="section-lab6">
+      <h2>Lab 6: Configure ZPA Logging &amp; Reporting</h2>
 
       <div class="lab-header-card">
-        <div class="lab-badge">LAB 1</div>
-        <p><strong>Scenario:</strong> Safemarch is deploying Zscaler services and needs organisation-specific departments and users provisioned in ZIdentity so that role-based policies can be enforced across ZIA, ZPA, and ZDX. You must also enable Zscaler Support Remote Assistance so the support team can observe your tenant during troubleshooting.</p>
+        <div class="lab-badge">LAB 6</div>
+        <p><strong>Scenario:</strong> Configure the ZPA Log Streaming Service to stream User Activity and App Connector Status logs to the on-premises SIEM over TCP 514, using the Corp: Log Streaming Connector.</p>
         <figure class="lab-hero">
-          <img src="images/lab1-hero.png" alt="Lab 1 — Configure Identity Services" loading="lazy">
+          <img src="images/lab6-hero.png" alt="Lab 6 — Configure ZPA Logging and Reporting" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
-          <div class="lab-meta-item"><strong>Portal:</strong> ZIdentity Admin</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~30 min</div>
+          <div class="lab-meta-item"><strong>Portal:</strong> ZPA Admin Portal</div>
         </div>
       </div>
 
-      <div class="socratic-block" id="soc-lab1">
+      <div class="socratic-block" id="soc-lab6">
         <div class="socratic-header">
           <span class="socratic-icon">💭</span>
-          <span class="socratic-label">THINK FIRST · IDENTITY FOUNDATION</span>
+          <span class="socratic-label">THINK FIRST · ZPA LOG STREAMING</span>
         </div>
-        <p class="socratic-insight">ZIdentity is the single control plane for authentication across ZIA, ZPA, and ZDX — departments and users here directly drive which policies fire and which access decisions are made.</p>
+        <p class="socratic-insight">LSS is ZPA's equivalent of NSS — it bridges the cloud's access logs to your on-premises SIEM. The key difference: LSS uses an App Connector (not a separate VM) as the forwarding agent.</p>
         <ul class="socratic-questions">
-          <li>Why does Zscaler require users to be provisioned in ZIdentity rather than relying solely on an external IdP like Azure AD or Okta?
-            <div class="answer-area" data-section="lab1-q1">
+          <li>Why does ZPA use an App Connector as the log streaming agent rather than a separate dedicated VM like ZIA's NSS?
+            <div class="answer-area" data-section="lab6-q1">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -134,13 +134,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-                  <div class="model-answer-text">ZIdentity acts as the authoritative source of truth for Zscaler-specific attributes such as department membership, service entitlements, and admin roles. External IdPs authenticate the user identity, but ZIdentity maps that identity to Zscaler-specific policy groups. Without provisioned users, ZIA and ZPA cannot resolve which department-based policies to apply at the point of access.</div>
+                  <div class="model-answer-text">ZPA's App Connector already has a secure, persistent outbound tunnel to the Zscaler cloud. Reusing this tunnel for log streaming avoids the need for a separate VM with its own cloud connectivity and certificate management. The "Corp: Log Streaming Connector" is simply an App Connector whose role is dedicated to forwarding logs — it can be the same connector used for app access, or a separate instance. This reduces infrastructure complexity and cost.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What is the risk of enabling "Prompt for Password Change After Initial Log In" when setting passwords by administrator for multiple lab users?
-            <div class="answer-area" data-section="lab1-q2">
+          <li>What are the two types of ZPA logs that Safemarch is streaming via LSS, and what different security questions does each answer?
+            <div class="answer-area" data-section="lab6-q2">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -149,13 +149,13 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-                  <div class="model-answer-text">In a lab environment where the session password is shared, a forced password change after first login would immediately break all subsequent logins for that account — the lab steps that try to authenticate as finance-ptcb83@domain.com would fail with "wrong password." You disable the prompt so the lab password remains stable. In production, this setting exists for security; in a time-boxed lab pod it creates friction that prevents you from completing the exercise.</div>
+                  <div class="model-answer-text">(1) User Activity logs (Client Connector users only, CSV format) — answer "who accessed which private app, when, from which device, with what result?" These are the ZPA equivalent of ZIA web logs. (2) App Connector Status logs (CSV format) — answer "is my App Connector healthy, and if an app became unreachable, when did the connector lose connectivity?" Status logs are operational/availability logs, not access logs. Together they give a full picture: user-level access accountability + infrastructure health.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What would break in the overall Zscaler deployment if users were added to the wrong department — for example, if the marketing user was placed in IT Security?
-            <div class="answer-area" data-section="lab1-q3">
+          <li>What happens if the TCP port 514 between the Log Streaming Connector (10.0.0.20) and the SIEM Server (10.0.0.2) is blocked by a firewall?
+            <div class="answer-area" data-section="lab6-q3">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
                 <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
@@ -164,7 +164,7 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-                  <div class="model-answer-text">Department membership is the key attribute used to scope ZIA URL filtering rules, ZPA access policies, and DLP policies. A marketing user placed in IT Security would inherit IT Security department exemptions — such as access to eicar.org and SSH firewall allow rules. Conversely, they would lose the marketing-only exemption for LinkedIn posting. The misconfiguration would silently give over-permissive access without triggering any error; policies would still evaluate, just against the wrong department context.</div>
+                  <div class="model-answer-text">LSS logs are never delivered — the App Connector establishes the ZPA cloud connection and receives logs, but cannot forward them to the SIEM. The connector's log queue may fill and drop records. Unlike NSS (which has a dedicated service interface), LSS relies on the App Connector's own network interface to reach the SIEM, so TCP 514 must be permitted between the connector's IP (10.0.0.20) and the SIEM (10.0.0.2). This is a common oversight when firewall rules are written only for the NSS VM IPs.</div>
                 </div>
               </div>
             </div>
@@ -175,28 +175,29 @@
       <!-- Configuration Requirements -->
       <div class="task-block" style="margin-top:28px;">
         <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
-        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through these three requirements. Check each one off as you complete it.</p>
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all three requirements in the ZPA Admin Portal. Check each one off as you complete it.</p>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">ZIdentity Departments &amp; Users · ZIA Admin Portal → Infrastructure → ZIdentity</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">LSS Configuration · ZPA Admin Portal → Administration → Log Streaming Service</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-6-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create 5 departments in ZIdentity</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Marketing, Human Resources, IT Security, Finance, OT. Each department will scope ZIA/ZPA policies to the correct user group.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Configure the LSS Log Receiver</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Use the Corp: Log Streaming Connector. Destination SIEM: 10.0.0.20. Protocol: TCP 514.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Log in to ZIA Admin Portal at https://admin.zscalerthree.net</li>
-                  <li>Navigate to Infrastructure → ZIdentity → Departments</li>
-                  <li>Click Add Department and enter "Marketing" — click Save</li>
-                  <li>Repeat for: Human Resources, IT Security, Finance, OT</li>
-                  <li>Confirm all 5 departments appear in the list</li>
+                  <li>Log in to ZPA Admin Portal</li>
+                  <li>Navigate to Administration → Log Streaming Service</li>
+                  <li>Click Add Log Receiver</li>
+                  <li>Select the Corp: Log Streaming Connector as the connector</li>
+                  <li>Set destination IP to 10.0.0.20 and port to 514 (TCP)</li>
+                  <li>Click Save</li>
                 </ol>
               </div>
             </div>
@@ -204,54 +205,41 @@
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-6-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Create 5 users — one per department — with department email addresses</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Use the email format below. The prefix and domain update automatically when you set your Student Prefix above.</div>
-                <div style="margin-top:6px;display:flex;flex-direction:column;gap:2px;">
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">marketing-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">hr-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">itsecurity-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">finance-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">ot-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                </div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Configure User Activity log streaming</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Log type: User Activity. Attach to the LSS receiver. Streams details of every ZPA session — user, application, policy rule, bytes transferred.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Infrastructure → ZIdentity → Users</li>
-                  <li>Click Add User — set First Name, Last Name, and Email to the department address shown above</li>
-                  <li>Set Department to the matching department created in requirement 1</li>
-                  <li>Set Role to User</li>
-                  <li>Click Save — repeat for all 5 users</li>
+                  <li>In Log Streaming Service, click Add Log Stream Policy</li>
+                  <li>Set Log Type to User Activity</li>
+                  <li>Attach to the log receiver created in req 1</li>
+                  <li>Select all desired fields (or use the default template)</li>
+                  <li>Click Save</li>
                 </ol>
               </div>
             </div>
           </div>
 
-        </div>
-
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Support Access · ZIA Admin Portal → Administration → Company Profile</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-1-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-6-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Enable Zscaler Support Remote Assistance</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Duration: 90 days. Access type: View-only. Allows Zscaler Support to troubleshoot the tenant without making changes.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Configure App Connector Status log streaming</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Log type: App Connector Status. Attach to the same LSS receiver. Streams connector health, tunnel state, and error events.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Administration → Company Profile</li>
-                  <li>Scroll to the Zscaler Support Remote Assistance section</li>
-                  <li>Enable the toggle</li>
-                  <li>Set duration to 90 days and access type to View-only</li>
+                  <li>Click Add Log Stream Policy again</li>
+                  <li>Set Log Type to App Connector Status</li>
+                  <li>Attach to the same log receiver</li>
                   <li>Click Save</li>
                 </ol>
               </div>
@@ -265,10 +253,10 @@
       <div class="callout callout-success" style="margin-top:24px;">
         <p><strong>Testing Requirements</strong></p>
         <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.7;">
-          <li>Log in to ZIdentity with the Student Admin account.</li>
-          <li>Confirm 5 departments are visible in the Departments list.</li>
-          <li>Confirm each user exists and is assigned to the correct department.</li>
-          <li>Navigate to Administration → Company Profile and confirm Support Access shows 90-day view-only enabled.</li>
+          <li>Perform ZPA activity: connect to an application segment from the Corp: Client PC VM.</li>
+          <li>On the SIEM VM at 10.0.0.20, confirm User Activity log records are arriving.</li>
+          <li>Confirm App Connector Status records are also arriving.</li>
+          <li>Verify log format matches expected fields.</li>
         </ol>
       </div>
 
@@ -276,32 +264,31 @@
       <div class="callout callout-note" style="margin-top:16px;">
         <p><strong>Where to get help</strong></p>
         <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.9;">
-          <li><a href="https://help.zscaler.com/zidentity/managing-departments" target="_blank">Zscaler Help — Managing Departments in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/managing-users" target="_blank">Zscaler Help — Managing Users in ZIdentity</a></li>
-          <li><a href="https://help.zscaler.com/zidentity/enabling-remote-assistance" target="_blank">Zscaler Help — Zscaler Support Remote Assistance</a></li>
+          <li><a href="https://help.zscaler.com/zpa/about-log-streaming-service" target="_blank">Zscaler Help — Configuring LSS</a></li>
+          <li><a href="https://help.zscaler.com/zpa/log-streaming-service-log-types" target="_blank">Zscaler Help — ZPA Log Types Reference</a></li>
           <li><a href="https://community.zscaler.com" target="_blank">Zscaler Community Forums</a></li>
         </ul>
       </div>
 
       <!-- Questions & Notes -->
-      <div class="section-qa" data-section="t1-1" style="margin-top:24px;">
+      <div class="section-qa" data-section="t6-1" style="margin-top:24px;">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes — Lab 1</span>
+          <span class="section-qa-title">Questions &amp; Notes — Lab 6</span>
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t1-1" placeholder="Questions about this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sq-t6-1" placeholder="Questions about this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t6-1"></div>
             </div>
             <div>
               <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t1-1" placeholder="Key takeaways from this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t1-1',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t1-1"></div>
+              <textarea class="section-qa-textarea" id="sn-t6-1" placeholder="Key takeaways from this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t6-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t6-1"></div>
             </div>
           </div>
         </div>
@@ -311,7 +298,7 @@
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Two ZIdentity tasks: (1) create 5 departments + 5 users with department-scoped email addresses — the last two digits of the prefix and the prefix.safemarch.com domain are unique per student instance. (2) Enable Support Remote Assistance for 90-day view-only access — this lets Zscaler Support troubleshoot without admin credentials.</div>
+          <div class="mental-note-block-text">LSS has three components: (1) the Log Receiver (the SIEM destination — 10.0.0.20 TCP 514), (2) User Activity logs (per-session detail — who reached what and when), (3) App Connector Status logs (connector health — essential for detecting outages before users report them). Both log types use the same receiver but are separate streaming policies.</div>
         </div>
       </div>
 
@@ -322,10 +309,10 @@
     <a class="hub-link" href="index.html">← Back to Lab Hub</a>
 
     <div class="checklist-card">
-      <div class="checklist-title">LAB 1 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-1" disabled><span>5 departments created in ZIdentity</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-2" disabled><span>5 users created with correct departments</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-1-3" disabled><span>Remote Assistance enabled (90 days, view-only)</span></label>
+      <div class="checklist-title">LAB 6 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-1" disabled><span>LSS Log Receiver configured (10.0.0.20, TCP 514)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-2" disabled><span>User Activity log streaming configured</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-6-3" disabled><span>App Connector Status log streaming configured</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -334,16 +321,20 @@
       </div>
       <div class="qr-body">
         <div class="qr-item">
-          <div class="qr-term">ZIdentity</div>
-          <div class="qr-def">Identity platform managing users and departments for ZIA and ZPA policy scoping.</div>
+          <div class="qr-term">LSS</div>
+          <div class="qr-def">Log Streaming Service — ZPA's equivalent of NSS, streams logs to external SIEMs.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Department</div>
-          <div class="qr-def">Organisational unit used to scope ZIA/ZPA rules — always create departments before users.</div>
+          <div class="qr-term">Log Receiver</div>
+          <div class="qr-def">The SIEM endpoint — IP + port + protocol.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">Support Remote Assistance</div>
-          <div class="qr-def">View-only time-limited access granted to Zscaler Support for troubleshooting.</div>
+          <div class="qr-term">User Activity</div>
+          <div class="qr-def">Session-level logs: user, app, bytes, policy rule — your access audit trail.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">App Connector Status</div>
+          <div class="qr-def">Connector health events — use this for connector monitoring and alerting.</div>
         </div>
       </div>
     </div>
@@ -354,19 +345,19 @@
   <div class="footer-inner">
     <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Practice Labs</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 1 of 10</span>
+    <span class="footer-content">LAB 6 of 10</span>
   </div>
 </footer>
 
 <div class="page-nav">
-  <span class="page-nav-btn page-nav-prev page-nav-disabled">
+  <a class="page-nav-btn page-nav-prev" href="lab5.html">
     <span class="page-nav-label">← PREVIOUS</span>
-    <span class="page-nav-title">&nbsp;</span>
-  </span>
-  <div class="page-nav-message">Identity is the foundation of every Zero Trust policy.</div>
-  <a class="page-nav-btn page-nav-next" href="lab2.html">
+    <span class="page-nav-title">Lab 5: ZPA Policy</span>
+  </a>
+  <div class="page-nav-message">Every ZPA session is now a record your SOC can act on.</div>
+  <a class="page-nav-btn page-nav-next" href="lab7.html">
     <span class="page-nav-label">NEXT →</span>
-    <span class="page-nav-title">Lab 2: Traffic Forwarding</span>
+    <span class="page-nav-title">Lab 7: DLP</span>
   </a>
 </div>
 
@@ -374,10 +365,16 @@
 const CONFIG_KEY='edu302-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
 const FOOTER_KEY='edu302-footer-collapsed';
-const PAGE_KEY='edu302-lab-lab1';
-var SECTION_IDS=['t1-1'];
-var CHK_IDS=['chk-1-1','chk-1-2','chk-1-3'];
+const PAGE_KEY='edu302-lab-lab6';
+var SECTION_IDS=['t6-1'];
+var CHK_IDS=['chk-6-1','chk-6-2','chk-6-3'];
 
+function toggleReqHow(btn){
+  var body=btn.nextElementSibling;
+  var open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  btn.innerHTML=(open?'▾ ':'▸ ')+'How to do it';
+}
 function toggleConfig(){
   var panel=document.getElementById('config-panel');
   var btn=document.getElementById('config-toggle-btn');
@@ -511,12 +508,6 @@ function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY
 function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
 function editQAItem(span,id,idx,type){var text=span.textContent;var ta=document.createElement('textarea');ta.className='section-qa-textarea';ta.style.cssText='margin:0;min-height:32px;padding:4px 8px;font-size:12.5px;font-family:Epilogue,sans-serif;';ta.value=text;span.replaceWith(ta);ta.focus();ta.select();var done=false;function commit(){if(done)return;done=true;var val=ta.value.trim();if(val&&val!==text){try{var key=PAGE_KEY+(type==='q'?'-sq-':'-sn-')+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr[idx]=val;localStorage.setItem(key,JSON.stringify(arr));}catch(e){}}type==='q'?renderSectionQ(id):renderSectionN(id);}ta.addEventListener('blur',commit);ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ta.blur();}if(e.key==='Escape'){done=true;type==='q'?renderSectionQ(id):renderSectionN(id);}});}
 function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
-function toggleReqHow(btn){
-  var body=btn.nextElementSibling;
-  var open=body.style.display==='none';
-  body.style.display=open?'block':'none';
-  btn.innerHTML=(open?'▾ ':'▸ ')+'How to do it';
-}
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 3: Configure ZIA Policy — EDU-302</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-302</a> › Lab 3</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 3 · ZIA POLICY</span>
+  </div>
+  <h1>Configure <em>ZIA Policy</em></h1>
+  <div class="motivation-banner">
+    <p>ZIA policy is where security intent becomes reality. Every SSL inspection rule, URL filter, and firewall rule you configure here is the actual enforcement mechanism standing between Safemarch users and threats.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. zs4803" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Lab Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">YOUR ZIDENTITY TENANT</div>
+      <span><strong>ZIdentity URL:</strong> <code id="d-zid-url">zs4803safemarch.zslogin.net</code></span>
+      <span><strong>Student Admin:</strong> <code id="d-student-admin">student@zs4803.safemarch.com</code></span>
+      <span><strong>Student Password:</strong> <code id="d-student-pass">zs4803+Y0urZDDC</code></span>
+      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin:8px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">LAB CREDENTIALS (fixed)</div>
+      <span><strong>ZIA Admin:</strong> <code>ptcb83-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>IT Dept:</strong> <code>ptcb83-IT@thezerotrustexchange.com</code></span>
+      <span><strong>HR Dept:</strong> <code>ptcb83-HR@thezerotrustexchange.com</code></span>
+      <span><strong>MKT Dept:</strong> <code>ptcb83-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor:</strong> <code>ptcb83-CON@thezerotrustexchange.com</code></span>
+      <span><strong>OT User:</strong> <code>ptcb83-OT@thezerotrustexchange.com</code></span>
+      <span><strong>Sales:</strong> <code>ptcb83-SALES@thezerotrustlab.com</code></span>
+      <span><strong>ZIA Portal:</strong> <code>https://admin.zscalerthree.net</code></span>
+      <span><strong>Session Password:</strong> <code class="var-pass">89+jZ+Hq</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab3">
+      <h2>Lab 3: Configure ZIA Policy</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 3</div>
+        <p><strong>Scenario:</strong> Configure a comprehensive set of ZIA policies for Safemarch's initial deployment — SSL inspection, URL filtering, file type controls, Office 365 tenant isolation, and firewall rules. Rule order matters throughout: the first matching rule wins, so department-specific exceptions must always sit above the broader catch-all rules.</p>
+        <figure class="lab-hero">
+          <img src="images/lab3-hero.png" alt="Lab 3 — Configure ZIA Policy" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~60 minutes</div>
+          <div class="lab-meta-item"><strong>Portal:</strong> ZIA Admin (https://admin.zscalerthree.net)</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab3">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · ZIA POLICY DESIGN</span>
+        </div>
+        <p class="socratic-insight">A single misconfigured rule order can bypass your entire security posture — always think about rule precedence before placement.</p>
+        <ul class="socratic-questions">
+          <li>Why must the SSL inspection rule for MS Login Services be placed HIGHER in order than the "Office 365 One Click" rule?
+            <div class="answer-area" data-section="lab3-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Rules are evaluated top-to-bottom. The MS Login rule applies the Tenant Profile that restricts O365 logins to only the corporate Safemarch tenant. If the broader O365 One Click rule fires first, it bypasses SSL inspection for all Office 365 traffic — including the login flow — making it impossible for Zscaler to inject the Restrict-Access-To-Tenants HTTP header that enforces tenant isolation. The MS Login rule must run first to intercept the login traffic before the broader exemption takes over.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>What is the difference between a "Caution" action and a "Block" action for executable file downloads — and when would you use Caution for IT Security but Block for everyone else?
+            <div class="answer-area" data-section="lab3-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Caution displays a warning page the user can bypass after acknowledging the risk. Block denies access entirely. IT Security legitimately downloads executables (patch files, security tools, malware samples) — a hard Block would prevent their work. Caution warns them to be deliberate but allows it. For all other departments, executables represent an unacceptable malware delivery risk, so Block is appropriate. The IT Security rule must be higher in order than the Block rule so it fires first for that department.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>What breaks if you forget to create the custom URL category for Safemarch-specific blocked URLs before referencing it in the URL filtering policy?
+            <div class="answer-area" data-section="lab3-q3">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+                  <div class="model-answer-text">ZIA will not allow you to save a URL filtering rule that references a URL category that doesn't exist. Create the custom category first — even with a placeholder URL — then reference it in the filtering rule. Later, the Safemarch security team can add off-limits URLs without changing the policy structure.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Configuration Requirements -->
+      <div class="task-block" style="margin-top:28px;">
+        <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all 15 requirements in the ZIA Admin Portal. Rule order is critical — where noted, a rule must sit above another.</p>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">SSL Inspection · Policy → SSL Inspection</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create a catch-all SSL inspection rule</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Inspect all HTTPS traffic by default. Exemption rules (items 2–3) must sit above this rule.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → SSL Inspection</li>
+                  <li>Click Add Rule — name it "Inspect All Traffic"</li>
+                  <li>Set Action to Decrypt</li>
+                  <li>Leave all criteria as Any (catch-all)</li>
+                  <li>Position this rule at the BOTTOM — exemption rules must go above it</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Add SSL inspection exemptions (above rule 1)</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Exempt: Health URL categories (privacy), a custom bypass category (create with a placeholder URL), and certificate-pinned apps — Adobe Acrobat Reader (Fill &amp; Sign) and Apple iMessage.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In Policy → SSL Inspection, click Add Rule — name it "SSL Exemptions"</li>
+                  <li>Add URL category: Health (built-in category)</li>
+                  <li>Create a custom bypass category first: Policy → Resources → Custom URL Categories → Add — name it e.g. "SSL-Bypass", add a placeholder URL, Save</li>
+                  <li>Add that custom category to the exemption rule</li>
+                  <li>Add predefined applications: Adobe Acrobat Reader (Fill &amp; Sign) and Apple iMessage</li>
+                  <li>Set Action to Do Not Decrypt — place this rule ABOVE the catch-all rule — Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Add SSL inspection rule for MS Login Services (above the O365 One Click rule)</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Required for Tenant Profile enforcement in requirement 14. The login flow must be SSL-inspected so Zscaler can inject the tenant restriction header before the O365 bypass takes effect.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In Policy → SSL Inspection, click Add Rule — name it "MS Login Services"</li>
+                  <li>Add predefined URL category: Microsoft Login Services</li>
+                  <li>Set Action to Decrypt</li>
+                  <li>Position this rule ABOVE the Office 365 One Click rule (which will appear after configuring O365 in req 12)</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">File Type Controls · Policy → Advanced Policy Settings</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-4" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">4 · Caution: IT Security department — executable file downloads (above rule 5)</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">IT Security legitimately downloads executables. Caution warns but allows. This rule must be above the block rule so it fires first for that department.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → Advanced Policy Settings (or File Type Controls)</li>
+                  <li>Click Add Rule — name it "IT Security - Executable Caution"</li>
+                  <li>Set Action to Caution</li>
+                  <li>Add file type: Executable</li>
+                  <li>Add Department criteria: IT Security</li>
+                  <li>Place this rule ABOVE the block-all rule (req 5) — click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-5" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">5 · Block: all users — executable file downloads</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Hard block for all other departments. Executables are the primary malware delivery vector.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Add another rule — name it "Block Executables - All"</li>
+                  <li>Set Action to Block</li>
+                  <li>Add file type: Executable</li>
+                  <li>Leave user criteria as Any (applies to all)</li>
+                  <li>Ensure this sits BELOW the IT Security Caution rule — click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-6" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">6 · Block: all users — Undetectable file type</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Files whose content cannot be identified are a common malware delivery vector. Block them for everyone.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Add a rule — name it "Block Undetectable Files"</li>
+                  <li>Set Action to Block</li>
+                  <li>Add file type: Undetectable (built-in type)</li>
+                  <li>Leave user criteria as Any</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-7" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">7 · Block uploads for Finance — except Microsoft Office files</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Finance may upload Office documents only. All other file uploads are blocked for this department.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">Policy → URL Filtering → Advanced Policy Settings</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → URL Filtering → Advanced Policy Settings</li>
+                  <li>Add a file upload control rule scoped to Finance department</li>
+                  <li>Block all file upload types EXCEPT Microsoft Office files</li>
+                  <li>Assign to Finance department</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">URL Filtering · Policy → URL Filtering</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-8" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">8 · Block legal liability URL categories for all users</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Categories: Adult Material, Drugs, Gambling, Illegal or Questionable, Militancy/Hate and Extremism, and the custom Safemarch-Blocked category (see requirement 9).</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → URL Filtering → click Add Rule</li>
+                  <li>Name it "Block Legal Liability"</li>
+                  <li>Set Action to Block</li>
+                  <li>Add URL categories: Adult Material, Drugs, Gambling, Illegal or Questionable, Militancy/Hate and Extremism</li>
+                  <li>Also add the Safemarch-Blocked custom category (req 9)</li>
+                  <li>Leave users as Any — click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-9" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">9 · Create custom URL category "Safemarch-Blocked"</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Create the category first (Policy → Resources → Custom URL Categories) with a placeholder URL. Reference it in rule 8. The security team adds off-limits URLs here over time without touching the policy.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → Resources → Custom URL Categories</li>
+                  <li>Click Add Custom Category — name it "Safemarch-Blocked"</li>
+                  <li>Add at least one placeholder URL (e.g. example-blocked.com)</li>
+                  <li>Click Save — this category can be updated later without changing the filtering rule</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-10" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">10 · eicar.org: allow IT Security (above rule 8), block all others</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Two rules: the IT Security allow rule must be higher in order than the catch-all block rule for eicar.org.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In Policy → URL Filtering, add a rule "eicar.org - IT Security Allow"</li>
+                  <li>Add URL: eicar.org. Set Action to Allow. Scope to IT Security department</li>
+                  <li>Place this rule ABOVE the block-all rule</li>
+                  <li>Add another rule "eicar.org - Block All". Add URL: eicar.org. Action: Block. No department scope</li>
+                  <li>Click Save on both rules</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-11" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">11 · Social Networking: block all users — except Marketing can view and post to LinkedIn</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Two rules: Marketing/LinkedIn allow rule above the block-all-social rule.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Add a rule "Marketing - LinkedIn Allow" — URL category: LinkedIn (if available) or add linkedin.com as a URL. Action: Allow. Scope to Marketing department</li>
+                  <li>Add a rule "Block Social Networking" — URL category: Social Networking. Action: Block. No department scope</li>
+                  <li>Place the Marketing allow rule ABOVE the block-all rule</li>
+                  <li>Click Save on both</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-12" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">12 · Configure Office 365 One Click</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Enable the Microsoft Recommended One-Click configuration to optimally forward O365 traffic, bypassing SSL inspection for the broad O365 service endpoints.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → URL Filtering</li>
+                  <li>Find the Office 365 section or click the Microsoft Recommended One-Click button</li>
+                  <li>Enable the Microsoft Recommended One-Click configuration</li>
+                  <li>This auto-creates optimised forwarding rules for O365 endpoints</li>
+                  <li>Click Save / Apply</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-13" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">13 · Enable Advanced Policy Settings</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Enable all four: Suspicious New Domains Lookup, AI/ML based Content Categorisation, Embedded Sites Categorisation, and Enforce SafeSearch.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">Policy → URL Filtering → Advanced Policy Settings</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → URL Filtering → Advanced Policy Settings</li>
+                  <li>Enable: Suspicious New Domains Lookup</li>
+                  <li>Enable: AI/ML based Content Categorisation</li>
+                  <li>Enable: Embedded Sites Categorisation</li>
+                  <li>Enable: Enforce SafeSearch</li>
+                  <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">O365 Tenant Restriction · Policy → Cloud App Control → Microsoft</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-14" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">14 · Configure Safemarch Microsoft O365 Tenant Profile</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Create a Tenant Profile and Cloud App Control rule that allows login only to the Safemarch corporate tenant and blocks personal O365 logins (OneDrive, Outlook, etc.).</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin-top:4px;">Tenant Directory: <code style="font-size:11px;">deadbeef-0001-ffee-0001-314159265358</code> · O365 Tenant: <code style="font-size:11px;">safemarch.com</code></div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → Cloud App Control → Microsoft</li>
+                  <li>Click Add Tenant Profile</li>
+                  <li>Name: "Safemarch Microsoft O365". Tenant Directory: deadbeef-0001-ffee-0001-314159265358. O365 Tenant: safemarch.com</li>
+                  <li>Save the profile, then create a Cloud App Control rule that allows login only to this tenant</li>
+                  <li>Configure a rule to block personal O365 logins (OneDrive, Outlook, etc.)</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Firewall · Policy → Firewall</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-3-15" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">15 · Allow SSH for IT Security department only</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Create a firewall allow rule scoped to the IT Security department for SSH. All other firewall traffic follows the default block rule. Tip: use Add Criteria → User and Session Attributes → Department to scope the rule.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to Policy → Firewall</li>
+                  <li>Click Add Rule — name it "IT Security - SSH Allow"</li>
+                  <li>Add network service: SSH (port 22 TCP)</li>
+                  <li>Click Add Criteria → User and Session Attributes → Department → IT Security</li>
+                  <li>Set Action to Allow — place above the default block rule — click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Testing Requirements -->
+      <div class="callout callout-success" style="margin-top:24px;">
+        <p><strong>Testing Requirements</strong></p>
+        <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.8;">
+          <li>In ZIA Admin Portal → Analytics → Web Insights, check SSL inspection is active on HTTPS traffic.</li>
+          <li>Browse to a legal liability URL (e.g. <code>www.freeslots-machines.com</code>) — confirm blocked.</li>
+          <li>Log in as a non-Marketing user and confirm social networking is blocked; log in as Marketing and confirm LinkedIn is accessible.</li>
+          <li>Navigate to <code>office.com</code> and check web logs — confirm no entries appear (O365 One Click bypass working).</li>
+          <li>Check Firewall logs and confirm SSH traffic from an IT Security user hits the allow rule.</li>
+        </ol>
+      </div>
+
+      <!-- Where to get help -->
+      <div class="callout callout-note" style="margin-top:16px;">
+        <p><strong>Where to get help</strong></p>
+        <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.9;">
+          <li><a href="https://help.zscaler.com/zia/about-ssl-inspection" target="_blank">Zscaler Help — About SSL Inspection</a></li>
+          <li><a href="https://help.zscaler.com/zia/certificate-pinning-and-ssl-inspection" target="_blank">Zscaler Help — Certificate Pinning and SSL Inspection</a></li>
+          <li><a href="https://help.zscaler.com/zia/about-url-filtering" target="_blank">Zscaler Help — About URL Filtering</a></li>
+          <li><a href="https://help.zscaler.com/zia/about-cloud-app-control-policy" target="_blank">Zscaler Help — About Cloud App Control Policy</a></li>
+          <li><a href="https://help.zscaler.com/zia/about-firewall-policies" target="_blank">Zscaler Help — About Firewall Policies</a></li>
+          <li><a href="https://community.zscaler.com" target="_blank">Zscaler Community Forums</a></li>
+        </ul>
+      </div>
+
+      <!-- Questions & Notes -->
+      <div class="section-qa" data-section="t3-1" style="margin-top:24px;">
+        <button class="section-qa-header" onclick="toggleSectionQA(this)">
+          <span class="section-qa-title">Questions &amp; Notes — Lab 3</span>
+          <span class="section-qa-chevron">▾</span>
+        </button>
+        <div class="section-qa-body">
+          <div class="section-qa-grid">
+            <div>
+              <div class="section-qa-label">My Questions</div>
+              <textarea class="section-qa-textarea" id="sq-t3-1" placeholder="Questions about this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t3-1',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t3-1"></div>
+            </div>
+            <div>
+              <div class="section-qa-label">My Notes</div>
+              <textarea class="section-qa-textarea" id="sn-t3-1" placeholder="Key takeaways from this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t3-1',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t3-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">Five ZIA policy areas: SSL inspection (catch-all + exemptions + MS Login above O365 One Click), file type controls (Caution executables for IT Security, Block all + Block Undetectable, Finance upload restriction), URL filtering (legal liability block, eicar.org IT Security exception, social networking Marketing/LinkedIn exception, O365 One Click, advanced settings), O365 tenant restriction via Tenant Profile, and firewall SSH allow for IT Security only. Rule order is the most common failure point — department exceptions always go above catch-all rules.</div>
+        </div>
+      </div>
+
+    </div><!-- /.section-block -->
+  </div><!-- /.content-col -->
+
+  <aside class="sidebar">
+    <a class="hub-link" href="index.html">← Back to Lab Hub</a>
+
+    <div class="checklist-card">
+      <div class="checklist-title">LAB 3 PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-1" disabled><span>SSL catch-all inspect rule</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-2" disabled><span>SSL exemptions (Health, custom, cert-pinned)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-3" disabled><span>MS Login SSL rule above O365 One Click</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-4" disabled><span>IT Security: exe downloads Caution</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-5" disabled><span>All others: exe downloads Blocked</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-6" disabled><span>Undetectable file type Blocked</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-7" disabled><span>Finance uploads: Office files only</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-8" disabled><span>Legal liability categories blocked</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-9" disabled><span>Safemarch-Blocked category created</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-10" disabled><span>eicar.org: IT Security allowed, others blocked</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-11" disabled><span>Social Networking blocked (Marketing/LinkedIn exempt)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-12" disabled><span>O365 One Click configured</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-13" disabled><span>Advanced settings: AI/ML, SafeSearch, etc.</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-14" disabled><span>Safemarch O365 Tenant Profile configured</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-3-15" disabled><span>Firewall: SSH allowed for IT Security</span></label>
+    </div>
+
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">▲</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">Rule Order</div>
+          <div class="qr-def">First matching rule wins. Department exceptions must always sit above catch-all rules.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">SSL Inspection</div>
+          <div class="qr-def">Zscaler decrypts HTTPS to inspect it. Certificate-pinned apps must be exempted or they break.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Tenant Restriction</div>
+          <div class="qr-def">Injects HTTP headers during O365 login to allow only the corporate tenant. Requires SSL inspection on the login flow — hence the MS Login rule above O365 One Click.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">SafeSearch</div>
+          <div class="qr-def">Forces Google/Bing/Yahoo to return only safe results. Set via URL Filtering → Advanced Policy Settings.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Firewall vs URL Filter</div>
+          <div class="qr-def">URL filtering handles HTTP/HTTPS. SSH is layer-4 and needs a Firewall rule, not a URL filter.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Practice Labs</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">LAB 3 of 10</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab2.html">
+    <span class="page-nav-label">← PREVIOUS</span>
+    <span class="page-nav-title">Lab 2: Traffic Forwarding</span>
+  </a>
+  <div class="page-nav-message">You just shaped how 500 Safemarch users experience the internet. That's real security engineering.</div>
+  <a class="page-nav-btn page-nav-next" href="lab4.html">
+    <span class="page-nav-label">NEXT →</span>
+    <span class="page-nav-title">Lab 4: ZIA Logging</span>
+  </a>
+</div>
+
+<script>
+const CONFIG_KEY='edu302-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
+const FOOTER_KEY='edu302-footer-collapsed';
+const PAGE_KEY='edu302-lab-lab3';
+var SECTION_IDS=['t3-1'];
+var CHK_IDS=['chk-3-1','chk-3-2','chk-3-3','chk-3-4','chk-3-5','chk-3-6','chk-3-7','chk-3-8','chk-3-9','chk-3-10','chk-3-11','chk-3-12','chk-3-13','chk-3-14','chk-3-15'];
+
+function toggleConfig(){
+  var panel=document.getElementById('config-panel');
+  var btn=document.getElementById('config-toggle-btn');
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
+}
+function updateSidebarOffset(){
+  var panel=document.getElementById('config-panel');
+  var h=panel?panel.offsetHeight:52;
+  document.documentElement.style.setProperty('--config-h',(h+16)+'px');
+}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function updateToggleSummary(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  s.textContent=prefix?' — '+prefix:'';
+}
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var zidUrl=prefix?prefix+'safemarch.zslogin.net':'zs4803safemarch.zslogin.net';
+  var studentAdmin=prefix?'student@'+prefix+'.safemarch.com':'student@zs4803.safemarch.com';
+  var studentPass=prefix?prefix+'+Y0urZDDC':'zs4803+Y0urZDDC';
+  var domain=prefix?prefix+'.safemarch.com':'zs4803.safemarch.com';
+  var cd=prefix?prefix.slice(-2):'03';
+  var el;
+  el=document.getElementById('d-zid-url');if(el)el.textContent=zidUrl;
+  el=document.getElementById('d-student-admin');if(el)el.textContent=studentAdmin;
+  el=document.getElementById('d-student-pass');if(el)el.textContent=studentPass;
+  document.querySelectorAll('.d-zid-url').forEach(function(e){e.textContent=zidUrl;});
+  document.querySelectorAll('.d-student-admin').forEach(function(e){e.textContent=studentAdmin;});
+  document.querySelectorAll('.d-student-pass').forEach(function(e){e.textContent=studentPass;});
+  document.querySelectorAll('.d-safemarch-domain').forEach(function(e){e.textContent=domain;});
+  document.querySelectorAll('.d-safemarch-prefix').forEach(function(e){e.textContent=prefix||'zs4803';});
+  document.querySelectorAll('.d-cd').forEach(function(e){e.textContent=cd;});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='89+jZ+Hq';el.classList.remove('filled');}});
+}
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}
+    else{document.getElementById('prefix-input').value='zs4803';document.getElementById('pass-input').value='89+jZ+Hq';}
+    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
+  }catch(e){document.getElementById('prefix-input').value='zs4803';document.getElementById('pass-input').value='89+jZ+Hq';}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){
+  var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();updateToggleSummary();
+  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+function clearConfig(){
+  document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();updateToggleSummary();
+}
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value.trim();if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
+}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){
+  document.querySelectorAll('.config-derived code').forEach(function(code){
+    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
+    var text=code.textContent.trim();if(text.length<2)return;
+    var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
+    code.after(btn);
+  });
+}
+function saveSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');
+  if(!ta.value.trim())return;
+  var seebtn=area.querySelector('.btn-see-answer');seebtn.disabled=false;seebtn.textContent='👁 See Model Answer';
+  btn.textContent='✓ Answer Saved';btn.style.background='var(--green)';
+  try{var key=area.dataset.section;localStorage.setItem(PAGE_KEY+'-soc-'+key,ta.value);}catch(e){}
+  setTimeout(function(){btn.textContent='+ Add My Answer';btn.style.background='';},1500);
+}
+function revealSocAnswer(btn){
+  var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');
+  if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
+  else{ma.style.display='none';btn.textContent='👁 See Model Answer';}
+}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the Q&amp;A section below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the Q&amp;A section below.</p>';}catch(e){}}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function saveChecklist(){
+  try{
+    var state={};
+    CHK_IDS.forEach(function(id){
+      var el=document.querySelector('.content-col input[id="'+id+'"]');
+      if(el)state[id]=el.checked;
+    });
+    localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));
+    syncSidebarChecklist(state);
+  }catch(e){}
+}
+function syncSidebarChecklist(state){
+  CHK_IDS.forEach(function(id){
+    var sidebar=document.querySelector('aside input[id="'+id+'"]');
+    if(sidebar&&state&&state[id]!==undefined)sidebar.checked=state[id];
+  });
+}
+function loadChecklist(){
+  try{
+    var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');
+    CHK_IDS.forEach(function(id){
+      var main=document.querySelector('.content-col input[id="'+id+'"]');
+      if(main&&state[id]!==undefined)main.checked=state[id];
+    });
+    syncSidebarChecklist(state);
+  }catch(e){}
+}
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'q\')">'+escHtml(q)+'</span><button class="qa-item-del" onclick="delSectionQ(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'n\')">'+escHtml(n)+'</span><button class="qa-item-del" onclick="delSectionN(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}renderSectionQ(id);}
+function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
+function editQAItem(span,id,idx,type){var text=span.textContent;var ta=document.createElement('textarea');ta.className='section-qa-textarea';ta.style.cssText='margin:0;min-height:32px;padding:4px 8px;font-size:12.5px;font-family:Epilogue,sans-serif;';ta.value=text;span.replaceWith(ta);ta.focus();ta.select();var done=false;function commit(){if(done)return;done=true;var val=ta.value.trim();if(val&&val!==text){try{var key=PAGE_KEY+(type==='q'?'-sq-':'-sn-')+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr[idx]=val;localStorage.setItem(key,JSON.stringify(arr));}catch(e){}}type==='q'?renderSectionQ(id):renderSectionN(id);}ta.addEventListener('blur',commit);ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ta.blur();}if(e.key==='Escape'){done=true;type==='q'?renderSectionQ(id):renderSectionN(id);}});}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+function toggleReqHow(btn){
+  var body=btn.nextElementSibling;
+  var open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  btn.innerHTML=(open?'▾ ':'▸ ')+'How to do it';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
+});
+</script>
+</body>
+</html>
