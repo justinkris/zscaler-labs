@@ -10,6 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>html.pt-init body{opacity:0;}</style>
 <link rel="stylesheet" href="../lab-style.css">
+<style>
+.lab-cmd-block{background:#0d1a2e;border-radius:6px;padding:10px 14px;margin:7px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(255,255,255,0.07);}
+.lab-cmd-block code{font-family:'Courier New',Courier,monospace;font-size:12px;color:#7ee787;flex:1;line-height:1.7;white-space:pre-wrap;}
+.lab-cmd-copy{flex-shrink:0;align-self:flex-start;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:4px;color:rgba(255,255,255,0.45);font-size:10.5px;padding:2px 8px;cursor:pointer;font-family:'Epilogue',sans-serif;letter-spacing:0.04em;transition:background 0.15s,color 0.15s;}
+.lab-cmd-copy:hover,.lab-cmd-copy.copied{background:rgba(255,255,255,0.2);color:#fff;}
+.lab-cmd-note{background:rgba(30,120,255,0.07);border-left:3px solid rgba(30,120,255,0.3);padding:7px 11px;border-radius:0 4px 4px 0;font-size:12px;color:var(--text-soft);margin:7px 0;font-family:'Epilogue',sans-serif;line-height:1.6;}
+.lab-cmd-success{background:rgba(34,160,73,0.07);border-left:3px solid rgba(34,160,73,0.35);padding:7px 11px;border-radius:0 4px 4px 0;font-size:12px;color:#1a7f38;margin:7px 0;font-family:'Epilogue',sans-serif;line-height:1.6;font-weight:600;}
+.lab-cmd-warn{background:rgba(247,185,48,0.08);border-left:3px solid rgba(247,185,48,0.45);padding:9px 12px;border-radius:0 4px 4px 0;font-size:12px;color:#7a5a00;margin:0 0 14px;font-family:'Epilogue',sans-serif;line-height:1.6;}
+</style>
 </head>
 <body>
 
@@ -175,7 +184,7 @@
       <!-- Configuration Requirements -->
       <div class="task-block" style="margin-top:28px;">
         <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
-        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all three requirements in the ZIA Admin Portal. Check each one off as you complete it.</p>
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all four requirements. Check each one off as you complete it.</p>
 
         <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">NSS Server · ZIA Admin Portal → Administration → Nanolog Streaming Service → NSS Servers</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
@@ -206,7 +215,7 @@
         </div>
 
         <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">NSS Feed · ZIA Admin Portal → Administration → Nanolog Streaming Service → NSS Feeds</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
@@ -231,22 +240,107 @@
             </div>
           </div>
 
+        </div>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">SIEM Server Setup · Corp: SIEM Server (10.0.0.2) — Ubuntu Linux</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
               <input type="checkbox" id="chk-4-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Verify log records arrive at the SIEM</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">SSH into the SIEM VM (10.0.0.2) and confirm blocked-traffic log records are being received on TCP 514 in CSV format.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Set up rsyslog on the SIEM Server to receive logs</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Install and configure rsyslog on Corp: SIEM Server (10.0.0.2) to listen on TCP 514 and write incoming NSS records to <code style="font-size:11px;">/var/log/syslog</code>. Complete this before testing the NSS Feed.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:0 16px 14px 44px;">
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Generate some blocked web traffic from the Corp: Client PC VM (visit a blocked URL category)</li>
-                  <li>SSH into the SIEM VM at 10.0.0.2</li>
-                  <li>Tail the syslog or relevant log file (e.g. tail -f /var/log/syslog)</li>
-                  <li>Confirm blocked traffic records appear in CSV format</li>
+              <div style="display:none;padding:12px 16px 16px 44px;">
+
+                <div class="lab-cmd-warn"><strong>⚠ Check your VM first:</strong> SSH into the <strong>SIEM Server (10.0.0.2)</strong>, NOT the NSS Server (10.0.0.4).<br>Credentials: username <code style="font-size:11px;background:rgba(0,0,0,0.08);padding:1px 4px;border-radius:3px;">zscaler</code> / password <code style="font-size:11px;background:rgba(0,0,0,0.08);padding:1px 4px;border-radius:3px;">Zscaler123!</code></div>
+
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.9;">
+
+                  <li style="margin-bottom:10px;">
+                    <span style="font-weight:600;color:var(--navy);">Update package lists</span>
+                    <div class="lab-cmd-block"><code>sudo apt-get update</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                  </li>
+
+                  <li style="margin-bottom:10px;">
+                    <span style="font-weight:600;color:var(--navy);">Install rsyslog</span>
+                    <div class="lab-cmd-block"><code>sudo apt-get install rsyslog -y</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                  </li>
+
+                  <li style="margin-bottom:10px;">
+                    <span style="font-weight:600;color:var(--navy);">Enable TCP reception in rsyslog.conf</span> — open the config file:
+                    <div class="lab-cmd-block"><code>sudo nano /etc/rsyslog.conf</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    Uncomment (or add) these two lines to enable TCP input on port 514:
+                    <div class="lab-cmd-block"><code>module(load="imtcp")
+input(type="imtcp" port="514")</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    Also add this rule at the bottom of the file to write all received logs to syslog:
+                    <div class="lab-cmd-block"><code>*.* /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    <div class="lab-cmd-note">💡 In nano: <strong>Ctrl+O</strong> to save, then <strong>Ctrl+X</strong> to exit.</div>
+                  </li>
+
+                  <li style="margin-bottom:10px;">
+                    <span style="font-weight:600;color:var(--navy);">Create the syslog file and set permissions</span>
+                    <div class="lab-cmd-block"><code>sudo touch /var/log/syslog
+sudo chmod 640 /var/log/syslog
+sudo chown syslog:adm /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    Create the remotelogs directory to prevent permission errors:
+                    <div class="lab-cmd-block"><code>sudo mkdir -p /var/log/remotelogs
+sudo chown -R syslog:syslog /var/log/remotelogs
+sudo chmod -R 755 /var/log/remotelogs</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                  </li>
+
+                  <li style="margin-bottom:10px;">
+                    <span style="font-weight:600;color:var(--navy);">Start and enable rsyslog</span>
+                    <div class="lab-cmd-block"><code>sudo systemctl start rsyslog
+sudo systemctl enable rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                  </li>
+
+                  <li>
+                    <span style="font-weight:600;color:var(--navy);">Restart and verify status</span>
+                    <div class="lab-cmd-block"><code>sudo systemctl restart rsyslog
+sudo systemctl status rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    <div class="lab-cmd-success">✅ Look for <strong>Active: active (running)</strong> in the output before proceeding.</div>
+                  </li>
+
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Verification · Corp: SIEM Server (10.0.0.2)</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-4-4" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">4 · Verify blocked log records arrive at the SIEM</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Generate blocked traffic from the Client PC, then tail <code style="font-size:11px;">/var/log/syslog</code> on the SIEM VM to confirm NSS records are arriving in CSV format.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:12px 16px 16px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.9;">
+                  <li style="margin-bottom:10px;">
+                    From Corp: Client PC (192.168.1.1), browse to a blocked URL category (e.g. <code style="font-size:11.5px;">www.freeslots-machines.com</code>) to generate a blocked event.
+                  </li>
+                  <li style="margin-bottom:10px;">
+                    <span style="font-weight:600;color:var(--navy);">Check the syslog file exists on the SIEM</span>
+                    <div class="lab-cmd-block"><code>ls -la /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                  </li>
+                  <li style="margin-bottom:10px;">
+                    <span style="font-weight:600;color:var(--navy);">Watch for incoming log records in real time</span>
+                    <div class="lab-cmd-block"><code>sudo tail -f /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                    <div class="lab-cmd-success">✅ You should see comma-separated log entries appear within seconds of the blocked browse event.</div>
+                    <div class="lab-cmd-note">💡 Press <strong>Ctrl+C</strong> to exit tail when done.</div>
+                  </li>
                 </ol>
               </div>
             </div>
@@ -259,9 +353,10 @@
       <div class="callout callout-success" style="margin-top:24px;">
         <p><strong>Testing Requirements</strong></p>
         <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.7;">
-          <li>Generate blocked web traffic (visit a URL in a blocked category).</li>
-          <li>SSH to the SIEM VM at 10.0.0.2 and tail the syslog or relevant log file.</li>
-          <li>Confirm blocked traffic records appear in CSV format with the correct fields.</li>
+          <li>On Corp: SIEM Server (10.0.0.2), run <code style="font-size:12px;">sudo systemctl status rsyslog</code> — confirm it shows <strong>active (running)</strong>.</li>
+          <li>From Corp: Client PC (192.168.1.1), browse to a blocked site (e.g. <code style="font-size:12px;">www.freeslots-machines.com</code>) to generate a blocked event.</li>
+          <li>On the SIEM, run <code style="font-size:12px;">sudo tail -f /var/log/syslog</code> and confirm CSV log records appear within seconds.</li>
+          <li>In ZIA Admin Portal → Analytics → Web Insights, confirm the same block event is visible with the correct action and URL category.</li>
         </ol>
       </div>
 
@@ -303,7 +398,7 @@
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">NSS has two parts: (1) the NSS Server (the VM that receives logs from the Zscaler cloud) and (2) the NSS Feed (the policy defining what logs to send, where, and in what format). Block-only filtering keeps SIEM volume manageable — you only send what needs action.</div>
+          <div class="mental-note-block-text">Three things must align for logs to flow: (1) NSS Server — the VM registered in ZIA (10.0.0.4/10.0.0.5), (2) NSS Feed — defines CSV format, block-only filter, SIEM dest 10.0.0.2:514, (3) rsyslog on the SIEM — must be listening on TCP 514 before the feed delivers records. All three are required; missing any one and logs silently never arrive.</div>
         </div>
       </div>
 
@@ -317,7 +412,8 @@
       <div class="checklist-title">LAB 4 PROGRESS</div>
       <label class="checklist-item"><input type="checkbox" id="chk-4-1" disabled><span>NSS Server added (10.0.0.4 / 10.0.0.5)</span></label>
       <label class="checklist-item"><input type="checkbox" id="chk-4-2" disabled><span>NSS Feed configured (CSV, block-only, 10.0.0.2:514)</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-3" disabled><span>Log records verified at SIEM</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-3" disabled><span>rsyslog set up on SIEM (TCP 514)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-4" disabled><span>Blocked log records verified at SIEM</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -372,7 +468,7 @@ const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
 const FOOTER_KEY='edu302-footer-collapsed';
 const PAGE_KEY='edu302-lab-lab4';
 var SECTION_IDS=['t4-1'];
-var CHK_IDS=['chk-4-1','chk-4-2','chk-4-3'];
+var CHK_IDS=['chk-4-1','chk-4-2','chk-4-3','chk-4-4'];
 
 function toggleConfig(){
   var panel=document.getElementById('config-panel');
@@ -512,6 +608,14 @@ function toggleReqHow(btn){
   var open=body.style.display==='none';
   body.style.display=open?'block':'none';
   btn.innerHTML=(open?'▾ ':'▸ ')+'How to do it';
+}
+function copyCmd(btn){
+  var code=btn.previousElementSibling;
+  if(!code)return;
+  navigator.clipboard.writeText(code.innerText.trim()).then(function(){
+    var orig=btn.textContent;btn.textContent='✓ copied';btn.classList.add('copied');
+    setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1500);
+  }).catch(function(){});
 }
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
