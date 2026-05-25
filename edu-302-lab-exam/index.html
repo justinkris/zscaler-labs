@@ -45,6 +45,8 @@
 .req-list ol,.req-list ul{margin:4px 0;padding-left:18px;}
 .sidebar-section{margin-bottom:16px;}
 .sidebar-label{font-size:10px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-muted,#6b7280);margin-bottom:6px;}
+.req-chk{margin:0 7px 0 0;vertical-align:2px;cursor:pointer;accent-color:#1a56db;flex-shrink:0;}
+.req-list li.req-done{opacity:0.38;}
 </style>
 </head>
 <body>
@@ -1034,10 +1036,33 @@ function toggleTask(header){
     h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});
   });
 })();
+function saveReqCheck(el){
+  try{var s=JSON.parse(localStorage.getItem(PAGE_KEY+'-req')||'{}');s[el.id]=el.checked;localStorage.setItem(PAGE_KEY+'-req',JSON.stringify(s));}catch(e){}
+  var li=el.parentElement;if(li)li.classList.toggle('req-done',el.checked);
+}
+function loadReqChecks(){
+  try{var s=JSON.parse(localStorage.getItem(PAGE_KEY+'-req')||'{}');Object.keys(s).forEach(function(id){var el=document.getElementById(id);if(el){el.checked=s[id];var li=el.parentElement;if(li)li.classList.toggle('req-done',s[id]);}});}catch(e){}
+}
+function injectReqCheckboxes(){
+  for(var t=1;t<=9;t++){
+    var taskEl=document.getElementById('task-e'+t);
+    if(!taskEl)continue;
+    taskEl.querySelectorAll('.req-list > li').forEach(function(li,idx){
+      var tNum=li.closest('.task-collapsible').id.replace('task-e','');
+      var chkId='chk-t'+tNum+'-r'+(idx+1);
+      var chk=document.createElement('input');
+      chk.type='checkbox';chk.id=chkId;chk.className='req-chk';
+      chk.addEventListener('change',function(){saveReqCheck(this);});
+      li.insertBefore(chk,li.firstChild);
+    });
+  }
+  loadReqChecks();
+}
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  injectReqCheckboxes();
   document.querySelectorAll('.quick-ref').forEach(function(qr){qr.classList.add('open');});
   document.querySelectorAll('.page-nav-btn a').forEach(function(a){a.addEventListener('click',function(){try{sessionStorage.setItem('pt','1');}catch(e){}});});
 });
