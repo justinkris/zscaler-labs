@@ -1,0 +1,146 @@
+EDU-302 — Zscaler Digital Delivery Consultant
+Reference Links from "Where to Get Help" Sections
+================================================================
+
+LAB 1 · Configure Identity Services
+────────────────────────────────────────────────────────────
+Zscaler Help — Managing Departments in ZIdentity
+https://help.zscaler.com/zidentity/managing-departments
+
+Zscaler Help — Managing Users in ZIdentity
+https://help.zscaler.com/zidentity/managing-users
+
+Zscaler Help — Zscaler Support Remote Assistance
+https://help.zscaler.com/zidentity/enabling-remote-assistance
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 2 · ZIA and ZPA Traffic Forwarding
+────────────────────────────────────────────────────────────
+Zscaler Help — Configuring Forwarding Profiles
+https://help.zscaler.com/client-connector/configuring-forwarding-profiles
+
+Zscaler Help — Configuring ZCC Profiles
+https://help.zscaler.com/client-connector/configuring-zcc-profiles
+
+Zscaler Help — Configuring Re-authentication Policy
+https://help.zscaler.com/zpa/configuring-reauthentication-policy
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 3 · Configure ZIA Policy
+────────────────────────────────────────────────────────────
+Zscaler Help — About SSL Inspection
+https://help.zscaler.com/zia/about-ssl-inspection
+
+Zscaler Help — Certificate Pinning and SSL Inspection
+https://help.zscaler.com/zia/certificate-pinning-and-ssl-inspection
+
+Zscaler Help — About URL Filtering
+https://help.zscaler.com/zia/about-url-filtering
+
+Zscaler Help — About Cloud App Control Policy
+https://help.zscaler.com/zia/about-cloud-app-control-policy
+
+Zscaler Help — About Firewall Policies
+https://help.zscaler.com/zia/about-firewall-policies
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 4 · ZIA Logging & Reporting (NSS)
+────────────────────────────────────────────────────────────
+Zscaler Help — Nanolog Streaming Service Overview
+https://help.zscaler.com/zia/about-nanolog-streaming-service
+
+Zscaler Help — Configuring NSS Feeds
+https://help.zscaler.com/zia/adding-nss-feeds
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 5 · Configure ZPA Policy
+────────────────────────────────────────────────────────────
+Zscaler Help — ZPA App Connector Provisioning
+https://help.zscaler.com/zpa/about-app-connectors
+
+Zscaler Help — Configuring Application Segments
+https://help.zscaler.com/zpa/configuring-application-segments
+
+Zscaler Help — ZPA Access Policy
+https://help.zscaler.com/zpa/configuring-access-policies
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 6 · Configure ZPA Logging & Reporting (LSS)
+────────────────────────────────────────────────────────────
+Zscaler Help — Configuring LSS
+https://help.zscaler.com/zpa/about-log-streaming-service
+
+Zscaler Help — ZPA Log Types Reference
+https://help.zscaler.com/zpa/log-streaming-service-log-types
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 7 · Protect HIPAA Documents (DLP)
+────────────────────────────────────────────────────────────
+Zscaler Help — ZIA DLP Policy Configuration
+https://help.zscaler.com/zia/configuring-dlp-policies
+
+Zscaler Help — DLP Dictionaries Reference
+https://help.zscaler.com/zia/managing-dlp-dictionaries-and-engines
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 8 · ZDX Custom App & Probes
+────────────────────────────────────────────────────────────
+Zscaler Help — ZDX Custom Applications
+https://help.zscaler.com/zdx/adding-custom-application
+
+Zscaler Help — ZDX Web Probes
+https://help.zscaler.com/zdx/about-probes
+
+Zscaler Help — ZDX Cloud Path Probes
+https://help.zscaler.com/zdx/configuring-probe
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 9 · ZDX Custom Alert
+────────────────────────────────────────────────────────────
+Zscaler Help — ZDX Custom Alerts
+https://help.zscaler.com/zdx/configuring-alerts
+
+Zscaler Help — ZDX Alert Criteria Reference
+https://help.zscaler.com/zdx/about-alerts
+
+Zscaler Community Forums
+https://community.zscaler.com
+
+
+LAB 10 · Zero Trust Automation (OneAPI)
+────────────────────────────────────────────────────────────
+Zscaler Help — ZIdentity OneAPI Client Configuration
+https://help.zscaler.com/oneapi/understanding-oneapi-endpoints
+
+Zscaler Help — ZIA API Reference
+https://help.zscaler.com/zia/url-filtering-policy#/urlFilteringRules-post
+
+Postman Documentation
+https://help.zscaler.com/oneapi/configuring-postman-rest-api-client
+
+Zscaler Community Forums
+https://community.zscaler.com
