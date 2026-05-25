@@ -37,17 +37,24 @@
   <div class="config-body" id="config-body">
     <div class="config-grid">
       <div class="config-field">
-        <label for="prefix-input">Student Prefix</label>
+        <label for="zid-url-input">ZIdentity URL</label>
         <div class="config-field-row">
-          <input type="text" id="prefix-input" placeholder="e.g. zs4803" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+          <input type="text" id="zid-url-input" placeholder="e.g. zs4803safemarch.zslogin.net" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('zid-url-input',this)" title="Copy">⎘</button>
         </div>
       </div>
       <div class="config-field">
-        <label for="pass-input">Lab Session Password</label>
+        <label for="student-admin-input">Student Admin Email</label>
         <div class="config-field-row">
-          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+          <input type="text" id="student-admin-input" placeholder="student@zs4803.safemarch.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('student-admin-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="student-pass-input">Student Password</label>
+        <div class="config-field-row">
+          <input type="text" id="student-pass-input" placeholder="e.g. zs4803+Y0urZDDC" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('student-pass-input',this)" title="Copy">⎘</button>
         </div>
       </div>
       <div class="config-actions">
@@ -56,11 +63,7 @@
       </div>
     </div>
     <div class="config-derived" id="config-derived">
-      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">YOUR ZIDENTITY TENANT</div>
-      <span><strong>ZIdentity URL:</strong> <code id="d-zid-url">zs4803safemarch.zslogin.net</code></span>
-      <span><strong>Student Admin:</strong> <code id="d-student-admin">student@zs4803.safemarch.com</code></span>
-      <span><strong>Student Password:</strong> <code id="d-student-pass">zs4803+Y0urZDDC</code></span>
-      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin:8px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">LAB CREDENTIALS (fixed)</div>
+      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">LAB CREDENTIALS (fixed)</div>
       <span><strong>ZIA Admin:</strong> <code>ptcb83-ADMIN@thezerotrustexchange.com</code></span>
       <span><strong>IT Dept:</strong> <code>ptcb83-IT@thezerotrustexchange.com</code></span>
       <span><strong>HR Dept:</strong> <code>ptcb83-HR@thezerotrustexchange.com</code></span>
@@ -398,41 +401,35 @@ function updateSidebarOffset(){
 }
 (function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
 function updateToggleSummary(){
-  var prefix=document.getElementById('prefix-input').value.trim();
+  var zidUrl=document.getElementById('zid-url-input').value.trim();
   var s=document.getElementById('config-toggle-summary');
-  s.textContent=prefix?' — '+prefix:'';
+  s.textContent=zidUrl?' — '+zidUrl:'';
 }
 function applyConfig(){
-  var prefix=document.getElementById('prefix-input').value.trim();
-  var pass=document.getElementById('pass-input').value.trim();
-  var zidUrl=prefix?prefix+'safemarch.zslogin.net':'zs4803safemarch.zslogin.net';
-  var studentAdmin=prefix?'student@'+prefix+'.safemarch.com':'student@zs4803.safemarch.com';
-  var studentPass=prefix?prefix+'+Y0urZDDC':'zs4803+Y0urZDDC';
-  var domain=prefix?prefix+'.safemarch.com':'zs4803.safemarch.com';
-  var cd=prefix?prefix.slice(-2):'03';
-  var el;
-  el=document.getElementById('d-zid-url');if(el)el.textContent=zidUrl;
-  el=document.getElementById('d-student-admin');if(el)el.textContent=studentAdmin;
-  el=document.getElementById('d-student-pass');if(el)el.textContent=studentPass;
+  var zidUrl=document.getElementById('zid-url-input').value.trim()||'zs4803safemarch.zslogin.net';
+  var studentAdmin=document.getElementById('student-admin-input').value.trim()||'student@zs4803.safemarch.com';
+  var studentPass=document.getElementById('student-pass-input').value.trim()||'zs4803+Y0urZDDC';
+  var prefixMatch=zidUrl.match(/^([a-z0-9]+)safemarch\./i);
+  var prefix=prefixMatch?prefixMatch[1]:'zs4803';
+  var domain=prefix+'.safemarch.com';
+  var cd=prefix.slice(-2);
   document.querySelectorAll('.d-zid-url').forEach(function(e){e.textContent=zidUrl;});
   document.querySelectorAll('.d-student-admin').forEach(function(e){e.textContent=studentAdmin;});
   document.querySelectorAll('.d-student-pass').forEach(function(e){e.textContent=studentPass;});
   document.querySelectorAll('.d-safemarch-domain').forEach(function(e){e.textContent=domain;});
-  document.querySelectorAll('.d-safemarch-prefix').forEach(function(e){e.textContent=prefix||'zs4803';});
+  document.querySelectorAll('.d-safemarch-prefix').forEach(function(e){e.textContent=prefix;});
   document.querySelectorAll('.d-cd').forEach(function(e){e.textContent=cd;});
-  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='89+jZ+Hq';el.classList.remove('filled');}});
 }
 function loadConfig(){
   try{
     var saved=localStorage.getItem(CONFIG_KEY);
-    if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}
-    else{document.getElementById('prefix-input').value='zs4803';document.getElementById('pass-input').value='89+jZ+Hq';}
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('zid-url-input').value=cfg.zidUrl||'';document.getElementById('student-admin-input').value=cfg.studentAdmin||'';document.getElementById('student-pass-input').value=cfg.studentPass||'';}
     if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
-  }catch(e){document.getElementById('prefix-input').value='zs4803';document.getElementById('pass-input').value='89+jZ+Hq';}
+  }catch(e){}
   applyConfig();updateToggleSummary();updateSidebarOffset();
 }
 function saveConfig(){
-  var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
+  var cfg={zidUrl:document.getElementById('zid-url-input').value.trim(),studentAdmin:document.getElementById('student-admin-input').value.trim(),studentPass:document.getElementById('student-pass-input').value.trim()};
   try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
   applyConfig();updateToggleSummary();
   var btn=document.querySelector('.config-btn');var orig=btn.textContent;
@@ -440,7 +437,7 @@ function saveConfig(){
   setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
 }
 function clearConfig(){
-  document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';
+  document.getElementById('zid-url-input').value='';document.getElementById('student-admin-input').value='';document.getElementById('student-pass-input').value='';
   try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
   applyConfig();updateToggleSummary();
 }
@@ -448,7 +445,7 @@ function copyConfigField(id,btn){
   var val=document.getElementById(id).value.trim();if(!val)return;
   navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
 }
-['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+['zid-url-input','student-admin-input','student-pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}

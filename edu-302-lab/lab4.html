@@ -7,20 +7,78 @@
 <title>Lab 4: Configure ZIA Logging &amp; Reporting — EDU-302</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>html.pt-init body{opacity:0;}</style>
 <link rel="stylesheet" href="../lab-style.css">
 <style>
-.lab-cmd-block{background:#0d1a2e;border-radius:6px;padding:10px 14px;margin:7px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(255,255,255,0.07);}
-.lab-cmd-block code{font-family:'Courier New',Courier,monospace;font-size:12px;color:#7ee787;flex:1;line-height:1.7;white-space:pre-wrap;}
-.lab-cmd-copy{flex-shrink:0;align-self:flex-start;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:4px;color:rgba(255,255,255,0.45);font-size:10.5px;padding:2px 8px;cursor:pointer;font-family:'Epilogue',sans-serif;letter-spacing:0.04em;transition:background 0.15s,color 0.15s;}
-.lab-cmd-copy:hover,.lab-cmd-copy.copied{background:rgba(255,255,255,0.2);color:#fff;}
+/* ── COMMAND BLOCKS (light blue / navy) ── */
+.lab-cmd-block{background:#e8f0fe;border-radius:6px;padding:10px 14px;margin:7px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #c3d4f7;}
+.lab-cmd-block code{font-family:'JetBrains Mono',monospace;font-size:12px;color:#0d1a2e;flex:1;line-height:1.7;white-space:pre-wrap;}
+.lab-cmd-copy{flex-shrink:0;align-self:flex-start;background:rgba(13,26,46,0.07);border:1px solid rgba(13,26,46,0.18);border-radius:4px;color:rgba(13,26,46,0.5);font-size:10.5px;padding:2px 8px;cursor:pointer;font-family:'Epilogue',sans-serif;letter-spacing:0.04em;transition:background 0.15s,color 0.15s;}
+.lab-cmd-copy:hover,.lab-cmd-copy.copied{background:rgba(13,26,46,0.15);color:#0d1a2e;}
 .lab-cmd-note{background:rgba(30,120,255,0.07);border-left:3px solid rgba(30,120,255,0.3);padding:7px 11px;border-radius:0 4px 4px 0;font-size:12px;color:var(--text-soft);margin:7px 0;font-family:'Epilogue',sans-serif;line-height:1.6;}
 .lab-cmd-success{background:rgba(34,160,73,0.07);border-left:3px solid rgba(34,160,73,0.35);padding:7px 11px;border-radius:0 4px 4px 0;font-size:12px;color:#1a7f38;margin:7px 0;font-family:'Epilogue',sans-serif;line-height:1.6;font-weight:600;}
 .lab-cmd-warn{background:rgba(247,185,48,0.08);border-left:3px solid rgba(247,185,48,0.45);padding:9px 12px;border-radius:0 4px 4px 0;font-size:12px;color:#7a5a00;margin:0 0 14px;font-family:'Epilogue',sans-serif;line-height:1.6;}
+/* ── CONFIG FILE BLOCKS ── */
 .lab-cfg-block{background:rgba(13,26,46,0.03);border:1px solid var(--border);border-radius:6px;margin:7px 0;overflow:hidden;}
 .lab-cfg-label{font-family:'Epilogue',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase;padding:5px 12px;background:rgba(13,26,46,0.06);border-bottom:1px solid var(--border-dim);display:block;}
-.lab-cfg-block code{display:block;font-family:'Courier New',Courier,monospace;font-size:12px;color:#1e4d8c;padding:10px 12px;line-height:1.7;white-space:pre-wrap;}
+.lab-cfg-block code{display:block;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1e4d8c;padding:10px 12px;line-height:1.7;white-space:pre-wrap;}
+/* ── DARK CODE BLOCKS (terminal) ── */
+.code-block{background:#0d1a2e;border-radius:8px;padding:14px 18px;margin:10px 0;overflow-x:auto;}
+.code-block pre{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#e2eaf4;line-height:1.7;white-space:pre;}
+.code-block .comment{color:#5a7a9a;}
+.code-block .cmd{color:#93c5fd;}
+.code-block-label{font-size:9px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;font-family:'Epilogue',sans-serif;}
+/* ── NAV PATH ── */
+.nav-path{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin:10px 0;flex-wrap:wrap;}
+.nav-path span{color:var(--text-soft);font-weight:500;}
+.nav-path .sep{color:var(--text-muted);font-size:14px;}
+.nav-path .final{color:var(--blue);font-weight:600;}
+/* ── FLOW DIAGRAM ── */
+.flow-diagram{background:#0d1a2e;border-radius:10px;padding:20px 24px;margin:14px 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:#93c5fd;line-height:1.9;overflow-x:auto;}
+.flow-diagram .f-comment{color:#5a7a9a;}
+.flow-diagram .f-cmd{color:#e2eaf4;}
+/* ── CREDS TABLE ── */
+.creds-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0;}
+.creds-table th{background:var(--surface-3,#eef0f5);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);padding:6px 12px;text-align:left;font-weight:700;}
+.creds-table td{padding:8px 12px;border-bottom:1px solid var(--border-dim);color:var(--text-soft);}
+.creds-table td code{background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:12px;color:var(--text);}
+.creds-table tr:last-child td{border-bottom:none;}
+/* ── CONFIG TABLE ── */
+.config-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+.config-table th{background:var(--navy,#0d1a2e);color:#93c5fd;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 14px;text-align:left;font-weight:700;}
+.config-table td{padding:9px 14px;border-bottom:1px solid var(--border-dim);color:var(--text-soft);vertical-align:top;}
+.config-table tr:last-child td{border-bottom:none;}
+.config-table tr:nth-child(even) td{background:var(--surface-2);}
+.config-table td code{background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:12px;color:var(--text);}
+.config-table td strong{color:var(--text);font-weight:600;}
+.required-badge{background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.3);font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:1px 6px;border-radius:4px;margin-left:4px;}
+/* ── TROUBLE TABLE ── */
+.trouble-table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0;}
+.trouble-table th{background:#7c1d1d;color:#fca5a5;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 14px;text-align:left;font-weight:700;}
+.trouble-table td{padding:9px 14px;border-bottom:1px solid var(--border-dim);color:var(--text-soft);vertical-align:top;}
+.trouble-table tr:last-child td{border-bottom:none;}
+.trouble-table tr:nth-child(even) td{background:var(--surface-2);}
+.trouble-table td:first-child{color:#dc2626;font-weight:600;font-size:12.5px;}
+/* ── SECTION CHIP ── */
+.section-chip{background:var(--navy,#0d1a2e);color:#93c5fd;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-right:4px;}
+.section-heading-lab{font-size:1.05rem;font-weight:700;color:var(--text);margin:32px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px;}
+/* ── TASK COLLAPSIBLE ── */
+.task-collapsible{border:1px solid var(--border,#dde1e7);border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:var(--surface-2,#f7f8fa);border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:var(--border);background:var(--surface-3,#eef0f5);}
+.task-collapsible-header:hover{background:var(--surface-3,#eef0f5);}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:var(--navy,#1a1a2e);color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:var(--text);flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+/* ── SUB STEPS ── */
+.sub-steps{list-style:none;padding:6px 0 2px 16px;margin-top:4px;}
+.sub-steps li{position:relative;padding:4px 0 4px 16px;font-size:13px;color:var(--text-soft);line-height:1.6;}
+.sub-steps li::before{content:'–';color:var(--text-muted);position:absolute;left:0;top:5px;}
+.sub-steps code{background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:12px;color:var(--text);}
 </style>
 </head>
 <body>
@@ -49,17 +107,24 @@
   <div class="config-body" id="config-body">
     <div class="config-grid">
       <div class="config-field">
-        <label for="prefix-input">Student Prefix</label>
+        <label for="zid-url-input">ZIdentity URL</label>
         <div class="config-field-row">
-          <input type="text" id="prefix-input" placeholder="e.g. zs4803" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+          <input type="text" id="zid-url-input" placeholder="e.g. zs4803safemarch.zslogin.net" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('zid-url-input',this)" title="Copy">⎘</button>
         </div>
       </div>
       <div class="config-field">
-        <label for="pass-input">Lab Session Password</label>
+        <label for="student-admin-input">Student Admin Email</label>
         <div class="config-field-row">
-          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+          <input type="text" id="student-admin-input" placeholder="student@zs4803.safemarch.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('student-admin-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="student-pass-input">Student Password</label>
+        <div class="config-field-row">
+          <input type="text" id="student-pass-input" placeholder="e.g. zs4803+Y0urZDDC" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('student-pass-input',this)" title="Copy">⎘</button>
         </div>
       </div>
       <div class="config-actions">
@@ -68,20 +133,14 @@
       </div>
     </div>
     <div class="config-derived" id="config-derived">
-      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">YOUR ZIDENTITY TENANT</div>
-      <span><strong>ZIdentity URL:</strong> <code id="d-zid-url">zs4803safemarch.zslogin.net</code></span>
-      <span><strong>Student Admin:</strong> <code id="d-student-admin">student@zs4803.safemarch.com</code></span>
-      <span><strong>Student Password:</strong> <code id="d-student-pass">zs4803+Y0urZDDC</code></span>
-      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin:8px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">LAB CREDENTIALS (fixed)</div>
-      <span><strong>ZIA Admin:</strong> <code>ptcb83-ADMIN@thezerotrustexchange.com</code></span>
-      <span><strong>IT Dept:</strong> <code>ptcb83-IT@thezerotrustexchange.com</code></span>
-      <span><strong>HR Dept:</strong> <code>ptcb83-HR@thezerotrustexchange.com</code></span>
-      <span><strong>MKT Dept:</strong> <code>ptcb83-MKT@thezerotrustexchange.com</code></span>
-      <span><strong>Contractor:</strong> <code>ptcb83-CON@thezerotrustexchange.com</code></span>
-      <span><strong>OT User:</strong> <code>ptcb83-OT@thezerotrustexchange.com</code></span>
-      <span><strong>Sales:</strong> <code>ptcb83-SALES@thezerotrustlab.com</code></span>
+      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">LAB TOPOLOGY (fixed)</div>
+      <span><strong>NSS Mgmt (eth0):</strong> <code>10.0.0.4</code></span>
+      <span><strong>NSS Service (eth1):</strong> <code>10.0.0.5</code></span>
+      <span><strong>SIEM Server:</strong> <code>10.0.0.2</code></span>
+      <span><strong>Corp: Win Svr:</strong> <code>10.0.0.8</code></span>
+      <span><strong>Gateway / DNS:</strong> <code>10.0.0.254</code></span>
+      <span><strong>Syslog Port:</strong> <code>514</code></span>
       <span><strong>ZIA Portal:</strong> <code>https://admin.zscalerthree.net</code></span>
-      <span><strong>Session Password:</strong> <code class="var-pass">89+jZ+Hq</code></span>
     </div>
   </div>
 </div>
@@ -113,30 +172,32 @@
 
 <main>
   <div class="content-col">
-
     <div class="section-block" id="section-lab4">
+
       <h2>Lab 4: Configure ZIA Logging &amp; Reporting</h2>
 
       <div class="lab-header-card">
         <div class="lab-badge">LAB 4</div>
-        <p><strong>Scenario:</strong> Safemarch needs blocked web traffic events to stream in real time from ZIA to the on-premises SIEM for threat analysis and compliance reporting. You will add the NSS VM, configure an NSS Feed, and verify log records arrive at the SIEM.</p>
+        <p><strong>Scenario:</strong> Safemarch needs blocked web traffic events to stream in real time from ZIA to the on-premises SIEM for threat analysis and compliance reporting. You will configure the full pipeline: ZIA portal → NSS VM → SIEM running rsyslog, streaming only blocked-transaction records in CSV format.</p>
         <figure class="lab-hero">
           <img src="images/lab4-hero.png" alt="Lab 4 — Configure ZIA Logging and Reporting" loading="lazy">
         </figure>
         <div class="lab-meta">
-          <div class="lab-meta-item"><strong>Time:</strong> ~30 min</div>
-          <div class="lab-meta-item"><strong>Portal:</strong> ZIA Admin (https://admin.zscalerthree.net)</div>
+          <div class="lab-meta-item"><strong>Time:</strong> ~45–60 min</div>
+          <div class="lab-meta-item"><strong>Products:</strong> ZIA, NSS VM, rsyslog</div>
+          <div class="lab-meta-item"><strong>Prerequisite:</strong> Lab 3 policies active (generates blocked traffic)</div>
         </div>
       </div>
 
+      <!-- ── SOCRATIC BLOCK ── -->
       <div class="socratic-block" id="soc-lab4">
         <div class="socratic-header">
           <span class="socratic-icon">💭</span>
-          <span class="socratic-label">THINK FIRST · ZIA LOG STREAMING</span>
+          <span class="socratic-label">THINK FIRST · NSS Architecture</span>
         </div>
-        <p class="socratic-insight">NSS is Zscaler's bridge between cloud-generated logs and your on-premises SIEM — without it, your security team is flying blind during an incident.</p>
+        <p class="socratic-insight">Before touching the portal, make sure you can reason through how the three components trust each other. The most common exam mistake is treating NSS as a simple syslog forwarder — it's a cloud-connected log decoder with a specific certificate-based trust model.</p>
         <ul class="socratic-questions">
-          <li>Why would you filter the NSS feed to stream only "blocked" web transactions rather than all traffic — what is the operational benefit and what do you lose?
+          <li>If NSS doesn't need to register an IP address in the ZIA portal, what mechanism does Zscaler use to authenticate which NSS VM belongs to which tenant?
             <div class="answer-area" data-section="lab4-q1">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
@@ -146,12 +207,12 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q1 — MODEL ANSWER</div>
-                  <div class="model-answer-text">Streaming only blocked transactions dramatically reduces log volume — a 1,000-user organisation might generate millions of allowed transactions per day but only thousands of blocked ones. This makes SIEM storage costs manageable and reduces analyst fatigue (less noise). What you lose: you cannot do retrospective analysis of allowed traffic for threat hunting. A more complete deployment streams all transactions but applies SIEM-side filters. For this lab, blocked-only is the baseline requirement.</div>
+                  <div class="model-answer-text">Authentication is entirely certificate-based. When you add an NSS Server object in ZIA, the portal generates a tenant-specific certificate (.pem). This certificate embeds your tenant identity and the correct Zscaler cloud endpoint. When NSS starts and reads that certificate, it knows which cloud cluster to connect to and presents the cert as its credential. Zscaler validates the cert — no IP registration is involved at all. This is why using another student's certificate will permanently show Disconnected.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>The NSS Server VM is at 10.0.0.4. What would happen if you configure the Management Interface and Service Interface with the same IP address?
+          <li>NSS has two network interfaces — Management (eth0) and Service (eth1). Which one connects to Zscaler cloud, and which one sends logs to your SIEM? Why does the separation matter?
             <div class="answer-area" data-section="lab4-q2">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
@@ -161,12 +222,12 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q2 — MODEL ANSWER</div>
-                  <div class="model-answer-text">The NSS VM uses two interfaces for a reason: the Management Interface (10.0.0.4/24) handles admin access and ZIA cloud connectivity for pulling logs, while the Service Interface (10.0.0.5/24) handles the actual log forwarding to the SIEM over TCP 514. Using the same IP for both would create routing conflicts — the VM's OS cannot simultaneously serve management traffic and high-throughput syslog forwarding on the same interface without careful QoS. Zscaler's NSS deployment guide requires separate IPs.</div>
+                  <div class="model-answer-text">Management (eth0 / 10.0.0.4) pulls nanolog data from Zscaler cloud over HTTPS port 443. Service (eth1 / 10.0.0.5) pushes decoded syslog to the SIEM on TCP 514. Separating them means your SIEM firewall rules only need to allow traffic from the service IP — not the management IP. When verifying log receipt on the SIEM, you filter by 10.0.0.5, not 10.0.0.4. Troubleshooting is also cleaner: no cloud connectivity = eth0 problem; no logs at SIEM = eth1 or feed problem.</div>
                 </div>
               </div>
             </div>
           </li>
-          <li>What is the purpose of using WinSCP to transfer the NSS certificate to the NSS Server VM rather than generating it on the VM?
+          <li>The NSS feed is configured to stream only blocked transactions. If no logs appear on the SIEM, what is the first thing you should rule out before blaming the network or rsyslog?
             <div class="answer-area" data-section="lab4-q3">
               <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
               <div class="answer-buttons">
@@ -176,7 +237,7 @@
               <div class="model-answers" style="display:none;">
                 <div class="model-answer-item">
                   <div class="model-answer-q">Q3 — MODEL ANSWER</div>
-                  <div class="model-answer-text">The NSS certificate is issued by ZIA when you provision the NSS server in the ZIA portal. The VM itself cannot generate this certificate — it comes from Zscaler's cloud authority. WinSCP (pre-installed on Corp: Win Svr) provides a GUI SFTP client that lets you transfer the downloaded certificate from the Windows Server to the Linux NSS VM without needing to set up SSH key auth or use command-line SCP. It's the path of least resistance in the lab environment.</div>
+                  <div class="model-answer-text">Rule out the filter first. The feed only streams records that match "blocked" policy action. If you haven't generated any blocked traffic from the client PC, there is nothing for NSS to send — even if the entire pipeline is working perfectly. Always generate a test block (e.g. browse to a gambling/gaming site) before concluding the SIEM isn't receiving logs.</div>
                 </div>
               </div>
             </div>
@@ -184,102 +245,412 @@
         </ul>
       </div>
 
-      <!-- Configuration Requirements -->
-      <div class="task-block" style="margin-top:28px;">
-        <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
-        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all four requirements. Check each one off as you complete it.</p>
+      <!-- ── ARCHITECTURE DIAGRAM ── -->
+      <h2 class="section-heading-lab"><span class="section-chip">Architecture</span> End-to-End Log Flow</h2>
+      <div class="flow-diagram"><pre><span class="f-comment">┌──────────────────────────────────────────────────────────────────┐
+│                      ZIA CLOUD (Nanologs)                        │
+│  Every transaction logged internally as compressed nanolog        │
+└─────────────────────────┬────────────────────────────────────────┘</span>
+                          │  HTTPS port 443 (outbound from NSS)
+                          │  Authenticated by tenant certificate
+                          ▼
+<span class="f-comment">┌──────────────────────────────────────────────────────────────────┐
+│                    NSS SERVER VM (10.0.0.0/24)                   │</span>
+<span class="f-cmd">│  eth0 / Management  10.0.0.4  ←  pulls nanologs from Zscaler     │
+│  eth1 / Service     10.0.0.5  →  pushes decoded syslog to SIEM   │</span>
+<span class="f-comment">│                                                                   │
+│  Applies feed filter: BLOCKED transactions only, CSV format       │
+└─────────────────────────┬────────────────────────────────────────┘</span>
+                          │  TCP Syslog port 514
+                          ▼
+<span class="f-comment">┌──────────────────────────────────────────────────────────────────┐
+│               SIEM SERVER  10.0.0.2  (rsyslog)                   │</span>
+<span class="f-cmd">│  Writes to: /var/log/remotelogs/10.0.0.5/&lt;program&gt;.log           │</span>
+<span class="f-comment">└──────────────────────────────────────────────────────────────────┘</span></pre></div>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">NSS Server · ZIA Admin Portal → Administration → Nanolog Streaming Service → NSS Servers</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+      <!-- ════════════════════════════════════
+           PART 1 — ZIA ADMIN PORTAL
+      ═════════════════════════════════════ -->
+      <h2 class="section-heading-lab"><span class="section-chip">Part 1</span> ZIA Admin Portal</h2>
 
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-4-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
-              <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Add the NSS VM as an NSS Server</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Type: NSS for Web. IP addresses: 10.0.0.4 and 10.0.0.5 (the NSS VM in Skytap). The VM must be running before you add it.</div>
-              </div>
-            </label>
-            <div style="border-top:1px solid var(--border-dim);">
-              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:0 16px 14px 44px;">
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Administration → Nanolog Streaming Service → NSS Servers</li>
-                  <li>Click Add NSS Server</li>
-                  <li>Set Type to NSS for Web</li>
-                  <li>Enter IP addresses: 10.0.0.4 and 10.0.0.5 (the NSS VM in Skytap)</li>
-                  <li>Ensure the NSS VM is running in Skytap before proceeding</li>
-                  <li>Click Save</li>
-                </ol>
+      <!-- TASK 4.1 -->
+      <div class="task-collapsible open" id="task-4-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 4.1</span>
+          <span class="task-collapsible-title">Add the NSS Server &amp; Download Certificate</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">1 · Navigate to NSS Servers</h4>
+            <div class="nav-path">
+              <span>ZIA Admin Portal</span><span class="sep">›</span>
+              <span>Administration</span><span class="sep">›</span>
+              <span>Nanolog Streaming Service</span><span class="sep">›</span>
+              <span class="final">NSS Servers</span>
+            </div>
+            <ol class="step-list">
+              <li>Click <strong>Add NSS Server</strong> (top right).</li>
+            </ol>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">2 · Configure NSS Server Fields</h4>
+            <table class="config-table">
+              <tr><th>Field</th><th>Value</th><th>Notes</th></tr>
+              <tr><td><strong>Name</strong> <span class="required-badge">required</span></td><td><code>Safemarch-NSS</code></td><td>Any descriptive name</td></tr>
+              <tr><td><strong>Type</strong> <span class="required-badge">required</span></td><td><code>NSS for Web</code></td><td>Use <em>NSS for Firewall</em> only for firewall logs</td></tr>
+              <tr><td><strong>Status</strong></td><td><code>Enabled</code></td><td>Must be enabled for the feed to stream</td></tr>
+            </table>
+            <div class="callout callout-note">
+              <p><strong>No IP address is entered here.</strong> The ZIA portal does not register the NSS VM's IP. The certificate downloaded in the next step handles all identity and routing.</p>
+            </div>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">3 · Save and Download Certificate</h4>
+            <ol class="step-list">
+              <li>Click <strong>Save</strong>, then click <strong>Activate Changes</strong>.</li>
+              <li>Click on the NSS Server entry you just created.</li>
+              <li>Click <strong>Download Certificate</strong> — this produces a <code>.pem</code> file unique to your tenant.</li>
+              <li>Save the certificate to <strong>Corp: Win Svr (10.0.0.8)</strong> — you will use WinSCP from there to transfer it to the NSS VM in Task 4.4.</li>
+            </ol>
+            <div class="callout callout-warning">
+              <p><strong>Exam trap:</strong> This certificate is unique to your tenant. Using a certificate from another student's pod causes permanent authentication failure — NSS will show Disconnected with no error message.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t4-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 4.1</span>
+              <span class="section-qa-badge"></span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t4-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t4-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t4-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t4-1" placeholder="Key takeaways…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t4-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t4-1"></div>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
+      </div><!-- /task-4-1 -->
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">NSS Feed · ZIA Admin Portal → Administration → Nanolog Streaming Service → NSS Feeds</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+      <!-- TASK 4.2 -->
+      <div class="task-collapsible open" id="task-4-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 4.2</span>
+          <span class="task-collapsible-title">Configure the NSS Feed</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
 
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-4-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
-              <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Configure an NSS Feed for web logs</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">SIEM destination: 10.0.0.2, TCP 514. Format: CSV. Log type: Web logs. Filter to block-only records — do not stream allowed traffic, only denies.</div>
-              </div>
-            </label>
-            <div style="border-top:1px solid var(--border-dim);">
-              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:0 16px 14px 44px;">
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Administration → Nanolog Streaming Service → NSS Feeds</li>
-                  <li>Click Add NSS Feed</li>
-                  <li>Set NSS Server to the server added in req 1</li>
-                  <li>Set SIEM IP to 10.0.0.2 and port to 514 (TCP)</li>
-                  <li>Set Format to CSV and Log Type to Web</li>
-                  <li>Add a filter to include only blocked traffic (Action = Block) — click Save</li>
-                </ol>
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">1 · Navigate to NSS Feeds</h4>
+            <div class="nav-path">
+              <span>ZIA Admin Portal</span><span class="sep">›</span>
+              <span>Administration</span><span class="sep">›</span>
+              <span>Nanolog Streaming Service</span><span class="sep">›</span>
+              <span class="final">NSS Feeds</span>
+            </div>
+            <ol class="step-list">
+              <li>Click <strong>Add NSS Feed</strong>.</li>
+            </ol>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">2 · Configure Feed Fields</h4>
+            <table class="config-table">
+              <tr><th>Field</th><th>Value</th><th>Why</th></tr>
+              <tr><td><strong>Feed Name</strong></td><td><code>Safemarch-WebLog-Blocked</code></td><td>Descriptive — easier to audit later</td></tr>
+              <tr><td><strong>NSS Server</strong></td><td><code>Safemarch-NSS</code></td><td>Links this feed to the NSS VM you registered</td></tr>
+              <tr><td><strong>SIEM IP Address</strong> <span class="required-badge">required</span></td><td><code>10.0.0.2</code></td><td>Corp: SIEM Server — destination for log stream</td></tr>
+              <tr><td><strong>SIEM TCP Port</strong> <span class="required-badge">required</span></td><td><code>514</code></td><td>Standard syslog TCP port — must match rsyslog config</td></tr>
+              <tr><td><strong>Feed Output Type</strong></td><td><code>Web Log</code></td><td>Lab requires web transaction logs</td></tr>
+              <tr><td><strong>Feed Output Format</strong></td><td><code>CSV</code></td><td>Lab requirement — human-readable, SIEM-parseable</td></tr>
+              <tr><td><strong>User Obfuscation</strong></td><td><code>Disabled</code></td><td>Keep usernames visible for SIEM correlation</td></tr>
+              <tr><td><strong>Status</strong></td><td><code>Enabled</code></td><td></td></tr>
+            </table>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">3 · Set the Log Filter — Blocked Only</h4>
+            <ol class="step-list">
+              <li>Scroll to <strong>Log Filters</strong> within the feed configuration.</li>
+              <li>Under <strong>Filter by Policy Action</strong>, select: <code>Blocked</code></li>
+              <li>Leave all other filters unset — only transactions where a block policy fired will stream.</li>
+            </ol>
+            <div class="callout callout-caution" style="background:#fff7ed;border-left:3px solid #f97316;">
+              <p><strong>Leaving the filter unset streams ALL transactions.</strong> This floods the SIEM with every web request. The lab — and the exam — specifically require blocked-only. An examiner will check this setting.</p>
+            </div>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">4 · Save and Activate</h4>
+            <ol class="step-list">
+              <li>Click <strong>Save</strong> → Click <strong>Activate Changes</strong>.</li>
+              <li>The feed will not stream until the NSS VM is connected (Task 4.4). Continue to Part 2.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t4-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 4.2</span>
+              <span class="section-qa-badge"></span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t4-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t4-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t4-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t4-2" placeholder="Key takeaways…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t4-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t4-2"></div>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
+      </div><!-- /task-4-2 -->
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">SIEM Server Setup · Corp: SIEM Server (10.0.0.2) — Ubuntu Linux</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+      <!-- ════════════════════════════════════
+           PART 2 — NSS SERVER VM
+      ═════════════════════════════════════ -->
+      <h2 class="section-heading-lab"><span class="section-chip">Part 2</span> NSS Server VM</h2>
 
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-4-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
-              <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Set up rsyslog on the SIEM Server to receive logs</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Install and configure rsyslog on Corp: SIEM Server (10.0.0.2) to listen on TCP 514 and write incoming NSS records to <code style="font-size:11px;">/var/log/syslog</code>. Complete this before testing the NSS Feed.</div>
+      <div class="callout callout-note" style="margin-bottom:16px;">
+        <p><strong>NSS VM &amp; Win Svr Credentials</strong></p>
+        <table class="creds-table" style="margin-top:8px;">
+          <tr><th>VM</th><th>IP</th><th>Username</th><th>Password</th><th>Access via</th></tr>
+          <tr><td>NSS Server</td><td><code>10.0.0.4</code></td><td><code>zsroot</code></td><td><code>zsroot</code></td><td>Skytap console or SSH</td></tr>
+          <tr><td>Corp: Win Svr</td><td><code>10.0.0.8</code></td><td><code>Administrator</code></td><td><code>Admin-123!</code></td><td>WinSCP for cert transfer</td></tr>
+        </table>
+      </div>
+
+      <!-- TASK 4.3 -->
+      <div class="task-collapsible open" id="task-4-3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 4.3</span>
+          <span class="task-collapsible-title">Configure NSS VM Network Interfaces</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">1 · Access the NSS VM Console</h4>
+            <ol class="step-list">
+              <li>Open the <strong>NSS Server VM</strong> console in Skytap.</li>
+              <li>Log in: username <code>zsroot</code> / password <code>zsroot</code></li>
+              <li>You will see the NSS appliance configuration menu.</li>
+            </ol>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">2 · Set Management Interface (eth0)</h4>
+            <table class="config-table">
+              <tr><th>Setting</th><th>Value</th></tr>
+              <tr><td>Interface</td><td><code>eth0</code> (Management)</td></tr>
+              <tr><td>IP Address <span class="required-badge">required</span></td><td><code>10.0.0.4</code></td></tr>
+              <tr><td>Subnet Mask</td><td><code>255.255.255.0</code> (/24)</td></tr>
+            </table>
+            <div class="callout callout-note"><p>This interface pulls nanolog data from Zscaler cloud outbound over HTTPS port 443.</p></div>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">3 · Set Service Interface (eth1)</h4>
+            <table class="config-table">
+              <tr><th>Setting</th><th>Value</th></tr>
+              <tr><td>Interface</td><td><code>eth1</code> (Service)</td></tr>
+              <tr><td>IP Address <span class="required-badge">required</span></td><td><code>10.0.0.5</code></td></tr>
+              <tr><td>Subnet Mask</td><td><code>255.255.255.0</code> (/24)</td></tr>
+            </table>
+            <div class="callout callout-note"><p>This interface sends decoded syslog to the SIEM on TCP 514. Logs arriving at the SIEM will show source IP <code>10.0.0.5</code>, not 10.0.0.4.</p></div>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">4 · Set Gateway and DNS</h4>
+            <table class="config-table">
+              <tr><th>Setting</th><th>Value</th><th>Why critical</th></tr>
+              <tr><td><strong>Default Gateway</strong> <span class="required-badge">required</span></td><td><code>10.0.0.254</code></td><td>NSS must route outbound to Zscaler cloud</td></tr>
+              <tr><td><strong>Nameserver (DNS)</strong> <span class="required-badge">required</span></td><td><code>10.0.0.254</code></td><td>NSS must resolve Zscaler cloud FQDNs</td></tr>
+            </table>
+            <div class="callout callout-warning">
+              <p><strong>If gateway or DNS is wrong, NSS will never connect.</strong> The portal shows Disconnected permanently with no specific error — it silently fails to resolve the cloud endpoint.</p>
+            </div>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">5 · Verify Outbound Connectivity</h4>
+            <p style="font-size:13px;color:var(--text-soft);margin-bottom:8px;">From the NSS VM shell, confirm network is reachable before installing the certificate:</p>
+            <div class="code-block-label">NSS VM — connectivity checks</div>
+            <div class="code-block"><pre><span class="cmd">ping -c 4 8.8.8.8</span>
+<span class="comment"># Expect: replies — confirms gateway is working</span>
+
+<span class="cmd">nslookup nss.zscaler.net</span>
+<span class="comment"># Expect: valid IP returned — confirms DNS is working</span></pre></div>
+            <div class="callout callout-caution" style="background:#fff7ed;border-left:3px solid #f97316;">
+              <p>Do not proceed to certificate installation until both succeed. A certificate installed on a VM that cannot reach Zscaler cloud will appear to install fine but NSS will never come up.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t4-3">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 4.3</span>
+              <span class="section-qa-badge"></span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t4-3" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t4-3',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t4-3"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t4-3" placeholder="Key takeaways…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t4-3',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t4-3"></div>
+                </div>
               </div>
-            </label>
-            <div style="border-top:1px solid var(--border-dim);">
-              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:12px 16px 16px 44px;">
+            </div>
+          </div>
 
-                <div class="lab-cmd-warn"><strong>⚠ Check your VM first:</strong> SSH into the <strong>SIEM Server (10.0.0.2)</strong>, NOT the NSS Server (10.0.0.4).<br>Credentials: username <code style="font-size:11px;background:rgba(0,0,0,0.08);padding:1px 4px;border-radius:3px;">zscaler</code> / password <code style="font-size:11px;background:rgba(0,0,0,0.08);padding:1px 4px;border-radius:3px;">Zscaler123!</code></div>
+        </div>
+      </div><!-- /task-4-3 -->
 
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.9;">
+      <!-- TASK 4.4 -->
+      <div class="task-collapsible open" id="task-4-4">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 4.4</span>
+          <span class="task-collapsible-title">Transfer &amp; Install the NSS Certificate</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Update package lists and install rsyslog</span>
-                    <div class="lab-cmd-block"><code>sudo apt-get update
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">1 · Transfer Certificate via WinSCP</h4>
+            <ol class="step-list">
+              <li>On <strong>Corp: Win Svr (10.0.0.8)</strong>, open <strong>WinSCP</strong> (pre-installed).</li>
+              <li>Create a new session to the NSS VM:
+                <ul class="sub-steps">
+                  <li>Protocol: <code>SCP</code> or <code>SFTP</code></li>
+                  <li>Host: <code>10.0.0.4</code></li>
+                  <li>Username: <code>zsroot</code> / Password: <code>zsroot</code></li>
+                </ul>
+              </li>
+              <li>Connect and copy the <code>.pem</code> certificate file to the NSS VM home directory: <code>/home/zsroot/</code></li>
+            </ol>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">2 · Install the Certificate on the NSS VM</h4>
+            <ol class="step-list">
+              <li>On the NSS VM console, from the appliance configuration menu, select <strong>Install Certificate</strong> (or equivalent option depending on your firmware version).</li>
+              <li>When prompted, enter the path to the certificate: <code>/home/zsroot/&lt;certfile&gt;.pem</code></li>
+              <li>Confirm the installation. NSS will restart its connection service.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p>After certificate installation, NSS typically takes 1–2 minutes to authenticate with Zscaler cloud. Monitor the status in ZIA portal → NSS Servers — it should change from <strong>Disconnected</strong> to <strong>Connected</strong>.</p>
+            </div>
+          </div>
+
+          <div class="task-block">
+            <h4 style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">3 · Verify NSS is Connected in ZIA Portal</h4>
+            <div class="nav-path">
+              <span>ZIA Admin Portal</span><span class="sep">›</span>
+              <span>Administration</span><span class="sep">›</span>
+              <span>Nanolog Streaming Service</span><span class="sep">›</span>
+              <span class="final">NSS Servers</span>
+            </div>
+            <ol class="step-list">
+              <li>Confirm the NSS Server row shows status: <strong>Connected</strong>.</li>
+              <li>If still Disconnected after 3 minutes, verify gateway/DNS settings from Task 4.3 and confirm the correct <code>.pem</code> file was transferred.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t4-4">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 4.4</span>
+              <span class="section-qa-badge"></span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t4-4" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t4-4',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t4-4"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t4-4" placeholder="Key takeaways…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t4-4',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t4-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /task-4-4 -->
+
+      <!-- ════════════════════════════════════
+           PART 3 — SIEM SERVER
+      ═════════════════════════════════════ -->
+      <h2 class="section-heading-lab"><span class="section-chip">Part 3</span> SIEM Server (10.0.0.2)</h2>
+
+      <!-- TASK 4.5 -->
+      <div class="task-collapsible open" id="task-4-5">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 4.5</span>
+          <span class="task-collapsible-title">Configure rsyslog on the SIEM Server</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+
+          <div class="lab-cmd-warn"><strong>⚠ Check your VM:</strong> SSH into <strong>SIEM Server (10.0.0.2)</strong>, NOT the NSS Server (10.0.0.4).<br>Credentials: username <code style="font-size:11px;background:rgba(0,0,0,0.08);padding:1px 4px;border-radius:3px;">zscaler</code> / password <code style="font-size:11px;background:rgba(0,0,0,0.08);padding:1px 4px;border-radius:3px;">Zscaler123!</code></div>
+
+          <div class="task-block">
+            <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.9;">
+
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Update package lists and install rsyslog</span>
+                <div class="lab-cmd-block"><code>sudo apt-get update
 sudo apt-get install rsyslog -y</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Open rsyslog.conf for editing</span>
-                    <div class="lab-cmd-block"><code>sudo nano /etc/rsyslog.conf</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Open rsyslog.conf for editing</span>
+                <div class="lab-cmd-block"><code>sudo nano /etc/rsyslog.conf</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Enable UDP and TCP input on port 514</span> — find and uncomment (or add) all four lines in the MODULES section:
-                    <div class="lab-cfg-block">
-                      <span class="lab-cfg-label">/etc/rsyslog.conf — uncomment or add (MODULES section)</span>
-                      <code>module(load="imudp")
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Enable UDP and TCP input on port 514</span> — find and uncomment (or add) all four lines in the MODULES section:
+                <div class="lab-cfg-block">
+                  <span class="lab-cfg-label">/etc/rsyslog.conf — uncomment or add (MODULES section)</span>
+                  <code>module(load="imudp")
 input(type="imudp" port="514")
 
 # provides TCP syslog reception
@@ -288,114 +659,134 @@ input(type="imtcp" port="514")
 
 $template RemInputLogs, "/var/log/remotelogs/%FROMHOST-IP%/%PROGRAMNAME%.log"
 *.* ?RemInputLogs</code>
-                    </div>
-                  </li>
+                </div>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Add log routing rule</span> — paste this at the very bottom of the file:
-                    <div class="lab-cfg-block">
-                      <span class="lab-cfg-label">/etc/rsyslog.conf — add at bottom</span>
-                      <code>*.* /var/log/syslog</code>
-                    </div>
-                    <div class="lab-cmd-note">💡 Save with <strong>Ctrl+O ↵</strong>, then exit with <strong>Ctrl+X</strong>.</div>
-                  </li>
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Add log routing rule</span> — paste this at the very bottom of the file:
+                <div class="lab-cfg-block">
+                  <span class="lab-cfg-label">/etc/rsyslog.conf — add at bottom</span>
+                  <code>*.* /var/log/syslog</code>
+                </div>
+                <div class="lab-cmd-note">💡 Save with <strong>Ctrl+O ↵</strong>, then exit with <strong>Ctrl+X</strong>.</div>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Validate the config file syntax</span> — catch errors before restarting:
-                    <div class="lab-cmd-block"><code>rsyslogd -f /etc/rsyslog.conf -N1</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    <div class="lab-cmd-note">💡 Output should end with <strong>rsyslogd: End of config validation run.</strong> — fix any errors before proceeding.</div>
-                  </li>
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Validate the config file syntax</span>
+                <div class="lab-cmd-block"><code>rsyslogd -f /etc/rsyslog.conf -N1</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                <div class="lab-cmd-note">💡 Output should end with <strong>rsyslogd: End of config validation run.</strong> — fix any errors before proceeding.</div>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Create the syslog file and set permissions</span>
-                    <div class="lab-cmd-block"><code>sudo touch /var/log/syslog
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Create the syslog file and set permissions</span>
+                <div class="lab-cmd-block"><code>sudo touch /var/log/syslog
 sudo chmod 640 /var/log/syslog
 sudo chown syslog:adm /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Create the remotelogs directory</span>
-                    <div class="lab-cmd-block"><code>sudo mkdir -p /var/log/remotelogs
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Create the remotelogs directory</span>
+                <div class="lab-cmd-block"><code>sudo mkdir -p /var/log/remotelogs
 sudo chown -R syslog:syslog /var/log/remotelogs
 sudo chmod -R 755 /var/log/remotelogs</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Allow port 514 through the firewall</span>
-                    <div class="lab-cmd-block"><code>sudo ufw allow 514/tcp
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Allow port 514 through the firewall</span>
+                <div class="lab-cmd-block"><code>sudo ufw allow 514/tcp
 sudo ufw allow 514/udp</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
+              </li>
 
-                  <li style="margin-bottom:14px;">
-                    <span style="font-weight:600;color:var(--navy);">Start, enable, and restart rsyslog</span>
-                    <div class="lab-cmd-block"><code>sudo systemctl start rsyslog
+              <li style="margin-bottom:14px;">
+                <span style="font-weight:600;color:var(--navy);">Start, enable, and restart rsyslog</span>
+                <div class="lab-cmd-block"><code>sudo systemctl start rsyslog
 sudo systemctl enable rsyslog
 sudo systemctl restart rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
+              </li>
 
-                  <li>
-                    <span style="font-weight:600;color:var(--navy);">Verify status and confirm port 514 is listening</span>
-                    <div class="lab-cmd-block"><code>sudo systemctl status rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    <div class="lab-cmd-success">✅ Look for <strong>Active: active (running)</strong> before continuing.</div>
-                    <div class="lab-cmd-block" style="margin-top:8px;"><code>ss -antpl | grep 514</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    <div class="lab-cmd-success">✅ You should see rsyslogd listed, confirming it is bound to port 514.</div>
-                  </li>
+              <li>
+                <span style="font-weight:600;color:var(--navy);">Verify status and confirm port 514 is listening</span>
+                <div class="lab-cmd-block"><code>sudo systemctl status rsyslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                <div class="lab-cmd-success">✅ Look for <strong>Active: active (running)</strong> before continuing.</div>
+                <div class="lab-cmd-block" style="margin-top:8px;"><code>ss -antpl | grep 514</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
+                <div class="lab-cmd-success">✅ rsyslogd should be listed, confirming it is bound to port 514.</div>
+              </li>
 
-                </ol>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t4-5">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 4.5</span>
+              <span class="section-qa-badge"></span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t4-5" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t4-5',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t4-5"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t4-5" placeholder="Key takeaways…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t4-5',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t4-5"></div>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
+      </div><!-- /task-4-5 -->
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Verification · Corp: SIEM Server (10.0.0.2)</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-
-          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-4-4" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
-              <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">4 · Verify blocked log records arrive at the SIEM</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Generate blocked traffic from the Client PC, then tail <code style="font-size:11px;">/var/log/syslog</code> on the SIEM VM to confirm NSS records are arriving in CSV format.</div>
-              </div>
-            </label>
-            <div style="border-top:1px solid var(--border-dim);">
-              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
-              <div style="display:none;padding:12px 16px 16px 44px;">
-                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.9;">
-                  <li style="margin-bottom:10px;">
-                    From Corp: Client PC (192.168.1.1), browse to a blocked URL category (e.g. <code style="font-size:11.5px;">www.freeslots-machines.com</code>) to generate a blocked event.
-                  </li>
-                  <li style="margin-bottom:10px;">
-                    <span style="font-weight:600;color:var(--navy);">Check the syslog file exists on the SIEM</span>
-                    <div class="lab-cmd-block"><code>ls -la /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                  </li>
-                  <li style="margin-bottom:10px;">
-                    <span style="font-weight:600;color:var(--navy);">Watch for incoming log records in real time</span>
-                    <div class="lab-cmd-block"><code>sudo tail -f /var/log/syslog</code><button class="lab-cmd-copy" onclick="copyCmd(this)">⎘ copy</button></div>
-                    <div class="lab-cmd-success">✅ You should see comma-separated log entries appear within seconds of the blocked browse event.</div>
-                    <div class="lab-cmd-note">💡 Press <strong>Ctrl+C</strong> to exit tail when done.</div>
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Testing Requirements -->
-      <div class="callout callout-success" style="margin-top:24px;">
+      <!-- ── VALIDATION ── -->
+      <h2 class="section-heading-lab"><span class="section-chip">Validate</span> Test the Full Pipeline</h2>
+      <div class="callout callout-success" style="margin-top:0;">
         <p><strong>Testing Requirements</strong></p>
         <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.7;">
-          <li>On Corp: SIEM Server (10.0.0.2), run <code style="font-size:12px;">sudo systemctl status rsyslog</code> — confirm it shows <strong>active (running)</strong>.</li>
+          <li>In ZIA Portal → NSS Servers, confirm the NSS Server shows <strong>Connected</strong>.</li>
+          <li>On Corp: SIEM Server (10.0.0.2), run <code style="font-size:12px;">sudo systemctl status rsyslog</code> — confirm <strong>active (running)</strong>.</li>
           <li>From Corp: Client PC (192.168.1.1), browse to a blocked site (e.g. <code style="font-size:12px;">www.freeslots-machines.com</code>) to generate a blocked event.</li>
-          <li>On the SIEM, run <code style="font-size:12px;">sudo tail -f /var/log/syslog</code> and confirm CSV log records appear within seconds.</li>
+          <li>On the SIEM, run <code style="font-size:12px;">sudo tail -f /var/log/syslog</code> — confirm CSV log records appear within seconds.</li>
           <li>In ZIA Admin Portal → Analytics → Web Insights, confirm the same block event is visible with the correct action and URL category.</li>
         </ol>
       </div>
 
-      <!-- Where to get help -->
+      <!-- ── TROUBLESHOOTING ── -->
+      <h2 class="section-heading-lab"><span class="section-chip">Troubleshoot</span> Common Issues</h2>
+      <table class="trouble-table">
+        <tr><th>Symptom</th><th>Most likely cause</th><th>Fix</th></tr>
+        <tr>
+          <td>NSS shows Disconnected</td>
+          <td>Wrong certificate, bad gateway, or DNS not resolving Zscaler cloud</td>
+          <td>Verify ping 8.8.8.8 and nslookup nss.zscaler.net succeed from NSS VM. Re-download and reinstall the certificate from ZIA portal.</td>
+        </tr>
+        <tr>
+          <td>NSS shows Connected but no logs at SIEM</td>
+          <td>No blocked traffic generated, or TCP 514 blocked by UFW on SIEM</td>
+          <td>Browse to a gambling/gaming site from Client PC, then check <code>sudo ufw status</code> — confirm port 514 is allowed.</td>
+        </tr>
+        <tr>
+          <td>rsyslog starts but port 514 not listed in ss output</td>
+          <td>imtcp module not uncommented in rsyslog.conf</td>
+          <td>Re-open <code>/etc/rsyslog.conf</code>, confirm module(load="imtcp") and input(type="imtcp" port="514") lines are uncommented. Run rsyslogd -N1 to validate config.</td>
+        </tr>
+        <tr>
+          <td>rsyslog fails to start / errors in status</td>
+          <td>Syntax error in rsyslog.conf</td>
+          <td>Run <code>rsyslogd -f /etc/rsyslog.conf -N1</code> to identify the error line. Fix and restart.</td>
+        </tr>
+        <tr>
+          <td>Logs arrive at SIEM but feed shows wrong format</td>
+          <td>Feed output format not set to CSV</td>
+          <td>In ZIA portal → NSS Feeds, edit the feed and confirm Feed Output Format = CSV. Save and Activate.</td>
+        </tr>
+      </table>
+
+      <!-- ── WHERE TO GET HELP ── -->
       <div class="callout callout-note" style="margin-top:16px;">
         <p><strong>Where to get help</strong></p>
         <ul style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.9;">
@@ -407,25 +798,25 @@ sudo systemctl restart rsyslog</code><button class="lab-cmd-copy" onclick="copyC
         </ul>
       </div>
 
-      <!-- Questions & Notes -->
-      <div class="section-qa" data-section="t4-1" style="margin-top:24px;">
+      <!-- ── Q&A ── -->
+      <div class="section-qa" data-section="t4-lab" style="margin-top:24px;">
         <button class="section-qa-header" onclick="toggleSectionQA(this)">
-          <span class="section-qa-title">Questions &amp; Notes — Lab 4</span>
+          <span class="section-qa-title">Questions &amp; Notes — Lab 4 General</span>
           <span class="section-qa-chevron">▾</span>
         </button>
         <div class="section-qa-body">
           <div class="section-qa-grid">
             <div>
               <div class="section-qa-label">My Questions</div>
-              <textarea class="section-qa-textarea" id="sq-t4-1" placeholder="Questions about this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionQ('t4-1',this)">Save</button>
-              <div class="section-qa-list" id="sq-list-t4-1"></div>
+              <textarea class="section-qa-textarea" id="sq-t4-lab" placeholder="Questions about this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionQ('t4-lab',this)">Save</button>
+              <div class="section-qa-list" id="sq-list-t4-lab"></div>
             </div>
             <div>
               <div class="section-qa-label">My Notes</div>
-              <textarea class="section-qa-textarea" id="sn-t4-1" placeholder="Key takeaways from this lab…"></textarea>
-              <button class="section-qa-save" onclick="saveSectionN('t4-1',this)">Save</button>
-              <div class="section-qa-list" id="sn-list-t4-1"></div>
+              <textarea class="section-qa-textarea" id="sn-t4-lab" placeholder="Key takeaways from this lab…"></textarea>
+              <button class="section-qa-save" onclick="saveSectionN('t4-lab',this)">Save</button>
+              <div class="section-qa-list" id="sn-list-t4-lab"></div>
             </div>
           </div>
         </div>
@@ -435,7 +826,7 @@ sudo systemctl restart rsyslog</code><button class="lab-cmd-copy" onclick="copyC
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Three things must align for logs to flow: (1) NSS Server — the VM registered in ZIA (10.0.0.4/10.0.0.5), (2) NSS Feed — defines CSV format, block-only filter, SIEM dest 10.0.0.2:514, (3) rsyslog on the SIEM — must be listening on TCP 514 before the feed delivers records. All three are required; missing any one and logs silently never arrive.</div>
+          <div class="mental-note-block-text">Four things must align for logs to flow: (1) NSS Server — registered in ZIA, certificate installed (10.0.0.4/10.0.0.5); (2) NSS Feed — CSV format, block-only filter, SIEM dest 10.0.0.2:514; (3) rsyslog on SIEM — listening on TCP 514 with UFW open; (4) blocked traffic — the feed only streams what the filter matches. Missing any one and logs silently never arrive.</div>
         </div>
       </div>
 
@@ -447,10 +838,12 @@ sudo systemctl restart rsyslog</code><button class="lab-cmd-copy" onclick="copyC
 
     <div class="checklist-card">
       <div class="checklist-title">LAB 4 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-1" disabled><span>NSS Server added (10.0.0.4 / 10.0.0.5)</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-2" disabled><span>NSS Feed configured (CSV, block-only, 10.0.0.2:514)</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-3" disabled><span>rsyslog set up on SIEM (TCP 514)</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-4" disabled><span>Blocked log records verified at SIEM</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-1" disabled><span>NSS Server added in ZIA (10.0.0.4/10.0.0.5)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-2" disabled><span>NSS Feed configured (CSV, block-only, SIEM:514)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-3" disabled><span>NSS VM network configured (eth0/eth1, GW, DNS)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-4" disabled><span>NSS certificate installed — status: Connected</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-5" disabled><span>rsyslog on SIEM — TCP 514 listening</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-4-6" disabled><span>Blocked log records verified at SIEM</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -460,19 +853,23 @@ sudo systemctl restart rsyslog</code><button class="lab-cmd-copy" onclick="copyC
       <div class="qr-body">
         <div class="qr-item">
           <div class="qr-term">NSS</div>
-          <div class="qr-def">Nanolog Streaming Service — streams ZIA logs to external SIEMs in real time.</div>
+          <div class="qr-def">Nanolog Streaming Service — streams ZIA logs to external SIEMs in real time via a cloud-connected VM.</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">NSS Server</div>
-          <div class="qr-def">The on-prem or cloud VM that receives the log stream — 10.0.0.4/10.0.0.5 in this lab.</div>
+          <div class="qr-term">eth0 / mgmt</div>
+          <div class="qr-def">10.0.0.4 — pulls nanologs from Zscaler cloud over HTTPS 443.</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">eth1 / service</div>
+          <div class="qr-def">10.0.0.5 — pushes decoded syslog to SIEM on TCP 514.</div>
         </div>
         <div class="qr-item">
           <div class="qr-term">NSS Feed</div>
-          <div class="qr-def">Defines log type, format, destination, and filter — one feed per SIEM target.</div>
+          <div class="qr-def">Defines log type, format (CSV), destination (10.0.0.2:514), and filter (blocked only).</div>
         </div>
         <div class="qr-item">
-          <div class="qr-term">CSV Format</div>
-          <div class="qr-def">Comma-separated log records — most SIEMs parse this natively.</div>
+          <div class="qr-term">rsyslog template</div>
+          <div class="qr-def">$template RemInputLogs routes incoming logs to /var/log/remotelogs/&lt;src-ip&gt;/&lt;prog&gt;.log</div>
         </div>
       </div>
     </div>
@@ -504,8 +901,8 @@ const CONFIG_KEY='edu302-expc-lab-config';
 const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
 const FOOTER_KEY='edu302-footer-collapsed';
 const PAGE_KEY='edu302-lab-lab4';
-var SECTION_IDS=['t4-1'];
-var CHK_IDS=['chk-4-1','chk-4-2','chk-4-3','chk-4-4'];
+var SECTION_IDS=['t4-1','t4-2','t4-3','t4-4','t4-5','t4-lab'];
+var CHK_IDS=['chk-4-1','chk-4-2','chk-4-3','chk-4-4','chk-4-5','chk-4-6'];
 
 function toggleConfig(){
   var panel=document.getElementById('config-panel');
@@ -513,6 +910,7 @@ function toggleConfig(){
   var collapsed=panel.classList.toggle('collapsed');
   btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
   try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
+  updateSidebarOffset();
 }
 function updateSidebarOffset(){
   var panel=document.getElementById('config-panel');
@@ -521,41 +919,35 @@ function updateSidebarOffset(){
 }
 (function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
 function updateToggleSummary(){
-  var prefix=document.getElementById('prefix-input').value.trim();
+  var zidUrl=document.getElementById('zid-url-input').value.trim();
   var s=document.getElementById('config-toggle-summary');
-  s.textContent=prefix?' — '+prefix:'';
+  s.textContent=zidUrl?' — '+zidUrl:'';
 }
 function applyConfig(){
-  var prefix=document.getElementById('prefix-input').value.trim();
-  var pass=document.getElementById('pass-input').value.trim();
-  var zidUrl=prefix?prefix+'safemarch.zslogin.net':'zs4803safemarch.zslogin.net';
-  var studentAdmin=prefix?'student@'+prefix+'.safemarch.com':'student@zs4803.safemarch.com';
-  var studentPass=prefix?prefix+'+Y0urZDDC':'zs4803+Y0urZDDC';
-  var domain=prefix?prefix+'.safemarch.com':'zs4803.safemarch.com';
-  var cd=prefix?prefix.slice(-2):'03';
-  var el;
-  el=document.getElementById('d-zid-url');if(el)el.textContent=zidUrl;
-  el=document.getElementById('d-student-admin');if(el)el.textContent=studentAdmin;
-  el=document.getElementById('d-student-pass');if(el)el.textContent=studentPass;
+  var zidUrl=document.getElementById('zid-url-input').value.trim()||'zs4803safemarch.zslogin.net';
+  var studentAdmin=document.getElementById('student-admin-input').value.trim()||'student@zs4803.safemarch.com';
+  var studentPass=document.getElementById('student-pass-input').value.trim()||'zs4803+Y0urZDDC';
+  var prefixMatch=zidUrl.match(/^([a-z0-9]+)safemarch\./i);
+  var prefix=prefixMatch?prefixMatch[1]:'zs4803';
+  var domain=prefix+'.safemarch.com';
+  var cd=prefix.slice(-2);
   document.querySelectorAll('.d-zid-url').forEach(function(e){e.textContent=zidUrl;});
   document.querySelectorAll('.d-student-admin').forEach(function(e){e.textContent=studentAdmin;});
   document.querySelectorAll('.d-student-pass').forEach(function(e){e.textContent=studentPass;});
   document.querySelectorAll('.d-safemarch-domain').forEach(function(e){e.textContent=domain;});
-  document.querySelectorAll('.d-safemarch-prefix').forEach(function(e){e.textContent=prefix||'zs4803';});
+  document.querySelectorAll('.d-safemarch-prefix').forEach(function(e){e.textContent=prefix;});
   document.querySelectorAll('.d-cd').forEach(function(e){e.textContent=cd;});
-  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='89+jZ+Hq';el.classList.remove('filled');}});
 }
 function loadConfig(){
   try{
     var saved=localStorage.getItem(CONFIG_KEY);
-    if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}
-    else{document.getElementById('prefix-input').value='zs4803';document.getElementById('pass-input').value='89+jZ+Hq';}
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('zid-url-input').value=cfg.zidUrl||'';document.getElementById('student-admin-input').value=cfg.studentAdmin||'';document.getElementById('student-pass-input').value=cfg.studentPass||'';}
     if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
-  }catch(e){document.getElementById('prefix-input').value='zs4803';document.getElementById('pass-input').value='89+jZ+Hq';}
+  }catch(e){}
   applyConfig();updateToggleSummary();updateSidebarOffset();
 }
 function saveConfig(){
-  var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
+  var cfg={zidUrl:document.getElementById('zid-url-input').value.trim(),studentAdmin:document.getElementById('student-admin-input').value.trim(),studentPass:document.getElementById('student-pass-input').value.trim()};
   try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
   applyConfig();updateToggleSummary();
   var btn=document.querySelector('.config-btn');var orig=btn.textContent;
@@ -563,7 +955,7 @@ function saveConfig(){
   setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
 }
 function clearConfig(){
-  document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';
+  document.getElementById('zid-url-input').value='';document.getElementById('student-admin-input').value='';document.getElementById('student-pass-input').value='';
   try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
   applyConfig();updateToggleSummary();
 }
@@ -571,7 +963,7 @@ function copyConfigField(id,btn){
   var val=document.getElementById(id).value.trim();if(!val)return;
   navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
 }
-['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+['zid-url-input','student-admin-input','student-pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
 function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
 function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
 function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
@@ -594,58 +986,55 @@ function saveSocAnswer(btn){
 }
 function revealSocAnswer(btn){
   var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');
-  if(ma.style.display==='none'){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
+  if(ma.style.display==='none'||!ma.style.display){ma.style.display='block';btn.textContent='🔓 Hide Model Answer';}
   else{ma.style.display='none';btn.textContent='👁 See Model Answer';}
 }
 function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
 function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
-function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the Q&amp;A section below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
-function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the Q&amp;A section below.</p>';}catch(e){}}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
 function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
 function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
 function saveChecklist(){
   try{
     var state={};
     CHK_IDS.forEach(function(id){
-      var el=document.querySelector('.content-col input[id="'+id+'"]');
+      var el=document.querySelector('aside input[id="'+id+'"]');
       if(el)state[id]=el.checked;
     });
     localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));
-    syncSidebarChecklist(state);
   }catch(e){}
-}
-function syncSidebarChecklist(state){
-  CHK_IDS.forEach(function(id){
-    var sidebar=document.querySelector('aside input[id="'+id+'"]');
-    if(sidebar&&state&&state[id]!==undefined)sidebar.checked=state[id];
-  });
 }
 function loadChecklist(){
   try{
     var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');
     CHK_IDS.forEach(function(id){
-      var main=document.querySelector('.content-col input[id="'+id+'"]');
-      if(main&&state[id]!==undefined)main.checked=state[id];
+      var el=document.querySelector('aside input[id="'+id+'"]');
+      if(el&&state[id]!==undefined){el.checked=state[id];el.disabled=false;}
+      else if(el){el.disabled=false;}
     });
-    syncSidebarChecklist(state);
   }catch(e){}
 }
 function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
 function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
 function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
-function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'q\')">'+escHtml(q)+'</span><button class="qa-item-del" onclick="delSectionQ(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
-function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'n\')">'+escHtml(n)+'</span><button class="qa-item-del" onclick="delSectionN(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}renderSectionQ(id);}
-function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
-function editQAItem(span,id,idx,type){var text=span.textContent;var ta=document.createElement('textarea');ta.className='section-qa-textarea';ta.style.cssText='margin:0;min-height:32px;padding:4px 8px;font-size:12.5px;font-family:Epilogue,sans-serif;';ta.value=text;span.replaceWith(ta);ta.focus();ta.select();var done=false;function commit(){if(done)return;done=true;var val=ta.value.trim();if(val&&val!==text){try{var key=PAGE_KEY+(type==='q'?'-sq-':'-sn-')+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr[idx]=val;localStorage.setItem(key,JSON.stringify(arr));}catch(e){}}type==='q'?renderSectionQ(id):renderSectionN(id);}ta.addEventListener('blur',commit);ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ta.blur();}if(e.key==='Escape'){done=true;type==='q'?renderSectionQ(id):renderSectionN(id);}});}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q){return'<p style="font-size:12px;color:var(--text-soft);padding:3px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n){return'<p style="font-size:12px;color:var(--text-soft);padding:3px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
 function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
-function toggleReqHow(btn){
-  var body=btn.nextElementSibling;
-  var open=body.style.display==='none';
-  body.style.display=open?'block':'none';
-  btn.innerHTML=(open?'▾ ':'▸ ')+'How to do it';
+function toggleTask(header){
+  var tc=header.closest('.task-collapsible');
+  tc.classList.toggle('open');
+  try{localStorage.setItem(PAGE_KEY+'-tc-'+tc.id,tc.classList.contains('open')?'1':'0');}catch(e){}
 }
+(function(){
+  document.querySelectorAll('.task-collapsible').forEach(function(tc){
+    var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);
+    if(saved==='0')tc.classList.remove('open');
+  });
+  document.querySelectorAll('.task-collapsible-header').forEach(function(h){
+    h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});
+  });
+})();
 function copyCmd(btn){
   var code=btn.previousElementSibling;
   if(!code)return;
@@ -658,7 +1047,31 @@ document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
-  document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
+  document.querySelectorAll('.answer-area').forEach(function(area){
+    var key=PAGE_KEY+'-soc-'+area.dataset.section;
+    try{
+      var saved=localStorage.getItem(key);
+      if(saved){
+        var ta=area.querySelector('.answer-textarea');ta.value=saved;
+        var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer Saved';ab.style.background='var(--green)';
+        var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='👁 See Model Answer';
+      }
+    }catch(e){}
+  });
+  document.querySelectorAll('aside input[type="checkbox"]').forEach(function(cb){
+    cb.addEventListener('change',saveChecklist);
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.querySelector(a.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  sessionStorage.setItem('pt','1');
+  document.querySelectorAll('a[href$=".html"]:not([target])').forEach(function(a){
+    a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});
+  });
 });
 </script>
 </body>

@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-302 ZDDC Exam Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
+<style>
+.task-collapsible{border:1px solid var(--border,#dde1e7);border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:var(--surface-2,#f7f8fa);border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:var(--border);background:var(--surface-3,#eef0f5);}
+.task-collapsible-header:hover{background:var(--surface-3,#eef0f5);}
+.task-num-badge{font-size:10px;font-weight:700;letter-spacing:0.08em;color:#fff;padding:3px 9px;border-radius:4px;flex-shrink:0;font-family:'Epilogue',sans-serif;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:var(--text,#1a202c);flex:1;margin:0;font-family:'Epilogue',sans-serif;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 14px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+.req-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted,#6b7280);text-transform:uppercase;margin:0 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border-dim,#e5e7eb);}
+.vm-table{width:100%;border-collapse:collapse;font-size:12px;font-family:'Epilogue',sans-serif;margin:10px 0;}
+.vm-table th{background:#0d1a2e;color:#fff;padding:7px 11px;text-align:left;font-weight:600;font-size:10.5px;letter-spacing:0.07em;}
+.vm-table td{padding:6px 11px;border-bottom:1px solid var(--border-dim,#e5e7eb);color:var(--text-soft,#4b5563);}
+.vm-table tr:last-child td{border-bottom:none;}
+.vm-table code{font-size:11px;background:var(--surface-2,#f7f8fa);padding:1px 5px;border-radius:3px;font-family:monospace;}
+.exam-intro{background:var(--card-bg,#fff);border:1px solid var(--border,#dde1e7);border-radius:10px;padding:18px 20px;margin-bottom:22px;}
+.user-table{width:100%;border-collapse:collapse;font-size:12px;font-family:'Epilogue',sans-serif;margin:8px 0;}
+.user-table th{background:#1e3a5f;color:#fff;padding:7px 11px;text-align:left;font-size:10.5px;font-weight:600;letter-spacing:0.06em;}
+.user-table td{padding:6px 11px;border-bottom:1px solid var(--border-dim,#e5e7eb);color:var(--text-soft,#4b5563);}
+.user-table tr:last-child td{border-bottom:none;}
+.hint-block{background:#fff7ed;border:1px solid #fed7aa;border-left:3px solid #f97316;border-radius:8px;padding:12px 16px;margin:12px 0;}
+.hint-block-label{font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#c2410c;text-transform:uppercase;margin-bottom:6px;}
+.help-block{background:#f0f9ff;border:1px solid #bae6fd;border-left:3px solid #0284c7;border-radius:8px;padding:12px 16px;margin:12px 0;}
+.help-block-label{font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#0369a1;text-transform:uppercase;margin-bottom:6px;}
+.help-block ul{margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;line-height:1.8;}
+.help-block a{color:#0369a1;}
+.test-block{background:#f0fdf4;border:1px solid #bbf7d0;border-left:3px solid #16a34a;border-radius:8px;padding:12px 16px;margin:12px 0;}
+.test-block-label{font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#15803d;text-transform:uppercase;margin-bottom:6px;}
+.req-list{margin:0;padding-left:20px;font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft,#4b5563);line-height:1.75;}
+.req-list li{margin-bottom:4px;}
+.req-list ol,.req-list ul{margin:4px 0;padding-left:18px;}
+.sidebar-section{margin-bottom:16px;}
+.sidebar-label{font-size:10px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-muted,#6b7280);margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › EDU-302 Exam Guide</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">EXAM GUIDE · ZDDC</span>
+  </div>
+  <h1>Zscaler Digital Delivery <em>Consultant Exam</em></h1>
+  <div class="motivation-banner">
+    <p>This is your capstone deployment. Apply everything you've learned — ZIA, ZPA, ZDX, DLP, and API automation — across 9 tasks for the Safemarch organisation. 75% pass marks required to earn the ZDDC certification. Use this guide to track requirements and keep notes organised during the exam.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Exam Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="zid-url-input">ZIdentity URL</label>
+        <div class="config-field-row">
+          <input type="text" id="zid-url-input" placeholder="e.g. zs4811safemarch.zslogin.net" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('zid-url-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="student-admin-input">Student Admin Email</label>
+        <div class="config-field-row">
+          <input type="text" id="student-admin-input" placeholder="student@zs4811.safemarch.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('student-admin-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="student-pass-input">Student Password</label>
+        <div class="config-field-row">
+          <input type="text" id="student-pass-input" placeholder="e.g. zs4811+Y0urZDDC" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('student-pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <div style="width:100%;font-size:10.5px;font-weight:700;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid var(--border-dim);">ZSCALER TENANT</div>
+      <span><strong>One Experience Console:</strong> <code>console.zscaler.com</code></span>
+      <span><strong>ZIdentity URL:</strong> <code class="d-zid-url">zs4811safemarch.zslogin.net</code></span>
+      <span><strong>Student Admin:</strong> <code class="d-student-admin">student@zs4811.safemarch.com</code></span>
+      <span><strong>Your Domain:</strong> <code class="d-safemarch-domain">zs4811.safemarch.com</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+    <div class="section-block" id="section-exam">
+      <h2>EDU-302: ZDDC Exam — 9 Tasks</h2>
+
+      <!-- Intro & VM Table -->
+      <div class="exam-intro">
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 14px;"><strong>Scenario:</strong> Safemarch, a large global organisation, is transitioning to a Zero-Trust Network architecture using Zscaler solutions. You are responsible for completing the full deployment across ZIA, ZPA, ZDX, DLP, and API automation. Your student tenant is pre-assigned — enter your ZIdentity URL above to populate credentials throughout this guide.</p>
+
+        <div class="req-label" style="margin-bottom:10px;">Virtual Lab VM Credentials (fixed for all students)</div>
+        <table class="vm-table">
+          <thead>
+            <tr><th>VM Name</th><th>IP Address</th><th>Username</th><th>Password</th><th>Role</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Corp: Client PC</td><td><code>192.168.1.1</code></td><td><code>Administrator</code></td><td><code>Admin-123!</code></td><td>Windows client</td></tr>
+            <tr><td>Remote: Linux Client PC</td><td><code>192.168.1.2</code></td><td><code>Admin</code></td><td><code>Admin-123!</code></td><td>Linux client</td></tr>
+            <tr><td>Remote: DNS Server</td><td><code>192.168.1.252</code></td><td><code>Administrator</code></td><td><code>Zscaler123!</code></td><td>DNS Server</td></tr>
+            <tr><td>Corp: Win Svr</td><td><code>10.0.0.8</code></td><td><code>Administrator</code></td><td><code>Admin-123!</code></td><td>Windows Server</td></tr>
+            <tr><td>Log Streaming Connector</td><td><code>10.0.0.20</code></td><td><code>admin</code></td><td><code>zscaler</code></td><td>ZPA log streaming</td></tr>
+            <tr><td>NSS Server</td><td><code>10.0.0.4</code></td><td><code>zsroot</code></td><td><code>zsroot</code></td><td>ZIA log streaming</td></tr>
+            <tr><td>Corp: SIEM Server</td><td><code>10.0.0.2</code></td><td><code>zscaler</code></td><td><code>Zscaler123!</code></td><td>Syslog server</td></tr>
+            <tr><td>ZPA Connector</td><td><code>10.0.0.3</code></td><td><code>admin</code></td><td><code>zscaler</code></td><td>Private app connectivity</td></tr>
+          </tbody>
+        </table>
+        <p style="font-family:'Epilogue',sans-serif;font-size:11.5px;color:var(--text-muted);margin:8px 0 0;">Network topology: Remote Public Network 192.168.1.0/24 · Corporate Data Center 10.0.0.0/24</p>
+      </div>
+
+      <!-- ══ TASK 1 ══ -->
+      <div class="task-collapsible open" id="task-e1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#7c3aed;">TASK 1</span>
+          <span class="task-collapsible-title">Configure Identity Services</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Create organisation-specific departments and users in ZIdentity, and configure the administrator inactivity timeout.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ol class="req-list">
+            <li>Create the following <strong>5 departments</strong> in ZIdentity and add users to their respective departments:
+              <div style="margin-top:10px;margin-bottom:6px;">
+                <table class="user-table">
+                  <thead>
+                    <tr><th>User Name</th><th>Password</th><th>Department</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>marketing-<span class="d-cd">11</span>@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code></td><td><code>Zscaler123!</code></td><td>Marketing</td></tr>
+                    <tr><td><code>finance-<span class="d-cd">11</span>@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code></td><td><code>Zscaler123!</code></td><td>Finance</td></tr>
+                    <tr><td><code>itsecurity-<span class="d-cd">11</span>@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code></td><td><code>Zscaler123!</code></td><td>IT Security</td></tr>
+                    <tr><td><code>admin-<span class="d-cd">11</span>@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code></td><td><code>Zscaler123!</code></td><td>Administrator</td></tr>
+                    <tr><td><code>maintenance-<span class="d-cd">11</span>@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code></td><td><code>Zscaler123!</code></td><td>Maintenance</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </li>
+            <li>Use the Student Admin account to configure <strong>Administrator Inactivity Timeout Duration to 180 minutes</strong></li>
+          </ol>
+
+          <div class="hint-block">
+            <div class="hint-block-label">Notes</div>
+            <ol style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;line-height:1.75;">
+              <li>Use the <strong>Student Admin</strong> account for Assign Groups and enable <strong>Skip Second Factor Authentication</strong> in Security Settings to bypass MFA</li>
+              <li>Ensure the Primary email address is set to the student user you were assigned (e.g. <code>student@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code>)</li>
+              <li>Select <strong>"Set by Administrator"</strong> in the password option under Security Settings</li>
+              <li>Uncheck <strong>"Prompt for Password Change After Initial Log In"</strong></li>
+            </ol>
+          </div>
+
+          <div class="help-block">
+            <div class="help-block-label">Where to Get Help</div>
+            <ul>
+              <li><a href="https://help.zscaler.com/unified/adding-users-zidentity" target="_blank">help.zscaler.com — Adding Users in ZIdentity</a></li>
+              <li><a href="https://help.zscaler.com/zidentity/configuring-authentication-session" target="_blank">help.zscaler.com — Configuring Authentication Session</a></li>
+            </ul>
+          </div>
+
+          <div class="section-qa" data-section="t1" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t1" placeholder="Questions about Task 1…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t1" placeholder="Key notes for Task 1…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 2 ══ -->
+      <div class="task-collapsible open" id="task-e2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#0369a1;">TASK 2</span>
+          <span class="task-collapsible-title">Configure ZIA and ZPA Traffic Forwarding</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Prepare traffic forwarding configurations for Safemarch's Zscaler Client Connector users.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ol class="req-list">
+            <li>Ensure that when users are working from a remote location, <strong>all traffic from all ports and protocols</strong> must be able to connect to the Zero Trust Exchange</li>
+            <li>Users must use a <strong>password to disable ZIA and ZPA</strong></li>
+            <li>Client Connector <strong>Log Mode</strong> must be set to <strong>"Error"</strong></li>
+            <li>Client Connector must <strong>automatically install the Zscaler SSL certificate</strong></li>
+            <li>Client Connector configuration must be set to potentially allow traffic on <strong>any port and protocol</strong> to be forwarded</li>
+          </ol>
+
+          <div class="test-block">
+            <div class="test-block-label">Testing Requirements</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#14532d;line-height:1.75;">
+              <li>Login to the Corp: Client PC VM, use <code>student@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code> account to login to Zscaler Client Connector</li>
+              <li>Verify in Web Insights logs that the user is able to access the Internet</li>
+            </ul>
+          </div>
+
+          <div class="section-qa" data-section="t2" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t2" placeholder="Questions about Task 2…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t2" placeholder="Key notes for Task 2…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 3 ══ -->
+      <div class="task-collapsible open" id="task-e3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#b45309;">TASK 3</span>
+          <span class="task-collapsible-title">Configure ZIA Policy</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Configure policies that provide protection against security threats and control access to web-based applications based on department membership.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ol class="req-list">
+            <li><strong>SSL inspect all traffic</strong></li>
+            <li>Exempt some web traffic from SSL inspection:
+              <ul>
+                <li><strong>Health and Government</strong> URL Categories (to address privacy concerns)</li>
+                <li>A <strong>custom list of URLs</strong> that may be maintained by adding/removing URLs to respond to SSL inspection-related issues</li>
+                <li>Ensure all other policies are enforced for traffic that is <em>not</em> SSL inspected</li>
+              </ul>
+            </li>
+            <li>For <strong>all departments except IT Security</strong>, block <strong>Executable file downloads</strong> from all URL categories</li>
+            <li><strong>Caution</strong> users in the <strong>IT Security</strong> department before the download of Executable files</li>
+            <li><strong>Finance</strong> users should be blocked for uploading <strong>all files except Microsoft Office files</strong></li>
+            <li>All supported file types must be <strong>sandbox inspected</strong>. While files are being inspected, users are allowed to download them — except files in the following URL categories which must be <strong>quarantined and inspected before allowing download</strong> if determined safe:
+              <ul>
+                <li>Illegal or Questionable</li>
+                <li>Security</li>
+                <li>Miscellaneous</li>
+              </ul>
+            </li>
+            <li>All traffic must be <strong>firewall inspected</strong>. Add specific rules to allow:
+              <ul>
+                <li>An approved list of network services including <strong>SSH, Kerberos, and pc Anywhere</strong> for users in the <strong>IT Security</strong> department</li>
+                <li>The customer's IT Security team needs access to <strong>www.eicar.org</strong> site file downloads; <strong>block eicar.org</strong> for all other users</li>
+                <li>Block all users from <strong>Social Networking and Online Shopping</strong>, <em>except</em> employees in the <strong>Marketing</strong> department who must be allowed to view and post to <strong>LinkedIn, Twitter, and Facebook</strong></li>
+                <li>Office 365: <strong>Forward all O365 traffic</strong> and enable <strong>Microsoft Recommended One-Click</strong> configuration</li>
+                <li>Enable advanced policy settings for URL &amp; Cloud App Controls:
+                  <ol>
+                    <li>Suspicious New Domains Lookup</li>
+                    <li>AI/ML based Content Categorization</li>
+                    <li>Embedded Sites Categorization</li>
+                    <li>Enforce SafeSearch</li>
+                  </ol>
+                </li>
+              </ul>
+            </li>
+            <li>All users need access to all URL Categories, <strong>except a default rule to block Legal Liability URL Categories</strong>:
+              <ul>
+                <li>Adult Material, Drugs, Gambling, Illegal or Questionable, Militancy/Hate and Extremism</li>
+                <li>A <strong>custom URL category</strong> for any additional URLs deemed off-limits by Safemarch security policies (<em>Hint: add any arbitrary URLs as part of this new custom URL Category</em>)</li>
+              </ul>
+            </li>
+            <li>Allow login to only the <strong>Microsoft O365 Safemarch corporate tenant</strong> and prevent personal login to Microsoft O365 products like OneDrive and Outlook:
+              <ul>
+                <li><strong>Tenant Profile Name:</strong> Safemarch Microsoft O365</li>
+                <li><strong>Tenant Directory:</strong> <code>deadbeef-0001-ffee-0001-314159265358</code></li>
+                <li><strong>Office 365 Tenant:</strong> <code>safemarch.com</code></li>
+              </ul>
+            </li>
+            <li>Block access to <strong>all streaming media</strong> except the Safemarch YouTube channel. Legacy rule for reference:
+              <ul>
+                <li>Rule Name: <em>Allow Safemarch YouTube Channel</em></li>
+                <li>Policy: Allow</li>
+                <li>URL Category: Safemarch YouTube Custom Category
+                  <ul>
+                    <li>Sites: <code>ytimg.com</code>, <code>.ytimg.com</code></li>
+                    <li>Regex: <code>www\.youtube\.com/.UCSylwuqCXM_W13ARfzASm3Q</code></li>
+                    <li>Regex: <code>youtube\.com/videoplayback</code></li>
+                    <li>Regex: <code>www\.youtube\.com/crossdomain\.xml</code></li>
+                    <li>Regex: <code>youtube\.com/generate</code></li>
+                  </ul>
+                </li>
+              </ul>
+              <em>To retrieve the YouTube Channel ID, see the Configuration Hints below.</em>
+            </li>
+          </ol>
+
+          <div class="test-block">
+            <div class="test-block-label">Testing Requirements</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#14532d;line-height:1.75;">
+              <li>Check Web Insights logs and certificate info on various URLs to confirm SSL inspection/exemptions</li>
+              <li>Verify access to a legal liability URL (e.g. <code>www.freeslots-machines.com</code>) is blocked</li>
+              <li>Verify access to online shopping sites is blocked for all users</li>
+              <li>Verify access to social networking sites is blocked for users <strong>NOT</strong> in the Marketing department</li>
+              <li>Check Firewall logs and make sure SSH traffic is hitting the intended firewall rule</li>
+              <li>Go to youtube.com and try to watch a video to confirm it is blocked</li>
+              <li>Go to a streaming media site (e.g. vimeo.com, netflix.com) and verify these sites are blocked</li>
+            </ul>
+          </div>
+
+          <div class="hint-block">
+            <div class="hint-block-label">Configuration Hints — YouTube Channel ID</div>
+            <p style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;margin:0 0 8px;">The YouTube Channel ID is a unique 24-character string starting with "UC". Retrieve it using one of these methods:</p>
+            <p style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;margin:0 0 4px;font-weight:600;">Method 1 — Page Source:</p>
+            <ol style="margin:0 0 8px;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;line-height:1.7;">
+              <li>Open <code>https://www.youtube.com/@ZscalerInc</code> in Chrome</li>
+              <li>Right-click → View Page Source (or Ctrl+U / Opt+Cmd+U)</li>
+              <li>Search for <code>"og:url" content=</code> or <code>https://www.youtube.com/channel/</code></li>
+              <li>The string starting with "UC" (24 characters) is the Channel ID</li>
+            </ol>
+            <p style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;margin:0 0 4px;font-weight:600;">Method 2 — Third-party tools:</p>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;line-height:1.7;">
+              <li>commentpicker.com/youtube-channel-id.php</li>
+              <li>seostudio.tools/youtube-channel-id</li>
+              <li>tunepocket.com/youtube-channel-id-finder/</li>
+            </ul>
+          </div>
+
+          <div class="section-qa" data-section="t3" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 3</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t3" placeholder="Questions about Task 3…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t3',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t3"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t3" placeholder="Key notes for Task 3…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t3',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 4 ══ -->
+      <div class="task-collapsible open" id="task-e4">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#b45309;">TASK 4</span>
+          <span class="task-collapsible-title">Configure ZIA Logging &amp; Reporting</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Configure Nanolog Streaming Service (NSS) to stream web logs to the onsite SIEM for long-term retention. NSS Server VM (10.0.0.4) and SIEM Server VM (10.0.0.2) are pre-installed in your Skytap environment.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 8px;">Configure NSS to stream the following log data:</p>
+          <ol class="req-list" type="a">
+            <li>Web logs — <strong>Tab-separated format</strong></li>
+            <li>Time zone: <strong>America/New York</strong></li>
+            <li>Duplicate Logs sent for <strong>60 minutes</strong></li>
+            <li>Include all records for web transactions for users in the <strong>Finance and Marketing</strong> departments</li>
+          </ol>
+
+          <div class="test-block">
+            <div class="test-block-label">Testing Requirements</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#14532d;line-height:1.75;">
+              <li>On the <strong>Corp: Client PC</strong>, generate traffic that matches the NSS configuration</li>
+              <li>Log in to the <strong>Corp: SIEM Svr</strong> and verify that log messages are being received in <code>/var/log/syslog</code></li>
+              <li><em>Note: Use PUTTY on the Corp: Win Svr to connect to the Corp: SIEM Svr</em></li>
+            </ul>
+          </div>
+
+          <div class="hint-block">
+            <div class="hint-block-label">Configuration Hints</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;line-height:1.75;">
+              <li>Start syslog: <code>sudo systemctl start rsyslog</code> · Check status: <code>sudo systemctl status rsyslog</code></li>
+              <li>NSS Server <strong>Management Interface</strong> IP: <code>10.0.0.4/24</code></li>
+              <li>NSS Server <strong>Service Interface</strong> IP: <code>10.0.0.5/24</code></li>
+              <li>Nameserver IP: <code>10.0.0.254</code> · Default Gateway: <code>10.0.0.254</code></li>
+              <li>TCP Port: <code>514</code></li>
+              <li>To transfer the NSS Certificate to the NSS Server VM, use <strong>WinSCP</strong> which is pre-installed on <strong>Corp: Win Svr</strong></li>
+            </ul>
+          </div>
+
+          <div class="section-qa" data-section="t4" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 4</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t4" placeholder="Questions about Task 4…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t4',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t4"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t4" placeholder="Key notes for Task 4…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t4',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 5 ══ -->
+      <div class="task-collapsible open" id="task-e5">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#15803d;">TASK 5</span>
+          <span class="task-collapsible-title">Configure ZPA Policy</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Implement ZPA policies for the initial Safemarch deployment, including App Connector provisioning and application access control.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ol class="req-list">
+            <li><strong>Provision App Connector:</strong> Corp: ZPA Connector</li>
+            <li>Allow <strong>all employees</strong> access to the following private applications:
+              <ul>
+                <li>Intranet: <code>intranet.patraining.safemarch.com</code> — Use TCP port <code>80, 443</code></li>
+                <li>File Share: <code>shares.patraining.safemarch.com</code> — Use TCP port <code>139, 445</code></li>
+              </ul>
+            </li>
+            <li>Allow access to a server via <strong>SSH only on domain-joined devices</strong> — Use TCP port <code>22</code></li>
+            <li>Only users in the <strong>Maintenance</strong> and <strong>Administrator</strong> departments should access <code>hvac.patraining.safemarch.com</code> — Use TCP port <code>80</code></li>
+            <li>All users <strong>excluding Administrator</strong> department are to be <strong>blocked</strong> from using Safemarch's remote desktop application: <code>rdp.patraining.safemarch.com</code> — Use TCP and UDP port <code>3389</code>:
+              <ul>
+                <li>Blocked users should get a <strong>notification</strong></li>
+                <li>Ensure that idle, open connections are closed after <strong>15 minutes</strong></li>
+                <li>RDP connections require <strong>re-authentication every 10 minutes</strong></li>
+              </ul>
+            </li>
+            <li>Limit access to devices on <code>10.0.100.0/24</code> across any port to the <strong>Administrator</strong> department</li>
+            <li><strong>Auto-discover</strong> any other applications running on the Safemarch corporate network</li>
+          </ol>
+
+          <div class="test-block">
+            <div class="test-block-label">Testing Requirements</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#14532d;line-height:1.75;">
+              <li>To transfer the provisioning key to the App Connector, use <strong>WinSCP</strong> on the Corp: Win Svr VM</li>
+              <li>For this lab, it is sufficient to enable <strong>one App Connector</strong> in the data center</li>
+              <li>Check the status of the App Connector</li>
+              <li>To test access to the file share application, access <code>\\shares.patraining.safemarch.com</code> from the Client PC</li>
+              <li>To test RDP access, open from the Windows taskbar and enter <code>rdp.patraining.safemarch.com</code></li>
+              <li>Check <strong>Diagnostics logs</strong> and <strong>Live Logs</strong> in the ZPA Admin Portal to verify policies</li>
+            </ul>
+          </div>
+
+          <div class="hint-block">
+            <div class="hint-block-label">If App Connector Provisioning Fails — Re-provision Steps</div>
+            <ol style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;line-height:1.75;">
+              <li>Stop the service: <code>sudo systemctl stop zpa-connector</code></li>
+              <li>Delete files: <code>sudo find "/opt/zscaler/var" -mindepth 1 -delete</code></li>
+              <li>Reboot the VM</li>
+              <li>Stop service again (auto-starts on boot): <code>sudo systemctl stop zpa-connector</code></li>
+              <li>Copy provisioning key: <code>sudo cp provision_key /opt/zscaler/var/</code></li>
+              <li>Start service: <code>sudo systemctl start zpa-connector</code></li>
+              <li>Check status: <code>sudo systemctl status zpa-connector</code></li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t5" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5" placeholder="Questions about Task 5…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5" placeholder="Key notes for Task 5…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 6 ══ -->
+      <div class="task-collapsible open" id="task-e6">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#15803d;">TASK 6</span>
+          <span class="task-collapsible-title">Configure ZPA Logging &amp; Reporting</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Configure Log Streaming Service (LSS) to stream ZPA logs to the onsite SIEM. Configure the Corp: Log Streaming Connector (10.0.0.20) — SIEM Server VM is pre-installed.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ol class="req-list">
+            <li><strong>Configure the App Connector Corp: Log Streaming Connector</strong> — used for streaming logs from ZPA cloud to SIEM server</li>
+            <li>Configure LSS to stream the following log data:
+              <ul>
+                <li><strong>User Activity logs</strong> for Client Connector users only — CSV format</li>
+                <li><strong>App Connector Status logs</strong> — CSV format</li>
+              </ul>
+            </li>
+          </ol>
+
+          <div class="test-block">
+            <div class="test-block-label">Testing Requirements</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#14532d;line-height:1.75;">
+              <li>On the Corp: Client PC, generate traffic that matches the LSS configuration</li>
+              <li>Log in to the SIEM VM and verify that log messages are being received</li>
+              <li><em>Note: Use PUTTY on the Client PC VM to connect to the SIEM Server VM</em></li>
+              <li>Ensure the SIEM server can be accessed via ZPA</li>
+            </ul>
+          </div>
+
+          <div class="hint-block">
+            <div class="hint-block-label">Configuration Hints</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;line-height:1.75;">
+              <li>To upload the provision key to the App Connector, use <strong>WinSCP</strong> pre-installed on Corp: Win Svr VM</li>
+              <li>TCP Port for the Log Receiver: <code>514</code></li>
+            </ul>
+          </div>
+
+          <div class="section-qa" data-section="t6" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 6</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t6" placeholder="Questions about Task 6…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t6',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t6"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t6" placeholder="Key notes for Task 6…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t6',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 7 ══ -->
+      <div class="task-collapsible open" id="task-e7">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#c2410c;">TASK 7</span>
+          <span class="task-collapsible-title">Prevent the Leakage of PII and PCI Data</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Implement DLP policies to block confidential PCI data from being uploaded to external websites, and export logs confirming the blocks.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ol class="req-list">
+            <li>Ensure that all <strong>file upload traffic is fully inspected</strong> so that confidential PCI data is blocked and the activity logged. Attempts to upload files to the dlptoolbox website should fail.</li>
+            <li>After the file upload is blocked by DLP policy, extract the relevant event logs from <strong>Web Insight</strong>:
+              <ul>
+                <li>Export format: <strong>CSV</strong></li>
+                <li>The logs should contain <strong>only entries related to the DLP block event</strong></li>
+                <li>Required columns: <strong>Event time, User, Policy Action, URL, DLP MD5, DLP Identifier, Blocked Policy Type, DLP Dictionary, DLP Engine</strong></li>
+              </ul>
+            </li>
+            <li>Save the exported file to the <strong>desktop on Client PC VM</strong></li>
+          </ol>
+
+          <div class="test-block">
+            <div class="test-block-label">Testing Requirements</div>
+            <ol style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#14532d;line-height:1.75;">
+              <li>Login with <code>student@<span class="d-safemarch-domain">zs4811.safemarch.com</span></code> credentials to Zscaler Client Connector on Corp: Client PC; verify Internet Security status is <strong>enabled</strong></li>
+              <li>Open <code>https://dlptoolbox.com</code> in a browser and confirm access to the website</li>
+              <li>Attempt to upload <strong>"Customer Credit Card.xlsx"</strong> and <strong>"Confidential SSNs and Credit Cards.xlsx"</strong> from the <strong>DLP Test Files</strong> folder on the desktop, in the File Audit pane on dlptoolbox.com</li>
+              <li>Confirm that a <strong>block notification</strong> is displayed when attempting the upload</li>
+              <li>Check <strong>Web Insights logs</strong> in the ZIA Admin Portal to ensure the file upload attempt is logged and blocked</li>
+            </ol>
+          </div>
+
+          <div class="hint-block">
+            <div class="hint-block-label">Configuration Hints</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#7c2d12;line-height:1.75;">
+              <li>Be sure to use <strong>predefined dictionaries</strong> (e.g. <strong>Credit Cards</strong>) while creating the DLP engine</li>
+            </ul>
+          </div>
+
+          <div class="help-block">
+            <div class="help-block-label">Where to Get Help</div>
+            <ul>
+              <li><a href="https://help.zscaler.com/zia/about-web-insights-logs" target="_blank">help.zscaler.com — Web Insights Logs: Filters</a></li>
+            </ul>
+          </div>
+
+          <div class="section-qa" data-section="t7" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 7</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t7" placeholder="Questions about Task 7…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t7',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t7"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t7" placeholder="Key notes for Task 7…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t7',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t7"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 8 ══ -->
+      <div class="task-collapsible open" id="task-e8">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#0e7490;">TASK 8</span>
+          <span class="task-collapsible-title">Apply Zero Trust Automation: Identify Blocked Traffic</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Monitor web traffic logs to identify potentially malicious requests, alert administrators, and block the source using the ZIA API.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ol class="req-list">
+            <li>Fetch and analyze web URLs and identify the allow/deny list using the <strong>advanced endpoint</strong> of the ZIA Base URL:
+              <ul>
+                <li>Endpoint: <code>&#123;&#123;ZIABase&#125;&#125;/security/advanced</code></li>
+                <li>Use this to deny/backlist sites not allowed for your organisation (up to 25,000 URLs)</li>
+                <li>Sample URLs to check: <code>tinder.com</code>, <code>snapchat.com</code>, <code>gamixlabs.com</code>, <code>888.com</code></li>
+              </ul>
+            </li>
+            <li>Block unauthorized URLs using the <strong>POST /security/advanced/blacklistUrls</strong> endpoint:
+              <ul>
+                <li>Endpoint: <code>&#123;&#123;ZIABase&#125;&#125;/security/advanced/blacklistUrls?action=ADD_TO_LIST</code></li>
+                <li>URLs to block: <code>betano.com</code>, <code>bet365.com</code></li>
+              </ul>
+            </li>
+            <li>Notify administrators of the incident using <strong>POST /dlpNotificationTemplates</strong>:
+              <ul>
+                <li>Required inputs: <strong>Name, Subject, Plain Text Message</strong></li>
+              </ul>
+            </li>
+            <li>Validate the updates</li>
+          </ol>
+
+          <div class="test-block">
+            <div class="test-block-label">Testing Requirements</div>
+            <ul style="margin:0;padding-left:16px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:#14532d;line-height:1.75;">
+              <li>Create an <strong>API client</strong> in ZIdentity Dashboard</li>
+              <li>Authenticate a session for the OneAPI client in <strong>Postman</strong></li>
+              <li>Call the API endpoint to add the malicious URLs</li>
+              <li>Navigate to the ZIA Admin portal and verify the URLs are added to the blocked list</li>
+              <li>Notify the Admin about the update</li>
+            </ul>
+          </div>
+
+          <div class="help-block">
+            <div class="help-block-label">Where to Get Help</div>
+            <ul>
+              <li><a href="https://help.zscaler.com/zia/security-policy-settings#/security/advanced/blacklistUrls-post" target="_blank">help.zscaler.com — POST /security/advanced/blacklistUrls</a></li>
+              <li><a href="https://help.zscaler.com/zia/data-loss-prevention#/dlpNotificationTemplates-post" target="_blank">help.zscaler.com — POST /dlpNotificationTemplates</a></li>
+            </ul>
+          </div>
+
+          <div class="section-qa" data-section="t8" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 8</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t8" placeholder="Questions about Task 8…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t8',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t8"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t8" placeholder="Key notes for Task 8…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t8',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t8"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TASK 9 ══ -->
+      <div class="task-collapsible open" id="task-e9">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge" style="background:#7e22ce;">TASK 9</span>
+          <span class="task-collapsible-title">Adding Custom Application and Creating Custom Probes</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <p style="font-family:'Epilogue',sans-serif;font-size:13px;color:var(--text-soft);margin:0 0 14px;">Add a custom application and create Web and Cloud Path probes that log data pertaining to certain aspects of the applications in your organisation.</p>
+
+          <div class="req-label">Configuration Requirements</div>
+          <ul class="req-list">
+            <li>Add a <strong>custom application</strong> in the ZDX Admin portal</li>
+            <li>Add a <strong>Web probe</strong> and a <strong>Cloud Path probe</strong> for the custom application you created. Use values of your choice for probing criteria and exclusion criteria.</li>
+          </ul>
+
+          <div class="section-qa" data-section="t9" style="margin-top:16px;">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 9</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t9" placeholder="Questions about Task 9…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t9',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t9"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t9" placeholder="Key notes for Task 9…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t9',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t9"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🎯</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">EXAM SUMMARY</div>
+          <div class="mental-note-block-text">9 tasks: <strong>Identity</strong> (users/depts/timeout) → <strong>Traffic Forwarding</strong> (ZCC config) → <strong>ZIA Policy</strong> (SSL, file control, sandbox, firewall, URL, O365, DLP, YouTube) → <strong>ZIA Logging</strong> (NSS→SIEM, tab-sep, Finance+Marketing) → <strong>ZPA Policy</strong> (App Connector + 7 access rules) → <strong>ZPA Logging</strong> (LSS User Activity + Connector Status) → <strong>DLP</strong> (block PCI upload, export Web Insight CSV) → <strong>API Automation</strong> (blacklist URLs via Postman) → <strong>ZDX</strong> (custom app + Web/Cloud Path probes). Pass mark: 75%.</div>
+        </div>
+      </div>
+
+    </div><!-- /.section-block -->
+  </div><!-- /.content-col -->
+
+  <aside class="sidebar">
+    <a class="hub-link" href="../index.html">← Zscaler Labs</a>
+    <a class="hub-link" href="../edu-302-lab/index.html" style="margin-top:6px;display:block;">← EDU-302 Practice Labs</a>
+
+    <div class="checklist-card" style="margin-top:16px;">
+      <div class="checklist-title">EXAM PROGRESS</div>
+      <label class="checklist-item"><input type="checkbox" id="chk-e1" onchange="saveChecklist()"><span>Task 1: Identity Services</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e2" onchange="saveChecklist()"><span>Task 2: Traffic Forwarding</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e3" onchange="saveChecklist()"><span>Task 3: ZIA Policy</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e4" onchange="saveChecklist()"><span>Task 4: ZIA Logging</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e5" onchange="saveChecklist()"><span>Task 5: ZPA Policy</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e6" onchange="saveChecklist()"><span>Task 6: ZPA Logging</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e7" onchange="saveChecklist()"><span>Task 7: DLP / PCI Data</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e8" onchange="saveChecklist()"><span>Task 8: API Automation</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-e9" onchange="saveChecklist()"><span>Task 9: ZDX Custom App</span></label>
+    </div>
+
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
+        QUICK REFERENCE <span class="qr-chevron">▲</span>
+      </div>
+      <div class="qr-body">
+        <div class="qr-item">
+          <div class="qr-term">One Experience Console</div>
+          <div class="qr-def"><code style="font-size:11px;">console.zscaler.com</code> — ZIA, ZPA &amp; ZDX Admin portals</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">NSS Server IPs</div>
+          <div class="qr-def">Mgmt: <code style="font-size:11px;">10.0.0.4/24</code> · Service: <code style="font-size:11px;">10.0.0.5/24</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">SIEM Server</div>
+          <div class="qr-def"><code style="font-size:11px;">10.0.0.2</code> · Syslog path: <code style="font-size:11px;">/var/log/syslog</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">ZPA Connector</div>
+          <div class="qr-def"><code style="font-size:11px;">10.0.0.3</code> · Log Streaming: <code style="font-size:11px;">10.0.0.20</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">NSS/LSS TCP Port</div>
+          <div class="qr-def"><code style="font-size:11px;">514</code> — used for both NSS and LSS log receivers</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">Gateway / Nameserver</div>
+          <div class="qr-def"><code style="font-size:11px;">10.0.0.254</code> (data center default for NSS config)</div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">O365 Tenant</div>
+          <div class="qr-def">Profile: Safemarch Microsoft O365 · Tenant: <code style="font-size:11px;">safemarch.com</code></div>
+        </div>
+        <div class="qr-item">
+          <div class="qr-term">DLP Test Files</div>
+          <div class="qr-def">Upload to dlptoolbox.com: Customer Credit Card.xlsx, Confidential SSNs and Credit Cards.xlsx</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-302 · Zscaler Digital Delivery Consultant Exam Guide</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">9 Tasks · 75% Pass Mark</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="../edu-302-lab/index.html">
+    <span class="page-nav-label">← BACK</span>
+    <span class="page-nav-title">EDU-302 Practice Labs</span>
+  </a>
+  <div class="page-nav-message">You've done the practice. Now show what you know.</div>
+  <span class="page-nav-btn page-nav-next page-nav-disabled">
+    <span class="page-nav-label">&nbsp;</span>
+    <span class="page-nav-title">&nbsp;</span>
+  </span>
+</div>
+
+<script>
+const CONFIG_KEY='edu302-exam-config';
+const CONFIG_COLLAPSED_KEY='edu302-exam-config-collapsed';
+const FOOTER_KEY='edu302-exam-footer';
+const PAGE_KEY='edu302-exam-guide';
+var SECTION_IDS=['t1','t2','t3','t4','t5','t6','t7','t8','t9'];
+var CHK_IDS=['chk-e1','chk-e2','chk-e3','chk-e4','chk-e5','chk-e6','chk-e7','chk-e8','chk-e9'];
+
+function toggleConfig(){
+  var panel=document.getElementById('config-panel');
+  var btn=document.getElementById('config-toggle-btn');
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
+}
+function updateSidebarOffset(){
+  var panel=document.getElementById('config-panel');
+  var h=panel?panel.offsetHeight:52;
+  document.documentElement.style.setProperty('--config-h',(h+16)+'px');
+}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function updateToggleSummary(){
+  var zidUrl=document.getElementById('zid-url-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  s.textContent=zidUrl?' — '+zidUrl:'';
+}
+function applyConfig(){
+  var zidUrl=document.getElementById('zid-url-input').value.trim()||'zs4811safemarch.zslogin.net';
+  var studentAdmin=document.getElementById('student-admin-input').value.trim()||'student@zs4811.safemarch.com';
+  var studentPass=document.getElementById('student-pass-input').value.trim()||'zs4811+Y0urZDDC';
+  var prefixMatch=zidUrl.match(/^([a-z0-9]+)safemarch\./i);
+  var prefix=prefixMatch?prefixMatch[1]:'zs4811';
+  var domain=prefix+'.safemarch.com';
+  var cd=prefix.slice(-2);
+  document.querySelectorAll('.d-zid-url').forEach(function(e){e.textContent=zidUrl;});
+  document.querySelectorAll('.d-student-admin').forEach(function(e){e.textContent=studentAdmin;});
+  document.querySelectorAll('.d-student-pass').forEach(function(e){e.textContent=studentPass;});
+  document.querySelectorAll('.d-safemarch-domain').forEach(function(e){e.textContent=domain;});
+  document.querySelectorAll('.d-safemarch-prefix').forEach(function(e){e.textContent=prefix;});
+  document.querySelectorAll('.d-cd').forEach(function(e){e.textContent=cd;});
+}
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('zid-url-input').value=cfg.zidUrl||'';document.getElementById('student-admin-input').value=cfg.studentAdmin||'';document.getElementById('student-pass-input').value=cfg.studentPass||'';}
+    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
+  }catch(e){}
+  applyConfig();updateToggleSummary();updateSidebarOffset();
+}
+function saveConfig(){
+  var cfg={zidUrl:document.getElementById('zid-url-input').value.trim(),studentAdmin:document.getElementById('student-admin-input').value.trim(),studentPass:document.getElementById('student-pass-input').value.trim()};
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();updateToggleSummary();
+  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+function clearConfig(){
+  document.getElementById('zid-url-input').value='';document.getElementById('student-admin-input').value='';document.getElementById('student-pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();updateToggleSummary();
+}
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value.trim();if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
+}
+['zid-url-input','student-admin-input','student-pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){
+  document.querySelectorAll('.config-derived code').forEach(function(code){
+    if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;
+    var text=code.textContent.trim();if(text.length<2)return;
+    var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';
+    btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});
+    code.after(btn);
+  });
+}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function saveChecklist(){
+  try{
+    var state={};
+    CHK_IDS.forEach(function(id){var el=document.getElementById(id);if(el)state[id]=el.checked;});
+    localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));
+  }catch(e){}
+}
+function loadChecklist(){
+  try{
+    var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');
+    CHK_IDS.forEach(function(id){var el=document.getElementById(id);if(el&&state[id]!==undefined)el.checked=state[id];});
+  }catch(e){}
+}
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'q\')">'+escHtml(q)+'</span><button class="qa-item-del" onclick="delSectionQ(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n,i){return'<div class="qa-item"><span class="qa-item-text" onclick="editQAItem(this,\''+id+'\','+i+',\'n\')">'+escHtml(n)+'</span><button class="qa-item-del" onclick="delSectionN(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}renderSectionQ(id);}
+function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
+function editQAItem(span,id,idx,type){var text=span.textContent;var ta=document.createElement('textarea');ta.className='section-qa-textarea';ta.style.cssText='margin:0;min-height:32px;padding:4px 8px;font-size:12.5px;font-family:Epilogue,sans-serif;';ta.value=text;span.replaceWith(ta);ta.focus();ta.select();var done=false;function commit(){if(done)return;done=true;var val=ta.value.trim();if(val&&val!==text){try{var key=PAGE_KEY+(type==='q'?'-sq-':'-sn-')+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr[idx]=val;localStorage.setItem(key,JSON.stringify(arr));}catch(e){}}type==='q'?renderSectionQ(id):renderSectionN(id);}ta.addEventListener('blur',commit);ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ta.blur();}if(e.key==='Escape'){done=true;type==='q'?renderSectionQ(id):renderSectionN(id);}});}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+function toggleTask(header){
+  var tc=header.closest('.task-collapsible');
+  tc.classList.toggle('open');
+  try{localStorage.setItem(PAGE_KEY+'-tc-'+tc.id,tc.classList.contains('open')?'1':'0');}catch(e){}
+}
+(function(){
+  document.querySelectorAll('.task-collapsible').forEach(function(tc){
+    var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);
+    if(saved==='0')tc.classList.remove('open');
+  });
+  document.querySelectorAll('.task-collapsible-header').forEach(function(h){
+    h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});
+  });
+})();
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.opacity='1';
+  loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.quick-ref').forEach(function(qr){qr.classList.add('open');});
+  document.querySelectorAll('.page-nav-btn a').forEach(function(a){a.addEventListener('click',function(){try{sessionStorage.setItem('pt','1');}catch(e){}});});
+});
+</script>
+</body>
+</html>
