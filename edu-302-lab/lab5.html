@@ -175,7 +175,7 @@
       <!-- Configuration Requirements -->
       <div class="task-block" style="margin-top:28px;">
         <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
-        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all seven requirements. Check each one off as you complete it.</p>
+        <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through all nine requirements. Check each one off as you complete it.</p>
 
         <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">App Connector · ZPA Admin Portal → Infrastructure → App Connectors</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
@@ -214,15 +214,17 @@
               <input type="checkbox" id="chk-5-2" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
                 <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Create Application Segment: Intranet</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Assign to the App Connector group. Define the correct internal domain and port(s) for the Intranet resource.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Domain: <code style="font-size:11.5px;">intranet.patraining.safemarch.com</code> — TCP 80 and 443. All users may access. Assign to the App Connector group.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Applications → App Segments → Add Application Segment</li>
-                  <li>Name: Intranet. Add the internal intranet domain/IP and port(s) from the lab topology</li>
+                  <li>Navigate to <strong>Applications → App Segments → Add Application Segment</strong></li>
+                  <li>Name: <strong>Intranet</strong></li>
+                  <li>Domain/Address: <code>intranet.patraining.safemarch.com</code></li>
+                  <li>Ports: TCP 80, TCP 443</li>
                   <li>Assign App Connector Groups: select the group created in req 1</li>
                   <li>Click Save</li>
                 </ol>
@@ -235,15 +237,17 @@
               <input type="checkbox" id="chk-5-3" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
                 <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">3 · Create Application Segment: File Share</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Assign to the App Connector group. Define the correct internal domain and port(s) for the File Share resource.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Domain: <code style="font-size:11.5px;">shares.patraining.safemarch.com</code> — TCP 139 and 445 (SMB/CIFS). Assign to the App Connector group.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In Applications → App Segments, click Add Application Segment — name: File Share</li>
-                  <li>Add the file share server address and SMB port (445) or other relevant ports from the lab topology</li>
+                  <li>Navigate to <strong>Applications → App Segments → Add Application Segment</strong></li>
+                  <li>Name: <strong>File Share</strong></li>
+                  <li>Domain/Address: <code>shares.patraining.safemarch.com</code></li>
+                  <li>Ports: TCP 139, TCP 445</li>
                   <li>Assign App Connector Groups: select the group from req 1 — click Save</li>
                 </ol>
               </div>
@@ -255,16 +259,19 @@
               <input type="checkbox" id="chk-5-4" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
                 <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">4 · Create Application Segment: HVAC</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Assign to the App Connector group. Define the correct internal domain and port(s) for the HVAC resource.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Domain: <code style="font-size:11.5px;">hvac.patraining.safemarch.com</code> — TCP 80. Restricted to the <strong>Maintenance</strong> department. Idle session close: <strong>15 minutes</strong>.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In Applications → App Segments, click Add Application Segment — name: HVAC</li>
-                  <li>Add the HVAC system's internal IP and port(s) from the lab topology</li>
-                  <li>Assign App Connector Groups: select the group from req 1 — click Save</li>
+                  <li>Navigate to <strong>Applications → App Segments → Add Application Segment</strong></li>
+                  <li>Name: <strong>HVAC</strong></li>
+                  <li>Domain/Address: <code>hvac.patraining.safemarch.com</code></li>
+                  <li>Ports: TCP 80</li>
+                  <li>Assign App Connector Groups: select the group from req 1</li>
+                  <li>Click Save — the Maintenance dept restriction and 15-minute idle close are configured in the Access Policy (req 7)</li>
                 </ol>
               </div>
             </div>
@@ -275,16 +282,42 @@
               <input type="checkbox" id="chk-5-5" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
                 <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">5 · Create Application Segment: SIEM</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Destination: 10.0.0.2. Assign to the App Connector group. Define the correct port(s) for SIEM access.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Destination: <code style="font-size:11.5px;">10.0.0.2</code> — TCP 22 (SSH). Requires <strong>domain-joined device posture</strong> — only corporate-managed machines may SSH into the SIEM server. Assign to the App Connector group.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>In Applications → App Segments, click Add Application Segment — name: SIEM</li>
-                  <li>Add IP 10.0.0.2 and the relevant ports (e.g. 514 TCP for syslog, 8080, or as specified in the lab)</li>
+                  <li>Navigate to <strong>Applications → App Segments → Add Application Segment</strong></li>
+                  <li>Name: <strong>SIEM</strong></li>
+                  <li>Domain/Address: <code>10.0.0.2</code></li>
+                  <li>Ports: TCP 22</li>
                   <li>Assign App Connector Groups: select the group from req 1 — click Save</li>
+                  <li>The domain-joined device posture requirement is enforced in the Access Policy (req 7)</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-5-6" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">6 · Create Application Segment: RDP</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Domain: <code style="font-size:11.5px;">rdp.patraining.safemarch.com</code> — TCP/UDP 3389. Restricted to the <strong>Administrator</strong> department only. RDP sessions use credentials Admin / Admin-123!</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>Navigate to <strong>Applications → App Segments → Add Application Segment</strong></li>
+                  <li>Name: <strong>RDP</strong></li>
+                  <li>Domain/Address: <code>rdp.patraining.safemarch.com</code></li>
+                  <li>Ports: TCP 3389, UDP 3389</li>
+                  <li>Assign App Connector Groups: select the group from req 1 — click Save</li>
+                  <li>Administrator dept restriction and 10-minute re-auth are configured in the Access Policy and Timeout Policy (req 7)</li>
                 </ol>
               </div>
             </div>
@@ -292,26 +325,28 @@
 
         </div>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Access &amp; Timeout Policy · ZPA Admin Portal → Policy → Access Policy</div>
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">Access, Timeout &amp; Forwarding Policy · ZPA Admin Portal → Policy</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-5-6" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-5-7" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">6 · Create department-level access policy rules</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Different departments get access to different application segments. Set idle timeout per rule. Department-specific allow rules must sit above the default deny. Map each department to its permitted segments with appropriate idle timeout values.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">7 · Create department-level access and timeout policy rules</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Map each department to its permitted app segments with the correct constraints: Maintenance → HVAC (15-min idle close); Administrator → RDP (10-min session) + SIEM; all users → Intranet + File Share; SIEM access requires domain-joined device posture.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → Access Policy → Add Rule</li>
-                  <li>For each department, create a rule specifying: allowed user/department, allowed application segments, and idle timeout value</li>
-                  <li>Place department-specific allow rules above the default deny rule</li>
-                  <li>Set Idle Network Timeout per rule as required by the scenario</li>
-                  <li>Click Save after each rule</li>
+                  <li>Navigate to <strong>Policy → Access Policy → Add Rule</strong></li>
+                  <li><strong>Rule 1 — All Users / Intranet + File Share:</strong> Criteria: Any authenticated user. App Segments: Intranet, File Share. No additional posture. Action: Allow.</li>
+                  <li><strong>Rule 2 — Maintenance / HVAC:</strong> Criteria: Department = Maintenance. App Segments: HVAC. Idle Network Timeout: 15 minutes. Action: Allow.</li>
+                  <li><strong>Rule 3 — Administrator / SIEM (domain-joined):</strong> Criteria: Department = Administrator AND Posture = Domain Joined. App Segments: SIEM. Action: Allow.</li>
+                  <li><strong>Rule 4 — Administrator / RDP:</strong> Criteria: Department = Administrator. App Segments: RDP. Action: Allow.</li>
+                  <li>Navigate to <strong>Policy → Timeout Policy</strong> — set RDP session re-auth to <strong>10 minutes</strong>.</li>
+                  <li>Ensure department-specific rules are ordered above the default Deny rule.</li>
                 </ol>
               </div>
             </div>
@@ -319,20 +354,42 @@
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
             <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
-              <input type="checkbox" id="chk-5-7" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <input type="checkbox" id="chk-5-8" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">7 · Create a Client Forwarding bypass rule</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Bypass ZPA tunnelling for traffic that should not be forwarded — e.g. local subnet traffic or the ZPA connector's own management traffic.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">8 · Create a Client Forwarding Policy for bypassed destinations</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Bypass ZPA for these four Safemarch destinations that have their own controls: <code style="font-size:11.5px;">erp.safemarch.com</code>, <code style="font-size:11.5px;">crm.safemarch.com</code>, <code style="font-size:11.5px;">contractors.safemarch.com</code>, <code style="font-size:11.5px;">b2b.safemarch.com</code>.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Policy → Client Forwarding Policy → Add Rule</li>
-                  <li>Add the destination addresses/subnets that should NOT be tunnelled through ZPA (e.g. local subnet 10.0.0.0/24 or the connector's own IP)</li>
-                  <li>Set Action to Bypass</li>
+                  <li>Navigate to <strong>Policy → Client Forwarding Policy → Add Rule</strong></li>
+                  <li>Name the rule (e.g. "Bypass-Safemarch-Internal")</li>
+                  <li>Add the four destinations: <code>erp.safemarch.com</code>, <code>crm.safemarch.com</code>, <code>contractors.safemarch.com</code>, <code>b2b.safemarch.com</code></li>
+                  <li>Action: <strong>Bypass</strong> — this tells ZCC to not tunnel these destinations through ZPA</li>
                   <li>Click Save</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+            <label class="checklist-item" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;margin:0;">
+              <input type="checkbox" id="chk-5-9" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
+              <div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">9 · Auto-discover applications on the Safemarch corporate network</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Use ZPA's Application Discovery to automatically detect applications the App Connector can reach — review discovered apps and promote relevant ones to managed application segments.</div>
+              </div>
+            </label>
+            <div style="border-top:1px solid var(--border-dim);">
+              <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
+              <div style="display:none;padding:0 16px 14px 44px;">
+                <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
+                  <li>In the ZPA Admin Portal, navigate to <strong>Applications → Application Discovery</strong></li>
+                  <li>Ensure the App Connector from req 1 is enabled for discovery scanning</li>
+                  <li>Review the discovered applications list — ZPA automatically detects traffic patterns through the connector</li>
+                  <li>Select any relevant discovered applications and promote them to managed App Segments if required</li>
                 </ol>
               </div>
             </div>
@@ -345,9 +402,12 @@
       <div class="callout callout-success" style="margin-top:24px;">
         <p><strong>Testing Requirements</strong></p>
         <ol style="margin:8px 0 0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:13px;line-height:1.7;">
-          <li>Log in to the Corp: Client PC VM and attempt to reach each application segment by its internal address.</li>
-          <li>Confirm ZPA access logs show the correct policy rule matching each connection.</li>
-          <li>Attempt access from a department that should be denied — confirm it is blocked.</li>
+          <li>From the Corp: Client PC (192.168.1.1), browse to <code>http://intranet.patraining.safemarch.com</code> — confirm it loads via ZPA.</li>
+          <li>From the Client PC, access the file share at <code>\\shares.patraining.safemarch.com</code> — confirm it mounts via ZPA.</li>
+          <li>Log in as a <em>maintenance</em> user and browse to <code>http://hvac.patraining.safemarch.com</code> — access should succeed. Leave the session idle for 15+ minutes and confirm ZPA terminates it.</li>
+          <li>Log in as an <em>admin</em> user from a domain-joined VM and SSH to 10.0.0.2 — confirm it succeeds via ZPA. Attempt from a non-domain-joined device — confirm it is denied.</li>
+          <li>As an <em>admin</em> user, RDP to <code>rdp.patraining.safemarch.com</code> (Admin / Admin-123!) — confirm ZPA policy matches and re-auth fires after ~10 min.</li>
+          <li>Attempt to reach <code>erp.safemarch.com</code> — confirm ZPA does NOT tunnel it (Client Forwarding bypass applied).</li>
         </ol>
       </div>
 
@@ -390,7 +450,7 @@
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">ZPA setup has three layers: (1) App Connector — the on-prem VM that brokers connections from the Zscaler cloud to internal apps, (2) Application Segments — define which internal resources are reachable and through which connector, (3) Access Policy — controls which users/departments can reach which segments, with idle timeout enforcing re-authentication on dormant sessions.</div>
+          <div class="mental-note-block-text">ZPA setup has four layers: (1) App Connector (10.0.0.3) — brokers cloud-to-internal connections, (2) Application Segments — Intranet (TCP 80/443), File Share (TCP 139/445), HVAC (TCP 80), SIEM (TCP 22), RDP (TCP/UDP 3389), (3) Access Policy — Maintenance→HVAC 15-min idle; Admin→RDP + SIEM with domain-joined posture; all users→Intranet+FileShare, (4) Client Forwarding bypass for erp/crm/contractors/b2b.safemarch.com.</div>
         </div>
       </div>
 
@@ -403,12 +463,14 @@
     <div class="checklist-card">
       <div class="checklist-title">LAB 5 PROGRESS</div>
       <label class="checklist-item"><input type="checkbox" id="chk-5-1" disabled><span>App Connector provisioned and Connected</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-5-2" disabled><span>App Segment: Intranet</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-5-3" disabled><span>App Segment: File Share</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-5-4" disabled><span>App Segment: HVAC</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-5-5" disabled><span>App Segment: SIEM (10.0.0.2)</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-5-6" disabled><span>Department access policy rules created</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-5-7" disabled><span>Client Forwarding bypass rule created</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-2" disabled><span>App Segment: Intranet (TCP 80/443)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-3" disabled><span>App Segment: File Share (TCP 139/445)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-4" disabled><span>App Segment: HVAC (TCP 80)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-5" disabled><span>App Segment: SIEM — SSH (TCP 22)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-6" disabled><span>App Segment: RDP (TCP/UDP 3389)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-7" disabled><span>Access &amp; Timeout Policy rules created</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-8" disabled><span>Client Forwarding bypass (erp/crm/contractors/b2b)</span></label>
+      <label class="checklist-item"><input type="checkbox" id="chk-5-9" disabled><span>Auto-discover corporate applications</span></label>
     </div>
 
     <div class="quick-ref" id="quick-ref">
@@ -463,7 +525,7 @@ const CONFIG_COLLAPSED_KEY='edu302-config-collapsed';
 const FOOTER_KEY='edu302-footer-collapsed';
 const PAGE_KEY='edu302-lab-lab5';
 var SECTION_IDS=['t5-1'];
-var CHK_IDS=['chk-5-1','chk-5-2','chk-5-3','chk-5-4','chk-5-5','chk-5-6','chk-5-7'];
+var CHK_IDS=['chk-5-1','chk-5-2','chk-5-3','chk-5-4','chk-5-5','chk-5-6','chk-5-7','chk-5-8','chk-5-9'];
 
 function toggleConfig(){
   var panel=document.getElementById('config-panel');

@@ -177,7 +177,7 @@
         <h3 style="font-family:'Fraunces',serif;font-size:17px;color:var(--navy);margin:0 0 6px;">Configuration Requirements</h3>
         <p style="font-family:'Epilogue',sans-serif;font-size:13.5px;color:var(--text-soft);margin:0 0 16px;">Work through these three requirements. Check each one off as you complete it.</p>
 
-        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">ZIdentity Departments &amp; Users · ZIA Admin Portal → Infrastructure → ZIdentity</div>
+        <div style="font-family:'Epilogue',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--text-muted);margin:0 0 8px;text-transform:uppercase;">ZIdentity Departments &amp; Users · ZIdentity Admin Portal (<span class="d-zid-url">zs4803safemarch.zslogin.net</span>)</div>
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
 
           <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
@@ -185,18 +185,18 @@
               <input type="checkbox" id="chk-1-1" onchange="saveChecklist()" style="margin-top:2px;flex-shrink:0;">
               <div>
                 <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">1 · Create 5 departments in ZIdentity</div>
-                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Marketing, Human Resources, IT Security, Finance, OT. Each department will scope ZIA/ZPA policies to the correct user group.</div>
+                <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Marketing, Finance, IT Security, Administrator, Maintenance. Each department will scope ZIA/ZPA policies to the correct user group.</div>
               </div>
             </label>
             <div style="border-top:1px solid var(--border-dim);">
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Log in to ZIA Admin Portal at https://admin.zscalerthree.net</li>
-                  <li>Navigate to Infrastructure → ZIdentity → Departments</li>
-                  <li>Click Add Department and enter "Marketing" — click Save</li>
-                  <li>Repeat for: Human Resources, IT Security, Finance, OT</li>
-                  <li>Confirm all 5 departments appear in the list</li>
+                  <li>Log in to your ZIdentity admin portal at <code class="d-zid-url">zs4803safemarch.zslogin.net</code> using your Student Admin credentials</li>
+                  <li>Navigate to <strong>Administration → Identity → Departments</strong></li>
+                  <li>Click <strong>Add Department</strong>, enter "Marketing" — click Save</li>
+                  <li>Repeat for: Finance, IT Security, Administrator, Maintenance</li>
+                  <li>Confirm all 5 departments appear in the Departments list</li>
                 </ol>
               </div>
             </div>
@@ -209,11 +209,11 @@
                 <div style="font-family:'Epilogue',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy);">2 · Create 5 users — one per department — with department email addresses</div>
                 <div style="font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);margin-top:3px;">Use the email format below. The prefix and domain update automatically when you set your Student Prefix above.</div>
                 <div style="margin-top:6px;display:flex;flex-direction:column;gap:2px;">
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">marketing-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">hr-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">itsecurity-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">finance-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
-                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">ot-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span></span>
+                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">marketing-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span> — Marketing</span>
+                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">finance-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span> — Finance</span>
+                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">itsecurity-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span> — IT Security</span>
+                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">admin-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span> — Administrator</span>
+                  <span style="font-size:12px;font-family:'Epilogue',sans-serif;color:var(--text-soft);">maintenance-<span class="d-cd">03</span>@<span class="d-safemarch-domain">zs4803.safemarch.com</span> — Maintenance</span>
                 </div>
               </div>
             </label>
@@ -221,10 +221,13 @@
               <button onclick="toggleReqHow(this)" style="width:100%;text-align:left;padding:8px 16px 8px 44px;font-size:11.5px;font-family:'Epilogue',sans-serif;font-weight:600;color:var(--text-muted);background:transparent;border:none;cursor:pointer;letter-spacing:0.04em;">▸ How to do it</button>
               <div style="display:none;padding:0 16px 14px 44px;">
                 <ol style="margin:0;padding-left:18px;font-family:'Epilogue',sans-serif;font-size:12.5px;color:var(--text-soft);line-height:1.7;">
-                  <li>Navigate to Infrastructure → ZIdentity → Users</li>
-                  <li>Click Add User — set First Name, Last Name, and Email to the department address shown above</li>
+                  <li>In the ZIdentity admin portal, navigate to <strong>Identity → User Management → Users</strong></li>
+                  <li>Click <strong>Add User</strong> — set First Name, Last Name, and Email to the department address shown above</li>
                   <li>Set Department to the matching department created in requirement 1</li>
-                  <li>Set Role to User</li>
+                  <li>Under <strong>Assign Groups</strong>, select Student Admin</li>
+                  <li>Under <strong>Security Settings</strong>, enable <strong>Skip Second Factor Authentication</strong></li>
+                  <li>Set Password option to <strong>Set by Administrator</strong> and enter the session password</li>
+                  <li>Uncheck <strong>Prompt for Password Change After Initial Login</strong></li>
                   <li>Click Save — repeat for all 5 users</li>
                 </ol>
               </div>
@@ -311,7 +314,7 @@
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Two ZIdentity tasks: (1) create 5 departments + 5 users with department-scoped email addresses — the last two digits of the prefix and the prefix.safemarch.com domain are unique per student instance. (2) Enable Support Remote Assistance for 90-day view-only access — this lets Zscaler Support troubleshoot without admin credentials.</div>
+          <div class="mental-note-block-text">Two ZIdentity tasks: (1) create 5 departments (Marketing, Finance, IT Security, Administrator, Maintenance) and 5 matching users — email format <em>dept-XX@prefix.safemarch.com</em>; set password by Administrator, skip 2FA, uncheck forced password change. (2) Enable Support Remote Assistance for 90-day view-only access — configured in ZIA Admin Portal → Administration → Company Profile.</div>
         </div>
       </div>
 
