@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 10: Automation using Zscaler APIs — EDU-202</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}
+.task-collapsible{border:1px solid #dde1e7;border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:#f7f8fa;border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:#dde1e7;background:#eef0f5;}
+.task-collapsible-header:hover{background:#eaecf2;}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#1a1a2e;color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:#1a1a2e;flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-202</a> › Lab 10</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 10 · AUTOMATION</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Automation using <em>Zscaler APIs</em></h1>
+  <div class="motivation-banner">
+    <p>Manual portal configuration doesn't scale. In this lab you use the Zscaler OneAPI platform to authenticate via OAuth 2.0, query live ZCC device data, and programmatically create an App Connector Group — the same workflow used by enterprise automation pipelines and infrastructure-as-code toolchains.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab10">
+      <h2>Lab 10: Automation using Zscaler APIs</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 10</div>
+        <p><strong>Scenario:</strong> Your organisation is expanding its Zero Trust deployment and needs to automate provisioning tasks that would otherwise require manual portal access. You are tasked with integrating Zscaler into your automation pipeline using the OneAPI platform. In this lab you set up Postman as your API client, import the official Zscaler OneAPI collection, configure OAuth 2.0 authentication, validate live API calls against ZCC device data, and create a new App Connector Group via a POST request — demonstrating the full API-driven provisioning workflow.</p>
+        <figure class="lab-hero">
+          <img src="images/lab10-hero.png" alt="Lab 10 — Automation using Zscaler APIs" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
+          <div class="lab-meta-item"><strong>Service:</strong> Zscaler OneAPI (ZIA · ZPA · ZCC · ZDX)</div>
+          <div class="lab-meta-item"><strong>Tool:</strong> Postman (web or desktop)</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab10">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · ZSCALER ONEAPI &amp; AUTOMATION</span>
+        </div>
+        <p class="socratic-insight">OneAPI unifies ZIA, ZPA, ZCC, and ZDX under a single OAuth 2.0 authentication model. Before writing a single API call, make sure you understand why credentials are scoped and time-limited — and what "API Full Access" actually permits.</p>
+        <ul class="socratic-questions">
+          <li>When you create an API Client in ZIdentity you must copy the Client Secret immediately — it cannot be viewed again after saving. Why does this design pattern exist in OAuth 2.0 systems, and what operational control does it enforce?
+            <div class="answer-area" data-section="lab10-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">This is a standard security design principle called "secret exposure minimisation". The system stores only a hashed form of the secret — never the plaintext — so it cannot be retrieved even by the platform itself. Showing the plaintext once at creation time forces the engineer to immediately store it in a secrets manager (Vault, AWS Secrets Manager, etc.) or CI/CD credential store. If it must be rotated, a new secret is generated and the old one is revoked. This means a compromised developer laptop with a screen recording of the creation wizard does not give an attacker indefinite API access — they only ever see the secret once, and the organisation can rotate it at any time without re-creating the entire API client.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>The API client is configured with "Access Token Validity: 90 Minutes". An access token expires — what should a well-designed automation pipeline do when a request returns HTTP 401 Unauthorized, rather than failing permanently?
+            <div class="answer-area" data-section="lab10-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">A robust pipeline should implement an automatic token refresh loop: (1) attempt the API call with the current token; (2) on 401, re-authenticate using the Client ID and Client Secret to obtain a new access token; (3) retry the original request with the new token; (4) if re-authentication also fails (e.g. secret rotated), alert the operations team and halt. Short-lived tokens are a feature, not a bug — they limit blast radius if a token is intercepted (e.g. in a log file or network trace). The 90-minute window is a balance between security (short lifetime) and operational overhead (too-frequent re-authentication).</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Task 10.1 -->
+      <div class="task-collapsible open" id="task-10-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 10.1</span>
+          <span class="task-collapsible-title">Access and Set Up Postman</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Postman is the API client used in this lab. You can access it via the web browser or use the desktop application installed on your lab machine. A Postman account is required to save collections and variables between sessions.</p>
+            <ol class="step-list">
+              <li>On <strong>Corp: Client PC 1</strong>, open a web browser and navigate to <a href="https://www.postman.com" target="_blank" rel="noopener">postman.com</a>.
+                <div class="callout callout-note" style="margin-top:8px;">
+                  <p>Alternatively, use the <strong>Postman</strong> desktop application installed on the Corp: Client PC 1 desktop if it is available.</p>
+                </div>
+              </li>
+              <li>If you do not already have an account, select <strong>Sign Up for Free</strong> and create a free Postman account.</li>
+              <li>Sign in to Postman. Confirm you can see the Postman workspace home screen.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t10-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 10.1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t10-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t10-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t10-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t10-1" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t10-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t10-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 10.2 -->
+      <div class="task-collapsible open" id="task-10-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 10.2</span>
+          <span class="task-collapsible-title">Import the Zscaler OneAPI Postman Collection</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Zscaler publishes an official Postman collection for OneAPI that includes pre-built request templates for all product areas. You download it from the Zscaler developer portal and import it into your workspace.</p>
+            <ol class="step-list">
+              <li>Open a new browser tab and navigate to <a href="https://automate.zscaler.com" target="_blank" rel="noopener">automate.zscaler.com</a>.</li>
+              <li>Locate and download the <strong>Zscaler OneAPI Postman Collection</strong> file (a <code>.json</code> file).</li>
+              <li>Return to Postman. Select <strong>File &gt; Import</strong> (or use the <strong>Import</strong> button in the left-hand Collections sidebar).</li>
+              <li>Drag and drop the downloaded <code>.json</code> file, or browse to it. Select <strong>Import</strong>.</li>
+              <li>Verify that a collection named <strong>OneAPI</strong> appears in the <strong>Collections</strong> panel on the left, with sub-folders including:
+                <ul class="sub-steps">
+                  <li>ZIA (Zscaler Internet Access)</li>
+                  <li>ZPA (Zscaler Private Access)</li>
+                  <li>ZCC (Zscaler Client Connector)</li>
+                  <li>ZDX (Zscaler Digital Experience)</li>
+                  <li>ZIdentity</li>
+                </ul>
+              </li>
+            </ol>
+            <div class="callout callout-success">
+              <p><strong>Expected result:</strong> The OneAPI collection is visible in Postman Collections with all product sub-folders expanded and accessible.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t10-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 10.2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t10-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t10-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t10-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t10-2" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t10-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t10-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 10.3 -->
+      <div class="task-collapsible open" id="task-10-3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 10.3</span>
+          <span class="task-collapsible-title">Gather Variables for OneAPI Authentication</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">OAuth 2.0 authentication requires four variables: the ZIdentity base URL, a Client ID, a Client Secret, and your ZPA Customer ID. You collect these from different areas of the administration portal.</p>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:16px 0 8px;">Step A — Find the ZIdentity Base URL</h4>
+            <ol class="step-list">
+              <li>In the Experience Center, navigate to <strong>Administration &gt; Identity &gt; ZIdentity &gt; ZIdentity Portal</strong>.</li>
+              <li>The ZIdentity portal opens in a new browser tab. Copy the base URL from the browser address bar (e.g. <code>https://zs000149.zslogin.net</code>). This is your <strong><code>zidentityBaseUrl</code></strong>. Note it for later.</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step B — Create an API Client in ZIdentity</h4>
+            <ol class="step-list" start="3">
+              <li>In the Experience Center, navigate to <strong>Administration &gt; API Configuration &gt; OneAPI &gt; API Clients</strong>.</li>
+              <li>Select <strong>Add API Client</strong>. In the <strong>Add API Client</strong> dialog, enter:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>TestClient</code></li>
+                  <li><strong>Status:</strong> <strong>Enabled</strong></li>
+                  <li><strong>Access Token Validity:</strong> <strong>90 Minutes</strong></li>
+                </ul>
+              </li>
+              <li>Under <strong>Client Authentication</strong>, set:
+                <ul class="sub-steps">
+                  <li><strong>Validation Type:</strong> <strong>Secret</strong></li>
+                  <li>Select <strong>Add</strong>.</li>
+                </ul>
+              </li>
+              <li>Select the <strong>Resources</strong> tab. Grant the following permissions:
+                <ul class="sub-steps">
+                  <li><strong>ZCC:</strong> Super Admin</li>
+                  <li><strong>ZIA:</strong> Super Admin</li>
+                  <li><strong>ZPA:</strong> API Full Access</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+              <li><strong>Immediately</strong> copy the displayed <strong>Client Secret</strong> and store it securely.
+                <div class="callout callout-warning" style="margin-top:8px;">
+                  <p><strong>Important:</strong> The Client Secret is shown only once. Once you close or navigate away from this dialog it cannot be retrieved. If you miss it, you must regenerate the secret.</p>
+                </div>
+              </li>
+              <li>Verify the <code>TestClient</code> API client appears in the API Clients list with its <strong>Client ID</strong> visible. Note the Client ID for later.</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step C — Find the ZPA Customer ID</h4>
+            <ol class="step-list" start="10">
+              <li>Navigate to <strong>Administration &gt; Account Management &gt; Linked Services</strong>.</li>
+              <li>Locate the <strong>ZPA Tenant ID</strong> (also referred to as the Customer ID). Note this value for later.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t10-3">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 10.3</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t10-3" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t10-3',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t10-3"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t10-3" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t10-3',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t10-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 10.4 -->
+      <div class="task-collapsible open" id="task-10-4">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 10.4</span>
+          <span class="task-collapsible-title">Authenticate and Test OneAPI Endpoints</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">You configure the collected variables in the Postman collection, obtain an OAuth 2.0 access token, and then test two live ZCC API endpoints to verify connectivity and access.</p>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:0 0 8px;">Step A — Set Collection Variables</h4>
+            <ol class="step-list">
+              <li>In Postman, select the <strong>OneAPI</strong> collection in the left panel.</li>
+              <li>Select the <strong>Variables</strong> tab.</li>
+              <li>Update the following variables with the values you collected in Task 10.3:
+                <ul class="sub-steps">
+                  <li><strong><code>zidentityBaseUrl</code></strong> — your ZIdentity portal URL (e.g. <code>https://zs000149.zslogin.net</code>)</li>
+                  <li><strong><code>clientSecret</code></strong> — the Client Secret copied when you created <code>TestClient</code></li>
+                  <li><strong><code>clientID</code></strong> — the Client ID shown on the <code>TestClient</code> row</li>
+                  <li><strong><code>customerid</code></strong> — the ZPA Tenant/Customer ID from Linked Services</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong> (or press <kbd>Ctrl+S</kbd> / <kbd>Cmd+S</kbd>).</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step B — Obtain an Access Token</h4>
+            <ol class="step-list" start="5">
+              <li>With the <strong>OneAPI</strong> collection selected, select the <strong>Authorization</strong> tab.</li>
+              <li>Scroll down to the bottom of the Authorization panel and select <strong>Get New Access Token</strong>.</li>
+              <li>Postman performs the OAuth 2.0 flow against ZIdentity. When complete, a dialog displays <strong>"Authentication complete"</strong>.</li>
+              <li>Select <strong>Use Token</strong> to apply the token to the collection.</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step C — Verify the Active Token in ZIdentity</h4>
+            <ol class="step-list" start="9">
+              <li>In the Experience Center, navigate to <strong>Administration &gt; API Configuration &gt; OneAPI &gt; Tokens</strong>.</li>
+              <li>Filter or search by your Client ID (or filter by <strong>Last 15 minutes</strong>). Confirm an active token appears for <code>TestClient</code>.</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step D — Test ZCC Endpoints</h4>
+            <ol class="step-list" start="11">
+              <li>In Postman, navigate to <strong>OneAPI &gt; Zscaler Client Connector</strong>.</li>
+              <li>Select the request <strong>GET "Get all enrolled devices"</strong> and select <strong>Send</strong>.
+                <ul class="sub-steps">
+                  <li><strong>Expected response:</strong> <code>200 OK</code></li>
+                  <li>The response body contains a JSON array of enrolled devices.</li>
+                </ul>
+              </li>
+              <li>Select the request <strong>GET "Download device details as a CSV file"</strong> and select <strong>Send</strong>.
+                <ul class="sub-steps">
+                  <li><strong>Expected response:</strong> <code>200 OK</code></li>
+                  <li>The response body contains CSV-formatted device details including device name, OS version, ZCC version, and enrolled user.</li>
+                </ul>
+              </li>
+            </ol>
+            <div class="callout callout-success">
+              <p><strong>Expected result:</strong> Both requests return <code>200 OK</code> with valid response bodies. This confirms that OAuth 2.0 authentication is working and your API client has the correct ZCC Super Admin permissions.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t10-4">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 10.4</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t10-4" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t10-4',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t10-4"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t10-4" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t10-4',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t10-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 10.5 -->
+      <div class="task-collapsible open" id="task-10-5">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 10.5</span>
+          <span class="task-collapsible-title">Create an App Connector Group via API</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">You use a POST request to programmatically create a new ZPA App Connector Group — the same resource you would normally configure by hand through the ZPA portal. This demonstrates the full create workflow: look up a dependency (enrollment certificate ID), then issue a create request that references it.</p>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:0 0 8px;">Step A — Verify existing App Connector Groups</h4>
+            <ol class="step-list">
+              <li>In the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; App Connector Groups</strong>.</li>
+              <li>Note the App Connector Groups currently configured. After completing this task, a new group named <code>ZPALAB APPC Group</code> should appear in this list.</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step B — Retrieve the Enrollment Certificate ID</h4>
+            <ol class="step-list" start="3">
+              <li>In Postman, navigate to <strong>OneAPI &gt; ZPA &gt; Enrollment Certificate Controller</strong>.</li>
+              <li>Select the request <strong>GET "Gets all configured enrollment certificate details for specified customer"</strong> and select <strong>Send</strong>.</li>
+              <li>In the JSON response body, locate the enrollment certificate and note its <strong><code>id</code></strong> value (e.g. <code>"id": "7651"</code>). You will use this as the <code>signingCertId</code> in the next step.</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step C — Create the App Connector Group</h4>
+            <ol class="step-list" start="6">
+              <li>In Postman, navigate to <strong>OneAPI &gt; ZPA &gt; Connector Group Controller</strong>.</li>
+              <li>Select the request <strong>POST "Adds a new App Connector Group for specified customer"</strong>.</li>
+              <li>Select the <strong>Body</strong> tab. Replace the existing body with the following JSON, substituting the actual <code>id</code> value you retrieved in Step B for <code>signingCertId</code>:
+                <pre><code>{
+  "name": "ZPALAB APPC Group",
+  "description": "App Connector training Lab at San Jose",
+  "latitude": "37.3382032",
+  "longitude": "-121.886286",
+  "location": "San Jose, CA, USA",
+  "signingCertId": "7651"
+}</code></pre>
+                <div class="callout callout-note" style="margin-top:8px;">
+                  <p>Replace <code>"7651"</code> with the actual <code>id</code> value returned from the enrollment certificate GET request in Step B.</p>
+                </div>
+              </li>
+              <li>Select <strong>Send</strong>.</li>
+              <li>Verify the response code is <strong>201 Created</strong>. The response body contains the full JSON representation of the newly created App Connector Group.</li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step D — Confirm in the ZPA Portal</h4>
+            <ol class="step-list" start="10">
+              <li>Return to the Experience Center and navigate to <strong>Infrastructure &gt; Private Access &gt; App Connector Groups</strong>.</li>
+              <li>Confirm that <code>ZPALAB APPC Group</code> now appears in the list — created programmatically via the API without any portal interaction.</li>
+            </ol>
+
+            <div class="callout callout-success">
+              <p><strong>Expected result:</strong> The POST request returns <code>201 Created</code> and the new <code>ZPALAB APPC Group</code> is immediately visible in the ZPA App Connector Groups portal. This completes the full OneAPI provisioning workflow: authenticate → query dependencies → create resource.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t10-5">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 10.5</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t10-5" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t10-5',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t10-5"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t10-5" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t10-5',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t10-5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">Zscaler OneAPI uses OAuth 2.0 client credentials: create an API Client in ZIdentity with scoped permissions, collect the one-time Client Secret, and authenticate to receive a time-limited access token. The same token authenticates against ZIA, ZPA, ZCC, and ZDX. Resource provisioning follows a two-step pattern: GET a dependency (e.g. enrollment certificate ID), then POST the new resource referencing that dependency. A 201 Created response confirms success — no portal interaction required.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a class="hub-link" href="index.html">← Back to EDU-202 Labs</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-1" onchange="toggleDone(this)"> Postman account set up and signed in</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-2" onchange="toggleDone(this)"> OneAPI collection imported from automate.zscaler.com</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-3" onchange="toggleDone(this)"> <code>zidentityBaseUrl</code> collected from ZIdentity portal</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-4" onchange="toggleDone(this)"> <code>TestClient</code> API client created (Secret + Resources configured)</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-5" onchange="toggleDone(this)"> Client Secret copied immediately after Save</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-6" onchange="toggleDone(this)"> ZPA Customer ID retrieved from Linked Services</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-7" onchange="toggleDone(this)"> Collection variables updated in Postman</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-8" onchange="toggleDone(this)"> OAuth 2.0 token obtained — "Authentication complete"</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-9" onchange="toggleDone(this)"> Active token confirmed in ZIdentity Tokens page</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-10" onchange="toggleDone(this)"> GET enrolled devices → 200 OK</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-11" onchange="toggleDone(this)"> GET device CSV → 200 OK</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-12" onchange="toggleDone(this)"> Enrollment cert ID retrieved from GET request</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-13" onchange="toggleDone(this)"> POST App Connector Group → 201 Created</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-10-14" onchange="toggleDone(this)"> <code>ZPALAB APPC Group</code> visible in ZPA portal</label></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="quick-ref">
+        <div class="qr-header">Quick Reference</div>
+        <div class="qr-body">
+          <div class="qr-item"><span class="qr-term">API portal</span><span class="qr-def">automate.zscaler.com</span></div>
+          <div class="qr-item"><span class="qr-term">Auth type</span><span class="qr-def">OAuth 2.0 Client Credentials</span></div>
+          <div class="qr-item"><span class="qr-term">API client name</span><span class="qr-def">TestClient</span></div>
+          <div class="qr-item"><span class="qr-term">Token validity</span><span class="qr-def">90 minutes</span></div>
+          <div class="qr-item"><span class="qr-term">ZCC scope</span><span class="qr-def">Super Admin</span></div>
+          <div class="qr-item"><span class="qr-term">ZIA scope</span><span class="qr-def">Super Admin</span></div>
+          <div class="qr-item"><span class="qr-term">ZPA scope</span><span class="qr-def">API Full Access</span></div>
+          <div class="qr-item"><span class="qr-term">New group name</span><span class="qr-def">ZPALAB APPC Group</span></div>
+          <div class="qr-item"><span class="qr-term">Location</span><span class="qr-def">San Jose, CA, USA</span></div>
+          <div class="qr-item"><span class="qr-term">Create response</span><span class="qr-def">201 Created</span></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer · Zenith Live 2026 · Rev 3.3</span>
+    <button class="footer-toggle" onclick="toggleFooter(this)">▲ Hide</button>
+    <span class="footer-content">LAB 10 of 10</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab9.html">← Lab 9</a>
+  <div class="page-nav-message">You've completed all EDU-202 labs — excellent work!</div>
+  <span class="page-nav-btn page-nav-next page-nav-disabled">End →</span>
+</div>
+
+<script>
+const CONFIG_KEY='edu202-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu202-config-collapsed';
+const FOOTER_KEY='edu202-footer-collapsed';
+const PAGE_KEY='edu202-lab-lab10';
+var SECTION_IDS=['t10-1','t10-2','t10-3','t10-4','t10-5'];
+
+function loadConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fi=document.getElementById('fqdn-input'),pi=document.getElementById('pass-input');if(fi&&d.fqdn)fi.value=d.fqdn;if(pi&&d.pass)pi.value=d.pass;applyConfig();}catch(e){}}
+function saveConfig(){try{var fqdn=document.getElementById('fqdn-input').value.trim();var pass=document.getElementById('pass-input').value.trim();localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));applyConfig();}catch(e){}}
+function clearConfig(){try{localStorage.removeItem(CONFIG_KEY);document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';applyConfig();}catch(e){}}
+function applyConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';var studentId='';if(fqdn){var m=fqdn.match(/^zs(\d+)\./);if(m)studentId=m[1];}
+document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
+document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
+var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
+var dh=document.getElementById('d-hvac');if(dh)dh.textContent=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';
+var did=document.getElementById('d-id');if(did)did.textContent=studentId||'<Student ID>';
+document.querySelectorAll('.d-id').forEach(function(el){el.textContent=studentId||'<Student ID>';});
+var sum=document.getElementById('config-toggle-summary');if(sum)sum.textContent=fqdn?' — '+fqdn:'';
+}catch(e){}}
+function copyConfigField(id,btn){try{var v=document.getElementById(id).value;navigator.clipboard.writeText(v);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}catch(e){}}
+function toggleConfig(){var panel=document.getElementById('config-panel');var body=document.getElementById('config-body');var btn=document.getElementById('config-toggle-btn');if(!panel)return;var collapsed=panel.classList.toggle('collapsed');localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');if(btn){var chev=btn.querySelector('.chevron');if(chev)chev.textContent=collapsed?'▼':'▲';btn.innerHTML=(collapsed?'<span class="chevron">▼</span> Expand':'<span class="chevron">▲</span> Collapse');}
+updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var sidebar=document.querySelector('.sidebar');if(!panel||!sidebar)return;sidebar.style.marginTop='';}
+function loadConfigCollapsed(){try{var c=localStorage.getItem(CONFIG_COLLAPSED_KEY);if(c==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');if(panel)panel.classList.add('collapsed');if(btn){var chev=btn.querySelector('.chevron');if(chev)chev.textContent='▼';btn.innerHTML='<span class="chevron">▼</span> Expand';}}}catch(e){}}
+
+function toggleFooter(btn){try{var f=document.getElementById('site-footer');if(!f)return;var collapsed=f.classList.toggle('collapsed');localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');btn.textContent=collapsed?'▼ Show':'▲ Hide';}catch(e){}}
+function loadFooterState(){try{var c=localStorage.getItem(FOOTER_KEY);if(c==='1'){var f=document.getElementById('site-footer');var btn=f?f.querySelector('.footer-toggle'):null;if(f)f.classList.add('collapsed');if(btn)btn.textContent='▼ Show';}}catch(e){}}
+
+function toggleTask(header){var coll=header.closest('.task-collapsible');if(!coll)return;var open=coll.classList.toggle('open');try{var key=PAGE_KEY+'-task-'+coll.id;localStorage.setItem(key,open?'1':'0');}catch(e){}}
+function loadTaskStates(){document.querySelectorAll('.task-collapsible').forEach(function(el){try{var k=PAGE_KEY+'-task-'+el.id;var v=localStorage.getItem(k);if(v==='0')el.classList.remove('open');else if(v==='1')el.classList.add('open');}catch(e){}});}
+
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:\'Epilogue\',sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:\'Epilogue\',sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+
+function toggleSectionQA(btn){var body=btn.nextElementSibling;if(!body)return;body.classList.toggle('open');btn.querySelector('.section-qa-chevron').style.transform=body.classList.contains('open')?'rotate(180deg)':'';}
+function saveSectionQ(id,btn){try{var ta=document.getElementById('sq-'+id);if(!ta||!ta.value.trim())return;var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.push(ta.value.trim());localStorage.setItem(key,JSON.stringify(arr));ta.value='';renderSectionQ(id);}catch(e){}}
+function saveSectionN(id,btn){try{var ta=document.getElementById('sn-'+id);if(!ta||!ta.value.trim())return;var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.push(ta.value.trim());localStorage.setItem(key,JSON.stringify(arr));ta.value='';renderSectionN(id);}catch(e){}}
+function renderSectionQ(id){try{var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=arr.map(function(q,i){return'<div class="section-qa-item"><span>'+q+'</span><button onclick="deleteSectionQ(\''+id+'\','+i+')">×</button></div>';}).join('');try{loadQList();}catch(e){}}catch(e){}}
+function renderSectionN(id){try{var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=arr.map(function(n,i){return'<div class="section-qa-item"><span>'+n+'</span><button onclick="deleteSectionN(\''+id+'\','+i+')">×</button></div>';}).join('');try{loadNList();}catch(e){}}catch(e){}}
+function deleteSectionQ(id,idx){try{var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.splice(idx,1);localStorage.setItem(key,JSON.stringify(arr));renderSectionQ(id);}catch(e){}}
+function deleteSectionN(id,idx){try{var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.splice(idx,1);localStorage.setItem(key,JSON.stringify(arr));renderSectionN(id);}catch(e){}}
+
+function saveSocAnswer(btn){try{var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta||!ta.value.trim())return;var seeBtn=area.querySelector('.btn-see-answer');if(seeBtn)seeBtn.disabled=false;btn.textContent='✓ Saved';}catch(e){}}
+function revealSocAnswer(btn){try{var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma)ma.style.display=ma.style.display==='none'?'block':'none';btn.textContent=btn.textContent.includes('Hide')?'🔍 See Model Answer':'🔍 Hide Model Answer';}catch(e){}}
+
+function toggleDone(cb){try{var key=PAGE_KEY+'-check-'+cb.id;localStorage.setItem(key,cb.checked?'1':'0');cb.closest('li').classList.toggle('done',cb.checked);}catch(e){}}
+function loadChecklist(){document.querySelectorAll('.progress-item input[type=checkbox]').forEach(function(cb){try{var v=localStorage.getItem(PAGE_KEY+'-check-'+cb.id);if(v==='1'){cb.checked=true;cb.closest('li').classList.add('done');}}catch(e){}});}
+
+function injectCopyButtons(){document.querySelectorAll('pre code, code.copyable').forEach(function(el){if(el.closest('.copy-wrap'))return;var w=document.createElement('span');w.className='copy-wrap';el.parentNode.insertBefore(w,el);w.appendChild(el);var btn=document.createElement('button');btn.className='copy-code-btn';btn.textContent='⎘';btn.title='Copy';btn.onclick=function(){navigator.clipboard.writeText(el.textContent);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);};w.appendChild(btn);});}
+
+document.addEventListener('DOMContentLoaded',function(){
+  loadConfig();
+  loadConfigCollapsed();
+  loadFooterState();
+  loadQList();
+  loadNList();
+  loadChecklist();
+  loadTaskStates();
+  injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
+  document.body.style.opacity='1';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 9: ZDX Alerts &amp; Diagnostics — EDU-202</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}
+.task-collapsible{border:1px solid #dde1e7;border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:#f7f8fa;border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:#dde1e7;background:#eef0f5;}
+.task-collapsible-header:hover{background:#eaecf2;}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#1a1a2e;color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:#1a1a2e;flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-202</a> › Lab 9</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 9 · ZDX</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>ZDX Alerts &amp; <em>Diagnostics</em></h1>
+  <div class="motivation-banner">
+    <p>Monitoring collects data — but without automated alerting you still rely on users to report problems. In this lab you configure a ZDX alert rule that fires when application performance degrades beyond threshold, and launch a Diagnostic Session to capture real-time device telemetry including Wi-Fi, DNS, cloud path, and application metrics for a specific user.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab9">
+      <h2>Lab 9: ZDX Configure Alerts &amp; Diagnostics</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 9</div>
+        <p><strong>Scenario:</strong> You are a NOC Engineer and you are seeing a spike in complaints that an internal application intermittently freezes or takes too long to load for remote users. By the time IT investigates, performance often returns to normal — making it difficult to prove impact, identify patterns, or determine whether the issue is user-specific, site-specific, ISP-related, or application-related. To reduce mean time to detect (MTTD) and accelerate troubleshooting, you configure ZDX alerts to automatically notify the NOC when user experience degrades beyond acceptable thresholds, and launch a Diagnostics Session to capture real-time client and network telemetry.</p>
+        <figure class="lab-hero">
+          <img src="images/lab9-hero.png" alt="Lab 9 — ZDX Alerts and Diagnostics" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~15 minutes</div>
+          <div class="lab-meta-item"><strong>Service:</strong> Zscaler Digital Experience (ZDX)</div>
+          <div class="lab-meta-item"><strong>Prerequisite:</strong> Lab 8 probes (Mail Server_Web, Mail Server_Cloud) created and enabled</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab9">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · ZDX ALERTING &amp; DIAGNOSTICS</span>
+        </div>
+        <p class="socratic-insight">ZDX alerts shift your NOC from reactive (waiting for users to call) to proactive (getting notified before users notice). Diagnostic Sessions collect deep telemetry on demand. Think about how these tools work together to reduce MTTD and MTTR.</p>
+        <ul class="socratic-questions">
+          <li>You set "Alert Only if Repeated = 2 Times in a Row". Why is this setting important, and what problem does it solve compared to alerting on the very first degraded probe result?
+            <div class="answer-area" data-section="lab9-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Probe results are sampled every 5 minutes and can vary due to transient conditions: a momentary DNS spike, a brief ISP blip, or the probe running during a GC pause on the application server. Alerting on the first failure would generate many false-positive pages for issues that self-resolve within one probe cycle. Requiring 2 consecutive failures (10 minutes of sustained degradation) filters out transient noise while still catching genuine ongoing incidents quickly enough to respond before users widely notice. This is the standard "flap detection" technique used in all monitoring systems.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>A Diagnostic Session collects "Deep Tracing" telemetry: device resource health (CPU/memory), Wi-Fi signal and roaming details, DNS resolution performance, and application performance breakdown — all from the endpoint. How does this change the troubleshooting workflow compared to asking the user to run manual diagnostics?
+            <div class="answer-area" data-section="lab9-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Manual diagnostics from a user require the user to: (1) know how to run tools like traceroute or nslookup, (2) do so while the problem is still active, (3) correctly interpret and report the output. This is unreliable — most users can't reproduce the problem on demand and provide actionable data. A ZDX Diagnostic Session automates all of this: the NOC engineer launches it centrally, specifying the user and duration, and ZCC on the endpoint immediately starts streaming granular telemetry back without any user action. The data covers exactly what the user is experiencing right now, and the session report visualises the full network path as a hop-by-hop diagram.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Task 9.1 -->
+      <div class="task-collapsible open" id="task-9-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 9.1</span>
+          <span class="task-collapsible-title">Create an Alert Rule</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">An alert rule monitors probe metrics and notifies the NOC automatically when thresholds are breached. You will create a rule for the Mail Server application that triggers when page fetch time is too high or the ZDX score drops too low.</p>
+            <ol class="step-list">
+              <li>On <strong>Corp: Client PC 1</strong>, sign in to Zscaler Client Connector using your student credentials.</li>
+              <li>Open a browser and navigate to the Experience Center. Go to <strong>Administration &gt; Alerts &gt; Digital Experience Management &gt; Alerts</strong>.</li>
+              <li>Select <strong>Alert Rules and Templates</strong> to navigate to the Rules page.</li>
+              <li>Select <strong>Add Alert Rule</strong>.</li>
+              <li>In the <strong>Add Alert Rule</strong> window, enter:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>alert_mailserver</code></li>
+                  <li><strong>Status:</strong> <strong>Enabled</strong></li>
+                  <li><strong>Type:</strong> <strong>Application</strong></li>
+                  <li><strong>Severity:</strong> <strong>Medium</strong></li>
+                </ul>
+              </li>
+              <li>Select <strong>Next</strong>.</li>
+              <li>On the <strong>Filters</strong> tab, configure the application filters:
+                <ul class="sub-steps">
+                  <li><strong>Application:</strong> <code>Mail Server</code> (the application created in Lab 8)</li>
+                  <li><strong>Web Probe:</strong> <code>Mail Server_Web</code></li>
+                </ul>
+              </li>
+              <li>Add a geolocation filter:
+                <ul class="sub-steps">
+                  <li>Select <strong>+ Add Filter</strong>, then select <strong>Geolocation</strong>.</li>
+                  <li>Expand <strong>Asia</strong> and select all countries in Asia.</li>
+                  <li>Confirm the filter shows <strong>Geolocations Include 50</strong> (or similar).</li>
+                </ul>
+              </li>
+              <li>Select <strong>Next</strong>.</li>
+              <li>On the <strong>Criteria</strong> tab, create the following conditions:
+                <ul class="sub-steps">
+                  <li><strong>Page Fetch Time</strong> &gt;= <strong>800 ms</strong></li>
+                  <li><strong>ZDX Score</strong> &lt; <strong>50</strong></li>
+                </ul>
+              </li>
+              <li>Select <strong>Next</strong>.</li>
+              <li>On the <strong>Actions</strong> tab, enter:
+                <ul class="sub-steps">
+                  <li><strong>Alert Only if Repeated:</strong> <strong>2</strong> times in a row</li>
+                  <li><strong>Number of Active Devices is:</strong> <strong>1</strong></li>
+                  <li><strong>Alert Delivery Method:</strong> <strong>Email</strong></li>
+                  <li><strong>Alert recipient:</strong> Enter any dummy email address (e.g. <code>noc@example.com</code>)</li>
+                </ul>
+              </li>
+              <li>Select <strong>Next</strong>.</li>
+              <li>On the <strong>Review</strong> tab, review the entire configuration and select <strong>Save</strong>.</li>
+              <li><strong>Verify:</strong> The <code>alert_mailserver</code> alert rule appears in the Rules list with Status = Enabled, Type = Applications, Application = Mail Server, Probe = Mail Server_Web, Alert Delivery Method = Email.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t9-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 9.1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t9-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t9-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t9-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t9-1" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t9-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t9-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 9.2 -->
+      <div class="task-collapsible open" id="task-9-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 9.2</span>
+          <span class="task-collapsible-title">Configure a Diagnostic Session</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">A Diagnostics Session instructs the ZCC client on a specific user's device to run deep telemetry collection for a set duration. The session report provides a hop-by-hop cloud path diagram, device resource health, Wi-Fi metrics, DNS performance, and application response times — all timestamped.</p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Analytics &gt; Digital Experience Management &gt; Troubleshoot &gt; Diagnostics</strong>.</li>
+              <li>Select <strong>Start New Diagnostic Session</strong>.
+                <div class="callout callout-note" style="margin-top:8px;">
+                  <p><strong>If "Start New Diagnostic Session" is not visible</strong>, you need to enable machine hostname collection first:
+                    <ol style="margin:6px 0 0 18px;font-size:0.9rem;">
+                      <li>Go to <strong>Infrastructure &gt; Connector &gt; Client &gt; Supportability &gt; User Privacy</strong>.</li>
+                      <li>Select the <strong>User Privacy</strong> tab.</li>
+                      <li>Enable <strong>Collect Machine Hostname Information</strong>.</li>
+                      <li>Refresh the Diagnostics page — the button should now appear.</li>
+                    </ol>
+                  </p>
+                </div>
+              </li>
+              <li>In the <strong>Start New Diagnostics Session</strong> window, enter:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>diagnostics_session_student<span class="var var-fqdn" style="font-style:italic">&lt;studentID&gt;</span></code> — e.g. <code>diagnostics_session_student000205</code></li>
+                  <li><strong>User:</strong> Student Admin User Name assigned to you (<code id="d-student-ref">student@&lt;Student FQDN&gt;</code>)</li>
+                  <li><strong>Device:</strong> Select the device associated with your student user</li>
+                  <li><strong>What would you like to run:</strong> Select <strong>Deep Tracing</strong></li>
+                  <li><strong>Run Session For:</strong> <strong>5 Minutes</strong></li>
+                </ul>
+              </li>
+              <li>Select <strong>Next</strong>.</li>
+              <li>Select the probes for the session:
+                <ul class="sub-steps">
+                  <li><strong>Application:</strong> <code>Mail Server</code></li>
+                  <li><strong>Web Probe:</strong> <code>Mail Server_Web</code></li>
+                  <li><strong>Cloud Path Probe:</strong> <code>Mail Server_Cloud</code></li>
+                </ul>
+              </li>
+              <li>Under <strong>Cloud Path Probe Thresholds</strong>, set:
+                <ul class="sub-steps">
+                  <li><strong>Packet Loss:</strong> <strong>20%</strong></li>
+                  <li><strong>Latency:</strong> <strong>10 ms</strong></li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+              <li>Confirm the session appears in the <strong>In Progress</strong> table with Status = In Progress.</li>
+              <li>Proceed to the next lab. After five minutes, return to <strong>Diagnostics</strong>.
+                <ul class="sub-steps">
+                  <li>In the <strong>History</strong> table, locate the completed session (Status = Completed).</li>
+                  <li>Select the <strong>View</strong> icon to open the session report.</li>
+                  <li>The report shows a Cloud Path hop-by-hop diagram: Client → Wi-Fi Access Point → Gateway → ZIA Public Service Edge → Application, with per-hop latency values and the selected thresholds shown as dotted red lines.</li>
+                </ul>
+              </li>
+            </ol>
+            <div class="callout callout-success">
+              <p><strong>Expected result:</strong> The session report shows the full network path from the client device to mail.google.com. The Cloud Path diagram displays latency at each hop, allowing you to immediately pinpoint whether degradation is local (Wi-Fi/LAN), ISP-related, ZIA edge-related, or application-server-related without any user involvement.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t9-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 9.2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t9-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t9-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t9-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t9-2" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t9-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t9-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">ZDX Alert Rules shift the NOC from reactive to proactive — the system fires automatically when Page Fetch Time or ZDX Score breaches threshold. "Alert Only if Repeated = 2" filters transient noise. Diagnostic Sessions extend monitoring from continuous synthetic probes to on-demand deep telemetry, giving engineers a timestamped hop-by-hop breakdown of a specific user's path to pinpoint exactly where in the network the degradation is occurring.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a class="hub-link" href="index.html">← Back to EDU-202 Labs</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-1" onchange="toggleDone(this)"> Alert rule <code>alert_mailserver</code> created</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-2" onchange="toggleDone(this)"> Type=Application, Severity=Medium</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-3" onchange="toggleDone(this)"> Geolocation filter: All Asia countries</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-4" onchange="toggleDone(this)"> Criteria: Page Fetch Time &ge;800ms AND ZDX Score &lt;50</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-5" onchange="toggleDone(this)"> Alert if repeated 2× / delivery = Email</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-6" onchange="toggleDone(this)"> Rule appears Enabled in Rules list</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-7" onchange="toggleDone(this)"> Diagnostic Session created (Deep Tracing, 5 min)</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-8" onchange="toggleDone(this)"> Probes: Mail Server_Web + Mail Server_Cloud</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-9" onchange="toggleDone(this)"> Cloud Path Thresholds: 20% loss, 10ms latency</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-9-10" onchange="toggleDone(this)"> Session completed — hop-by-hop report viewed</label></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="quick-ref">
+        <div class="qr-header">Quick Reference</div>
+        <div class="qr-body">
+          <div class="qr-item"><span class="qr-term">Alert rule</span><span class="qr-def">alert_mailserver</span></div>
+          <div class="qr-item"><span class="qr-term">Type / Severity</span><span class="qr-def">Application / Medium</span></div>
+          <div class="qr-item"><span class="qr-term">Application filter</span><span class="qr-def">Mail Server / Mail Server_Web</span></div>
+          <div class="qr-item"><span class="qr-term">Geo filter</span><span class="qr-def">All Asia countries</span></div>
+          <div class="qr-item"><span class="qr-term">Criteria</span><span class="qr-def">PFT ≥800ms AND ZDX &lt;50</span></div>
+          <div class="qr-item"><span class="qr-term">Alert if repeated</span><span class="qr-def">2 times in a row</span></div>
+          <div class="qr-item"><span class="qr-term">Active devices</span><span class="qr-def">1</span></div>
+          <div class="qr-item"><span class="qr-term">Delivery method</span><span class="qr-def">Email</span></div>
+          <div class="qr-item"><span class="qr-term">Session type</span><span class="qr-def">Deep Tracing, 5 min</span></div>
+          <div class="qr-item"><span class="qr-term">CP thresholds</span><span class="qr-def">Loss 20%, Latency 10ms</span></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer · Zenith Live 2026 · Rev 3.3</span>
+    <button class="footer-toggle" onclick="toggleFooter(this)">▲ Hide</button>
+    <span class="footer-content">LAB 9 of 10</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab8.html">← Lab 8</a>
+  <div class="page-nav-message">Almost there — one final lab to go!</div>
+  <a class="page-nav-btn page-nav-next" href="lab10.html">Lab 10 →</a>
+</div>
+
+<script>
+const CONFIG_KEY='edu202-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu202-config-collapsed';
+const FOOTER_KEY='edu202-footer-collapsed';
+const PAGE_KEY='edu202-lab-lab9';
+var SECTION_IDS=['t9-1','t9-2'];
+
+function loadConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fi=document.getElementById('fqdn-input'),pi=document.getElementById('pass-input');if(fi&&d.fqdn)fi.value=d.fqdn;if(pi&&d.pass)pi.value=d.pass;applyConfig();}catch(e){}}
+function saveConfig(){try{var fqdn=document.getElementById('fqdn-input').value.trim();var pass=document.getElementById('pass-input').value.trim();localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));applyConfig();}catch(e){}}
+function clearConfig(){try{localStorage.removeItem(CONFIG_KEY);document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';applyConfig();}catch(e){}}
+function applyConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';var studentId='';if(fqdn){var m=fqdn.match(/^zs(\d+)\./);if(m)studentId=m[1];}
+document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
+document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
+var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
+var dsr=document.getElementById('d-student-ref');if(dsr)dsr.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
+var dh=document.getElementById('d-hvac');if(dh)dh.textContent=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';
+var did=document.getElementById('d-id');if(did)did.textContent=studentId||'<Student ID>';
+document.querySelectorAll('.d-id').forEach(function(el){el.textContent=studentId||'<Student ID>';});
+var sum=document.getElementById('config-toggle-summary');if(sum)sum.textContent=fqdn?' — '+fqdn:'';
+}catch(e){}}
+function copyConfigField(id,btn){try{var v=document.getElementById(id).value;navigator.clipboard.writeText(v);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}catch(e){}}
+function toggleConfig(){var panel=document.getElementById('config-panel');var body=document.getElementById('config-body');var btn=document.getElementById('config-toggle-btn');if(!panel)return;var collapsed=panel.classList.toggle('collapsed');localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');if(btn){var chev=btn.querySelector('.chevron');if(chev)chev.textContent=collapsed?'▼':'▲';btn.innerHTML=(collapsed?'<span class="chevron">▼</span> Expand':'<span class="chevron">▲</span> Collapse');}
+updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var sidebar=document.querySelector('.sidebar');if(!panel||!sidebar)return;sidebar.style.marginTop='';}
+function loadConfigCollapsed(){try{var c=localStorage.getItem(CONFIG_COLLAPSED_KEY);if(c==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');if(panel)panel.classList.add('collapsed');if(btn){var chev=btn.querySelector('.chevron');if(chev)chev.textContent='▼';btn.innerHTML='<span class="chevron">▼</span> Expand';}}}catch(e){}}
+
+function toggleFooter(btn){try{var f=document.getElementById('site-footer');if(!f)return;var collapsed=f.classList.toggle('collapsed');localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');btn.textContent=collapsed?'▼ Show':'▲ Hide';}catch(e){}}
+function loadFooterState(){try{var c=localStorage.getItem(FOOTER_KEY);if(c==='1'){var f=document.getElementById('site-footer');var btn=f?f.querySelector('.footer-toggle'):null;if(f)f.classList.add('collapsed');if(btn)btn.textContent='▼ Show';}}catch(e){}}
+
+function toggleTask(header){var coll=header.closest('.task-collapsible');if(!coll)return;var open=coll.classList.toggle('open');try{var key=PAGE_KEY+'-task-'+coll.id;localStorage.setItem(key,open?'1':'0');}catch(e){}}
+function loadTaskStates(){document.querySelectorAll('.task-collapsible').forEach(function(el){try{var k=PAGE_KEY+'-task-'+el.id;var v=localStorage.getItem(k);if(v==='0')el.classList.remove('open');else if(v==='1')el.classList.add('open');}catch(e){}});}
+
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:\'Epilogue\',sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:\'Epilogue\',sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+
+function toggleSectionQA(btn){var body=btn.nextElementSibling;if(!body)return;body.classList.toggle('open');btn.querySelector('.section-qa-chevron').style.transform=body.classList.contains('open')?'rotate(180deg)':'';}
+function saveSectionQ(id,btn){try{var ta=document.getElementById('sq-'+id);if(!ta||!ta.value.trim())return;var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.push(ta.value.trim());localStorage.setItem(key,JSON.stringify(arr));ta.value='';renderSectionQ(id);}catch(e){}}
+function saveSectionN(id,btn){try{var ta=document.getElementById('sn-'+id);if(!ta||!ta.value.trim())return;var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.push(ta.value.trim());localStorage.setItem(key,JSON.stringify(arr));ta.value='';renderSectionN(id);}catch(e){}}
+function renderSectionQ(id){try{var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=arr.map(function(q,i){return'<div class="section-qa-item"><span>'+q+'</span><button onclick="deleteSectionQ(\''+id+'\','+i+')">×</button></div>';}).join('');try{loadQList();}catch(e){}}catch(e){}}
+function renderSectionN(id){try{var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=arr.map(function(n,i){return'<div class="section-qa-item"><span>'+n+'</span><button onclick="deleteSectionN(\''+id+'\','+i+')">×</button></div>';}).join('');try{loadNList();}catch(e){}}catch(e){}}
+function deleteSectionQ(id,idx){try{var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.splice(idx,1);localStorage.setItem(key,JSON.stringify(arr));renderSectionQ(id);}catch(e){}}
+function deleteSectionN(id,idx){try{var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.splice(idx,1);localStorage.setItem(key,JSON.stringify(arr));renderSectionN(id);}catch(e){}}
+
+function saveSocAnswer(btn){try{var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta||!ta.value.trim())return;var seeBtn=area.querySelector('.btn-see-answer');if(seeBtn)seeBtn.disabled=false;btn.textContent='✓ Saved';}catch(e){}}
+function revealSocAnswer(btn){try{var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma)ma.style.display=ma.style.display==='none'?'block':'none';btn.textContent=btn.textContent.includes('Hide')?'🔍 See Model Answer':'🔍 Hide Model Answer';}catch(e){}}
+
+function toggleDone(cb){try{var key=PAGE_KEY+'-check-'+cb.id;localStorage.setItem(key,cb.checked?'1':'0');cb.closest('li').classList.toggle('done',cb.checked);}catch(e){}}
+function loadChecklist(){document.querySelectorAll('.progress-item input[type=checkbox]').forEach(function(cb){try{var v=localStorage.getItem(PAGE_KEY+'-check-'+cb.id);if(v==='1'){cb.checked=true;cb.closest('li').classList.add('done');}}catch(e){}});}
+
+function injectCopyButtons(){document.querySelectorAll('pre code, code.copyable').forEach(function(el){if(el.closest('.copy-wrap'))return;var w=document.createElement('span');w.className='copy-wrap';el.parentNode.insertBefore(w,el);w.appendChild(el);var btn=document.createElement('button');btn.className='copy-code-btn';btn.textContent='⎘';btn.title='Copy';btn.onclick=function(){navigator.clipboard.writeText(el.textContent);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);};w.appendChild(btn);});}
+
+document.addEventListener('DOMContentLoaded',function(){
+  loadConfig();
+  loadConfigCollapsed();
+  loadFooterState();
+  loadQList();
+  loadNList();
+  loadChecklist();
+  loadTaskStates();
+  injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
+  document.body.style.opacity='1';
+});
+</script>
+</body>
+</html>

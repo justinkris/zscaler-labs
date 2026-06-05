@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDU-202 v2: Zscaler for Users &mdash; Engineer &middot; Lab Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> &rsaquo; EDU-202 v2</div>
+  <div class="eyebrow">EDU-202 v2.0 &middot; ZSCALER FOR USERS &mdash; ENGINEER</div>
+  <h1>Zscaler for Users: <em>Engineer</em></h1>
+  <div class="header-desc">10 hands-on labs covering environment setup, ZPA App Connector, Browser Access, Log Streaming, ZIA Browser Isolation, Privileged Remote Access, AppProtection, Zero Trust Browser, ZDX Cloud Application Monitoring with alerts and diagnostics, and Zscaler OneAPI automation.</div>
+  <a class="hub-download-link" href="Zscaler for Users - Engineer (EDU-202) - Hands-on Lab Guide_v2.0.pdf" download>&#8595; Download offline PDF guide</a>
+</header>
+<div class="hub-main">
+<details class="zscaler-one-min">
+  <summary>&#9432; Zscaler in one minute — key terms</summary>
+  <div class="zom-body">
+    <div class="zom-term"><strong>ZIA</strong><span>Zscaler Internet Access — cloud-based secure web gateway. Inspects and enforces policy on all internet traffic from users and devices.</span></div>
+    <div class="zom-term"><strong>ZPA</strong><span>Zscaler Private Access — zero-trust network access for internal apps. Users connect to apps, never to the network.</span></div>
+    <div class="zom-term"><strong>ZDX</strong><span>Zscaler Digital Experience — end-to-end performance monitoring for users, devices, and SaaS applications.</span></div>
+    <div class="zom-term"><strong>App Connector</strong><span>Lightweight VM deployed inside your data center or cloud that creates outbound connections to ZPA, enabling zero-trust access without opening inbound firewall ports.</span></div>
+    <div class="zom-term"><strong>Browser Access</strong><span>Clientless ZPA access for web applications — users reach internal apps through a browser without the ZCC agent or a VPN.</span></div>
+    <div class="zom-term"><strong>PRA</strong><span>Privileged Remote Access — browser-based RDP/SSH for contractors and third parties, with credential vaulting and session recording. No VPN required.</span></div>
+    <div class="zom-term"><strong>AppProtection</strong><span>Inline WAF capability inside ZPA that applies OWASP CRS rules and ThreatLabZ intelligence to private application traffic.</span></div>
+    <div class="zom-term"><strong>ZTB</strong><span>Zero Trust Browser — remote browser isolation for ZPA-published apps, rendering content in the cloud so no active content reaches the endpoint.</span></div>
+  </div>
+</details>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#1a6dcc;color:#fff;">Lab 1</span>
+    <div>
+      <div class="phase-title">Phase 1 &mdash; Setup</div>
+      <div class="phase-desc">Environment orientation and Skytap access.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab1.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a6dcc;">LAB 1</span>
+    <span class="lab-time">~15 min</span>
+  </div>
+  <div class="lab-card-title">Environment Setup</div>
+  <div class="lab-card-desc">Get your virtual lab environment running and your admin portal accessible. Orient yourself in Skytap and sign into the Zscaler Experience Center — the launchpad for everything that follows.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#1a7c4a;color:#fff;">Labs 2&ndash;3</span>
+    <div>
+      <div class="phase-title">Phase 2 &mdash; ZPA Connectivity &amp; Logging</div>
+      <div class="phase-desc">App Connector deployment, Browser Access, and Log Streaming to SIEM.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab2.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a7c4a;">LAB 2</span>
+    <span class="lab-time">~35 min</span>
+  </div>
+  <div class="lab-card-title">ZPA App Connector &amp; Browser Access</div>
+  <div class="lab-card-desc">Deploy an App Connector to bridge internal apps to the Zscaler cloud, then extend zero-trust access to clientless web users via Browser Access — no VPN, no ZCC required.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab3.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#1a7c4a;">LAB 3</span>
+    <span class="lab-time">~30 min</span>
+  </div>
+  <div class="lab-card-title">ZPA Log Streaming</div>
+  <div class="lab-card-desc">Deploy a dedicated Log Streaming Connector, configure a Log Receiver pointing at your SIEM VM, and verify that ZPA user activity logs arrive in real time over TCP/TLS.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#b45309;color:#fff;">Labs 4&ndash;7</span>
+    <div>
+      <div class="phase-title">Phase 3 &mdash; Security Controls</div>
+      <div class="phase-desc">Browser Isolation, Privileged Remote Access, AppProtection WAF, and Zero Trust Browser.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab4.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 4</span>
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">ZIA Browser Isolation</div>
+  <div class="lab-card-desc">Build an Isolation Profile and enforce it via URL Filtering so risky social networking and uncategorised sites render inside a remote Zscaler container — no active content reaches the endpoint.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab5.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 5</span>
+    <span class="lab-time">~40 min</span>
+  </div>
+  <div class="lab-card-title">ZPA Privileged Remote Access</div>
+  <div class="lab-card-desc">Build the full PRA stack — App Segments, Privileged Portal, Consoles, Credentials, and two access policies — giving contractors browser-based RDP/SSH to internal servers with no VPN and no exposed credentials.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab6.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 6</span>
+    <span class="lab-time">~30 min</span>
+  </div>
+  <div class="lab-card-title">ZPA AppProtection</div>
+  <div class="lab-card-desc">Apply an inline WAF to the Damn Vulnerable Web App (DVWA) using OWASP CRS rules and ThreatLabZ intelligence. Watch SQL injection and XSS attacks flow in Report mode, then switch to Block.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab7.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#b45309;">LAB 7</span>
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">ZPA Zero Trust Browser</div>
+  <div class="lab-card-desc">Create a render-only isolation profile and isolate the DVWA app for clientless users — copy, paste, upload, and download are all controlled by the profile, and no files reach the endpoint.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#5c35cc;color:#fff;">Labs 8&ndash;9</span>
+    <div>
+      <div class="phase-title">Phase 4 &mdash; Monitoring &amp; Visibility</div>
+      <div class="phase-desc">ZDX synthetic probes, alerting, and deep diagnostic sessions.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab8.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#5c35cc;">LAB 8</span>
+    <span class="lab-time">~30 min</span>
+  </div>
+  <div class="lab-card-title">ZDX Cloud App Monitoring</div>
+  <div class="lab-card-desc">Build a ZDX monitoring collection for a custom mail server application using both Web and Cloud Path probes to continuously measure availability and network performance from user endpoints.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+<a class="lab-card" href="lab9.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#5c35cc;">LAB 9</span>
+    <span class="lab-time">~25 min</span>
+  </div>
+  <div class="lab-card-title">ZDX Alerts &amp; Diagnostics</div>
+  <div class="lab-card-desc">Configure a ZDX alert rule that fires when application performance degrades, then launch a Diagnostic Session to capture real-time Wi-Fi, DNS, cloud path, and application metrics for a specific user.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+</div>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <span class="phase-chip" style="background:#0f766e;color:#fff;">Lab 10</span>
+    <div>
+      <div class="phase-title">Phase 5 &mdash; Automation &amp; APIs</div>
+      <div class="phase-desc">Zscaler OneAPI — OAuth 2.0 authentication, querying live device data, and API-driven provisioning.</div>
+    </div>
+  </div>
+  <div class="lab-grid">
+<a class="lab-card" href="lab10.html">
+  <div class="lab-card-eyebrow">
+    <span class="lab-num-badge" style="background:#0f766e;">LAB 10</span>
+    <span class="lab-time">~20 min</span>
+  </div>
+  <div class="lab-card-title">Automation using Zscaler APIs</div>
+  <div class="lab-card-desc">Set up Postman, import the Zscaler OneAPI collection, authenticate via OAuth 2.0, test live ZCC device endpoints, and create a ZPA App Connector Group via a POST request — without touching the portal.</div>
+  <div class="lab-card-cta">Start Lab &rarr;</div>
+</a>
+  </div>
+</div>
+
+</div>
+<footer>
+  <span>EDU-202 v2.0 &middot; Zscaler for Users &mdash; Engineer &middot; Hands-On Lab Guide</span>
+  <span>Lab Hub &middot; 10 Labs</span>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.style.transition='opacity 0.3s ease';
+  document.body.style.opacity='1';
+  sessionStorage.setItem('pt','1');
+});
+</script>
+</body>
+</html>

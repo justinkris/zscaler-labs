@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 5: ZPA Privileged Remote Access — EDU-202</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}
+.task-collapsible{border:1px solid #dde1e7;border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:#f7f8fa;border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:#dde1e7;background:#eef0f5;}
+.task-collapsible-header:hover{background:#eaecf2;}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#1a1a2e;color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:#1a1a2e;flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-202</a> › Lab 5</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 5 · ZPA</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>ZPA Privileged <em>Remote Access</em></h1>
+  <div class="motivation-banner">
+    <p>Privileged Remote Access (PRA) gives contractors and third-party vendors a browser-based RDP or SSH session to internal servers — no VPN, no Zscaler Client Connector, no credentials ever revealed to the user. In this lab you build the full PRA stack: App Segments, a Privileged Portal, Consoles, Credentials, and two policies, then verify live sessions in the admin portal.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab5">
+      <h2>Lab 5: ZPA Privileged Remote Access</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 5</div>
+        <p><strong>Scenario:</strong> You are an IT engineer tasked with enabling secure, time-limited access for third-party vendor support to troubleshoot critical Microsoft Windows and Linux servers in your organisation. These servers are inside the corporate environment and accessible only through the Zero Trust Exchange™. The organisation requires a solution that avoids VPNs and does not require the Zscaler Client Connector for external users, ensuring access is limited strictly to authorised personnel.</p>
+        <figure class="lab-hero">
+          <img src="images/lab5-hero.png" alt="Lab 5 — ZPA Privileged Remote Access" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~50 minutes</div>
+          <div class="lab-meta-item"><strong>Service:</strong> Zscaler Private Access (ZPA) — PRA</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab5">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · PRIVILEGED REMOTE ACCESS</span>
+        </div>
+        <p class="socratic-insight">PRA gives browser-based, clientless access to internal servers without a VPN or ZCC. Before you build the configuration, think through why the components are separated the way they are and what security properties each one enforces.</p>
+        <ul class="socratic-questions">
+          <li>PRA avoids both VPN and the Zscaler Client Connector for external users. What is the architectural reason for this, and what residual risk does a browser-based session still carry?
+            <div class="answer-area" data-section="lab5-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">VPNs grant broad network access once a user connects — a compromised contractor account can pivot laterally across the corporate network. ZCC similarly requires software installation on an unmanaged device. PRA solves both by rendering RDP or SSH in the Zscaler cloud and streaming only pixels to the browser, so no network route is opened to the internal server from the user's device. The residual risk is the authenticated browser session itself: session hijacking (if the portal URL or cookie is stolen), insecure endpoints with screen-recording malware, or social engineering into an authorised session share. This is why PRA includes session recording and join/share controls.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>The PRA data model separates App Segments (network reachability), Portals (HTTPS entry points), Consoles (protocol + host combinations), and Credentials (injected passwords). Why might this separation matter for day-to-day operations?
+            <div class="answer-area" data-section="lab5-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Separation lets you reuse components independently. A single App Segment can back multiple Consoles (RDP and SSH to the same host). A Portal can expose dozens of Consoles to different user groups. Credentials can be rotated in one place without touching the policy. Consoles Policies control session behaviour (clipboard, recording) independently from which credentials are injected (Credential Policies). This decomposition also follows least-privilege: a vendor account can be granted access to specific Consoles only, not to the entire App Segment or Portal.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>Privileged Credential Injection means the vendor never sees the <code>administrator</code> password. What concrete threat does this mitigate compared with simply telling a contractor the password over email?
+            <div class="answer-area" data-section="lab5-q3">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Sharing credentials over email creates a permanent secret that exists on the contractor's email client, phone, and possibly forwarded to colleagues. It is very hard to revoke: even if the password is changed, the contractor may have reused it or stored it in a password manager. Credential injection means: (1) the credential never leaves ZPA's vault, (2) the contractor cannot extract it from the session, (3) access is revoked immediately by disabling the Credential Policy — no password change required, (4) ZPA audit logs record exactly when and how the credential was used. This shifts the trust boundary from "trusting the vendor with the password" to "trusting ZPA's access control."</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Task 5.1 -->
+      <div class="task-collapsible open" id="task-5-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 5.1</span>
+          <span class="task-collapsible-title">Create PRA Application Segments</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">This lab uses two application segments: one for the Windows VM (RDP) and one for the Log Streaming Connector VM (SSH). You also create a single Access Policy rule that covers both.</p>
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin-bottom:8px;">App Segment 1 — Windows Server RDP</h4>
+            <ol class="step-list">
+              <li>In the Experience Center, go to <strong>Policies &gt; Access Control &gt; Private Applications &gt; App Segments</strong>.</li>
+              <li>Select <strong>Add Application Segment</strong>.</li>
+              <li>Configure the application segment:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>PRA_RDP1_win Svr</code></li>
+                  <li><strong>Applications:</strong> <code>10.0.0.1</code> (IP address of the Corp: Win Svr)</li>
+                  <li><strong>Access Type:</strong> Privileged Remote Access</li>
+                  <li><strong>Protocol:</strong> RDP</li>
+                  <li><strong>Port:</strong> <code>3389</code></li>
+                  <li><strong>Connection Security:</strong> Any</li>
+                </ul>
+              </li>
+              <li>Under <strong>Client Connector Access</strong>, configure:
+                <ul class="sub-steps">
+                  <li><strong>Default Port Ranges:</strong> RDP (3389)</li>
+                  <li><strong>TCP Port Ranges:</strong> 3389 – 3389</li>
+                  <li><strong>UDP Port Ranges:</strong> 3389 – 3389</li>
+                </ul>
+              </li>
+              <li>Under <strong>Common Configuration</strong>, keep all values as-is. Select <strong>Next</strong>.</li>
+              <li>Select the Segment Group: <strong>CorpApps</strong>. Select <strong>Next</strong>.</li>
+              <li>Select the Server Group: <strong>CorpServers</strong>. Select <strong>Next</strong>.</li>
+              <li>Review the settings and select <strong>Save</strong>.</li>
+              <li>Create the Access Policy rule. Open the <strong>Access Policy</strong> editor (either from the Save confirmation or via <strong>Policies &gt; Access Policy</strong>). Select <strong>Add</strong> and configure:
+                <ul class="sub-steps">
+                  <li><strong>Rule Name:</strong> <code>PRA_Allow_Access</code></li>
+                  <li><strong>Rule Action:</strong> Allow Access</li>
+                  <li><strong>App Connector Selection Method:</strong> All App Connector Groups</li>
+                  <li>Under <strong>Criteria</strong>, select <strong>Applications</strong> and choose <code>PRA_RDP1_win Svr</code>.</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">App Segment 2 — Log Streaming Connector SSH</h4>
+            <ol class="step-list">
+              <li>Select <strong>Add Application Segment</strong> again and configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>PRA_SSH2_Log_Streaming_Connector_PC</code></li>
+                  <li><strong>Applications:</strong> <code>10.0.0.20</code> (IP address of the Corp: Log Streaming Connector)</li>
+                  <li><strong>Access Type:</strong> Privileged Remote Access</li>
+                  <li><strong>Protocol:</strong> SSH</li>
+                  <li><strong>Port:</strong> <code>22</code></li>
+                </ul>
+              </li>
+              <li>Under <strong>Client Connector Access</strong>, set <strong>Default Port Ranges:</strong> SSH (22).</li>
+              <li>Under <strong>Common Configuration</strong>, keep values as-is. Select <strong>Next</strong>.</li>
+              <li>Select Segment Group: <strong>CorpApps</strong>. Select <strong>Next</strong>.</li>
+              <li>Select Server Group: <strong>CorpServers</strong>. Select <strong>Next</strong>.</li>
+              <li>Review and select <strong>Save</strong>.</li>
+              <li>Edit the <code>PRA_Allow_Access</code> policy rule and add <code>PRA_SSH2_Log_Streaming_Connector_PC</code> to the Application Segments criteria. Select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> Both app segments must appear in the <code>PRA_Allow_Access</code> rule criteria before PRA sessions can be established. The Access Policy controls whether ZPA will proxy the traffic at all; the PRA-specific policies (Consoles Policy, Credential Policy) control session behaviour and credential injection.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t5-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5.1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5-1" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 5.2 -->
+      <div class="task-collapsible open" id="task-5-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 5.2</span>
+          <span class="task-collapsible-title">Create the Privileged Portal</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">The Privileged Portal is the HTTPS URL that users access to reach their assigned Consoles. It acts as the authenticated entry point for all PRA sessions.</p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Access Control &gt; Clientless &gt; Access Methods &gt; Privileged Portals</strong>.</li>
+              <li>Select <strong>Add</strong>.</li>
+              <li>Configure the following values:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>Privileged_Portal</code></li>
+                  <li><strong>Status:</strong> Enabled</li>
+                  <li><strong>Certificate Type:</strong> Managed</li>
+                  <li><strong>Portal URL:</strong> <code>praportal</code> (Zscaler appends the domain suffix automatically)</li>
+                  <li><strong>Domain Suffix:</strong> Select any available option from the drop-down menu</li>
+                  <li><strong>User Portal for Portal Links:</strong> None</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> The full portal URL will be <code>https://praportal-&lt;student-id&gt;.labtenant.com.pra.two.zscalerportal.net</code> (or similar). This URL is where users will navigate to start PRA sessions — bookmark it for Task 5.7.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t5-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5.2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5-2" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 5.3 -->
+      <div class="task-collapsible open" id="task-5-3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 5.3</span>
+          <span class="task-collapsible-title">Create Privileged Consoles</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Consoles represent the devices that users can access via the portal. Each console maps a protocol (RDP/SSH) and port to a specific App Segment.</p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Access Control &gt; Clientless &gt; Resources &gt; Privileged Consoles</strong>.</li>
+              <li>Select <strong>Add</strong>.</li>
+              <li>On the <strong>Console Type</strong> tab, configure:
+                <ul class="sub-steps">
+                  <li><strong>Privileged Remote Access Portal:</strong> <code>Privileged_Portal</code></li>
+                  <li><strong>Privileged Remote Access Applications:</strong> Select all application segments created in Task 5.1 — <code>10.0.0.1:3389</code> (RDP) and <code>10.0.0.20:22</code> (SSH)</li>
+                </ul>
+              </li>
+              <li>Select <strong>Next</strong>.</li>
+              <li>On the <strong>Consoles</strong> tab, verify the details for each application:
+                <ul class="sub-steps">
+                  <li>Console <strong>10.0.0.1</strong> — Protocol: RDP, Port: 3389, Connection Security: Any, Display on Console: Enabled</li>
+                  <li>Console <strong>10.0.0.20</strong> — Protocol: SSH, Port: 22, Display on Console: Enabled</li>
+                </ul>
+              </li>
+              <li>Select <strong>Next</strong>.</li>
+              <li>Review all details and select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> Consoles are named after the IP address / domain by default (e.g. "10.0.0.1"). The Windows icon appears on the RDP console and a terminal icon on the SSH console, making them easy to identify on the portal.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t5-3">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5.3</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5-3" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5-3',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5-3"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5-3" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5-3',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 5.4 -->
+      <div class="task-collapsible open" id="task-5-4">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 5.4</span>
+          <span class="task-collapsible-title">Create Privileged Credentials</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Privileged Credentials let third-party users or contractors sign in to a console without entering credentials directly — ZPA injects them automatically at session time.</p>
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin-bottom:8px;">Credential 1 — Windows Server</h4>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Access Control &gt; Clientless &gt; Resources &gt; Privileged Credentials</strong>.</li>
+              <li>Select <strong>Add</strong> and configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>PRA_windows</code></li>
+                  <li><strong>Type:</strong> Username-Password</li>
+                  <li><strong>User Name:</strong> <code>administrator</code></li>
+                  <li><strong>Password:</strong> <code>Admin-123!</code></li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Credential 2 — Linux (Log Streaming Connector)</h4>
+            <ol class="step-list">
+              <li>Select <strong>Add</strong> again and configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>PRA_Log_Streamming_Connector</code></li>
+                  <li><strong>Type:</strong> Username-Password</li>
+                  <li><strong>User Name:</strong> <code>admin</code></li>
+                  <li><strong>Password:</strong> <code>zscaler</code></li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> The password is stored encrypted in the ZPA vault and never transmitted to the user's browser. Rotating the password requires only editing the credential here — no policy changes needed.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t5-4">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5.4</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5-4" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5-4',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5-4"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5-4" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5-4',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 5.5 -->
+      <div class="task-collapsible open" id="task-5-5">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 5.5</span>
+          <span class="task-collapsible-title">Create Privileged Credential Policies</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Credential Policies map stored credentials to specific consoles. Without a matching Credential Policy, ZPA will not inject credentials — the user would need to type them manually.</p>
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin-bottom:8px;">Credential Policy 1 — RDP (Windows)</h4>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Access Control &gt; Clientless &gt; Privileged Remote Access &gt; Credentials Policy</strong>.</li>
+              <li>Select <strong>Add</strong> and configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>PRA_Credential_policy_RDP</code></li>
+                  <li><strong>Privileged Credentials:</strong> <code>PRA_windows</code></li>
+                  <li>Under <strong>Criteria</strong>, select <strong>Privileged Consoles</strong> and choose <code>10.0.0.1</code></li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Credential Policy 2 — SSH (Linux)</h4>
+            <ol class="step-list">
+              <li>Select <strong>Add</strong> again and configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>PRA_Credential_policy_SSH</code></li>
+                  <li><strong>Privileged Credentials:</strong> <code>PRA_Log_Streamming_Connector</code></li>
+                  <li>Under <strong>Criteria</strong>, select <strong>Privileged Consoles</strong> and choose <code>10.0.0.20</code></li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t5-5">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5.5</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5-5" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5-5',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5-5"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5-5" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5-5',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5-5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 5.6 -->
+      <div class="task-collapsible open" id="task-5-6">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 5.6</span>
+          <span class="task-collapsible-title">Create a Consoles Policy</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">The Consoles Policy controls session behaviour — clipboard access, recording, session join/share — for matched consoles. These controls are independent from credential injection.</p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Access Control &gt; Clientless &gt; Privileged Remote Access &gt; Consoles Policy</strong>.</li>
+              <li>Select <strong>Add</strong>.</li>
+              <li>Configure the policy:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>PRA_Console_Policy</code></li>
+                </ul>
+              </li>
+              <li>Under <strong>Console Configuration</strong>, set the following:
+                <ul class="sub-steps">
+                  <li><strong>Clipboard Copy:</strong> Enable</li>
+                  <li><strong>Record Sessions:</strong> Enable</li>
+                  <li><strong>Join Sessions:</strong> Enable</li>
+                  <li><strong>Share Sessions:</strong> Monitor</li>
+                </ul>
+              </li>
+              <li>On the <strong>Criteria</strong> tab, select <strong>Add Criteria</strong> → <strong>Applications</strong>.</li>
+              <li>In <strong>Application Segments</strong>, select both segments from Task 5.1: <code>PRA_RDP1_win Svr</code> and <code>PRA_SSH2_Log_Streaming_Connector_PC</code>.</li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> <em>Share Sessions: Monitor</em> means an admin can view the session in real time (read-only) but cannot take control. <em>Join Sessions: Enable</em> with <em>Control</em> would allow the admin to interact with the session.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t5-6">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5.6</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5-6" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5-6',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5-6"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5-6" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5-6',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5-6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 5.7 -->
+      <div class="task-collapsible open" id="task-5-7">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 5.7</span>
+          <span class="task-collapsible-title">Test and Verify PRA Sessions</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <ol class="step-list">
+              <li><strong>Log out</strong> of Zscaler Client Connector on <strong>Corp: Client PC 1</strong>. PRA is clientless — ZCC must not be running to simulate a third-party vendor accessing from an unmanaged device.</li>
+              <li>On <strong>Corp: Client PC 1</strong>, sign in to the Experience Center at <code>console.zscaler.com</code>.</li>
+              <li>Navigate to <strong>Policies &gt; Access Control &gt; Clientless &gt; Access Methods &gt; Privileged Portals</strong>.</li>
+              <li>Locate <code>Privileged_Portal</code> and select <strong>Launch</strong> (the external link icon next to the portal URL).</li>
+              <li>If prompted, log in with your student credentials: <code class="d-username-student">student@&lt;Student FQDN&gt;</code> and your session password.</li>
+              <li>The portal opens showing <strong>My Consoles (2)</strong>:
+                <ul class="sub-steps">
+                  <li>A Windows icon tile labelled <strong>10.0.0.1</strong> (RDP)</li>
+                  <li>A terminal icon tile labelled <strong>10.0.0.20</strong> (SSH)</li>
+                </ul>
+              </li>
+              <li>Select the Windows VM tile <strong>(10.0.0.1)</strong>. An RDP session opens in the browser with the Windows Server desktop visible — credentials were injected automatically.</li>
+              <li>Verify the session in the admin portal:
+                <ul class="sub-steps">
+                  <li>Go to <strong>Logs &gt; Insights &gt; Private Applications &gt; Diagnostics</strong>.</li>
+                  <li>Navigate to <strong>Privileged Remote Access &gt; Live Sessions</strong>.</li>
+                  <li>Confirm the active RDP session shows: Policy=<code>PRA_Console_Policy</code>, Host=<code>10.0.0.1</code>, Console Type=RDP.</li>
+                </ul>
+              </li>
+              <li>Return to the portal and select the SSH tile <strong>(10.0.0.20)</strong>. A terminal session opens — you should be logged in as <code>admin</code> on the Log Streaming Connector VM.</li>
+              <li>Verify the SSH session appears in <strong>Logs &gt; Insights &gt; Private Applications &gt; Diagnostics &gt; Privileged Remote Access &gt; Live Sessions</strong> (SSH=1).</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Success indicators:</strong> Both sessions open in the browser without a ZCC connection or VPN. The Live Sessions dashboard shows active RDP and SSH sessions. The vendor never typed a password — ZPA injected <code>administrator/Admin-123!</code> and <code>admin/zscaler</code> automatically.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t5-7">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 5.7</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t5-7" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t5-7',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t5-7"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t5-7" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t5-7',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t5-7"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">PRA requires five components to function: an <strong>App Segment</strong> (network reach), a <strong>Portal</strong> (HTTPS entry point), <strong>Consoles</strong> (protocol + host), <strong>Credentials</strong> (injected passwords), and <strong>Policies</strong> (Credential Policy maps credentials to consoles; Consoles Policy controls session behaviour). The <strong>Access Policy</strong> must also allow the PRA App Segment. Sessions are browser-based — no ZCC or VPN required — and all activity appears in <em>Logs &gt; Insights &gt; PRA &gt; Live Sessions</em>.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a class="hub-link" href="index.html">← Back to Lab Hub</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB 5 PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item" id="pc-5-1"><input type="checkbox" onchange="toggleDone(this)"><label>App Segment "PRA_RDP1_win Svr" created (RDP/3389)</label></li>
+        <li class="progress-item" id="pc-5-2"><input type="checkbox" onchange="toggleDone(this)"><label>App Segment "PRA_SSH2_Log_Streaming_Connector_PC" created (SSH/22)</label></li>
+        <li class="progress-item" id="pc-5-3"><input type="checkbox" onchange="toggleDone(this)"><label>PRA_Allow_Access policy covers both app segments</label></li>
+        <li class="progress-item" id="pc-5-4"><input type="checkbox" onchange="toggleDone(this)"><label>Privileged_Portal created</label></li>
+        <li class="progress-item" id="pc-5-5"><input type="checkbox" onchange="toggleDone(this)"><label>Consoles for 10.0.0.1 (RDP) and 10.0.0.20 (SSH) created</label></li>
+        <li class="progress-item" id="pc-5-6"><input type="checkbox" onchange="toggleDone(this)"><label>Credentials PRA_windows and PRA_Log_Streamming_Connector created</label></li>
+        <li class="progress-item" id="pc-5-7"><input type="checkbox" onchange="toggleDone(this)"><label>Credential Policies RDP + SSH created</label></li>
+        <li class="progress-item" id="pc-5-8"><input type="checkbox" onchange="toggleDone(this)"><label>PRA_Console_Policy created (record + share=monitor)</label></li>
+        <li class="progress-item" id="pc-5-9"><input type="checkbox" onchange="toggleDone(this)"><label>RDP and SSH sessions verified in Live Sessions</label></li>
+      </ul>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">▲</span></div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">PRA App Segment path</div><div class="qr-def">Policies &gt; Access Control &gt; Private Applications &gt; App Segments — Access Type: Privileged Remote Access.</div></div>
+        <div class="qr-item"><div class="qr-term">Privileged Portals path</div><div class="qr-def">Policies &gt; Access Control &gt; Clientless &gt; Access Methods &gt; Privileged Portals</div></div>
+        <div class="qr-item"><div class="qr-term">Privileged Consoles path</div><div class="qr-def">Policies &gt; Access Control &gt; Clientless &gt; Resources &gt; Privileged Consoles</div></div>
+        <div class="qr-item"><div class="qr-term">Privileged Credentials path</div><div class="qr-def">Policies &gt; Access Control &gt; Clientless &gt; Resources &gt; Privileged Credentials</div></div>
+        <div class="qr-item"><div class="qr-term">Credential Policy path</div><div class="qr-def">Policies &gt; Access Control &gt; Clientless &gt; Privileged Remote Access &gt; Credentials Policy</div></div>
+        <div class="qr-item"><div class="qr-term">Consoles Policy path</div><div class="qr-def">Policies &gt; Access Control &gt; Clientless &gt; Privileged Remote Access &gt; Consoles Policy</div></div>
+        <div class="qr-item"><div class="qr-term">Live Sessions</div><div class="qr-def">Logs &gt; Insights &gt; Private Applications &gt; Diagnostics &gt; Privileged Remote Access &gt; Live Sessions</div></div>
+        <div class="qr-item"><div class="qr-term">Windows credential</div><div class="qr-def"><code>PRA_windows</code> — username: administrator, password: Admin-123!</div></div>
+        <div class="qr-item"><div class="qr-term">Linux credential</div><div class="qr-def"><code>PRA_Log_Streamming_Connector</code> — username: admin, password: zscaler</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">LAB 5 of 12</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab4.html">← Lab 4: ZIA Browser Isolation</a>
+  <div class="page-nav-message">No VPN. No client. No password. Just a browser and Zero Trust.</div>
+  <a class="page-nav-btn page-nav-next" href="lab6.html">Lab 6: ZPA AppProtection →</a>
+</div>
+
+<script>
+const CONFIG_KEY='edu202-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu202-config-collapsed';
+const FOOTER_KEY='edu202-footer-collapsed';
+const PAGE_KEY='edu202-lab-lab5';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',(h+16)+'px');}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function updateToggleSummary(){var fqdn=document.getElementById('fqdn-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=fqdn?' — '+fqdn:'';}
+function applyConfig(){var fqdn=document.getElementById('fqdn-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var studentId=fqdn?fqdn.split('.')[0]:'';document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});var studentUser=fqdn?'student@'+fqdn:'student@<Student FQDN>';var hvacUser=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';document.getElementById('d-student').textContent=studentUser;document.getElementById('d-hvac').textContent=hvacUser;document.getElementById('d-id').textContent=studentId||'<Student ID>';document.querySelectorAll('.d-username-student').forEach(function(el){el.textContent=studentUser;});document.querySelectorAll('.d-username-hvac').forEach(function(el){el.textContent=hvacUser;});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('fqdn-input').value=cfg.fqdn||'';document.getElementById('pass-input').value=cfg.pass||'';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={fqdn:document.getElementById('fqdn-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['fqdn-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim()){ta.focus();return;}var key=PAGE_KEY+'-socans-'+area.dataset.section;try{localStorage.setItem(key,ta.value);}catch(e){}ta.disabled=true;btn.textContent='✓ Answer saved';btn.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}
+function revealSocAnswer(btn){if(btn.disabled)return;var ans=btn.closest('.answer-area').querySelector('.model-answers');var hidden=ans.style.display==='none'||!ans.style.display;ans.style.display=hidden?'block':'none';btn.textContent=hidden?'▲ Hide Model Answer':'💡 See Model Answer';}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+function toggleDone(cb){var item=cb.closest('.progress-item');item.classList.toggle('done',cb.checked);saveChecklist();}
+function saveChecklist(){try{var state={};document.querySelectorAll('.progress-item').forEach(function(item){var cb=item.querySelector('input[type=checkbox]');if(cb)state[item.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var item=document.getElementById(id);if(item){var cb=item.querySelector('input[type=checkbox]');if(cb){cb.checked=state[id];item.classList.toggle('done',state[id]);}}});}catch(e){}}
+var SECTION_IDS=['t5-1','t5-2','t5-3','t5-4','t5-5','t5-6','t5-7'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q,i){return'<div class="qa-item"><span class="qa-item-text">'+escHtml(q)+'</span><button class="qa-item-del" onclick="delSectionQ(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n,i){return'<div class="qa-item"><span class="qa-item-text">'+escHtml(n)+'</span><button class="qa-item-del" onclick="delSectionN(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}renderSectionQ(id);}
+function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classList.toggle('open');try{localStorage.setItem(PAGE_KEY+'-tc-'+tc.id,tc.classList.contains('open')?'1':'0');}catch(e){}}
+(function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
+document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+</script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 6: ZPA AppProtection — EDU-202</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}
+.task-collapsible{border:1px solid #dde1e7;border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:#f7f8fa;border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:#dde1e7;background:#eef0f5;}
+.task-collapsible-header:hover{background:#eaecf2;}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#1a1a2e;color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:#1a1a2e;flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-202</a> › Lab 6</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 6 · ZPA</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>ZPA App<em>Protection</em></h1>
+  <div class="motivation-banner">
+    <p>AppProtection embeds a web application firewall into ZPA's data path, inspecting every private application request against OWASP CRS rules, ThreatLabZ intelligence, and protocol-specific controls. In this lab you protect the Damn Vulnerable Web App (DVWA) — deliberately insecure — and watch SQL injection and XSS attacks flow through in Report mode before switching to Block.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab6">
+      <h2>Lab 6: ZPA AppProtection</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 6</div>
+        <p><strong>Scenario:</strong> You are a security engineer responsible for protecting internal web applications from common vulnerabilities such as SQL injection and cross-site scripting (XSS). You will configure Zscaler Private Access™ (ZPA) AppProtection to inspect traffic and enforce security controls for the Damn Vulnerable Web App (DVWA) — an intentionally insecure application used for security training.</p>
+        <figure class="lab-hero">
+          <img src="images/lab6-hero.png" alt="Lab 6 — ZPA AppProtection" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~30 minutes</div>
+          <div class="lab-meta-item"><strong>Service:</strong> Zscaler Private Access (ZPA) — AppProtection</div>
+          <div class="lab-meta-item"><strong>Prerequisite:</strong> App Connector running and connected</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab6">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · APPPROTECTION</span>
+        </div>
+        <p class="socratic-insight">AppProtection runs inside ZPA's proxy path between the user and the internal application. Before configuring it, think about how it differs architecturally from a traditional WAF and why starting in Report mode matters operationally.</p>
+        <ul class="socratic-questions">
+          <li>A traditional WAF sits in front of a public-facing application. ZPA AppProtection sits between an authenticated ZPA session and a private application. What attack vectors does AppProtection cover that traditional WAFs typically cannot?
+            <div class="answer-area" data-section="lab6-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Traditional WAFs protect public-facing apps from external attackers who may be anonymous. AppProtection protects <em>private</em> apps from <strong>authenticated internal users and trusted insiders</strong> — threats that never reach a public WAF. This includes: (1) insider threats and compromised employee accounts, (2) attacks via Browser Access sessions (e.g. contractors with limited access who try to exploit the internal app), (3) lateral-movement attacks from already-breached internal machines. AppProtection also adds <strong>identity context</strong> — it knows which ZPA user triggered an inspection event, which is something a traditional WAF cannot easily correlate.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>OWASP CRS has four Paranoia Levels (1–4). You set level 3. What is the trade-off between a high and low paranoia level, and why might level 4 be problematic in production?
+            <div class="answer-area" data-section="lab6-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Paranoia Level 1 activates only the highest-confidence OWASP rules — low false positives but may miss sophisticated attacks. Level 4 activates all 298+ rules including highly sensitive heuristics — catches more attacks but generates many false positives on legitimate traffic (e.g. URL parameters with special characters, REST APIs with JSON payloads). Level 3 is the practical balance: good coverage of real-world SQL injection and XSS patterns without excessive noise. Level 4 in production typically requires extensive tuning of Override Controls (specific rules set to Allow) before it's safe to move to Block mode.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>You configure Override Controls with Alternate Action = "Override All Controls, Transaction = Allow" for all control groups. Why start in Report mode this way rather than Block, even though DVWA is known to be vulnerable?
+            <div class="answer-area" data-section="lab6-q3">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Even for a deliberately vulnerable app, starting in Report (Allow + log) mode is the right operational practice because: (1) it lets you see which rules fire on <em>normal</em> app usage before deciding what to block, (2) it avoids breaking the app during the lab exercise — blocking attacks against DVWA would prevent the SQL injection and XSS tests, defeating the purpose, (3) it demonstrates the standard "observe → tune → enforce" WAF deployment lifecycle. In production, you would deploy in Report for days or weeks, review the violation logs, add Override Controls for confirmed false positives, then move to Block mode rule-by-rule or all at once.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Task 6.1 -->
+      <div class="task-collapsible open" id="task-6-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 6.1</span>
+          <span class="task-collapsible-title">Create DVWA App Segment with AppProtection</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">DVWA runs in a Docker container at <code>10.0.0.128</code>. Before creating the App Segment, you need to add a DNS A record on the Corp: Win Svr so the ZPA connector can resolve the app hostname.</p>
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin-bottom:8px;">Step 1 — Add DNS Record on Corp: Win Svr</h4>
+            <ol class="step-list">
+              <li>On <strong>Corp: Win Svr</strong>, open <strong>DNS Manager</strong> (Server Manager → Tools → DNS).</li>
+              <li>Navigate to <strong>Forward Lookup Zones &gt; patraining.safemarch.com</strong>.</li>
+              <li>Right-click and select <strong>New Host (A or AAAA)…</strong></li>
+              <li>Configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>dvwa-&lt;StudentID&gt;</code> — replace &lt;StudentID&gt; with the last three digits of your tenant ID (e.g. if your FQDN is <span class="var var-fqdn">&lt;Student FQDN&gt;</span>, and your Student ID is <code class="d-id">&lt;Student ID&gt;</code>, the hostname is <code>dvwa-<span class="d-id-short">&lt;last3digits&gt;</span></code>)</li>
+                  <li><strong>IP Address:</strong> <code>10.0.0.128</code></li>
+                </ul>
+              </li>
+              <li>Select <strong>Add Host</strong>, then <strong>Done</strong>.</li>
+            </ol>
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 2 — Create the DVWA App Segment</h4>
+            <ol class="step-list">
+              <li>In the Experience Center, go to <strong>Policies &gt; Access Control &gt; Private Applications &gt; App Segments</strong>.</li>
+              <li>Select <strong>Add Application Segment</strong> and configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>DVWA</code></li>
+                  <li><strong>Applications:</strong> <code>dvwa-&lt;StudentID&gt;.patraining.safemarch.com</code> (the hostname you added to DNS)</li>
+                  <li><strong>Access Type:</strong> Check both <strong>Browser Access</strong> and <strong>AppProtection</strong></li>
+                  <li><strong>Certificate Type:</strong> Managed</li>
+                  <li><strong>External URL prefix:</strong> <code>dvwa</code></li>
+                  <li><strong>Internal URL:</strong> <code>HTTP://dvwa-&lt;StudentID&gt;.patraining.safemarch.com:80</code></li>
+                </ul>
+              </li>
+              <li>Under <strong>Client Connector Access</strong>, configure Web Server ports (keep defaults for HTTP traffic).</li>
+              <li>Select <strong>Next</strong>, choose Segment Group <strong>CorpApps</strong>, select <strong>Next</strong>, choose Server Group <strong>CorpServers</strong>, select <strong>Next</strong>.</li>
+              <li>Review and select <strong>Save</strong>.</li>
+              <li>Create the Access Policy rule for DVWA. Navigate to <strong>Policies &gt; Access Policy</strong> and select <strong>Add</strong>:
+                <ul class="sub-steps">
+                  <li><strong>Rule Name:</strong> <code>dvwa_allow_policy</code></li>
+                  <li><strong>Rule Action:</strong> Allow Access</li>
+                  <li>Under <strong>Criteria</strong> → Applications, select the <code>DVWA</code> app segment</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> The Browser Access URL for DVWA will be <code>https://dvwa-&lt;studentid&gt;.labtenant.com.clientless.two.zscalerportal.net</code> (or similar — it is shown in the App Segment details after saving). You will use this URL in Task 6.4.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t6-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 6.1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t6-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t6-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t6-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t6-1" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t6-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t6-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 6.2 -->
+      <div class="task-collapsible open" id="task-6-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 6.2</span>
+          <span class="task-collapsible-title">Create DVWA Protection Profile</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">A Protection Profile defines which control groups are active and at what enforcement level. You will add all available controls and set Override Actions to Allow (Report mode) — attacks are logged but not blocked.</p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Cybersecurity &gt; Inline Security &gt; Private App Protection &gt; Protection Profiles</strong>.</li>
+              <li>Select <strong>Add Profile</strong>.</li>
+              <li><strong>Name:</strong> <code>DVWA_Protection_Profile</code></li>
+              <li>Add the following control groups by clicking <strong>+ Add Controls</strong> for each:
+                <ul class="sub-steps">
+                  <li><strong>OWASP CRS/4.8.0</strong> — select <strong>All</strong> controls (298 rules). These cover SQL injection, XSS, command injection, path traversal, and more.</li>
+                  <li><strong>ThreatLabZ Controls</strong> — select <strong>All</strong> controls (~200 rules). Zscaler's threat intelligence-based signatures.</li>
+                  <li><strong>WebSocket Controls</strong> — select <strong>All</strong> controls (11 rules).</li>
+                  <li><strong>API Controls</strong> — select <strong>All</strong> controls.</li>
+                  <li><strong>Active Directory Controls</strong> — select all 4 controls: KRB (Kerberos), SMB, LDAP.</li>
+                </ul>
+              </li>
+              <li>Set <strong>Predefined Paranoia Level: 3</strong>.</li>
+              <li>Configure <strong>Override Controls</strong> for each control group:
+                <ul class="sub-steps">
+                  <li><strong>Alternate Action:</strong> Override All Controls</li>
+                  <li><strong>Transaction:</strong> Allow (this puts all controls in Report mode — violations are logged but traffic passes)</li>
+                  <li>Apply this Override to: OWASP CRS, ThreatLabZ Controls, WebSocket Controls, API Controls, Active Directory Controls</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>What "Paranoia Level 3" means:</strong> At level 3, OWASP CRS activates rules with moderate confidence — good for detecting real attacks while keeping false-positive rates manageable. Level 1 is most lenient; level 4 is most aggressive and requires significant tuning before blocking.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t6-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 6.2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t6-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t6-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t6-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t6-2" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t6-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t6-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 6.3 -->
+      <div class="task-collapsible open" id="task-6-3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 6.3</span>
+          <span class="task-collapsible-title">Create DVWA AppProtection Policy</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">The Protection Policy links the Protection Profile to the App Segment. Without this policy, AppProtection is defined but never applied to DVWA traffic.</p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Cybersecurity &gt; Inline Security &gt; Private App Protection &gt; Protection Policies</strong>.</li>
+              <li>Select <strong>Add Policy</strong>.</li>
+              <li>Configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>DVWA_AppProtection_policy</code></li>
+                  <li><strong>Rule Action:</strong> Inspect</li>
+                  <li><strong>AppProtection Profile:</strong> <code>DVWA_Protection_Profile</code></li>
+                </ul>
+              </li>
+              <li>Under <strong>Criteria</strong>, add the <code>DVWA</code> Application Segment.</li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Rule Action: Inspect</strong> means ZPA runs traffic through the Protection Profile rules. The Profile's Override Controls (Allow) determine whether matching requests are blocked or merely logged. If you set Rule Action to <em>Bypass</em>, AppProtection would be skipped entirely for this traffic.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t6-3">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 6.3</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t6-3" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t6-3',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t6-3"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t6-3" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t6-3',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t6-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 6.4 -->
+      <div class="task-collapsible open" id="task-6-4">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 6.4</span>
+          <span class="task-collapsible-title">Test DVWA — SQL Injection, XSS and Verify Violations</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin-bottom:8px;">Step 1 — Access DVWA via Browser Access</h4>
+            <ol class="step-list">
+              <li>Log out of Zscaler Client Connector on <strong>Corp: Client PC 1</strong> to simulate a Browser Access session.</li>
+              <li>Open Chrome and navigate to the DVWA Browser Access URL. You can find this URL in the App Segment details — it resembles <code>https://dvwa-&lt;studentid&gt;.labtenant.com.clientless.two.zscalerportal.net</code>.</li>
+              <li>Log in to DVWA using:
+                <ul class="sub-steps">
+                  <li><strong>Username:</strong> <code>admin</code></li>
+                  <li><strong>Password:</strong> <code>password</code></li>
+                </ul>
+              </li>
+              <li>On the DVWA home page, select <strong>Create / Reset Database</strong> to initialise the database. The page refreshes and you are prompted to log in again.</li>
+              <li>Log in again with <code>admin</code> / <code>password</code>.</li>
+            </ol>
+
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 2 — SQL Injection Test</h4>
+            <ol class="step-list">
+              <li>In the DVWA left menu, select <strong>SQL Injection</strong>.</li>
+              <li>In the <em>User ID</em> field, enter the following payload and select <strong>Submit</strong>:
+                <div style="margin:8px 0;"><code>1' or '1'='1</code></div>
+              </li>
+              <li>DVWA displays multiple user records — the query was successfully injected. Because AppProtection is in Report (Allow) mode, the request passes through and ZPA logs the violation.</li>
+            </ol>
+
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 3 — Stored XSS Test</h4>
+            <ol class="step-list">
+              <li>In the DVWA left menu, select <strong>XSS (Stored)</strong>.</li>
+              <li>In the <em>Name</em> field, enter: <code>JSAttack</code></li>
+              <li>In the <em>Message</em> field, enter:
+                <div style="margin:8px 0;"><code>&lt;script&gt;alert("You've been HACKED!")&lt;/script&gt;</code></div>
+              </li>
+              <li>Select <strong>Sign Guestbook</strong>. The script tag is stored. When the page reloads, you may see the alert pop up (Report mode allows it through). ZPA logs the XSS violation.</li>
+            </ol>
+
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 4 — Verify Violations in Admin Portal</h4>
+            <ol class="step-list">
+              <li>In the Experience Center, navigate to <strong>Logs &gt; Insights &gt; Private Applications &gt; Diagnostics</strong>.</li>
+              <li>Set <strong>Log Type:</strong> <code>AppProtection</code>.</li>
+              <li>Confirm that <strong>Security Profile Violations</strong> appear — you should see entries for the SQL injection and XSS payloads, showing the matched rule name, severity, and that the transaction was Allowed (not Blocked).</li>
+            </ol>
+
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 5 — Switch to Block Mode</h4>
+            <ol class="step-list">
+              <li>Return to <strong>Policies &gt; Cybersecurity &gt; Inline Security &gt; Private App Protection &gt; Protection Profiles</strong>.</li>
+              <li>Edit <code>DVWA_Protection_Profile</code>.</li>
+              <li>Update the Override Controls for each control group:
+                <ul class="sub-steps">
+                  <li>Change <strong>Transaction:</strong> from <em>Allow</em> to <strong>Block</strong></li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+              <li>Retry the SQL injection payload in DVWA — the request should now be blocked with an error page. Verify the block event appears in the AppProtection diagnostics logs.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Verify:</strong> In Block mode, the SQL injection payload <code>1' or '1'='1</code> should return a ZPA block page rather than database records. The AppProtection log entry will show Transaction = <em>Blocked</em>.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t6-4">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 6.4</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t6-4" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t6-4',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t6-4"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t6-4" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t6-4',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t6-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">AppProtection requires three configuration steps: (1) an <strong>App Segment</strong> with Access Type = Browser Access + AppProtection, (2) a <strong>Protection Profile</strong> (controls + paranoia level + override actions = Report or Block), and (3) a <strong>Protection Policy</strong> linking the profile to the app segment with Rule Action = Inspect. Deploy in <em>Report mode first</em> (Override = Allow), observe violations in <strong>Logs &gt; Insights &gt; Private Applications &gt; Diagnostics &gt; AppProtection</strong>, tune Override Controls for false positives, then switch to Block.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a class="hub-link" href="index.html">← Back to Lab Hub</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB 6 PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item" id="pc-6-1"><input type="checkbox" onchange="toggleDone(this)"><label>DNS A record dvwa-&lt;ID&gt; → 10.0.0.128 added on Win Svr</label></li>
+        <li class="progress-item" id="pc-6-2"><input type="checkbox" onchange="toggleDone(this)"><label>DVWA App Segment created (Browser Access + AppProtection)</label></li>
+        <li class="progress-item" id="pc-6-3"><input type="checkbox" onchange="toggleDone(this)"><label>dvwa_allow_policy created</label></li>
+        <li class="progress-item" id="pc-6-4"><input type="checkbox" onchange="toggleDone(this)"><label>DVWA_Protection_Profile created (all controls, Paranoia 3, Override=Allow)</label></li>
+        <li class="progress-item" id="pc-6-5"><input type="checkbox" onchange="toggleDone(this)"><label>DVWA_AppProtection_policy created (Inspect)</label></li>
+        <li class="progress-item" id="pc-6-6"><input type="checkbox" onchange="toggleDone(this)"><label>SQL injection payload tested and logged in Report mode</label></li>
+        <li class="progress-item" id="pc-6-7"><input type="checkbox" onchange="toggleDone(this)"><label>XSS stored payload tested and logged</label></li>
+        <li class="progress-item" id="pc-6-8"><input type="checkbox" onchange="toggleDone(this)"><label>Violations verified in AppProtection diagnostics log</label></li>
+        <li class="progress-item" id="pc-6-9"><input type="checkbox" onchange="toggleDone(this)"><label>Profile updated to Block mode — SQL injection blocked</label></li>
+      </ul>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">▲</span></div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">Protection Profiles path</div><div class="qr-def">Policies &gt; Cybersecurity &gt; Inline Security &gt; Private App Protection &gt; Protection Profiles</div></div>
+        <div class="qr-item"><div class="qr-term">Protection Policies path</div><div class="qr-def">Policies &gt; Cybersecurity &gt; Inline Security &gt; Private App Protection &gt; Protection Policies</div></div>
+        <div class="qr-item"><div class="qr-term">AppProtection logs path</div><div class="qr-def">Logs &gt; Insights &gt; Private Applications &gt; Diagnostics → Log Type: AppProtection</div></div>
+        <div class="qr-item"><div class="qr-term">DVWA credentials</div><div class="qr-def">admin / password — initialize DB on first login.</div></div>
+        <div class="qr-item"><div class="qr-term">SQL injection payload</div><div class="qr-def"><code>1' or '1'='1</code> — use in DVWA SQL Injection page.</div></div>
+        <div class="qr-item"><div class="qr-term">XSS payload</div><div class="qr-def"><code>&lt;script&gt;alert("You've been HACKED!")&lt;/script&gt;</code> — use in XSS (Stored) page, Name=JSAttack.</div></div>
+        <div class="qr-item"><div class="qr-term">DVWA Docker IP</div><div class="qr-def">10.0.0.128 — DNS alias dvwa-&lt;StudentID&gt; on Win Svr points here.</div></div>
+        <div class="qr-item"><div class="qr-term">Report vs Block</div><div class="qr-def">Override = Allow → Report mode (log only). Remove overrides or set Block → enforcement mode.</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">LAB 6 of 12</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab5.html">← Lab 5: Privileged Remote Access</a>
+  <div class="page-nav-message">Know the attack — then block it. DVWA makes the invisible visible.</div>
+  <a class="page-nav-btn page-nav-next" href="lab7.html">Lab 7: Zero Trust Browser →</a>
+</div>
+
+<script>
+const CONFIG_KEY='edu202-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu202-config-collapsed';
+const FOOTER_KEY='edu202-footer-collapsed';
+const PAGE_KEY='edu202-lab-lab6';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',(h+16)+'px');}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function updateToggleSummary(){var fqdn=document.getElementById('fqdn-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=fqdn?' — '+fqdn:'';}
+function applyConfig(){var fqdn=document.getElementById('fqdn-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var studentId=fqdn?fqdn.split('.')[0]:'';document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});var studentUser=fqdn?'student@'+fqdn:'student@<Student FQDN>';var hvacUser=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';document.getElementById('d-student').textContent=studentUser;document.getElementById('d-hvac').textContent=hvacUser;document.getElementById('d-id').textContent=studentId||'<Student ID>';document.querySelectorAll('.d-username-student').forEach(function(el){el.textContent=studentUser;});document.querySelectorAll('.d-username-hvac').forEach(function(el){el.textContent=hvacUser;});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('fqdn-input').value=cfg.fqdn||'';document.getElementById('pass-input').value=cfg.pass||'';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={fqdn:document.getElementById('fqdn-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['fqdn-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim()){ta.focus();return;}var key=PAGE_KEY+'-socans-'+area.dataset.section;try{localStorage.setItem(key,ta.value);}catch(e){}ta.disabled=true;btn.textContent='✓ Answer saved';btn.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}
+function revealSocAnswer(btn){if(btn.disabled)return;var ans=btn.closest('.answer-area').querySelector('.model-answers');var hidden=ans.style.display==='none'||!ans.style.display;ans.style.display=hidden?'block':'none';btn.textContent=hidden?'▲ Hide Model Answer':'💡 See Model Answer';}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+function toggleDone(cb){var item=cb.closest('.progress-item');item.classList.toggle('done',cb.checked);saveChecklist();}
+function saveChecklist(){try{var state={};document.querySelectorAll('.progress-item').forEach(function(item){var cb=item.querySelector('input[type=checkbox]');if(cb)state[item.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var item=document.getElementById(id);if(item){var cb=item.querySelector('input[type=checkbox]');if(cb){cb.checked=state[id];item.classList.toggle('done',state[id]);}}});}catch(e){}}
+var SECTION_IDS=['t6-1','t6-2','t6-3','t6-4'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q,i){return'<div class="qa-item"><span class="qa-item-text">'+escHtml(q)+'</span><button class="qa-item-del" onclick="delSectionQ(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n,i){return'<div class="qa-item"><span class="qa-item-text">'+escHtml(n)+'</span><button class="qa-item-del" onclick="delSectionN(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}renderSectionQ(id);}
+function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classList.toggle('open');try{localStorage.setItem(PAGE_KEY+'-tc-'+tc.id,tc.classList.contains('open')?'1':'0');}catch(e){}}
+(function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
+document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+</script>
+</body>
+</html>

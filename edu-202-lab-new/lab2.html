@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 2: ZPA App Connector &amp; Browser Access — EDU-202</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}
+.task-collapsible{border:1px solid #dde1e7;border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:#f7f8fa;border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:#dde1e7;background:#eef0f5;}
+.task-collapsible-header:hover{background:#eaecf2;}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#1a1a2e;color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:#1a1a2e;flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-202</a> › Lab 2</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 2 · ZPA</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>ZPA App Connector &amp; <em>Browser Access</em></h1>
+  <div class="motivation-banner">
+    <p>App Connectors are the on-premises agents that connect your internal applications to the Zscaler cloud. Browser Access extends Zero Trust private access to clientless web users — no VPN, no ZCC required. Build both in this lab.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab2">
+      <h2>Lab 2: ZPA App Connector &amp; Browser Access</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 2</div>
+        <p><strong>Scenario:</strong> Your organisation runs an internal HVAC control web application on <code><span class="var var-fqdn">&lt;Student FQDN&gt;</span></code>. You need to make it accessible to HVAC technicians via a browser without a VPN or ZCC, using ZPA Browser Access with a managed certificate.</p>
+        <figure class="lab-hero">
+          <img src="images/lab2-hero.png" alt="Lab 2 — ZPA App Connector and Browser Access" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~20 minutes</div>
+          <div class="lab-meta-item"><strong>Service:</strong> Zscaler Private Access (ZPA)</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab2">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · ZPA ARCHITECTURE</span>
+        </div>
+        <p class="socratic-insight">App Connectors establish outbound-only tunnels to the Zscaler cloud — no inbound firewall ports needed. Browser Access extends this to users without ZCC. Think through the data path before configuring.</p>
+        <ul class="socratic-questions">
+          <li>An App Connector makes an outbound-only connection to the Zscaler cloud. Why does this eliminate the need to open inbound firewall ports, and what security advantage does this provide over a traditional VPN concentrator?
+            <div class="answer-area" data-section="lab2-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">The App Connector initiates the connection to Zscaler's cloud (ZPA Public Service Edge) over TLS on port 443 — a standard outbound port already open in most firewalls. The internal network never needs to accept inbound connections from the internet, eliminating the attack surface that a VPN concentrator exposes. A VPN endpoint is directly internet-reachable and must be patched against exploit chains; the App Connector has no internet-facing socket.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>Browser Access serves users who cannot run ZCC (e.g. BYOD, third-party contractors). What ZPA component terminates the HTTPS session from the browser and what component forwards the request to the internal app?
+            <div class="answer-area" data-section="lab2-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">The ZPA Public Service Edge terminates the browser's HTTPS session using the managed certificate (your external domain, e.g. <em>hvac.zs000149.labtenant.com</em>). After verifying the user's identity via the IdP, it proxies the request through the App Connector tunnel to the internal web app. The App Connector is the last-mile relay — it forwards HTTP to the internal server on port 80 on behalf of the cloud.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>You assign the App Segment to a Segment Group and a Server Group. What is the architectural purpose of these groupings?
+            <div class="answer-area" data-section="lab2-q3">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q3 — MODEL ANSWER</div>
+                  <div class="model-answer-text">A <strong>Segment Group</strong> logically bundles App Segments for policy reference — Access Policies reference Segment Groups, not individual App Segments, so you can apply a single rule to many apps. A <strong>Server Group</strong> maps App Segments to the App Connectors that can reach those internal servers. This separation lets you have multiple App Segments use the same connector infrastructure while keeping access policy clean.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Task 2.1 -->
+      <div class="task-collapsible open" id="task-2-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.1</span>
+          <span class="task-collapsible-title">Create an App Connector Group</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <ol class="step-list">
+              <li>In the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; App Connectors &gt; App Connector Groups</strong>.</li>
+              <li>Select <strong>+ Add App Connector Group</strong>.</li>
+              <li>Enter the following settings:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>OnPrem</code></li>
+                  <li><strong>Status:</strong> Enabled</li>
+                  <li><strong>App Connector Certificate:</strong> select the Connector certificate from the dropdown</li>
+                  <li><strong>City:</strong> enter your location city</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t2-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 2.1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t2-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t2-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t2-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t2-1" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t2-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t2-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 2.2 -->
+      <div class="task-collapsible open" id="task-2-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.2</span>
+          <span class="task-collapsible-title">Enrol the App Connector VM</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <ol class="step-list">
+              <li>In Skytap, open the <strong>Corp: ZPA App Connector</strong> VM console.</li>
+              <li>Run the following command to retrieve the pre-generated provisioning key (OAuth token):
+                <ul class="sub-steps">
+                  <li><code>cat /etc/issue</code></li>
+                </ul>
+              </li>
+              <li>Copy the token value displayed.</li>
+              <li>Back in the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; App Connectors &gt; App Connectors</strong>.</li>
+              <li>Select <strong>+ Add App Connector</strong> and enter:
+                <ul class="sub-steps">
+                  <li><strong>App Connector Group:</strong> <code>OnPrem</code></li>
+                  <li><strong>Provisioning Key / OAuth Token:</strong> paste the token from the VM</li>
+                  <li><strong>Certificate:</strong> select the Connector certificate</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong> and wait for the connector to show a green <strong>Connected</strong> status.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Note:</strong> The App Connector uses the provisioning key to authenticate with ZPA and establish its outbound tunnel. Once connected, it appears in the App Connectors list with its public and private IP addresses.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t2-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 2.2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t2-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t2-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t2-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t2-2" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t2-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t2-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 2.3 -->
+      <div class="task-collapsible open" id="task-2-3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.3</span>
+          <span class="task-collapsible-title">Create the HVAC App Segment and Access Policy</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:13px;color:var(--text-soft);margin-bottom:12px;"><strong>App Segment — HVAC</strong></p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Private Access &gt; App Segments</strong>.</li>
+              <li>Select <strong>+ Add App Segment</strong> and configure:
+                <ul class="sub-steps">
+                  <li><strong>Name:</strong> <code>HVAC</code></li>
+                  <li><strong>Applications:</strong> <code><span class="var var-fqdn">&lt;Student ID&gt;</span>.hvac.safemarch.com</code></li>
+                  <li><strong>Access Type:</strong> Browser Access</li>
+                  <li><strong>Certificate:</strong> Managed</li>
+                  <li><strong>External URL:</strong> prefix <code>hvac</code></li>
+                  <li><strong>Internal URL:</strong> HTTP, port 80</li>
+                  <li><strong>TCP Ports:</strong> 80–80</li>
+                  <li><strong>Segment Group:</strong> CorpApps</li>
+                  <li><strong>Server Group:</strong> CorpServers</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong>.</li>
+            </ol>
+          </div>
+          <div class="task-block" style="margin-top:16px;">
+            <p style="font-size:13px;color:var(--text-soft);margin-bottom:12px;"><strong>Access Policy</strong></p>
+            <ol class="step-list">
+              <li>Navigate to <strong>Policies &gt; Private Access &gt; Access Policies</strong>.</li>
+              <li>Select <strong>+ Add Policy Rule</strong> and configure:
+                <ul class="sub-steps">
+                  <li><strong>Rule Name:</strong> <code>Allow HVAC</code></li>
+                  <li><strong>Action:</strong> Allow</li>
+                  <li><strong>App Segments:</strong> HVAC</li>
+                  <li><strong>Client Types:</strong> Web Browser</li>
+                </ul>
+              </li>
+              <li>Select <strong>Save</strong> and <strong>Activate</strong>.</li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t2-3">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 2.3</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t2-3" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t2-3',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t2-3"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t2-3" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t2-3',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t2-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 2.4 -->
+      <div class="task-collapsible open" id="task-2-4">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 2.4</span>
+          <span class="task-collapsible-title">Test Browser Access to the HVAC Application</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <ol class="step-list">
+              <li>In the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; Browser Access</strong> and copy your <strong>External Domain</strong>.</li>
+              <li>On the Linux Client VM, open a terminal and run:
+                <ul class="sub-steps">
+                  <li><code>dig &lt;your external domain&gt;</code></li>
+                  <li>Verify DNS resolves to a Zscaler IP.</li>
+                </ul>
+              </li>
+              <li>Open <strong>Chrome</strong> and paste the External Domain URL into the address bar.</li>
+              <li>Authenticate using:
+                <ul class="sub-steps">
+                  <li>Username: <code class="d-username-hvac">hvac@&lt;Student FQDN&gt;</code></li>
+                  <li>Password: <code>Admin-123!</code></li>
+                </ul>
+              </li>
+              <li>Confirm the <strong>HVAC Control</strong> page loads successfully.</li>
+            </ol>
+            <div class="callout callout-note">
+              <p><strong>Verify:</strong> The HVAC application is accessible via browser without any client software installed, confirming ZPA Browser Access is working end-to-end.</p>
+            </div>
+          </div>
+
+          <div class="section-qa" data-section="t2-4">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 2.4</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t2-4" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t2-4',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t2-4"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t2-4" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t2-4',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t2-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">App Connectors make <strong>outbound-only</strong> TLS connections to ZPA — no inbound firewall ports needed. Browser Access uses a <strong>Managed Certificate + External Domain</strong> so any browser can reach private apps without ZCC. The policy chain is: App Segment → Segment Group → Server Group → App Connector Group, with an Access Policy rule tying it together. The Access Type must be set to <em>Browser Access</em> (not <em>Private Access</em>) for clientless users.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a class="hub-link" href="index.html">← Back to Lab Hub</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB 2 PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item" id="pc-2-1"><input type="checkbox" onchange="toggleDone(this)"><label>App Connector Group "OnPrem" created</label></li>
+        <li class="progress-item" id="pc-2-2"><input type="checkbox" onchange="toggleDone(this)"><label>App Connector VM enrolled and Connected</label></li>
+        <li class="progress-item" id="pc-2-3"><input type="checkbox" onchange="toggleDone(this)"><label>HVAC App Segment created (Browser Access)</label></li>
+        <li class="progress-item" id="pc-2-4"><input type="checkbox" onchange="toggleDone(this)"><label>Allow HVAC Access Policy created</label></li>
+        <li class="progress-item" id="pc-2-5"><input type="checkbox" onchange="toggleDone(this)"><label>HVAC app accessible via browser — verified</label></li>
+      </ul>
+    </div>
+    <div class="quick-ref" id="quick-ref">
+      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">▲</span></div>
+      <div class="qr-body">
+        <div class="qr-item"><div class="qr-term">App Connector Group</div><div class="qr-def">Groups connectors by location. Referenced by Server Groups. Name: <code>OnPrem</code>.</div></div>
+        <div class="qr-item"><div class="qr-term">Browser Access</div><div class="qr-def">Clientless ZPA access via managed cert external domain. Access Type must be "Browser Access" in the App Segment.</div></div>
+        <div class="qr-item"><div class="qr-term">HVAC internal FQDN</div><div class="qr-def"><code>&lt;StudentID&gt;.hvac.safemarch.com</code> — internal app hostname resolved by the connector.</div></div>
+        <div class="qr-item"><div class="qr-term">HVAC credentials</div><div class="qr-def">Username: <code>hvac@&lt;FQDN&gt;</code> / Password: <code>Admin-123!</code></div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
+    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
+    <span class="footer-content">LAB 2 of 12</span>
+  </div>
+</footer>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab1.html">← Lab 1: Environment Setup</a>
+  <div class="page-nav-message">No inbound ports, no VPN — just outbound tunnels and zero trust.</div>
+  <a class="page-nav-btn page-nav-next" href="lab3.html">Lab 3: Log Streaming →</a>
+</div>
+
+<script>
+const CONFIG_KEY='edu202-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu202-config-collapsed';
+const FOOTER_KEY='edu202-footer-collapsed';
+const PAGE_KEY='edu202-lab-lab2';
+function toggleConfig(){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');var collapsed=panel.classList.toggle('collapsed');btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',(h+16)+'px');}
+(function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
+function updateToggleSummary(){var fqdn=document.getElementById('fqdn-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=fqdn?' — '+fqdn:'';}
+function applyConfig(){var fqdn=document.getElementById('fqdn-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var studentId=fqdn?fqdn.split('.')[0]:'';document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});var studentUser=fqdn?'student@'+fqdn:'student@<Student FQDN>';var hvacUser=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';document.getElementById('d-student').textContent=studentUser;document.getElementById('d-hvac').textContent=hvacUser;document.getElementById('d-id').textContent=studentId||'<Student ID>';document.querySelectorAll('.d-username-student').forEach(function(el){el.textContent=studentUser;});document.querySelectorAll('.d-username-hvac').forEach(function(el){el.textContent=hvacUser;});}
+function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('fqdn-input').value=cfg.fqdn||'';document.getElementById('pass-input').value=cfg.pass||'';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function saveConfig(){var cfg={fqdn:document.getElementById('fqdn-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
+function clearConfig(){document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
+function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
+['fqdn-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+function toggleFooter(){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');var collapsed=f.classList.toggle('collapsed');btn.textContent=collapsed?'▼ Show':'▲ Hide';try{localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');}catch(e){}}
+function loadFooterState(){try{if(localStorage.getItem(FOOTER_KEY)==='1'){var f=document.getElementById('site-footer');var btn=document.getElementById('footer-toggle-btn');f.classList.add('collapsed');btn.textContent='▼ Show';}}catch(e){}}
+function copyToClipboard(text,btn){navigator.clipboard.writeText(text).then(function(){btn.classList.add('copied');btn.textContent='✓';setTimeout(function(){btn.classList.remove('copied');btn.textContent='⎘';},1500);}).catch(function(){});}
+function injectCopyButtons(){document.querySelectorAll('.step-list > li code, .sub-steps li code, .task-block code, .config-derived code').forEach(function(code){if(code.closest('.callout'))return;if(code.nextElementSibling&&code.nextElementSibling.classList.contains('copy-inline'))return;var text=code.textContent.trim();if(text.length<2)return;var btn=document.createElement('button');btn.className='copy-inline';btn.title='Copy';btn.textContent='⎘';btn.addEventListener('click',function(e){e.stopPropagation();copyToClipboard(code.textContent.trim(),btn);});code.after(btn);});}
+function saveSocAnswer(btn){var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta.value.trim()){ta.focus();return;}var key=PAGE_KEY+'-socans-'+area.dataset.section;try{localStorage.setItem(key,ta.value);}catch(e){}ta.disabled=true;btn.textContent='✓ Answer saved';btn.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}
+function revealSocAnswer(btn){if(btn.disabled)return;var ans=btn.closest('.answer-area').querySelector('.model-answers');var hidden=ans.style.display==='none'||!ans.style.display;ans.style.display=hidden?'block':'none';btn.textContent=hidden?'▲ Hide Model Answer':'💡 See Model Answer';}
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:Epilogue,sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+function toggleDone(cb){var item=cb.closest('.progress-item');item.classList.toggle('done',cb.checked);saveChecklist();}
+function saveChecklist(){try{var state={};document.querySelectorAll('.progress-item').forEach(function(item){var cb=item.querySelector('input[type=checkbox]');if(cb)state[item.id]=cb.checked;});localStorage.setItem(PAGE_KEY+'-chk',JSON.stringify(state));}catch(e){}}
+function loadChecklist(){try{var state=JSON.parse(localStorage.getItem(PAGE_KEY+'-chk')||'{}');Object.keys(state).forEach(function(id){var item=document.getElementById(id);if(item){var cb=item.querySelector('input[type=checkbox]');if(cb){cb.checked=state[id];item.classList.toggle('done',state[id]);}}});}catch(e){}}
+var SECTION_IDS=['t2-1','t2-2','t2-3','t2-4'];
+function updateSectionQABadge(id){var h=document.querySelector('.section-qa[data-section="'+id+'"] .section-qa-header');if(!h)return;var b=h.querySelector('.section-qa-badge');if(!b){b=document.createElement('span');b.className='section-qa-badge';h.insertBefore(b,h.querySelector('.section-qa-chevron'));}try{var qc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]').length;var nc=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]').length;var t=qc+nc;b.textContent=t;b.style.display=t?'inline-flex':'none';}catch(e){}}
+function saveSectionQ(id,btn){var ta=document.getElementById('sq-'+id);if(!ta.value.trim())return;try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}ta.value='';renderSectionQ(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function saveSectionN(id,btn){var ta=document.getElementById('sn-'+id);if(!ta.value.trim())return;try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.push(ta.value.trim());localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}ta.value='';renderSectionN(id);btn.textContent='✓';setTimeout(function(){btn.textContent='Save';},1200);}
+function renderSectionQ(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=qs.length?qs.map(function(q,i){return'<div class="qa-item"><span class="qa-item-text">'+escHtml(q)+'</span><button class="qa-item-del" onclick="delSectionQ(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadQList();}
+function renderSectionN(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=ns.length?ns.map(function(n,i){return'<div class="qa-item"><span class="qa-item-text">'+escHtml(n)+'</span><button class="qa-item-del" onclick="delSectionN(\''+id+'\','+i+')" title="Remove">−</button></div>';}).join(''):'';}catch(e){}updateSectionQABadge(id);loadNList();}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function delSectionQ(id,idx){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');qs.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sq-'+id,JSON.stringify(qs));}catch(e){}renderSectionQ(id);}
+function delSectionN(id,idx){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');ns.splice(idx,1);localStorage.setItem(PAGE_KEY+'-sn-'+id,JSON.stringify(ns));}catch(e){}renderSectionN(id);}
+function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classList.toggle('open');var id=block.dataset.section;renderSectionQ(id);renderSectionN(id);}
+function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classList.toggle('open');try{localStorage.setItem(PAGE_KEY+'-tc-'+tc.id,tc.classList.contains('open')?'1':'0');}catch(e){}}
+(function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
+document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
+document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+</script>
+</body>
+</html>

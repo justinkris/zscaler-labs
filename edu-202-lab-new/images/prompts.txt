@@ -1,0 +1,95 @@
+EDU-202 Lab Hero Image Prompts
+================================
+Style for ALL images:
+  Flat illustration cartoon, highly detailed.
+  Background color #eef4ff (pale sky-blue).
+  No text, no words, no letters, no labels, no UI strings, no captions anywhere in the image.
+  Palette: deep navy and sky-blue, Zscaler blue theme with relevant accent colors.
+  Dimensions: 1200 × 400 px (3:1 landscape banner).
+  File format: PNG.
+
+---
+
+Lab 1 Hero — lab1-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A technician sitting at a clean desk with a laptop open, a cloud icon floating above with a glowing Zscaler-blue shield at its center. On the laptop screen a simple portal dashboard is shown. Around the desk: a small network switch, a server rack icon in the background, and a checklist with checkmarks. Color palette: navy, sky-blue, white.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 2 Hero — lab2-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A small virtual machine icon sitting inside a data center server rack, with a glowing outbound tunnel arrow flowing upward into a cloud. On the other side of the cloud a browser window displays a web application. A user icon sits at a laptop on the far right connected to the browser. No VPN padlock anywhere. Color palette: navy, sky-blue, teal.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 3 Hero — lab3-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A stream of log packets represented as small envelope icons flowing from a cloud gateway down into a cylindrical SIEM database on a server rack. Arrows indicate real-time streaming. A magnifying glass hovers over the database suggesting analysis. Color palette: navy, sky-blue, amber.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 4 Hero — lab4-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A user at a laptop sending a web request arrow toward a Zscaler cloud shield. From the shield a rendered webpage is served back inside a glowing blue container/frame, with a lock icon on the frame to indicate the content is isolated. A red prohibition circle is shown over the file download arrow. Color palette: navy, sky-blue, amber.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 5 Hero — lab5-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A contractor figure with a badge holding a laptop, connected via a Zscaler cloud shield to a server displaying an RDP window. A vault/safe icon with a keyhole represents the credential vault. A session recording icon (play button with a camera) sits near the connection. No VPN tunnel anywhere. Color palette: navy, sky-blue, orange.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 6 Hero — lab6-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A shield-shaped inline firewall icon intercepting web request arrows. On one side incoming arrows with red warning triangles (representing SQL injection and XSS attacks). The shield blocks them and only clean green arrows pass through to a web application server. An OWASP/ruleset book icon floats near the shield. Color palette: navy, sky-blue, red, green.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 7 Hero — lab7-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A browser window rendered inside a floating cloud container, with a user icon looking at a rendered webpage through a glass panel. Crossed-out icons for clipboard (copy/paste), file upload arrow, and printer indicate disabled actions. A faint Zscaler-blue glow surrounds the cloud container to indicate isolation. Color palette: navy, sky-blue, teal, muted red for crossed-out icons.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 8 Hero — lab8-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A user endpoint (laptop with ZCC icon) sending synthetic probe signals (small radar ping circles) toward a cloud application server. A real-time graph/chart floats above showing latency metric lines. An eye icon overlooks the whole scene indicating monitoring. A cloud path with hop nodes is shown connecting the endpoint to the app. Color palette: navy, sky-blue, purple.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 9 Hero — lab9-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A NOC-style dashboard with a bell/alert icon glowing amber indicating a triggered alert. Below the alert a hop-by-hop network path diagram shows nodes connected by arrows with latency indicators. One hop has a red warning indicator. An engineer figure looks at the diagram on a monitor. Color palette: navy, sky-blue, amber, red.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 10 Hero — lab10-hero.png
+-----------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A developer figure typing on a laptop. Above the laptop a Postman-style request panel icon sends an arrow labeled with HTTP method indicators (GET/POST represented as colored badges) toward a Zscaler cloud with an API plug icon. The cloud returns a JSON document icon. Gear/cog icons and a connecting pipeline indicate automation. Color palette: navy, sky-blue, teal, amber.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+EDU-202 Per-Task Banner Image Prompts (task-prompts.txt)
+=========================================================
+See task-prompts.txt for per-task banner images (1200 × 300 px).
