@@ -198,7 +198,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>IP Address:</strong> <code>10.0.0.128</code></li>
                 </ul>
               </li>
-              <li>Select <strong>Add Host</strong>, then <strong>Done</strong>.</li>
+              <li>Select <strong>Add Host</strong>, then <strong>Done</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab6/lab6-p113-img1.png" alt="DNS Manager on Win Svr showing Forward Lookup Zones with New Host (A or AAAA) context menu open for patraining.safemarch.com" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 2 — Create the DVWA App Segment</h4>
             <ol class="step-list">
@@ -215,7 +219,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
               </li>
               <li>Under <strong>Client Connector Access</strong>, configure Web Server ports (keep defaults for HTTP traffic).</li>
               <li>Select <strong>Next</strong>, choose Segment Group <strong>CorpApps</strong>, select <strong>Next</strong>, choose Server Group <strong>CorpServers</strong>, select <strong>Next</strong>.</li>
-              <li>Review and select <strong>Save</strong>.</li>
+              <li>Review and select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab6/lab6-p106-img1.png" alt="Add Application Segment form for DVWA: hostname dvwa-xxx.patraining.safemarch.com, Access Type showing Browser Access and AppProtection both checked" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Create the Access Policy rule for DVWA. Navigate to <strong>Policies &gt; Access Policy</strong> and select <strong>Add</strong>:
                 <ul class="sub-steps">
                   <li><strong>Rule Name:</strong> <code>dvwa_allow_policy</code></li>
@@ -286,7 +294,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li>Apply this Override to: OWASP CRS, ThreatLabZ Controls, WebSocket Controls, API Controls, Active Directory Controls</li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab6/lab6-p118-img1.png" alt="Add AppProtection Profile wizard: Name 'DVWA_Protection_Profile' on the Profile Details tab, navigation showing Select Controls → Paranoia Level → Override Controls → Review" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>What "Paranoia Level 3" means:</strong> At level 3, OWASP CRS activates rules with moderate confidence — good for detecting real attacks while keeping false-positive rates manageable. Level 1 is most lenient; level 4 is most aggressive and requires significant tuning before blocking.</p>
@@ -339,7 +351,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </ul>
               </li>
               <li>Under <strong>Criteria</strong>, add the <code>DVWA</code> Application Segment.</li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab6/lab6-p127-img1.png" alt="Add AppProtection Rule: Name 'DVWA_AppProtection_policy', Rule Action Inspect, AppProtection Profile 'DVWA_Protection_Profile', Application Segments: DVWA" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Rule Action: Inspect</strong> means ZPA runs traffic through the Protection Profile rules. The Profile's Override Controls (Allow) determine whether matching requests are blocked or merely logged. If you set Rule Action to <em>Bypass</em>, AppProtection would be skipped entirely for this traffic.</p>
@@ -400,7 +416,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
               <li>In the <em>User ID</em> field, enter the following payload and select <strong>Submit</strong>:
                 <div style="margin:8px 0;"><code>1' or '1'='1</code></div>
               </li>
-              <li>DVWA displays multiple user records — the query was successfully injected. Because AppProtection is in Report (Allow) mode, the request passes through and ZPA logs the violation.</li>
+              <li>DVWA displays multiple user records — the query was successfully injected. Because AppProtection is in Report (Allow) mode, the request passes through and ZPA logs the violation.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab6/lab6-p131-img1.png" alt="DVWA SQL Injection page showing payload '1' or '1'='1' entered in the User ID field — attack passes through in Report mode" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 3 — Stored XSS Test</h4>
@@ -417,7 +437,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
             <ol class="step-list">
               <li>In the Experience Center, navigate to <strong>Logs &gt; Insights &gt; Private Applications &gt; Diagnostics</strong>.</li>
               <li>Set <strong>Log Type:</strong> <code>AppProtection</code>.</li>
-              <li>Confirm that <strong>Security Profile Violations</strong> appear — you should see entries for the SQL injection and XSS payloads, showing the matched rule name, severity, and that the transaction was Allowed (not Blocked).</li>
+              <li>Confirm that <strong>Security Profile Violations</strong> appear — you should see entries for the SQL injection and XSS payloads, showing the matched rule name, severity, and that the transaction was Allowed (not Blocked).
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab6/lab6-p133-img1.png" alt="AppProtection Diagnostics log: Log Type AppProtection, showing 31 Security Profile Violations across 51 transactions, listing matched OWASP rules for SQL injection and command injection" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 5 — Switch to Block Mode</h4>
@@ -430,7 +454,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </ul>
               </li>
               <li>Select <strong>Save</strong>.</li>
-              <li>Retry the SQL injection payload in DVWA — the request should now be blocked with an error page. Verify the block event appears in the AppProtection diagnostics logs.</li>
+              <li>Retry the SQL injection payload in DVWA — the request should now be blocked with an error page. Verify the block event appears in the AppProtection diagnostics logs.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab6/lab6-p136-img1.png" alt="DVWA page showing 'Result = 403 FORBIDDEN' — the SQL injection payload is blocked by AppProtection in Block mode" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Verify:</strong> In Block mode, the SQL injection payload <code>1' or '1'='1</code> should return a ZPA block page rather than database records. The AppProtection log entry will show Transaction = <em>Blocked</em>.</p>
@@ -507,11 +535,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
-<footer id="site-footer">
-    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
-    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 6 of 10</span>
-</footer>
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab5.html">← Lab 5: Privileged Remote Access</a>
@@ -561,7 +588,10 @@ function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classL
 (function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
 document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
-document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
 </script>
 </body>
 </html>

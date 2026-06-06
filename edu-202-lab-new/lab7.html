@@ -214,7 +214,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Watermark:</strong> Disabled</li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab7/lab7-p140-img1.png" alt="Browser Isolation Profiles page in Experience Center showing the + Add button and empty profiles list — navigate to Clientless > Browser Isolation > Profiles" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
 
@@ -270,7 +274,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </ul>
               </li>
               <li>Select <strong>Save</strong>.</li>
-              <li>Verify the policy rule appears in the Isolation Policy list with Status = Enabled.</li>
+              <li>Verify the policy rule appears in the Isolation Policy list with Status = Enabled.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab7/lab7-p147-img1.png" alt="Isolation Policy page showing the + Add button and empty policy list — navigate to Clientless > Browser Isolation > Isolation Policy" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> The Isolation Policy evaluates against <em>Client Types</em>. Selecting "Web Browser" ensures the policy applies to clientless users accessing DVWA through Browser Access. Users with ZCC installed would match a different client type and could be exempted if needed.</p>
@@ -321,7 +329,14 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
             <ol class="step-list">
               <li>Open a browser and navigate to the DVWA Browser Access URL. You can find this in the App Segment details under the <strong>Access Method &gt; Browser Access</strong> section — it will be in the format <code>https://dvwa-&lt;studentid&gt;.labtenant.com.clientless.two.zscalerportal.net</code>.</li>
               <li>You will be redirected to the SAML IdP for authentication. Sign in with your student admin credentials.</li>
-              <li>After authentication, the DVWA application loads in the cloud browser isolation session. Confirm you can see the DVWA login page rendered in the browser with a Zscaler banner or render-only indicator.</li>
+              <li>After authentication, the DVWA application loads in the cloud browser isolation session. Confirm you can see the DVWA login page rendered in the browser with a Zscaler banner or render-only indicator.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab7/lab7-p150-img1.png" alt="Browser Access list showing DVWA external URL (https://dvwa-cyz-zs000205-labtenant-com...) mapped to dvwa.patraining.safemarch.com — copy this URL to test isolation" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab7/lab7-p151-img1.png" alt="DVWA login page loading inside Zscaler Browser Isolation with the Zscaler notification banner: 'Heads up, you've been redirected to Browser Isolation!'" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Step 3 — Validate Render-Only Controls</h4>
             <ol class="step-list">
@@ -413,11 +428,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
-<footer id="site-footer">
-    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer · Zenith Live 2026 · Rev 3.3</span>
-    <button class="footer-toggle" onclick="toggleFooter(this)">▲ Hide</button>
-    <span class="footer-content">LAB 7 of 10</span>
-</footer>
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab6.html">← Lab 6: ZPA AppProtection</a>
@@ -477,6 +491,9 @@ function loadChecklist(){document.querySelectorAll('.progress-item input[type=ch
 
 function injectCopyButtons(){document.querySelectorAll('pre code, code.copyable').forEach(function(el){if(el.closest('.copy-wrap'))return;var w=document.createElement('span');w.className='copy-wrap';el.parentNode.insertBefore(w,el);w.appendChild(el);var btn=document.createElement('button');btn.className='copy-code-btn';btn.textContent='⎘';btn.title='Copy';btn.onclick=function(){navigator.clipboard.writeText(el.textContent);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);};w.appendChild(btn);});}
 
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
 document.addEventListener('DOMContentLoaded',function(){
   loadConfig();
   loadConfigCollapsed();
@@ -487,6 +504,7 @@ document.addEventListener('DOMContentLoaded',function(){
   loadTaskStates();
   injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});
   document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
   document.body.style.opacity='1';
 });

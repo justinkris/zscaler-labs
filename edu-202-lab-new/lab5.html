@@ -207,7 +207,14 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>UDP Port Ranges:</strong> 3389 – 3389</li>
                 </ul>
               </li>
-              <li>Under <strong>Common Configuration</strong>, keep all values as-is. Select <strong>Next</strong>.</li>
+              <li>Under <strong>Common Configuration</strong>, keep all values as-is. Select <strong>Next</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p76-img1.png" alt="Add Application Segment form: Name 'PRA_RDP1_win Svr', Status Enabled, Inspect Traffic with ZIA Disabled" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p78-img1.png" alt="App Segment Common Configuration tab: Health Reporting On Access, App Connector Selection Closer to User" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Select the Segment Group: <strong>CorpApps</strong>. Select <strong>Next</strong>.</li>
               <li>Select the Server Group: <strong>CorpServers</strong>. Select <strong>Next</strong>.</li>
               <li>Review the settings and select <strong>Save</strong>.</li>
@@ -293,7 +300,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>User Portal for Portal Links:</strong> None</li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p85-img1.png" alt="Add Portal form: Name 'Privileged_Portal', Certificate Type Managed, Portal URL 'praportal' with domain suffix, User Portal None" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> The full portal URL will be <code>https://praportal-&lt;student-id&gt;.labtenant.com.pra.two.zscalerportal.net</code> (or similar). This URL is where users will navigate to start PRA sessions — bookmark it for Task 5.7.</p>
@@ -352,7 +363,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </ul>
               </li>
               <li>Select <strong>Next</strong>.</li>
-              <li>Review all details and select <strong>Save</strong>.</li>
+              <li>Review all details and select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p88-img1.png" alt="Add Console form: Console 10.0.0.20 showing Protocol SSH, Port 22, Display on Console Enabled" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> Consoles are named after the IP address / domain by default (e.g. "10.0.0.1"). The Windows icon appears on the RDP console and a terminal icon on the SSH console, making them easy to identify on the portal.</p>
@@ -405,7 +420,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Password:</strong> <code>Admin-123!</code></li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p91-img1.png" alt="Add Privileged Credential form: Name 'PRA_windows', Type Username-Password, Username 'administrator'" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Credential 2 — Linux (Log Streaming Connector)</h4>
             <ol class="step-list">
@@ -469,7 +488,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li>Under <strong>Criteria</strong>, select <strong>Privileged Consoles</strong> and choose <code>10.0.0.1</code></li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p93-img1.png" alt="Add Privileged Credentials Policy: Name 'PRA_Credential_policy_RDP', Credential 'PRA_windows', Criteria: Privileged Consoles 10.0.0.1" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-soft);margin:18px 0 8px;">Credential Policy 2 — SSH (Linux)</h4>
             <ol class="step-list">
@@ -537,7 +560,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
               </li>
               <li>On the <strong>Criteria</strong> tab, select <strong>Add Criteria</strong> → <strong>Applications</strong>.</li>
               <li>In <strong>Application Segments</strong>, select both segments from Task 5.1: <code>PRA_RDP1_win Svr</code> and <code>PRA_SSH2_Log_Streaming_Connector_PC</code>.</li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p97-img1.png" alt="Add Consoles Policy: Name 'PRA_Console_Policy', Clipboard Copy Enable, Record Sessions Enable, Share Sessions Monitor, Application Segments showing both PRA segments" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> <em>Share Sessions: Monitor</em> means an admin can view the session in real time (read-only) but cannot take control. <em>Join Sessions: Enable</em> with <em>Control</em> would allow the admin to interact with the session.</p>
@@ -598,7 +625,14 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li>Confirm the active RDP session shows: Policy=<code>PRA_Console_Policy</code>, Host=<code>10.0.0.1</code>, Console Type=RDP.</li>
                 </ul>
               </li>
-              <li>Return to the portal and select the SSH tile <strong>(10.0.0.20)</strong>. A terminal session opens — you should be logged in as <code>admin</code> on the Log Streaming Connector VM.</li>
+              <li>Return to the portal and select the SSH tile <strong>(10.0.0.20)</strong>. A terminal session opens — you should be logged in as <code>admin</code> on the Log Streaming Connector VM.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p100-img1.png" alt="Browser-based RDP session to 10.0.0.1: Windows Server desktop visible inside the PRA portal with session toolbar at top" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab5/lab5-p102-img1.png" alt="Browser-based SSH session to 10.0.0.20: terminal showing [admin@zpa-connector ~]$ prompt confirming successful credential injection" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Verify the SSH session appears in <strong>Logs &gt; Insights &gt; Private Applications &gt; Diagnostics &gt; Privileged Remote Access &gt; Live Sessions</strong> (SSH=1).</li>
             </ol>
             <div class="callout callout-note">
@@ -677,11 +711,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
-<footer id="site-footer">
-    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
-    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 5 of 10</span>
-</footer>
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab4.html">← Lab 4: ZIA Browser Isolation</a>
@@ -731,7 +764,10 @@ function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classL
 (function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
 document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
-document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
 </script>
 </body>
 </html>

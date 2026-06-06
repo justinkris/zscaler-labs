@@ -197,7 +197,14 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Watermark Content:</strong> Date &amp; Timestamp</li>
                 </ul>
               </li>
-              <li>Leave all other settings at their defaults and select <strong>Save</strong>.</li>
+              <li>Leave all other settings at their defaults and select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab4/lab4-p59-img1.png" alt="Add Isolation Profile form showing name 'isolate_profile-social_networking-internet' and Turbo Mode enabled" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab4/lab4-p64-img1.png" alt="Isolation Profile watermarking settings: Enable Watermarking on, Date &amp; Timestamp selected, Save button highlighted" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> The watermark overlays a semi-transparent timestamp on every rendered page, making screenshots or photos of the screen attributable to a specific session. This deters exfiltration via screen capture.</p>
@@ -251,7 +258,14 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Isolation Profile:</strong> <code>isolate_profile-social_networking-internet</code></li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong> and <strong>Activate</strong>.</li>
+              <li>Select <strong>Save</strong> and <strong>Activate</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab4/lab4-p66-img1.png" alt="Add URL Filtering Rule form: Rule Order 1, Rule Name 'isolate-outbound-socialsite', URL Categories: Social Networking" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab4/lab4-p68-img1.png" alt="URL Filtering Rule action section: Web Traffic set to Isolate, Isolation Profile 'isolate_profile-social_networking-internet' selected" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> Rule Order 1 ensures this rule is evaluated before any existing Allow rules for social sites. If an Allow rule had a lower order number, it would match first and the Isolate rule would never fire.</p>
@@ -309,7 +323,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </ul>
               </li>
               <li>Optionally test <code>https://www.linkedin.com</code> — if a SaaS App Control policy allows LinkedIn without isolation, it should open normally (no watermark). If it is also categorised as Social Networking, it will be isolated.</li>
-              <li>In the Experience Center, check <strong>Analytics &gt; Insights</strong> to verify Isolation sessions appear in the activity log.</li>
+              <li>In the Experience Center, check <strong>Analytics &gt; Insights</strong> to verify Isolation sessions appear in the activity log.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab4/lab4-p73-img1.png" alt="x.com loaded inside Zscaler Browser Isolation with date/timestamp watermark overlaid diagonally across the page" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Verify:</strong> The watermark and isolation chrome (Zscaler border or toolbar) confirm that content is being rendered in the remote container. Right-clicking the page should show limited or no standard context menu options — another sign of isolation.</p>
@@ -368,7 +386,14 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </ul>
               </li>
               <li>Select <strong>Save</strong>.</li>
-              <li>Select <strong>Activate</strong> to push the policy change.</li>
+              <li>Select <strong>Activate</strong> to push the policy change.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab4/lab4-p71-img1.png" alt="Add Social Networking Rule form: Rule Order 1, Rule Name 'allow-outbound-linkedin-any', Cloud Applications: LinkedIn" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab4/lab4-p72-img1.png" alt="SaaS App Control rule action: Viewing set to Allow, description 'Not Isolating the LinkedIn Social Networking site'" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Verify the behaviour:
                 <ul class="sub-steps">
                   <li>Open <code>linkedin.com</code> — it should load normally with <strong>no isolation watermark</strong> (direct access).</li>
@@ -444,11 +469,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
-<footer id="site-footer">
-    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
-    <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
-    <span class="footer-content">LAB 4 of 10</span>
-</footer>
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab3.html">← Lab 3: ZPA Log Streaming</a>
@@ -498,7 +522,10 @@ function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classL
 (function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
 document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
-document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
 </script>
 </body>
 </html>

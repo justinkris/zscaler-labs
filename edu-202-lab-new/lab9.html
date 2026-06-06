@@ -176,7 +176,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
               <li>On <strong>Corp: Client PC 1</strong>, sign in to Zscaler Client Connector using your student credentials.</li>
               <li>Open a browser and navigate to the Experience Center. Go to <strong>Administration &gt; Alerts &gt; Digital Experience Management &gt; Alerts</strong>.</li>
               <li>Select <strong>Alert Rules and Templates</strong> to navigate to the Rules page.</li>
-              <li>Select <strong>Add Alert Rule</strong>.</li>
+              <li>Select <strong>Add Alert Rule</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab9/lab9-p181-img1.png" alt="ZDX Alert Rules page showing the + Add Alert Rule button and empty rules table" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>In the <strong>Add Alert Rule</strong> window, enter:
                 <ul class="sub-steps">
                   <li><strong>Name:</strong> <code>alert_mailserver</code></li>
@@ -217,7 +221,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
               </li>
               <li>Select <strong>Next</strong>.</li>
               <li>On the <strong>Review</strong> tab, review the entire configuration and select <strong>Save</strong>.</li>
-              <li><strong>Verify:</strong> The <code>alert_mailserver</code> alert rule appears in the Rules list with Status = Enabled, Type = Applications, Application = Mail Server, Probe = Mail Server_Web, Alert Delivery Method = Email.</li>
+              <li><strong>Verify:</strong> The <code>alert_mailserver</code> alert rule appears in the Rules list with Status = Enabled, Type = Applications, Application = Mail Server, Probe = Mail Server_Web, Alert Delivery Method = Email.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab9/lab9-p188-img1.png" alt="ZDX Alert Rules list showing alert_mailserver rule: Status Enabled, Type Applications, Application Mail Server, Probe Mail Server_Web, Alert Delivery Method Email" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
 
@@ -293,13 +301,21 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Latency:</strong> <strong>10 ms</strong></li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab9/lab9-p191-img1.png" alt="Start New Diagnostics Session form: name diagnostics_session_student000205, User Student Admin, Deep Tracing selected, Run Session For 5 Minutes" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Confirm the session appears in the <strong>In Progress</strong> table with Status = In Progress.</li>
               <li>Proceed to the next lab. After five minutes, return to <strong>Diagnostics</strong>.
                 <ul class="sub-steps">
                   <li>In the <strong>History</strong> table, locate the completed session (Status = Completed).</li>
                   <li>Select the <strong>View</strong> icon to open the session report.</li>
-                  <li>The report shows a Cloud Path hop-by-hop diagram: Client → Wi-Fi Access Point → Gateway → ZIA Public Service Edge → Application, with per-hop latency values and the selected thresholds shown as dotted red lines.</li>
+                  <li>The report shows a Cloud Path hop-by-hop diagram: Client → Wi-Fi Access Point → Gateway → ZIA Public Service Edge → Application, with per-hop latency values and the selected thresholds shown as dotted red lines.
+                    <div class="screenshot-embed">
+                      <img src="screenshots/lab9/lab9-p195-img1.png" alt="Completed diagnostic session report showing Cloud Path hop-by-hop diagram: Client to Wi-Fi AP to Gateway to ZIA Public Service Edge to Application with latency chart for mail.google.com" onclick="openLightbox(this.src,this.alt)">
+                    </div>
+                  </li>
                 </ul>
               </li>
             </ol>
@@ -385,11 +401,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
-<footer id="site-footer">
-    <span class="footer-content">EDU-202 · Zscaler for Users: Engineer · Zenith Live 2026 · Rev 3.3</span>
-    <button class="footer-toggle" onclick="toggleFooter(this)">▲ Hide</button>
-    <span class="footer-content">LAB 9 of 10</span>
-</footer>
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab8.html">← Lab 8: ZDX Cloud App Monitoring</a>
@@ -450,6 +465,9 @@ function loadChecklist(){document.querySelectorAll('.progress-item input[type=ch
 
 function injectCopyButtons(){document.querySelectorAll('pre code, code.copyable').forEach(function(el){if(el.closest('.copy-wrap'))return;var w=document.createElement('span');w.className='copy-wrap';el.parentNode.insertBefore(w,el);w.appendChild(el);var btn=document.createElement('button');btn.className='copy-code-btn';btn.textContent='⎘';btn.title='Copy';btn.onclick=function(){navigator.clipboard.writeText(el.textContent);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);};w.appendChild(btn);});}
 
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
 document.addEventListener('DOMContentLoaded',function(){
   loadConfig();
   loadConfigCollapsed();
@@ -460,6 +478,7 @@ document.addEventListener('DOMContentLoaded',function(){
   loadTaskStates();
   injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});
   document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
   document.body.style.opacity='1';
 });
