@@ -187,7 +187,12 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
             <ol class="step-list">
               <li>Using the <strong>Skytap access URL</strong> from your Lab Access Instructions, open the Skytap environment in your browser.</li>
               <li>In the Skytap environment view, select <strong>all VMs</strong> in the pod.</li>
-              <li>Click the <strong>Play</strong> button to start all virtual machines simultaneously.</li>
+              <li>Click the <strong>Play</strong> button to start all virtual machines simultaneously.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab1/lab1-p14-img1.png" alt="Skytap pod — all 7 VMs selected with Play button highlighted" loading="lazy">
+                  <div class="screenshot-caption">Skytap pod — check the top-level checkbox to select all VMs, then click Play. Corp: Client PC 1, Docker Server, Log Streaming Connector and the remaining VMs will all start together.</div>
+                </div>
+              </li>
               <li>Wait for all VMs to reach <strong>Running</strong> state before proceeding.</li>
             </ol>
             <div class="callout callout-note">
@@ -229,15 +234,39 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         <div class="task-collapsible-body">
           <div class="task-block">
             <ol class="step-list">
-              <li>On <strong>Corp: Client PC 1</strong>, open a browser and navigate to <code>console.zscaler.com</code>.</li>
+              <li>From the Skytap portal, open <strong>Corp: Client PC 1</strong> in a browser window. Click the <strong>Keys icon</strong> in the Skytap toolbar and select <strong>Insert Credentials</strong> to sign into Windows automatically.
+                <div class="screenshot-embed narrow">
+                  <img src="screenshots/lab1/lab1-p17-img1.png" alt="Corp: Client PC 1 Windows login screen inside Skytap VM window" loading="lazy">
+                  <div class="screenshot-caption">Corp: Client PC 1 — the Windows VM opens in a browser tab. Use the Skytap toolbar to insert credentials.</div>
+                </div>
+                <div class="screenshot-embed narrow">
+                  <img src="screenshots/lab1/lab1-p15-img1.png" alt="Skytap toolbar Keys icon showing student username and password" loading="lazy">
+                  <div class="screenshot-caption">Keys icon (padlock) in the Skytap toolbar — click the insert arrow next to <strong>student</strong> to auto-fill the Windows login.</div>
+                </div>
+              </li>
+              <li>Once on the Client PC desktop, open a browser and navigate to <code>console.zscaler.com</code>.</li>
               <li>Enter your Student Admin credentials:
                 <ul class="sub-steps">
                   <li>Username: <code class="d-username-student">student@&lt;Student FQDN&gt;</code></li>
                   <li>Password: <span class="var var-pass">&lt;Session Password&gt;</span></li>
                 </ul>
+                <div class="screenshot-embed narrow">
+                  <img src="screenshots/lab1/lab1-p18-img1.png" alt="ZIdentity sign-in page with student credentials entered" loading="lazy">
+                  <div class="screenshot-caption">ZIdentity sign-in — <code>console.zscaler.com</code> redirects here. Enter <code>student@&lt;Student FQDN&gt;</code>, your session password, then click Sign In.</div>
+                </div>
               </li>
-              <li>Once signed in, explore the <strong>Experience Center (EC) dashboard</strong>. Note the top navigation: <strong>Analytics</strong>, <strong>Administration</strong>, <strong>Policies</strong>, <strong>Infrastructure</strong>, and <strong>Logs</strong>.</li>
-              <li>Under <strong>Administration</strong>, observe the unified management options including ZIA, ZPA, ZDX, and ZIdentity configuration.</li>
+              <li>Once signed in, explore the <strong>Experience Center (EC) dashboard</strong>. Note the top navigation: <strong>Analytics</strong>, <strong>Administration</strong>, <strong>Policies</strong>, <strong>Infrastructure</strong>, and <strong>Logs</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab1/lab1-p19-img1.png" alt="Experience Center dashboard with top navigation items highlighted" loading="lazy">
+                  <div class="screenshot-caption">Experience Center — unified console at <code>console.zscaler.com</code>. The five top-nav menus span ZIA, ZPA, ZDX, and ZIdentity administration.</div>
+                </div>
+              </li>
+              <li>Under <strong>Administration</strong>, observe the unified management options including ZIA, ZPA, ZDX, and ZIdentity configuration. Use the <strong>Search</strong> icon (or <kbd>Ctrl+K</kbd>) to quickly jump to any feature — you'll use this constantly throughout the labs.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab1/lab1-p20-img1.png" alt="Experience Center Search menu open with recent searches visible" loading="lazy">
+                  <div class="screenshot-caption">Search menu (Ctrl+K) — type any feature name to navigate instantly. Recent searches are shown for quick access.</div>
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> The Experience Center is the single pane of glass for all Zscaler service administration. Your Student FQDN and password are used throughout all labs — save them in the Lab Configuration panel above.</p>
@@ -317,6 +346,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <footer id="site-footer">
     <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
@@ -389,12 +423,16 @@ function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classL
 (function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
 document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
   loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
   sessionStorage.setItem('pt','1');
   document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
+  document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});
 });
 </script>
 </body>
