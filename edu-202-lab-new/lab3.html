@@ -201,6 +201,9 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 <ul class="sub-steps">
                   <li><code>cat /etc/issue</code></li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p42-img2.png" alt="Log Streaming Connector VM terminal — cat /etc/issue output showing OAuth Token value" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
               <li>Copy the token value displayed.</li>
               <li>Back in the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; App Connectors &gt; App Connectors</strong>.</li>
@@ -210,8 +213,15 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Provisioning Key / OAuth Token:</strong> paste the token from the VM</li>
                   <li><strong>Certificate:</strong> select the Connector certificate</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p43-img1.png" alt="Add App Connectors form — Group: Log Streaming, Signing Certificate: Connector, OAuth token pasted" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
-              <li>Select <strong>Save</strong> and wait for the connector to show a green <strong>Connected</strong> status.</li>
+              <li>Select <strong>Save</strong> and wait for the connector to show a green <strong>Connected</strong> status.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p44-img1.png" alt="App Connectors list confirming Log Streaming connector with Connected status and Enabled" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
 
@@ -260,14 +270,24 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>TLS Encryption:</strong> Disabled</li>
                   <li><strong>App Connector Groups:</strong> <code>Log Streaming</code></li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p46-img1.png" alt="Add Log Receiver — Name: Syslog-UserActivity, Domain: siem.patraining.safemarch.com, TCP Port: 514, TLS Disabled, ACG: Log Streaming" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
               <li>On the <strong>Log Stream</strong> tab, configure:
                 <ul class="sub-steps">
                   <li><strong>Log Type:</strong> User Activity</li>
                   <li><strong>Feed Output Type:</strong> CSV</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p47-img1.png" alt="Log Stream tab — Log Type: User Activity, Log Template: CSV selected" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p48-img1.png" alt="Log Receiver review page confirming Syslog-UserActivity, siem.patraining.safemarch.com:514:TCP, Log Streaming ACG, User Activity/CSV" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> The Log Receiver targets the SIEM using its internal hostname. The Log Streaming Connector resolves this hostname and forwards the TCP stream to port 514 on the SIEM. No syslog agent is needed on the SIEM — it's already listening on 514/tcp.</p>
@@ -319,8 +339,18 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Segment Group:</strong> CorpApps</li>
                   <li><strong>Server Group:</strong> CorpServers</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p50-img1.png" alt="Add Application Segment — Name: SSH to SIEM, Application: siem.patraining.safemarch.com" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p51-img1.png" alt="App Segment port settings — Default Port Ranges: SSH, TCP Port Range 22–22" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p52-img1.png" alt="App Segment review page — SSH to SIEM, Segment Group: CorpApps, Server Group: CorpServers, Connector Group: OnPrem" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
           <div class="task-block" style="margin-top:16px;">
@@ -334,7 +364,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>App Segments:</strong> SSH to SIEM</li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong> and <strong>Activate</strong>.</li>
+              <li>Select <strong>Save</strong> and <strong>Activate</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p53-img1.png" alt="Access Policy list confirming Allow SSH to SIEM rule at Rule Order 3 with Allow Access action and SSH to SIEM segment criteria" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
 
@@ -373,7 +407,14 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         <div class="task-collapsible-body">
           <div class="task-block">
             <ol class="step-list">
-              <li>On the Linux Client VM, ensure ZCC is running and connected to your ZPA tenant.</li>
+              <li>On the Linux Client VM, ensure ZCC is running and connected to your ZPA tenant.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p54-img1.png" alt="ZCC system tray icon — right-click context menu showing Open Zscaler option" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p55-img1.png" alt="Zscaler Client Connector window — Internet Security tab showing Service Status: ON and connected to ZPA tenant" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Open a terminal and SSH to the SIEM:
                 <ul class="sub-steps">
                   <li><code>ssh student@siem.patraining.safemarch.com</code></li>
@@ -384,9 +425,16 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 <ul class="sub-steps">
                   <li><code>tail -f /var/log/syslog</code></li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p56-img1.png" alt="Windows terminal — SSH session to SIEM established via ZPA, tail -f /var/log/syslog running" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
               <li>In a second terminal, generate ZPA activity by browsing to the HVAC application (from Lab 2) or any other ZPA-proxied resource.</li>
-              <li>Return to the syslog tail and look for lines containing <strong>User Activity zpa-lss</strong> — these confirm the Log Streaming Connector is forwarding events.</li>
+              <li>Return to the syslog tail and look for lines containing <strong>User Activity zpa-lss</strong> — these confirm the Log Streaming Connector is forwarding events.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab3/lab3-p56-img2.png" alt="Syslog output showing live ZPA User Activity zpa-lss CSV rows arriving in real time from the Log Streaming Connector" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Press <kbd>Ctrl+C</kbd> to stop the tail when verified.</li>
             </ol>
             <div class="callout callout-note">
@@ -456,6 +504,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <footer id="site-footer">
     <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
@@ -510,7 +563,10 @@ function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classL
 (function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
 document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
-document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
 </script>
 </body>
 </html>

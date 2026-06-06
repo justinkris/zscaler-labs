@@ -195,8 +195,15 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>App Connector Certificate:</strong> select the Connector certificate from the dropdown</li>
                   <li><strong>City:</strong> enter your location city</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p23-img1.png" alt="Add App Connector Group form — Name: OnPrem, Status: Enabled, Signing Certificate selected, Location set" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p24-img1.png" alt="App Connector Groups list confirming OnPrem group created with Enabled status" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
 
@@ -240,6 +247,9 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 <ul class="sub-steps">
                   <li><code>cat /etc/issue</code></li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p26-img1.png" alt="ZPA App Connector VM terminal — cat /etc/issue output showing OAuth Token value" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
               <li>Copy the token value displayed.</li>
               <li>Back in the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; App Connectors &gt; App Connectors</strong>.</li>
@@ -249,8 +259,15 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Provisioning Key / OAuth Token:</strong> paste the token from the VM</li>
                   <li><strong>Certificate:</strong> select the Connector certificate</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p27-img1.png" alt="Add App Connectors form — Group: OnPrem, Signing Certificate: Connector, OAuth token pasted" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
-              <li>Select <strong>Save</strong> and wait for the connector to show a green <strong>Connected</strong> status.</li>
+              <li>Select <strong>Save</strong> and wait for the connector to show a green <strong>Connected</strong> status.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p27-img2.png" alt="App Connectors list showing OnPrem connector with Connected status and Enabled" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Note:</strong> The App Connector uses the provisioning key to authenticate with ZPA and establish its outbound tunnel. Once connected, it appears in the App Connectors list with its public and private IP addresses.</p>
@@ -306,8 +323,18 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>Segment Group:</strong> CorpApps</li>
                   <li><strong>Server Group:</strong> CorpServers</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p30-img1.png" alt="Add Application Segment — Name: HVAC, Status: Enabled, Application FQDN entered, Access Type: Browser Access checked" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p31-img1.png" alt="App Segment browser access settings — Certificate: Managed, External URL prefix hvac, Internal HTTP, TCP port 80-80" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
-              <li>Select <strong>Save</strong>.</li>
+              <li>Select <strong>Save</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p32-img1.png" alt="App Segment review page confirming HVAC, Segment Group: CorpApps, Server Group: CorpServers, App Connector Group: OnPrem" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
           <div class="task-block" style="margin-top:16px;">
@@ -321,8 +348,18 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong>App Segments:</strong> HVAC</li>
                   <li><strong>Client Types:</strong> Web Browser</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p34-img1.png" alt="Add Access Policy form — Name: Allow HVAC, Rule Action: Allow Access, App Segments: HVAC" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p35-img2.png" alt="Access Policy criteria — Client Types: Web Browser added alongside App Segments: HVAC" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
-              <li>Select <strong>Save</strong> and <strong>Activate</strong>.</li>
+              <li>Select <strong>Save</strong> and <strong>Activate</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p36-img1.png" alt="Access Policy list confirming Allow HVAC rule at Rule Order 2 with Allow Access action" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
 
@@ -361,12 +398,19 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         <div class="task-collapsible-body">
           <div class="task-block">
             <ol class="step-list">
-              <li>In the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; Browser Access</strong> and copy your <strong>External Domain</strong>.</li>
+              <li>In the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; Browser Access</strong> and copy your <strong>External Domain</strong>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p37-img1.png" alt="Browser Access page showing HVAC entry with internal and external domain — copy icon highlighted" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>On the Linux Client VM, open a terminal and run:
                 <ul class="sub-steps">
                   <li><code>dig &lt;your external domain&gt;</code></li>
                   <li>Verify DNS resolves to a Zscaler IP.</li>
                 </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p38-img1.png" alt="Terminal dig output confirming HVAC external domain resolves to Zscaler CNAME and IP addresses" onclick="openLightbox(this.src,this.alt)">
+                </div>
               </li>
               <li>Open <strong>Chrome</strong> and paste the External Domain URL into the address bar.</li>
               <li>Authenticate using:
@@ -375,7 +419,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li>Password: <code>Admin-123!</code></li>
                 </ul>
               </li>
-              <li>Confirm the <strong>HVAC Control</strong> page loads successfully.</li>
+              <li>Confirm the <strong>HVAC Control</strong> page loads successfully.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab2/lab2-p39-img1.png" alt="Safemarch HVAC Control dashboard loaded in Chrome browser via ZPA Browser Access — no VPN required" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
             <div class="callout callout-note">
               <p><strong>Verify:</strong> The HVAC application is accessible via browser without any client software installed, confirming ZPA Browser Access is working end-to-end.</p>
@@ -444,6 +492,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <footer id="site-footer">
     <span class="footer-content">EDU-202 · Zscaler for Users: Engineer — Zenith Live 2026</span>
     <button class="footer-toggle" onclick="toggleFooter()" id="footer-toggle-btn" title="Collapse footer">▲ Hide</button>
@@ -498,7 +551,10 @@ function toggleTask(header){var tc=header.closest('.task-collapsible');tc.classL
 (function(){document.querySelectorAll('.task-collapsible').forEach(function(tc){var saved=localStorage.getItem(PAGE_KEY+'-tc-'+tc.id);if(saved==='0')tc.classList.remove('open');});document.querySelectorAll('.task-collapsible-header').forEach(function(h){h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTask(h);}});});})();
 document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
 document.querySelectorAll('.answer-area').forEach(function(area){var key=PAGE_KEY+'-socans-'+area.dataset.section;try{var saved=localStorage.getItem(key);if(saved){var ta=area.querySelector('.answer-textarea');ta.value=saved;ta.disabled=true;var ab=area.querySelector('.btn-add-answer');ab.textContent='✓ Answer saved';ab.disabled=true;var sb=area.querySelector('.btn-see-answer');sb.disabled=false;sb.textContent='💡 See Model Answer';}}catch(e){}});
-document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});sessionStorage.setItem('pt','1');document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});});
 </script>
 </body>
 </html>
