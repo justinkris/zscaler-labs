@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(sessionStorage.getItem('pt')){document.documentElement.classList.add('pt-init')}
+function copyAllQs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});navigator.clipboard.writeText(all.join('\n'));}catch(e){}}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 11: Analyze Data and View Integrated Reports — EDU-202</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>html.pt-init body{opacity:0;}
+.task-collapsible{border:1px solid #dde1e7;border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.task-collapsible-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;background:#f7f8fa;border:none;border-bottom:1px solid transparent;text-align:left;font-family:inherit;transition:background 0.15s;}
+.task-collapsible.open>.task-collapsible-header{border-bottom-color:#dde1e7;background:#eef0f5;}
+.task-collapsible-header:hover{background:#eaecf2;}
+.task-num-badge{font-size:0.7rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#1a1a2e;color:#fff;border-radius:5px;padding:3px 9px;flex-shrink:0;white-space:nowrap;}
+.task-collapsible-title{font-size:0.97rem;font-weight:600;color:#1a1a2e;flex:1;margin:0;}
+.task-collapsible-chevron{font-size:0.9rem;color:#888;transition:transform 0.2s;flex-shrink:0;}
+.task-collapsible.open>.task-collapsible-header .task-collapsible-chevron{transform:rotate(180deg);}
+.task-collapsible-body{display:none;padding:20px 20px 12px;}
+.task-collapsible.open>.task-collapsible-body{display:block;}
+</style>
+<link rel="stylesheet" href="../lab-style.css">
+</head>
+<body>
+
+<header>
+  <div class="breadcrumb"><a href="../index.html">Zscaler Labs</a> › <a href="index.html">EDU-202</a> › Lab 11</div>
+  <div class="header-top">
+    <span class="eyebrow-chip">LAB 11 · REPORTING &amp; ANALYTICS</span>
+    <div class="header-dot"></div>
+  </div>
+  <h1>Analyze Data and View <em>Integrated Reports</em></h1>
+  <div class="motivation-banner">
+    <p>Raw telemetry only tells half the story. In this lab you use ZDX Data Explorer to build custom queries and visualise application performance, download Quarterly Business Review reports for trend insights, review system-generated Cloud Path reports, and create a shareable ZDX Snapshot — the exact toolkit used when communicating user experience data to stakeholders and leadership.</p>
+  </div>
+</header>
+
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="fqdn-input">Student FQDN</label>
+        <div class="config-field-row">
+          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
+      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
+      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
+    </div>
+  </div>
+</div>
+
+<div class="top-panels">
+  <div class="qpanel">
+    <button class="qpanel-header" onclick="toggleQPanel(this)">
+      <span class="qpanel-title">MY QUESTIONS</span>
+      <span class="qpanel-count" id="q-count">0</span>
+      <span class="qpanel-hint">— click to expand</span>
+      <span class="qpanel-chevron">▾</span>
+    </button>
+    <div class="qpanel-body" id="q-body">
+      <div id="q-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllQs()" title="Copy all questions">⎘ Copy All</button>
+  </div>
+  <div class="notes-panel">
+    <button class="notes-panel-header" onclick="toggleNPanel(this)">
+      <span class="notes-panel-title">MY NOTES</span>
+      <span class="notes-panel-chevron">▾</span>
+    </button>
+    <div class="notes-panel-body" id="n-body">
+      <div id="n-list" style="margin-top:10px;"></div>
+    </div>
+    <button class="copy-all-btn" onclick="copyAllNs()" title="Copy all notes">⎘ Copy All</button>
+  </div>
+</div>
+
+<main>
+  <div class="content-col">
+
+    <div class="section-block" id="section-lab11">
+      <h2>Lab 11: Analyze Data and View Integrated Reports</h2>
+
+      <div class="lab-header-card">
+        <div class="lab-badge">LAB 11</div>
+        <p><strong>Scenario:</strong> You need to review Zscaler Digital Experience (ZDX) data to understand application and network performance and communicate trends to stakeholders. In this lab you use Data Explorer to build custom queries, download and review Quarterly Business Review (QBR) reports, interact with system-generated Cloud Path reports, and create a ZDX Snapshot URL that gives view-only access to findings without requiring admin credentials.</p>
+        <figure class="lab-hero">
+          <img src="images/lab11-hero.png" alt="Lab 11 — Analyze Data and View Integrated Reports" loading="lazy">
+        </figure>
+        <div class="lab-meta">
+          <div class="lab-meta-item"><strong>Time:</strong> ~15 minutes</div>
+          <div class="lab-meta-item"><strong>Service:</strong> ZDX (Zscaler Digital Experience)</div>
+          <div class="lab-meta-item"><strong>Environment:</strong> Solutions Demo Center (SDC)</div>
+        </div>
+      </div>
+
+      <div class="socratic-block" id="soc-lab11">
+        <div class="socratic-header">
+          <span class="socratic-icon">💭</span>
+          <span class="socratic-label">THINK FIRST · ZDX REPORTING &amp; DATA EXPLORER</span>
+        </div>
+        <p class="socratic-insight">ZDX collects continuous synthetic probe data from every enrolled endpoint. The reporting layer — Data Explorer, QBR, system reports — is how that raw telemetry becomes actionable insight. Before you start, think about what each tool is optimised for and who its audience is.</p>
+        <ul class="socratic-questions">
+          <li>Data Explorer lets you build custom queries across multiple data sources (Web probes, Cloud Path probes, device health). A QBR report is a pre-built PowerPoint covering the same period. When would you reach for Data Explorer instead of the QBR, and vice versa?
+            <div class="answer-area" data-section="lab11-q1">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q1 — MODEL ANSWER</div>
+                  <div class="model-answer-text">Use Data Explorer for ad-hoc investigation — when you need to correlate a specific application against a specific user population, or filter by department or geolocation to isolate a performance regression. It's the tool for "something is wrong right now; show me the data shaped exactly the way I need it." The QBR is pre-packaged for stakeholder communication: it covers a calendar quarter with consistent formatting, requires no query skills from the recipient, and can be exported as a polished PowerPoint. Use QBR when presenting to a CISO, IT leadership, or when you need a recurring report without manual effort. Neither replaces the other — they serve different audiences and time horizons.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>A ZDX Snapshot provides a shareable URL that gives view-only access to a page's current state. What security advantage does this have over sharing admin credentials, and what are its limitations?
+            <div class="answer-area" data-section="lab11-q2">
+              <textarea class="answer-textarea" placeholder="Write your thoughts before revealing the model answer…" rows="3"></textarea>
+              <div class="answer-buttons">
+                <button class="btn-add-answer" onclick="saveSocAnswer(this)">+ Add My Answer</button>
+                <button class="btn-see-answer" onclick="revealSocAnswer(this)" disabled>🔒 See Model Answer</button>
+              </div>
+              <div class="model-answers" style="display:none;">
+                <div class="model-answer-item">
+                  <div class="model-answer-q">Q2 — MODEL ANSWER</div>
+                  <div class="model-answer-text">The primary advantage is least-privilege access: the recipient sees only the specific page state captured at snapshot time — no admin portal, no live data, no ability to modify configuration. This is especially useful when sharing diagnostics with a vendor, a user's manager, or an external consultant who should not have admin portal access. The limitations are that a snapshot is static (it cannot update with live data), most interactive controls are disabled (time range filters, dropdown menus, device selection), and the URL itself becomes a credential — if forwarded, anyone with the link can view the captured data. Snapshots should therefore be treated like sensitive documents: scoped to what is necessary and shared only with intended recipients.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Task 11.1 -->
+      <div class="task-collapsible open" id="task-11-1">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 11.1</span>
+          <span class="task-collapsible-title">Analyze the Data Explorer to View Application and Network Performance</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Data Explorer lets you build and run custom views against ZDX telemetry — combining probes, metrics, filters, and chart types into a single interactive query. In this task you open Data Explorer, build a query, and explore the chart zoom feature.</p>
+            <ol class="step-list">
+              <li>On <strong>Corp: Client PC 1</strong>, open a browser and navigate to the <strong>Zscaler Experience Center</strong>.</li>
+              <li>Open Data Explorer:
+                <ul class="sub-steps">
+                  <li>Go to <strong>Analytics &gt; Digital Experience Management &gt; Reporting &gt; Data Explorer</strong>.</li>
+                  <li>If prompted, enable <strong>Switch to Existing Reports</strong>.</li>
+                  <li>Alternatively, use the search bar to find the feature directly.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p223-img1.png" alt="Data Explorer navigation path in Experience Center showing Analytics > Digital Experience Management > Reporting > Data Explorer" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> You can see a list of configured views and their details.</p>
+                </div>
+              </li>
+              <li>Create and run a query:
+                <ul class="sub-steps">
+                  <li>Select <strong>View</strong> to organize customized views of applications and metrics.</li>
+                  <li>In the left panel, configure options such as <strong>Data Source</strong>, <strong>Probes</strong>, <strong>Metrics</strong>, <strong>Filters</strong>, <strong>Operations</strong>, <strong>View Type</strong>, or <strong>Overlays</strong>.</li>
+                  <li>Select <strong>Run Query</strong>.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p224-img1.png" alt="Data Explorer showing the list of configured views with columns for View Name, Data Source, Probe Type, Metrics, and Last Modified" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p225-img1.png" alt="Data Explorer query results showing individual charts for selected applications and metrics with performance trend lines" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> You can view graphs that display individual charts for the selected applications and metrics.</p>
+                </div>
+              </li>
+              <li>Explore chart details:
+                <ul class="sub-steps">
+                  <li>Select and drag to <strong>zoom in</strong> on a specific area of a chart.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p226-img1.png" alt="Data Explorer chart with a zoomed time range selected, showing detailed performance metrics for the highlighted period" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p227-img1.png" alt="Zoomed Data Explorer chart view showing granular application performance data points within the selected time range" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> You can view details for the zoomed time range.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t11-1">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 11.1</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t11-1" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t11-1',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t11-1"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t11-1" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t11-1',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t11-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 11.2 -->
+      <div class="task-collapsible open" id="task-11-2">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 11.2</span>
+          <span class="task-collapsible-title">View QBR Reports for Trend Insights</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Quarterly Business Review (QBR) reports are pre-built PowerPoint files generated automatically by Zscaler on the first weekend of every month. They provide a structured view of ZDX user experience trends — ready for executive and stakeholder presentations without manual effort.</p>
+            <ol class="step-list">
+              <li>Open the QBR reports list:
+                <ul class="sub-steps">
+                  <li>In the left navigation bar, select <strong>Quarterly Business Reviews</strong>.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p228-img1.png" alt="Quarterly Business Reviews page showing a list of reports organised by time period with Status and Download icons" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> You see a list of reports for the covered time period.</p>
+                </div>
+              </li>
+              <li>Download and review a report:
+                <ul class="sub-steps">
+                  <li>Select the <strong>Download</strong> icon for the report you want to view.</li>
+                  <li>Open the downloaded QBR PowerPoint file and review the details.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p229-img1.png" alt="QBR reports list with the Download icon highlighted on the most recent report row" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p230-img1.png" alt="Downloaded QBR PowerPoint file open showing executive summary slide with ZDX performance metrics and trend charts" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> You can open the file and view the report content.</p>
+                </div>
+                <div class="callout callout-note" style="margin-top:8px;">
+                  <p>A new QBR report is generated on the first weekend of every month. Each report is securely stored as a PowerPoint file in the Zscaler cloud.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t11-2">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 11.2</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t11-2" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t11-2',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t11-2"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t11-2" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t11-2',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t11-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Task 11.3 -->
+      <div class="task-collapsible open" id="task-11-3">
+        <div class="task-collapsible-header" onclick="toggleTask(this)" role="button" tabindex="0">
+          <span class="task-num-badge">Task 11.3</span>
+          <span class="task-collapsible-title">View System Integrated Reports and Generate ZDX Snapshots</span>
+          <span class="task-collapsible-chevron">▾</span>
+        </div>
+        <div class="task-collapsible-body">
+          <div class="task-block">
+            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">System-generated reports provide pre-built views of ZDX telemetry — including Cloud Path End-to-End latency — that you can filter interactively without building a custom query. ZDX Snapshots let you capture any portal page and share a view-only URL with users or stakeholders who do not have admin access.</p>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:0 0 8px;">Step A — Review System-Generated Reports</h4>
+            <ol class="step-list">
+              <li>Open system-generated reports:
+                <ul class="sub-steps">
+                  <li>In the left navigation bar, go to <strong>System Generated Reports</strong>.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p231-img1.png" alt="System Generated Reports page showing a list of pre-built report types including Cloud Path End-to-End with View icons" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> You see a list of reports.</p>
+                </div>
+              </li>
+              <li>Open and interact with a report:
+                <ul class="sub-steps">
+                  <li>Select the <strong>View</strong> icon for the report you want to analyse.</li>
+                  <li>For <strong>Cloud Path End-to-End</strong>, filter by Departments, Zscaler Locations, Geolocations, or Applications.</li>
+                  <li>Select a point in the graph to display a tooltip with latency metrics for the selected locations.</li>
+                  <li>Drag from left to right to select a time range.</li>
+                  <li>Select <strong>Zoom Out</strong> to reset the graph to the original view.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p232-img1.png" alt="System Generated Cloud Path End-to-End report showing filter controls for Departments, Locations, and Applications at the top" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p233-img1.png" alt="Cloud Path End-to-End latency graph with multiple coloured lines per location, showing a tooltip with latency metrics for a selected point" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> The graph updates based on your selections.</p>
+                </div>
+                <div class="callout callout-note" style="margin-top:8px;">
+                  <p>Up to 20 device locations are displayed at a time in the legend on the right side of the graph, based on user device information.</p>
+                </div>
+              </li>
+            </ol>
+
+            <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step B — Create and Share a ZDX Snapshot</h4>
+            <ol class="step-list" start="3">
+              <li>Create a ZDX Snapshot:
+                <ul class="sub-steps">
+                  <li>In the left navigation bar, select <strong>ZDX Snapshots</strong>.</li>
+                  <li>Select the <strong>Copy</strong> icon for an active snapshot.</li>
+                  <li>Paste the copied link into a new browser window.</li>
+                </ul>
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p234-img1.png" alt="ZDX Snapshots page listing active snapshots with Copy URL icon highlighted on the first row" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-success" style="margin-top:8px;">
+                  <p><strong>Verify:</strong> The page displays a green icon in the upper-left corner, indicating you are viewing a ZDX Snapshot.</p>
+                </div>
+              </li>
+              <li>Identify the snapshot indicator:
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab11/lab11-p235-img1.png" alt="ZDX portal page viewed via snapshot URL, showing the green snapshot indicator icon in the upper-left corner of the page" onclick="openLightbox(this.src,this.alt)">
+                </div>
+                <div class="callout callout-note" style="margin-top:8px;">
+                  <p>A ZDX Snapshot captures the current state of a UI page and provides a URL that admins can share with ZDX users or other admins for view-only access. Interaction is limited — time range filters, dropdown menus, device selection, and most navigation controls are disabled by default to protect data privacy.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="section-qa" data-section="t11-3">
+            <button class="section-qa-header" onclick="toggleSectionQA(this)">
+              <span class="section-qa-title">Questions &amp; Notes — Task 11.3</span>
+              <span class="section-qa-chevron">▾</span>
+            </button>
+            <div class="section-qa-body">
+              <div class="section-qa-grid">
+                <div>
+                  <div class="section-qa-label">My Questions</div>
+                  <textarea class="section-qa-textarea" id="sq-t11-3" placeholder="Questions about this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionQ('t11-3',this)">Save</button>
+                  <div class="section-qa-list" id="sq-list-t11-3"></div>
+                </div>
+                <div>
+                  <div class="section-qa-label">My Notes</div>
+                  <textarea class="section-qa-textarea" id="sn-t11-3" placeholder="Key takeaways from this section…"></textarea>
+                  <button class="section-qa-save" onclick="saveSectionN('t11-3',this)">Save</button>
+                  <div class="section-qa-list" id="sn-list-t11-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mental-note-block">
+        <div class="mental-note-block-icon">🧠</div>
+        <div class="mental-note-block-inner">
+          <div class="mental-note-block-label">MENTAL NOTE</div>
+          <div class="mental-note-block-text">ZDX reporting has three layers: Data Explorer (ad-hoc custom queries — for engineers investigating specific problems), QBR (automated monthly PowerPoint — for leadership and stakeholder reviews), and System Generated Reports (pre-built interactive charts — for quick operational insight). ZDX Snapshots provide a read-only shareable URL that captures the current portal state, letting you share diagnostic data with non-admin recipients without exposing credentials or live data.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <a class="hub-link" href="index.html">← Back to EDU-202 Labs</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">LAB PROGRESS</div>
+      <ul class="progress-list">
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-1" onchange="toggleDone(this)"> Navigated to Data Explorer (Analytics &gt; ZDX &gt; Reporting)</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-2" onchange="toggleDone(this)"> Created and ran a custom query in Data Explorer</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-3" onchange="toggleDone(this)"> Used zoom to inspect a specific chart time range</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-4" onchange="toggleDone(this)"> Opened Quarterly Business Reviews list</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-5" onchange="toggleDone(this)"> Downloaded and reviewed a QBR PowerPoint report</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-6" onchange="toggleDone(this)"> Opened System Generated Reports list</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-7" onchange="toggleDone(this)"> Interacted with a Cloud Path End-to-End report</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-8" onchange="toggleDone(this)"> Opened ZDX Snapshots and copied a snapshot URL</label></li>
+        <li class="progress-item"><label><input type="checkbox" id="pc-11-9" onchange="toggleDone(this)"> Viewed snapshot in browser — green icon confirmed</label></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="quick-ref">
+        <div class="qr-header">Quick Reference</div>
+        <div class="qr-body">
+          <div class="qr-item"><span class="qr-term">Data Explorer</span><span class="qr-def">Analytics &gt; ZDX &gt; Reporting &gt; Data Explorer</span></div>
+          <div class="qr-item"><span class="qr-term">QBR path</span><span class="qr-def">Left nav &gt; Quarterly Business Reviews</span></div>
+          <div class="qr-item"><span class="qr-term">QBR format</span><span class="qr-def">PowerPoint (.pptx)</span></div>
+          <div class="qr-item"><span class="qr-term">QBR cadence</span><span class="qr-def">Generated first weekend of every month</span></div>
+          <div class="qr-item"><span class="qr-term">System Reports</span><span class="qr-def">Left nav &gt; System Generated Reports</span></div>
+          <div class="qr-item"><span class="qr-term">ZDX Snapshots</span><span class="qr-def">Left nav &gt; ZDX Snapshots</span></div>
+          <div class="qr-item"><span class="qr-term">Snapshot indicator</span><span class="qr-def">Green icon — upper-left corner</span></div>
+          <div class="qr-item"><span class="qr-term">Snapshot access</span><span class="qr-def">View-only, most controls disabled</span></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div class="page-nav">
+  <a class="page-nav-btn page-nav-prev" href="lab10.html">← Lab 10: Automation using Zscaler APIs</a>
+  <div class="page-nav-message">One more lab to go — you're nearly through the full EDU-202 curriculum!</div>
+  <a class="page-nav-btn page-nav-next" href="lab12.html">Lab 12: ZWA Incident Management →</a>
+</div>
+
+<script>
+const CONFIG_KEY='edu202-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu202-config-collapsed';
+const FOOTER_KEY='edu202-footer-collapsed';
+const PAGE_KEY='edu202-lab-lab11';
+var SECTION_IDS=['t11-1','t11-2','t11-3'];
+
+function loadConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fi=document.getElementById('fqdn-input'),pi=document.getElementById('pass-input');if(fi&&d.fqdn)fi.value=d.fqdn;if(pi&&d.pass)pi.value=d.pass;applyConfig();}catch(e){}}
+function saveConfig(){try{var fqdn=document.getElementById('fqdn-input').value.trim();var pass=document.getElementById('pass-input').value.trim();localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));applyConfig();}catch(e){}}
+function clearConfig(){try{localStorage.removeItem(CONFIG_KEY);document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';applyConfig();}catch(e){}}
+function applyConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';var studentId='';if(fqdn){var m=fqdn.match(/^zs(\d+)\./);if(m)studentId=m[1];}
+document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
+document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
+var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
+var dh=document.getElementById('d-hvac');if(dh)dh.textContent=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';
+var did=document.getElementById('d-id');if(did)did.textContent=studentId||'<Student ID>';
+document.querySelectorAll('.d-id').forEach(function(el){el.textContent=studentId||'<Student ID>';});
+var sum=document.getElementById('config-toggle-summary');if(sum)sum.textContent=fqdn?' — '+fqdn:'';
+}catch(e){}}
+function copyConfigField(id,btn){try{var v=document.getElementById(id).value;navigator.clipboard.writeText(v);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}catch(e){}}
+function toggleConfig(){var panel=document.getElementById('config-panel');var body=document.getElementById('config-body');var btn=document.getElementById('config-toggle-btn');if(!panel)return;var collapsed=panel.classList.toggle('collapsed');localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');if(btn){var chev=btn.querySelector('.chevron');if(chev)chev.textContent=collapsed?'▼':'▲';btn.innerHTML=(collapsed?'<span class="chevron">▼</span> Expand':'<span class="chevron">▲</span> Collapse');}
+updateSidebarOffset();}
+function updateSidebarOffset(){var panel=document.getElementById('config-panel');var sidebar=document.querySelector('.sidebar');if(!panel||!sidebar)return;sidebar.style.marginTop='';}
+function loadConfigCollapsed(){try{var c=localStorage.getItem(CONFIG_COLLAPSED_KEY);if(c==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');if(panel)panel.classList.add('collapsed');if(btn){var chev=btn.querySelector('.chevron');if(chev)chev.textContent='▼';btn.innerHTML='<span class="chevron">▼</span> Expand';}}}catch(e){}}
+
+function toggleFooter(btn){try{var f=document.getElementById('site-footer');if(!f)return;var collapsed=f.classList.toggle('collapsed');localStorage.setItem(FOOTER_KEY,collapsed?'1':'0');btn.textContent=collapsed?'▼ Show':'▲ Hide';}catch(e){}}
+function loadFooterState(){try{var c=localStorage.getItem(FOOTER_KEY);if(c==='1'){var f=document.getElementById('site-footer');var btn=f?f.querySelector('.footer-toggle'):null;if(f)f.classList.add('collapsed');if(btn)btn.textContent='▼ Show';}}catch(e){}}
+
+function toggleTask(header){var coll=header.closest('.task-collapsible');if(!coll)return;var open=coll.classList.toggle('open');try{var key=PAGE_KEY+'-task-'+coll.id;localStorage.setItem(key,open?'1':'0');}catch(e){}}
+function loadTaskStates(){document.querySelectorAll('.task-collapsible').forEach(function(el){try{var k=PAGE_KEY+'-task-'+el.id;var v=localStorage.getItem(k);if(v==='0')el.classList.remove('open');else if(v==='1')el.classList.add('open');}catch(e){}});}
+
+function toggleQPanel(btn){var body=document.getElementById('q-body');btn.classList.toggle('open');body.classList.toggle('open');loadQList();}
+function toggleNPanel(btn){var body=document.getElementById('n-body');btn.classList.toggle('open');body.classList.toggle('open');loadNList();}
+function loadQList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var qs=JSON.parse(localStorage.getItem(PAGE_KEY+'-sq-'+id)||'[]');all=all.concat(qs);}catch(e){}});var el=document.getElementById('q-list');if(el)el.innerHTML=all.length?all.map(function(q){return'<p style="font-size:12.5px;font-family:\'Epilogue\',sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+q+'</p>';}).join(''):'<p class="panel-empty">No questions yet — use the task Q&amp;A sections below.</p>';var c=document.getElementById('q-count');if(c){c.textContent=all.length;c.style.display=all.length?'inline-block':'none';}}catch(e){}}
+function loadNList(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=JSON.parse(localStorage.getItem(PAGE_KEY+'-sn-'+id)||'[]');all=all.concat(ns);}catch(e){}});var el=document.getElementById('n-list');if(el)el.innerHTML=all.length?all.map(function(n){return'<p style="font-size:12.5px;font-family:\'Epilogue\',sans-serif;color:var(--text-soft);padding:4px 0;border-bottom:1px solid var(--border-dim);">'+n+'</p>';}).join(''):'<p class="panel-empty">No notes yet — use the task Q&amp;A sections below.</p>';}catch(e){}}
+
+function toggleSectionQA(btn){var body=btn.nextElementSibling;if(!body)return;body.classList.toggle('open');btn.querySelector('.section-qa-chevron').style.transform=body.classList.contains('open')?'rotate(180deg)':'';}
+function saveSectionQ(id,btn){try{var ta=document.getElementById('sq-'+id);if(!ta||!ta.value.trim())return;var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.push(ta.value.trim());localStorage.setItem(key,JSON.stringify(arr));ta.value='';renderSectionQ(id);}catch(e){}}
+function saveSectionN(id,btn){try{var ta=document.getElementById('sn-'+id);if(!ta||!ta.value.trim())return;var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.push(ta.value.trim());localStorage.setItem(key,JSON.stringify(arr));ta.value='';renderSectionN(id);}catch(e){}}
+function renderSectionQ(id){try{var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');var el=document.getElementById('sq-list-'+id);if(el)el.innerHTML=arr.map(function(q,i){return'<div class="section-qa-item"><span>'+q+'</span><button onclick="deleteSectionQ(\''+id+'\','+i+')">×</button></div>';}).join('');try{loadQList();}catch(e){}}catch(e){}}
+function renderSectionN(id){try{var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');var el=document.getElementById('sn-list-'+id);if(el)el.innerHTML=arr.map(function(n,i){return'<div class="section-qa-item"><span>'+n+'</span><button onclick="deleteSectionN(\''+id+'\','+i+')">×</button></div>';}).join('');try{loadNList();}catch(e){}}catch(e){}}
+function deleteSectionQ(id,idx){try{var key=PAGE_KEY+'-sq-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.splice(idx,1);localStorage.setItem(key,JSON.stringify(arr));renderSectionQ(id);}catch(e){}}
+function deleteSectionN(id,idx){try{var key=PAGE_KEY+'-sn-'+id;var arr=JSON.parse(localStorage.getItem(key)||'[]');arr.splice(idx,1);localStorage.setItem(key,JSON.stringify(arr));renderSectionN(id);}catch(e){}}
+
+function saveSocAnswer(btn){try{var area=btn.closest('.answer-area');var ta=area.querySelector('.answer-textarea');if(!ta||!ta.value.trim())return;var seeBtn=area.querySelector('.btn-see-answer');if(seeBtn)seeBtn.disabled=false;btn.textContent='✓ Saved';}catch(e){}}
+function revealSocAnswer(btn){try{var area=btn.closest('.answer-area');var ma=area.querySelector('.model-answers');if(ma)ma.style.display=ma.style.display==='none'?'block':'none';btn.textContent=btn.textContent.includes('Hide')?'🔍 See Model Answer':'🔍 Hide Model Answer';}catch(e){}}
+
+function toggleDone(cb){try{var key=PAGE_KEY+'-check-'+cb.id;localStorage.setItem(key,cb.checked?'1':'0');cb.closest('li').classList.toggle('done',cb.checked);}catch(e){}}
+function loadChecklist(){document.querySelectorAll('.progress-item input[type=checkbox]').forEach(function(cb){try{var v=localStorage.getItem(PAGE_KEY+'-check-'+cb.id);if(v==='1'){cb.checked=true;cb.closest('li').classList.add('done');}}catch(e){}});}
+
+function injectCopyButtons(){document.querySelectorAll('pre code, code.copyable').forEach(function(el){if(el.closest('.copy-wrap'))return;var w=document.createElement('span');w.className='copy-wrap';el.parentNode.insertBefore(w,el);w.appendChild(el);var btn=document.createElement('button');btn.className='copy-code-btn';btn.textContent='⎘';btn.title='Copy';btn.onclick=function(){navigator.clipboard.writeText(el.textContent);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);};w.appendChild(btn);});}
+
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+document.addEventListener('DOMContentLoaded',function(){
+  loadConfig();
+  loadConfigCollapsed();
+  loadFooterState();
+  loadQList();
+  loadNList();
+  loadChecklist();
+  loadTaskStates();
+  injectCopyButtons();
+  SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});
+  document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
+  document.body.style.opacity='1';
+});
+</script>
+</body>
+</html>

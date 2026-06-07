@@ -10,6 +10,14 @@ Style for ALL images:
 
 ---
 
+Lab 0 Hero — lab0-hero.png
+--------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A map or blueprint unrolled on a desk, overlaid with labeled icons for each VM in the lab topology: a laptop (client PC), a server rack (Windows server), a whale/container icon (Docker server), two small connector boxes (ZPA App Connectors), and a DNS server cylinder. Dotted arrows connect the VMs to a central Zscaler cloud shield. A compass rose in the corner reinforces the "orientation" theme. Color palette: navy, sky-blue, teal, white.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
 Lab 1 Hero — lab1-hero.png
 --------------------------
 Flat illustration cartoon, highly detailed. Background color #eef4ff.
@@ -86,6 +94,22 @@ Lab 10 Hero — lab10-hero.png
 -----------------------------
 Flat illustration cartoon, highly detailed. Background color #eef4ff.
 A developer figure typing on a laptop. Above the laptop a Postman-style request panel icon sends an arrow labeled with HTTP method indicators (GET/POST represented as colored badges) toward a Zscaler cloud with an API plug icon. The cloud returns a JSON document icon. Gear/cog icons and a connecting pipeline indicate automation. Color palette: navy, sky-blue, teal, amber.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 11 Hero — lab11-hero.png
+-----------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+An analyst figure sitting at a monitor showing a multi-line performance chart with time on the x-axis and latency metrics as colored trend lines. Floating beside the monitor: a bar-chart icon representing a QBR report, a camera/snapshot icon indicating a shareable link, and a magnifying glass zooming into a highlighted section of a chart. A cloud icon with ZDX probe signals connects to the graphs. Color palette: navy, sky-blue, purple, teal.
+No text, no words, no letters, no labels anywhere in the image.
+
+---
+
+Lab 12 Hero — lab12-hero.png
+-----------------------------
+Flat illustration cartoon, highly detailed. Background color #eef4ff.
+A workflow automation pipeline illustrated as connected nodes: a DLP violation shield icon triggers an arrow to an incident card with a status badge, which flows to an envelope notification icon, then to an approver figure giving a checkmark, and finally to a resolved-tick icon. Gear/cog icons float around the nodes to indicate automated workflow logic. Color palette: navy, sky-blue, amber, green.
 No text, no words, no letters, no labels anywhere in the image.
 
 ---

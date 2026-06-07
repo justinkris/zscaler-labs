@@ -179,7 +179,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </div>
               </li>
               <li>If you do not already have an account, select <strong>Sign Up for Free</strong> and create a free Postman account.</li>
-              <li>Sign in to Postman. Confirm you can see the Postman workspace home screen.</li>
+              <li>Sign in to Postman. Confirm you can see the Postman workspace home screen.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p197-img1.png" alt="Postman download page showing Windows x64 download button and Launch Postman option for web access" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
           </div>
 
@@ -219,7 +223,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
           <div class="task-block">
             <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Zscaler publishes an official Postman collection for OneAPI that includes pre-built request templates for all product areas. You download it from the Zscaler developer portal and import it into your workspace.</p>
             <ol class="step-list">
-              <li>Open a new browser tab and navigate to <a href="https://automate.zscaler.com" target="_blank" rel="noopener">automate.zscaler.com</a>.</li>
+              <li>Open a new browser tab and navigate to <a href="https://automate.zscaler.com" target="_blank" rel="noopener">automate.zscaler.com</a>.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p199-img1.png" alt="Zscaler Automation Hub page showing Adding OneAPI Postman Collection instructions with download link highlighted" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
               <li>Locate and download the <strong>Zscaler OneAPI Postman Collection</strong> file (a <code>.json</code> file).</li>
               <li>Return to Postman. Select <strong>File &gt; Import</strong> (or use the <strong>Import</strong> button in the left-hand Collections sidebar).</li>
               <li>Drag and drop the downloaded <code>.json</code> file, or browse to it. Select <strong>Import</strong>.</li>
@@ -309,7 +317,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <p><strong>Important:</strong> The Client Secret is shown only once. Once you close or navigate away from this dialog it cannot be retrieved. If you miss it, you must regenerate the secret.</p>
                 </div>
               </li>
-              <li>Verify the <code>TestClient</code> API client appears in the API Clients list with its <strong>Client ID</strong> visible. Note the Client ID for later.</li>
+              <li>Verify the <code>TestClient</code> API client appears in the API Clients list with its <strong>Client ID</strong> visible. Note the Client ID for later.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p202-img1.png" alt="API Clients page in Experience Center showing TestClient with Status Active and Client ID visible" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step C — Find the ZPA Customer ID</h4>
@@ -367,7 +379,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                   <li><strong><code>customerid</code></strong> — the ZPA Tenant/Customer ID from Linked Services</li>
                 </ul>
               </li>
-              <li>Select <strong>Save</strong> (or press <kbd>Ctrl+S</kbd> / <kbd>Cmd+S</kbd>).</li>
+              <li>Select <strong>Save</strong> (or press <kbd>Ctrl+S</kbd> / <kbd>Cmd+S</kbd>).
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p207-img1.png" alt="Postman OneAPI collection Variables tab showing zidentityBaseUrl, clientID, clientSecret, and customerId fields filled in with student values" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step B — Obtain an Access Token</h4>
@@ -375,7 +391,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
               <li>With the <strong>OneAPI</strong> collection selected, select the <strong>Authorization</strong> tab.</li>
               <li>Scroll down to the bottom of the Authorization panel and select <strong>Get New Access Token</strong>.</li>
               <li>Postman performs the OAuth 2.0 flow against ZIdentity. When complete, a dialog displays <strong>"Authentication complete"</strong>.</li>
-              <li>Select <strong>Use Token</strong> to apply the token to the collection.</li>
+              <li>Select <strong>Use Token</strong> to apply the token to the collection.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p209-img1.png" alt="Postman Manage Access Tokens dialog showing ZIdentity Token with Use Token button highlighted, and Current Token panel showing expiry time" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step C — Verify the Active Token in ZIdentity</h4>
@@ -444,14 +464,22 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:0 0 8px;">Step A — Verify existing App Connector Groups</h4>
             <ol class="step-list">
               <li>In the Experience Center, navigate to <strong>Infrastructure &gt; Private Access &gt; App Connector Groups</strong>.</li>
-              <li>Note the App Connector Groups currently configured. After completing this task, a new group named <code>ZPALAB APPC Group</code> should appear in this list.</li>
+              <li>Note the App Connector Groups currently configured. After completing this task, a new group named <code>ZPALAB APPC Group</code> should appear in this list.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p213-img1.png" alt="ZPA App Connector Groups page showing no items — empty state before API-created group is added" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step B — Retrieve the Enrollment Certificate ID</h4>
             <ol class="step-list" start="3">
               <li>In Postman, navigate to <strong>OneAPI &gt; ZPA &gt; Enrollment Certificate Controller</strong>.</li>
               <li>Select the request <strong>GET "Gets all configured enrollment certificate details for specified customer"</strong> and select <strong>Send</strong>.</li>
-              <li>In the JSON response body, locate the enrollment certificate and note its <strong><code>id</code></strong> value (e.g. <code>"id": "7651"</code>). You will use this as the <code>signingCertId</code> in the next step.</li>
+              <li>In the JSON response body, locate the enrollment certificate and note its <strong><code>id</code></strong> value (e.g. <code>"id": "7651"</code>). You will use this as the <code>signingCertId</code> in the next step.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p214-img1.png" alt="Postman GET enrollment certificate request in ZPA Enrollment Certificate Controller, showing request URL with customerId path variable" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step C — Create the App Connector Group</h4>
@@ -472,13 +500,21 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
                 </div>
               </li>
               <li>Select <strong>Send</strong>.</li>
-              <li>Verify the response code is <strong>201 Created</strong>. The response body contains the full JSON representation of the newly created App Connector Group.</li>
+              <li>Verify the response code is <strong>201 Created</strong>. The response body contains the full JSON representation of the newly created App Connector Group.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p219-img1.png" alt="Postman POST App Connector Group request showing 201 Created response with ZPLABNEW APPC Group JSON body including name, location San Jose CA, and signingCertId" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Step D — Confirm in the ZPA Portal</h4>
             <ol class="step-list" start="10">
               <li>Return to the Experience Center and navigate to <strong>Infrastructure &gt; Private Access &gt; App Connector Groups</strong>.</li>
-              <li>Confirm that <code>ZPALAB APPC Group</code> now appears in the list — created programmatically via the API without any portal interaction.</li>
+              <li>Confirm that <code>ZPALAB APPC Group</code> now appears in the list — created programmatically via the API without any portal interaction.
+                <div class="screenshot-embed">
+                  <img src="screenshots/lab10/lab10-p220-img1.png" alt="ZPA App Connector Groups portal showing ZPAAPPNEW APPC Group with Status Enabled — confirming the group was created via API" onclick="openLightbox(this.src,this.alt)">
+                </div>
+              </li>
             </ol>
 
             <div class="callout callout-success">
@@ -567,10 +603,15 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </aside>
 </main>
 
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <div class="page-nav">
   <a class="page-nav-btn page-nav-prev" href="lab9.html">← Lab 9: ZDX Alerts &amp; Diagnostics</a>
-  <div class="page-nav-message">You've completed all EDU-202 labs — excellent work!</div>
-  <span class="page-nav-btn page-nav-next page-nav-disabled">End →</span>
+  <div class="page-nav-message">Two more SDC labs to go — you're in the home stretch!</div>
+  <a class="page-nav-btn page-nav-next" href="lab11.html">Lab 11: Analyze Data &amp; Reports →</a>
 </div>
 
 <script>
@@ -625,6 +666,9 @@ function loadChecklist(){document.querySelectorAll('.progress-item input[type=ch
 
 function injectCopyButtons(){document.querySelectorAll('pre code, code.copyable').forEach(function(el){if(el.closest('.copy-wrap'))return;var w=document.createElement('span');w.className='copy-wrap';el.parentNode.insertBefore(w,el);w.appendChild(el);var btn=document.createElement('button');btn.className='copy-code-btn';btn.textContent='⎘';btn.title='Copy';btn.onclick=function(){navigator.clipboard.writeText(el.textContent);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);};w.appendChild(btn);});}
 
+function openLightbox(src,alt){var lb=document.getElementById('lightbox');var img=document.getElementById('lightbox-img');img.src=src;img.alt=alt||'';lb.classList.add('active');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e&&e.target===document.getElementById('lightbox-img'))return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
 document.addEventListener('DOMContentLoaded',function(){
   loadConfig();
   loadConfigCollapsed();
@@ -635,6 +679,7 @@ document.addEventListener('DOMContentLoaded',function(){
   loadTaskStates();
   injectCopyButtons();
   SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});
+  document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});
   document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
   document.body.style.opacity='1';
 });
