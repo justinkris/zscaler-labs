@@ -45,45 +45,6 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </div>
 </header>
 
-<div class="config-panel" id="config-panel">
-  <div class="config-toggle-row" onclick="toggleConfig()">
-    <div style="display:flex;align-items:center;gap:0;">
-      <span class="config-toggle-title">⚙ Lab Configuration</span>
-      <span class="config-toggle-summary" id="config-toggle-summary"></span>
-    </div>
-    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
-      <span class="chevron">▲</span> Collapse
-    </button>
-  </div>
-  <div class="config-body" id="config-body">
-    <div class="config-grid">
-      <div class="config-field">
-        <label for="fqdn-input">Student FQDN</label>
-        <div class="config-field-row">
-          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
-        </div>
-      </div>
-      <div class="config-field">
-        <label for="pass-input">Session Password</label>
-        <div class="config-field-row">
-          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
-        </div>
-      </div>
-      <div class="config-actions">
-        <button class="config-btn" onclick="saveConfig()">Save</button>
-        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
-      </div>
-    </div>
-    <div class="config-derived" id="config-derived">
-      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
-      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
-      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
-    </div>
-  </div>
-</div>
-
 <div class="top-panels">
   <div class="qpanel">
     <button class="qpanel-header" onclick="toggleQPanel(this)">
@@ -177,10 +138,10 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <div class="task-collapsible-body">
           <div class="task-block">
-            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Read through the lab overview so you understand the context behind every configuration task you'll perform across Labs 1–12.</p>
+            <p style="color:var(--text-soft);margin-bottom:14px;">Read through the lab overview so you understand the context behind every configuration task you'll perform across Labs 1–12.</p>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:0 0 8px;">About this Lab</h4>
-            <p style="font-size:0.93rem;margin-bottom:12px;">In this lab you apply skills from eLearning by working inside the Zscaler remote lab environment. You complete a series of exercises that build proficiency in:</p>
+            <p style="margin-bottom:12px;">In this lab you apply skills from eLearning by working inside the Zscaler remote lab environment. You complete a series of exercises that build proficiency in:</p>
             <ul class="sub-steps" style="margin-bottom:16px;">
               <li>Configuring connectivity to the Zero Trust Exchange</li>
               <li>Defining allow and deny policies for access through the Zero Trust Exchange</li>
@@ -203,7 +164,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
             </ul>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:16px 0 8px;">Lab Setup</h4>
-            <p style="font-size:0.93rem;margin-bottom:0;">You have access to the Zero Trust Exchange services — ZIA, ZPA, and ZDX — plus a ZIdentity account and a Skytap pod. You configure ZIA, ZPA, and ZDX, and use Windows and Linux client VMs in Skytap to connect to the Zero Trust Exchange and test access and user experience.</p>
+            <p style="margin-bottom:0;">You have access to the Zero Trust Exchange services — ZIA, ZPA, and ZDX — plus a ZIdentity account and a Skytap pod. You configure ZIA, ZPA, and ZDX, and use Windows and Linux client VMs in Skytap to connect to the Zero Trust Exchange and test access and user experience.</p>
           </div>
 
           <div class="section-qa" data-section="t0-1">
@@ -240,7 +201,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <div class="task-collapsible-body">
           <div class="task-block">
-            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Your Skytap pod contains seven virtual machines. Each VM plays a specific role across the labs. Study the topology so you always know which machine to use for each task.</p>
+            <p style="color:var(--text-soft);margin-bottom:14px;">Your Skytap pod contains seven virtual machines. Each VM plays a specific role across the labs. Study the topology so you always know which machine to use for each task.</p>
 
             <div class="screenshot-embed">
               <img src="screenshots/lab0/lab0-p8-img1.png" alt="Lab topology diagram showing the Skytap pod with Corp and Remote network segments, VM names, and their connections to the Zscaler Zero Trust Exchange cloud" onclick="openLightbox(this.src,this.alt)">
@@ -296,7 +257,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         </div>
         <div class="task-collapsible-body">
           <div class="task-block">
-            <p style="font-size:0.93rem;color:var(--text-soft);margin-bottom:14px;">Keep this page open as a credentials reference throughout the labs. The <strong>Session Password</strong> for your Zscaler admin and user accounts is unique to your pod — save it in the Config Panel above so it appears inline wherever needed.</p>
+            <p style="color:var(--text-soft);margin-bottom:14px;">Keep this page open as a credentials reference throughout the labs. The <strong>Session Password</strong> for your Zscaler admin and user accounts is unique to your pod — save it in the Config Panel above so it appears inline wherever needed.</p>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:0 0 10px;">Virtual Machine Credentials</h4>
             <table class="cred-table">
@@ -378,7 +339,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
           <div class="task-block">
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:0 0 8px;">Dedicated Lab Tenant Access</h4>
-            <p style="font-size:0.93rem;margin-bottom:12px;">Each student is assigned a unique Student ID with a dedicated virtual environment hosted in Skytap, and a corresponding <strong>Student FQDN</strong> with a set of admin and test user accounts for Zscaler. Your lab access instructions contain:</p>
+            <p style="margin-bottom:12px;">Each student is assigned a unique Student ID with a dedicated virtual environment hosted in Skytap, and a corresponding <strong>Student FQDN</strong> with a set of admin and test user accounts for Zscaler. Your lab access instructions contain:</p>
             <ul class="sub-steps" style="margin-bottom:16px;">
               <li><strong>Student ID</strong> — a unique identifier for your pod (e.g. <code>zs000834</code>)</li>
               <li><strong>Student FQDN</strong> — a unique domain for your pod (e.g. <code>zs000834.labtenant.com</code>)</li>
@@ -390,7 +351,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
             </div>
 
             <h4 style="font-size:0.9rem;font-weight:700;color:#1a1a2e;margin:20px 0 8px;">Solutions Demo Center (SDC) Access</h4>
-            <p style="font-size:0.93rem;margin-bottom:12px;">For Labs 11 and 12, you switch to the <strong>Solutions Demo Center</strong> — a shared read-only Zscaler tenant with pre-populated data including ZDX performance history, DLP incidents, and workflow automation templates. You have a read-only administrator account on the SDC tenant.</p>
+            <p style="margin-bottom:12px;">For Labs 11 and 12, you switch to the <strong>Solutions Demo Center</strong> — a shared read-only Zscaler tenant with pre-populated data including ZDX performance history, DLP incidents, and workflow automation templates. You have a read-only administrator account on the SDC tenant.</p>
             <ol class="step-list">
               <li>Open a new browser window and go to <strong>https://www.console.zscaler.com</strong></li>
               <li>Sign in using the SDC credentials provided to you through email (or your lab resources panel).</li>
@@ -429,7 +390,12 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">Your Skytap pod has seven VMs across two network segments: Corp (client PC, Windows server, Docker server, and two ZPA Connectors) and Remote (DNS server and Linux client). All Zscaler portal accounts share a single Session Password unique to your pod — save it in the Config Panel once and it propagates everywhere. Labs 11–12 switch to the SDC tenant (https://www.console.zscaler.com) which has pre-populated data. Zero Trust default: everything is denied unless an explicit policy permits it — keep that in mind for every App Segment and Access Policy you create.</div>
+          <div class="mental-note-block-text"><ul class="mental-note-list">
+            <li><strong>Seven VMs:</strong> Corp network — Client PC 1, Win Server 2016, Docker Server, ZPA Connector, Log Streaming Connector. Remote network — DNS Server, Linux Client.</li>
+            <li><strong>Session Password:</strong> Shared across all Zscaler portal accounts in your pod — save it in the Config Panel once and it populates everywhere.</li>
+            <li><strong>SDC Tenant:</strong> Labs 11–12 switch to <code>www.console.zscaler.com</code> (zscalerthree.net), which has pre-populated data for the analysis labs.</li>
+            <li><strong>Zero Trust Default:</strong> Everything is denied unless an explicit policy permits it — every App Segment and Access Policy you create must be intentional.</li>
+          </ul></div>
         </div>
       </div>
 
@@ -442,32 +408,112 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
     </div>
 
     <div class="sidebar-section">
-      <div class="sidebar-label">PRE-LAB CHECKLIST</div>
-      <ul class="progress-list">
-        <li class="progress-item"><label><input type="checkbox" id="pc-0-1" onchange="toggleDone(this)"> Read the lab scenario and objectives</label></li>
-        <li class="progress-item"><label><input type="checkbox" id="pc-0-2" onchange="toggleDone(this)"> Identified all 7 VMs and their roles</label></li>
-        <li class="progress-item"><label><input type="checkbox" id="pc-0-3" onchange="toggleDone(this)"> Saved Student FQDN in the Config Panel</label></li>
-        <li class="progress-item"><label><input type="checkbox" id="pc-0-4" onchange="toggleDone(this)"> Saved Session Password in the Config Panel</label></li>
-        <li class="progress-item"><label><input type="checkbox" id="pc-0-5" onchange="toggleDone(this)"> Noted SDC admin portal URL and credentials</label></li>
-        <li class="progress-item"><label><input type="checkbox" id="pc-0-6" onchange="toggleDone(this)"> Ready to start Lab 1</label></li>
-      </ul>
+      <div class="sidebar-label">Lab Topology</div>
+      <div class="sidebar-topology">
+        <img src="screenshots/lab0/lab0-p8-img1.png" alt="Lab topology diagram — click to expand" onclick="openLightbox(this.src,this.alt)" title="Click to expand">
+      </div>
     </div>
 
     <div class="sidebar-section">
-      <div class="quick-ref">
-        <div class="qr-header">Quick Reference</div>
-        <div class="qr-body">
-          <div class="qr-item"><span class="qr-term">Primary workstation</span><span class="qr-def">Corp: Client PC 1 (192.168.1.1)</span></div>
-          <div class="qr-item"><span class="qr-term">App server</span><span class="qr-def">Corp: Docker Svr (10.0.0.2)</span></div>
-          <div class="qr-item"><span class="qr-term">ZPA Connector</span><span class="qr-def">Corp: ZPA Connector (10.0.0.3)</span></div>
-          <div class="qr-item"><span class="qr-term">Log Streaming</span><span class="qr-def">Corp: Log Streaming Connector (10.0.0.20)</span></div>
-          <div class="qr-item"><span class="qr-term">DNS server</span><span class="qr-def">Remote: DNS Server (192.168.1.252)</span></div>
-          <div class="qr-item"><span class="qr-term">Dedicated portal</span><span class="qr-def">console.zscaler.com (your pod)</span></div>
-          <div class="qr-item"><span class="qr-term">SDC portal</span><span class="qr-def">www.console.zscaler.com (zscalerthree.net)</span></div>
-          <div class="qr-item"><span class="qr-term">SDC used in</span><span class="qr-def">Labs 11 &amp; 12 only</span></div>
+      <div class="sidebar-label">Virtual Machines</div>
+      <div class="sidebar-cred-list">
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Client PC 1<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">student</code><button class="scr-copy" onclick="copySidebarCred('student',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">192.168.1.1</code><button class="scr-copy" onclick="copySidebarCred('192.168.1.1',this)" title="Copy">⎘</button></div>
+          </div>
         </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Win Svr 2016<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">administrator</code><button class="scr-copy" onclick="copySidebarCred('administrator',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.1</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.1',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Docker Server<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">zscaler</code><button class="scr-copy" onclick="copySidebarCred('zscaler',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">zscaler123!</code><button class="scr-copy" onclick="copySidebarCred('zscaler123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.2</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.2',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: ZPA Connector<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">admin</code><button class="scr-copy" onclick="copySidebarCred('admin',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">zscaler</code><button class="scr-copy" onclick="copySidebarCred('zscaler',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.3</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.3',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Log Streaming Connector<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">admin</code><button class="scr-copy" onclick="copySidebarCred('admin',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">zscaler</code><button class="scr-copy" onclick="copySidebarCred('zscaler',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.20</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.20',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Remote: DNS Server<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">administrator</code><button class="scr-copy" onclick="copySidebarCred('administrator',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Zscaler123!</code><button class="scr-copy" onclick="copySidebarCred('Zscaler123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">192.168.1.252</code><button class="scr-copy" onclick="copySidebarCred('192.168.1.252',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Remote: Linux Client PC<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">admin</code><button class="scr-copy" onclick="copySidebarCred('admin',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">192.168.1.2</code><button class="scr-copy" onclick="copySidebarCred('192.168.1.2',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
       </div>
     </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Portal Credentials</div>
+      <div class="sidebar-cred-list">
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Student Admin<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">student@<span class="var-fqdn">&lt;FQDN&gt;</span></code><button class="scr-copy" onclick="copyPortalCred('student-user',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value var-pass">&lt;Session Password&gt;</code><button class="scr-copy" onclick="copyPortalCred('pass',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">HVAC User<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">hvac@<span class="var-fqdn">&lt;FQDN&gt;</span></code><button class="scr-copy" onclick="copyPortalCred('hvac-user',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">SDC Admin<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">from SDC email</code></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </aside>
 </main>
 
@@ -489,18 +535,14 @@ const FOOTER_KEY='edu202-footer-collapsed';
 const PAGE_KEY='edu202-lab-lab0';
 var SECTION_IDS=['t0-1','t0-2','t0-3','t0-4'];
 
-function loadConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fi=document.getElementById('fqdn-input'),pi=document.getElementById('pass-input');if(fi&&d.fqdn)fi.value=d.fqdn;if(pi&&d.pass)pi.value=d.pass;applyConfig();}catch(e){}}
+function loadConfig(){
+  try{applyConfig();}catch(e){}
+}
 function saveConfig(){try{var fqdn=document.getElementById('fqdn-input').value.trim();var pass=document.getElementById('pass-input').value.trim();localStorage.setItem(CONFIG_KEY,JSON.stringify({fqdn:fqdn,pass:pass}));applyConfig();}catch(e){}}
 function clearConfig(){try{localStorage.removeItem(CONFIG_KEY);document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';applyConfig();}catch(e){}}
-function applyConfig(){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';var studentId='';if(fqdn){var m=fqdn.match(/^zs(\d+)\./);if(m)studentId=m[1];}
-document.querySelectorAll('.var-fqdn').forEach(function(el){el.textContent=fqdn||'<Student FQDN>';});
-document.querySelectorAll('.var-pass').forEach(function(el){el.textContent=pass||'<Session Password>';});
-var ds=document.getElementById('d-student');if(ds)ds.textContent=fqdn?'student@'+fqdn:'student@<Student FQDN>';
-var dh=document.getElementById('d-hvac');if(dh)dh.textContent=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';
-var did=document.getElementById('d-id');if(did)did.textContent=studentId||'<Student ID>';
-document.querySelectorAll('.d-id').forEach(function(el){el.textContent=studentId||'<Student ID>';});
-var sum=document.getElementById('config-toggle-summary');if(sum)sum.textContent=fqdn?' — '+fqdn:'';
-}catch(e){}}
+function applyConfig(){
+  try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}catch(e){}
+}
 function copyConfigField(id,btn){try{var v=document.getElementById(id).value;navigator.clipboard.writeText(v);btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}catch(e){}}
 function toggleConfig(){var panel=document.getElementById('config-panel');var body=document.getElementById('config-body');var btn=document.getElementById('config-toggle-btn');if(!panel)return;var collapsed=panel.classList.toggle('collapsed');localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');if(btn){var chev=btn.querySelector('.chevron');if(chev)chev.textContent=collapsed?'▼':'▲';btn.innerHTML=(collapsed?'<span class="chevron">▼</span> Expand':'<span class="chevron">▲</span> Collapse');}
 updateSidebarOffset();}
@@ -551,6 +593,9 @@ document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
   document.body.style.opacity='1';
 });
+function toggleSCred(btn){var item=btn.closest('.sidebar-cred-item');var list=item.closest('.sidebar-cred-list');var isOpen=item.classList.contains('open');list.querySelectorAll('.sidebar-cred-item').forEach(function(el){el.classList.remove('open');});if(!isOpen)item.classList.add('open');}
+function copySidebarCred(val,btn){try{navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
+function copyPortalCred(type,btn){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var val='';if(type==='student-user')val=d.fqdn?'student@'+d.fqdn:'';else if(type==='hvac-user')val=d.fqdn?'hvac@'+d.fqdn:'';else if(type==='pass')val=d.pass||'';if(val)navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
 </script>
 </body>
 </html>

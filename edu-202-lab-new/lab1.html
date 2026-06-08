@@ -39,45 +39,6 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </div>
 </header>
 
-<div class="config-panel" id="config-panel">
-  <div class="config-toggle-row" onclick="toggleConfig()">
-    <div style="display:flex;align-items:center;gap:0;">
-      <span class="config-toggle-title">⚙ Lab Configuration</span>
-      <span class="config-toggle-summary" id="config-toggle-summary"></span>
-    </div>
-    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
-      <span class="chevron">▲</span> Collapse
-    </button>
-  </div>
-  <div class="config-body" id="config-body">
-    <div class="config-grid">
-      <div class="config-field">
-        <label for="fqdn-input">Student FQDN</label>
-        <div class="config-field-row">
-          <input type="text" id="fqdn-input" placeholder="zs000149.labtenant.com" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('fqdn-input',this)" title="Copy">⎘</button>
-        </div>
-      </div>
-      <div class="config-field">
-        <label for="pass-input">Session Password</label>
-        <div class="config-field-row">
-          <input type="text" id="pass-input" placeholder="(from Lab Access Instructions)" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
-        </div>
-      </div>
-      <div class="config-actions">
-        <button class="config-btn" onclick="saveConfig()">Save</button>
-        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
-      </div>
-    </div>
-    <div class="config-derived" id="config-derived">
-      <span><strong>Student Admin:</strong> <code id="d-student">student@&lt;Student FQDN&gt;</code></span>
-      <span><strong>HVAC User:</strong> <code id="d-hvac">hvac@&lt;Student FQDN&gt;</code></span>
-      <span><strong>Student ID:</strong> <code id="d-id">&lt;Student ID&gt;</code></span>
-    </div>
-  </div>
-</div>
-
 <div class="top-panels">
   <div class="qpanel">
     <button class="qpanel-header" onclick="toggleQPanel(this)">
@@ -302,7 +263,11 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
         <div class="mental-note-block-icon">🧠</div>
         <div class="mental-note-block-inner">
           <div class="mental-note-block-label">MENTAL NOTE</div>
-          <div class="mental-note-block-text">The Zscaler Experience Center at <strong>console.zscaler.com</strong> is the unified admin portal for ZIA, ZPA, ZDX, and ZIdentity. Your Student FQDN (e.g. <code>zs000149.labtenant.com</code>) is your unique lab namespace — it appears in usernames, app segment FQDNs, and external access URLs across every subsequent lab. Always start all Skytap VMs before beginning configuration so App Connectors are available.</div>
+          <div class="mental-note-block-text"><ul class="mental-note-list">
+            <li><strong>Unified Portal:</strong> The Zscaler Experience Center at <code>console.zscaler.com</code> manages ZIA, ZPA, ZDX, and ZIdentity from a single interface.</li>
+            <li><strong>Student FQDN:</strong> Your unique lab namespace (e.g. <code>zs000149.labtenant.com</code>) — appears in usernames, App Segment FQDNs, and external access URLs across every lab.</li>
+            <li><strong>Start VMs First:</strong> Always start all Skytap VMs before beginning configuration so App Connectors are available and reachable.</li>
+          </ul></div>
         </div>
       </div>
 
@@ -311,38 +276,116 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 
   <aside class="sidebar">
     <div class="sidebar-section">
-      <a class="hub-link" href="index.html">← Back to Lab Hub</a>
+      <a class="hub-link" href="index.html">← Back to EDU-202 Labs</a>
     </div>
+
     <div class="sidebar-section">
-      <div class="sidebar-label">LAB 1 PROGRESS</div>
-      <ul class="progress-list">
-        <li class="progress-item" id="pc-1-1">
-          <input type="checkbox" onchange="toggleDone(this)">
-          <label>Skytap pod started — all VMs running</label>
-        </li>
-        <li class="progress-item" id="pc-1-2">
-          <input type="checkbox" onchange="toggleDone(this)">
-          <label>FQDN &amp; password saved to config panel</label>
-        </li>
-        <li class="progress-item" id="pc-1-3">
-          <input type="checkbox" onchange="toggleDone(this)">
-          <label>Signed in to Experience Center</label>
-        </li>
-        <li class="progress-item" id="pc-1-4">
-          <input type="checkbox" onchange="toggleDone(this)">
-          <label>EC dashboard explored</label>
-        </li>
-      </ul>
-    </div>
-    <div class="quick-ref" id="quick-ref">
-      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">QUICK REFERENCE <span class="qr-chevron">▲</span></div>
-      <div class="qr-body">
-        <div class="qr-item"><div class="qr-term">Experience Center URL</div><div class="qr-def"><code>console.zscaler.com</code> — unified admin portal for ZIA, ZPA, ZDX.</div></div>
-        <div class="qr-item"><div class="qr-term">Student FQDN</div><div class="qr-def">Your unique lab namespace, e.g. <code>zs000149.labtenant.com</code>. Used in usernames and app FQDNs.</div></div>
-        <div class="qr-item"><div class="qr-term">Student Admin</div><div class="qr-def"><code>student@&lt;FQDN&gt;</code> — primary admin account used throughout all labs.</div></div>
-        <div class="qr-item"><div class="qr-term">ZIdentity Portal</div><div class="qr-def"><code>zs000149.zslogin.net</code> — IdP landing page for OAuth/SAML authentication.</div></div>
+      <div class="sidebar-label">Lab Topology</div>
+      <div class="sidebar-topology">
+        <img src="screenshots/lab0/lab0-p8-img1.png" alt="Lab topology diagram — click to expand" onclick="openLightbox(this.src,this.alt)" title="Click to expand">
       </div>
     </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Virtual Machines</div>
+      <div class="sidebar-cred-list">
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Client PC 1<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">student</code><button class="scr-copy" onclick="copySidebarCred('student',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">192.168.1.1</code><button class="scr-copy" onclick="copySidebarCred('192.168.1.1',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Win Svr 2016<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">administrator</code><button class="scr-copy" onclick="copySidebarCred('administrator',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.1</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.1',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Docker Server<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">zscaler</code><button class="scr-copy" onclick="copySidebarCred('zscaler',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">zscaler123!</code><button class="scr-copy" onclick="copySidebarCred('zscaler123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.2</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.2',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: ZPA Connector<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">admin</code><button class="scr-copy" onclick="copySidebarCred('admin',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">zscaler</code><button class="scr-copy" onclick="copySidebarCred('zscaler',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.3</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.3',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Log Streaming Connector<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">admin</code><button class="scr-copy" onclick="copySidebarCred('admin',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">zscaler</code><button class="scr-copy" onclick="copySidebarCred('zscaler',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">10.0.0.20</code><button class="scr-copy" onclick="copySidebarCred('10.0.0.20',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Remote: DNS Server<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">administrator</code><button class="scr-copy" onclick="copySidebarCred('administrator',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Zscaler123!</code><button class="scr-copy" onclick="copySidebarCred('Zscaler123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">192.168.1.252</code><button class="scr-copy" onclick="copySidebarCred('192.168.1.252',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Remote: Linux Client PC<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">admin</code><button class="scr-copy" onclick="copySidebarCred('admin',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">IP</span><code class="scr-value">192.168.1.2</code><button class="scr-copy" onclick="copySidebarCred('192.168.1.2',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Portal Credentials</div>
+      <div class="sidebar-cred-list">
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Student Admin<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">student@<span class="var-fqdn">&lt;FQDN&gt;</span></code><button class="scr-copy" onclick="copyPortalCred('student-user',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value var-pass">&lt;Session Password&gt;</code><button class="scr-copy" onclick="copyPortalCred('pass',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">HVAC User<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">hvac@<span class="var-fqdn">&lt;FQDN&gt;</span></code><button class="scr-copy" onclick="copyPortalCred('hvac-user',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">SDC Admin<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">from SDC email</code></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </aside>
 </main>
 
@@ -368,23 +411,10 @@ function updateSidebarOffset(){var panel=document.getElementById('config-panel')
 (function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
 function updateToggleSummary(){var fqdn=document.getElementById('fqdn-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=fqdn?' — '+fqdn:'';}
 function applyConfig(){
-  var fqdn=document.getElementById('fqdn-input').value.trim();
-  var pass=document.getElementById('pass-input').value.trim();
-  var studentId=fqdn?fqdn.split('.')[0]:'';
-  document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});
-  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
-  var studentUser=fqdn?'student@'+fqdn:'student@<Student FQDN>';
-  var hvacUser=fqdn?'hvac@'+fqdn:'hvac@<Student FQDN>';
-  document.getElementById('d-student').textContent=studentUser;
-  document.getElementById('d-hvac').textContent=hvacUser;
-  document.getElementById('d-id').textContent=studentId||'<Student ID>';
-  document.querySelectorAll('.d-username-student').forEach(function(el){el.textContent=studentUser;});
-  document.querySelectorAll('.d-username-hvac').forEach(function(el){el.textContent=hvacUser;});
+  try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}catch(e){}
 }
 function loadConfig(){
-  try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('fqdn-input').value=cfg.fqdn||'';document.getElementById('pass-input').value=cfg.pass||'';}
-  if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){}
-  applyConfig();updateToggleSummary();updateSidebarOffset();
+  try{applyConfig();}catch(e){}
 }
 function saveConfig(){var cfg={fqdn:document.getElementById('fqdn-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
 function clearConfig(){document.getElementById('fqdn-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
@@ -428,6 +458,9 @@ document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('.page-nav-btn:not(.page-nav-disabled)').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
   document.querySelectorAll('.screenshot-embed img').forEach(function(img){img.addEventListener('click',function(){openLightbox(img.src,img.alt);});});
 });
+function toggleSCred(btn){var item=btn.closest('.sidebar-cred-item');var list=item.closest('.sidebar-cred-list');var isOpen=item.classList.contains('open');list.querySelectorAll('.sidebar-cred-item').forEach(function(el){el.classList.remove('open');});if(!isOpen)item.classList.add('open');}
+function copySidebarCred(val,btn){try{navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
+function copyPortalCred(type,btn){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var val='';if(type==='student-user')val=d.fqdn?'student@'+d.fqdn:'';else if(type==='hvac-user')val=d.fqdn?'hvac@'+d.fqdn:'';else if(type==='pass')val=d.pass||'';if(val)navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
 </script>
 </body>
 </html>
