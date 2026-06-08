@@ -235,6 +235,24 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .scr-value{font-size:0.78rem;background:#eef0f5;padding:2px 5px;border-radius:3px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:monospace;}
 .scr-copy{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.85rem;padding:2px 5px;border-radius:3px;flex-shrink:0;transition:color 0.15s,background 0.15s;}
 .scr-copy:hover{color:var(--blue);background:#dbeafe;}
+/* PORTAL CRED EDIT/ADD */
+.sidebar-cred-actions{display:flex;gap:2px;margin-left:auto;margin-right:4px;flex-shrink:0;}
+.scr-cred-title{flex:1;text-align:left;}
+.scr-edit-btn,.scr-del-btn{background:none;border:none;cursor:pointer;color:#c8ccd4;font-size:0.82rem;padding:2px 4px;border-radius:3px;line-height:1;transition:color 0.15s,background 0.15s;}
+.scr-edit-btn:hover{color:var(--blue);background:#dbeafe;}
+.scr-del-btn:hover{color:#dc2626;background:#fee2e2;}
+.scr-edit-form{padding:10px 12px;display:flex;flex-direction:column;gap:6px;}
+.scr-edit-input{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:0.8rem;font-family:'Epilogue',sans-serif;background:#fafafa;box-sizing:border-box;color:#1a1a2e;}
+.scr-edit-input:focus{outline:none;border-color:var(--blue);background:#fff;}
+.scr-edit-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.scr-save-btn{background:var(--blue);color:#fff;border:none;border-radius:5px;padding:4px 14px;font-size:0.78rem;font-family:'Epilogue',sans-serif;font-weight:600;cursor:pointer;transition:background 0.15s;}
+.scr-save-btn:hover{background:#1557c0;}
+.scr-del-btn-form{background:#fee2e2;color:#dc2626;border:none;border-radius:5px;padding:4px 10px;font-size:0.78rem;font-family:'Epilogue',sans-serif;cursor:pointer;transition:background 0.15s;}
+.scr-del-btn-form:hover{background:#fecaca;}
+.scr-cancel-btn{background:#f3f4f6;color:#6b7280;border:none;border-radius:5px;padding:4px 10px;font-size:0.78rem;font-family:'Epilogue',sans-serif;cursor:pointer;transition:background 0.15s;}
+.scr-cancel-btn:hover{background:#e5e7eb;}
+.scr-add-btn{width:100%;margin-top:6px;padding:7px 12px;background:none;border:1px dashed #c8ccd4;border-radius:7px;color:#9ca3af;font-family:'Epilogue',sans-serif;font-size:0.79rem;cursor:pointer;transition:background 0.15s,color 0.15s,border-color 0.15s;}
+.scr-add-btn:hover{background:#f0f4ff;color:var(--blue);border-color:var(--blue);}
 
 /* PROGRESS LIST (EDU-200/EDU-202 sidebar pattern) */
 .progress-list{list-style:none;padding:16px 18px;margin:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;}
