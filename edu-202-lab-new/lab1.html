@@ -280,9 +280,22 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
     </div>
 
     <div class="sidebar-section">
+      <div class="sidebar-fqdn-card">
+        <div class="sidebar-fqdn-label">Student FQDN</div>
+        <div class="sidebar-fqdn-row">
+          <input type="text" class="sidebar-fqdn-input" id="sidebar-fqdn-input"
+            placeholder="zs000149.labtenant.com" autocomplete="off"
+            onkeydown="if(event.key==='Enter')saveSidebarFqdn(document.querySelector('.sidebar-fqdn-save'))">
+          <button class="sidebar-fqdn-save" onclick="saveSidebarFqdn(this)">Save</button>
+          <button class="sidebar-fqdn-copy" onclick="copySidebarFqdn(this)" title="Copy">⧘</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
       <div class="sidebar-label">Lab Topology</div>
       <div class="sidebar-topology">
-        <img src="screenshots/lab0/lab0-p8-img1.png" alt="Lab topology diagram — click to expand" onclick="openLightbox(this.src,this.alt)" title="Click to expand">
+        <img src="images/topology.png" alt="Lab topology diagram — click to expand" onclick="openLightbox(this.src,this.alt)" title="Click to expand">
       </div>
     </div>
 
@@ -358,32 +371,7 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
 
     <div class="sidebar-section">
       <div class="sidebar-label">Portal Credentials</div>
-      <div class="sidebar-cred-list">
-
-        <div class="sidebar-cred-item">
-          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Student Admin<span class="sidebar-cred-chevron">▾</span></button>
-          <div class="sidebar-cred-body">
-            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">student@<span class="var-fqdn">&lt;FQDN&gt;</span></code><button class="scr-copy" onclick="copyPortalCred('student-user',this)" title="Copy">⎘</button></div>
-            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value var-pass">&lt;Session Password&gt;</code><button class="scr-copy" onclick="copyPortalCred('pass',this)" title="Copy">⎘</button></div>
-          </div>
-        </div>
-
-        <div class="sidebar-cred-item">
-          <button class="sidebar-cred-header" onclick="toggleSCred(this)">HVAC User<span class="sidebar-cred-chevron">▾</span></button>
-          <div class="sidebar-cred-body">
-            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">hvac@<span class="var-fqdn">&lt;FQDN&gt;</span></code><button class="scr-copy" onclick="copyPortalCred('hvac-user',this)" title="Copy">⎘</button></div>
-            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
-          </div>
-        </div>
-
-        <div class="sidebar-cred-item">
-          <button class="sidebar-cred-header" onclick="toggleSCred(this)">SDC Admin<span class="sidebar-cred-chevron">▾</span></button>
-          <div class="sidebar-cred-body">
-            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">from SDC email</code></div>
-          </div>
-        </div>
-
-      </div>
+      <div class="sidebar-cred-list sidebar-portal-creds"></div>
     </div>
 
   </aside>
@@ -411,7 +399,8 @@ function updateSidebarOffset(){var panel=document.getElementById('config-panel')
 (function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
 function updateToggleSummary(){var fqdn=document.getElementById('fqdn-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=fqdn?' — '+fqdn:'';}
 function applyConfig(){
-  try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}catch(e){}
+  try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var fqdn=d.fqdn||'';var pass=d.pass||'';document.querySelectorAll('.var-fqdn').forEach(function(el){if(fqdn){el.textContent=fqdn;el.classList.add('filled');}else{el.textContent='<Student FQDN>';el.classList.remove('filled');}});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});var sfi=document.getElementById('sidebar-fqdn-input');if(sfi)sfi.value=fqdn;}catch(e){}
+  try{renderPortalCreds();}catch(e){}
 }
 function loadConfig(){
   try{applyConfig();}catch(e){}
@@ -461,6 +450,97 @@ document.addEventListener('DOMContentLoaded',function(){
 function toggleSCred(btn){var item=btn.closest('.sidebar-cred-item');var list=item.closest('.sidebar-cred-list');var isOpen=item.classList.contains('open');list.querySelectorAll('.sidebar-cred-item').forEach(function(el){el.classList.remove('open');});if(!isOpen)item.classList.add('open');}
 function copySidebarCred(val,btn){try{navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
 function copyPortalCred(type,btn){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var val='';if(type==='student-user')val=d.fqdn?'student@'+d.fqdn:'';else if(type==='hvac-user')val=d.fqdn?'hvac@'+d.fqdn:'';else if(type==='pass')val=d.pass||'';if(val)navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
+var PORTAL_CREDS_KEY='edu202-portal-creds';
+var DEFAULT_PORTAL_CREDS=[{id:'student-admin',title:'Student Admin',user:'student@{{fqdn}}',pass:'{{pass}}'},{id:'hvac-user',title:'HVAC User',user:'hvac@{{fqdn}}',pass:'Admin-123!'},{id:'sdc-admin',title:'SDC Admin',user:'from SDC email',pass:''}];
+function getPortalCreds(){try{var s=localStorage.getItem(PORTAL_CREDS_KEY);if(s)return JSON.parse(s);}catch(e){}return DEFAULT_PORTAL_CREDS.map(function(c){return{id:c.id,title:c.title,user:c.user,pass:c.pass};});}
+function savePortalCreds(creds){try{localStorage.setItem(PORTAL_CREDS_KEY,JSON.stringify(creds));}catch(e){}}
+function resolveCredToken(val){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');return(val||'').replace('{{fqdn}}',d.fqdn||'').replace('{{pass}}',d.pass||'');}catch(e){return val||'';}}
+function escPC(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function renderPortalCreds(){
+  var list=document.querySelector('.sidebar-portal-creds');
+  if(!list)return;
+  var creds=getPortalCreds();
+  var html='';
+  creds.forEach(function(cred){
+    var ru=resolveCredToken(cred.user);
+    var rp=resolveCredToken(cred.pass);
+    html+='<div class="sidebar-cred-item" data-cred-id="'+escPC(cred.id)+'">';
+    html+='<button class="sidebar-cred-header" onclick="toggleSCred(this)">';
+    html+='<span class="scr-cred-title">'+escPC(cred.title)+'</span>';
+    html+='<span class="sidebar-cred-chevron">▾</span></button>';
+    html+='<div class="sidebar-cred-body">';
+    if(ru){html+='<div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">'+escPC(ru)+'</code><button class="scr-copy" data-copy="'+escPC(ru)+'" onclick="copySCVal(this)" title="Copy">⎘</button></div>';}
+    if(rp){html+='<div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">'+escPC(rp)+'</code><button class="scr-copy" data-copy="'+escPC(rp)+'" onclick="copySCVal(this)" title="Copy">⎘</button></div>';}
+    html+='<div class="sidebar-cred-actions">';
+    html+='<button class="scr-edit-btn" onclick="editPortalCred(this)" title="Edit">✎ Edit</button>';
+    if(cred.id!=='student-admin'){html+='<button class="scr-del-btn" onclick="delPortalCred(this)" title="Delete">✕ Remove</button>';}
+    html+='</div>';
+    html+='</div></div>';
+  });
+  html+='<button class="scr-add-btn" onclick="addPortalCred()">+ Add credential</button>';
+  list.innerHTML=html;
+}
+function copySCVal(btn){copySidebarCred(btn.getAttribute('data-copy'),btn);}
+function getCredItemId(el){var item=el.closest('.sidebar-cred-item');return item?item.getAttribute('data-cred-id'):null;}
+function editPortalCred(btn){
+  var id=getCredItemId(btn);
+  var creds=getPortalCreds();var cred=null;
+  creds.forEach(function(c){if(c.id===id)cred=c;});
+  if(!cred)return;
+  var item=btn.closest('.sidebar-cred-item');
+  item.innerHTML='<div class="scr-edit-form">'
+    +'<input class="scr-edit-input" id="spe-t-'+id+'" placeholder="Title" value="'+escPC(cred.title)+'">'
+    +'<input class="scr-edit-input" id="spe-u-'+id+'" placeholder="Username" value="'+escPC(cred.user)+'">'
+    +'<input class="scr-edit-input" id="spe-p-'+id+'" placeholder="Password" value="'+escPC(cred.pass)+'">'
+    +'<div class="scr-edit-actions">'
+    +'<button class="scr-save-btn" onclick="savePortalCredEdit(\''+id+'\')" >Save</button>'
+    +(id!=='student-admin'?'<button class="scr-del-btn-form" onclick="delPortalCredById(\''+id+'\')" >Delete</button>':'')
+    +'<button class="scr-cancel-btn" onclick="renderPortalCreds()">Cancel</button>'
+    +'</div></div>';
+}
+function savePortalCredEdit(id){
+  var t=document.getElementById('spe-t-'+id);
+  var u=document.getElementById('spe-u-'+id);
+  var p=document.getElementById('spe-p-'+id);
+  if(!t)return;
+  var creds=getPortalCreds();
+  creds.forEach(function(c){if(c.id===id){c.title=t.value;c.user=u.value;c.pass=p.value;}});
+  savePortalCreds(creds);renderPortalCreds();
+}
+function delPortalCred(btn){delPortalCredById(getCredItemId(btn));}
+function delPortalCredById(id){
+  savePortalCreds(getPortalCreds().filter(function(c){return c.id!==id;}));
+  renderPortalCreds();
+}
+function addPortalCred(){
+  var list=document.querySelector('.sidebar-portal-creds');
+  if(!list)return;
+  var addBtn=list.querySelector('.scr-add-btn');
+  if(!addBtn||list.querySelector('.scr-adding'))return;
+  var form=document.createElement('div');
+  form.className='sidebar-cred-item scr-adding';
+  form.innerHTML='<div class="scr-edit-form">'
+    +'<input class="scr-edit-input" id="spe-new-t" placeholder="Title">'
+    +'<input class="scr-edit-input" id="spe-new-u" placeholder="Username">'
+    +'<input class="scr-edit-input" id="spe-new-p" placeholder="Password">'
+    +'<div class="scr-edit-actions">'
+    +'<button class="scr-save-btn" onclick="saveNewPortalCred()">Save</button>'
+    +'<button class="scr-cancel-btn" onclick="renderPortalCreds()">Cancel</button>'
+    +'</div></div>';
+  list.insertBefore(form,addBtn);
+  document.getElementById('spe-new-t').focus();
+}
+function saveNewPortalCred(){
+  var t=document.getElementById('spe-new-t');
+  var u=document.getElementById('spe-new-u');
+  var p=document.getElementById('spe-new-p');
+  if(!t||!t.value.trim())return;
+  var creds=getPortalCreds();
+  creds.push({id:'cred-'+Date.now(),title:t.value.trim(),user:u.value.trim(),pass:p.value.trim()});
+  savePortalCreds(creds);renderPortalCreds();
+}
+function copySidebarFqdn(btn){var inp=document.getElementById('sidebar-fqdn-input');var val=inp?inp.value.trim():'';if(!val)try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');val=d.fqdn||'';}catch(e){}if(val)try{navigator.clipboard.writeText(val);}catch(e){}if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⧘';},1200);}}
+function saveSidebarFqdn(btn){var inp=document.getElementById('sidebar-fqdn-input');if(!inp)return;try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');d.fqdn=inp.value.trim();localStorage.setItem(CONFIG_KEY,JSON.stringify(d));}catch(e){}applyConfig();if(btn){var orig=btn.textContent;btn.textContent='✓';btn.style.background='var(--green,#1a7c4a)';btn.style.color='#fff';setTimeout(function(){btn.textContent=orig;btn.style.background='';btn.style.color='';},1200);}}
 </script>
 </body>
 </html>
