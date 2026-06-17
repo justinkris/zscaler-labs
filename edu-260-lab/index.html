@@ -22,6 +22,49 @@
   <div class="callout-note callout" style="margin-top:12px;"><p><strong>Part 2 of 2:</strong> This lab course builds on EDU-259 (Introduction to Troubleshooting — Part 1 of 2). If you haven't completed Part 1 yet, start there first to establish the foundational troubleshooting workflow and environment context before continuing here.</p></div>
 </header>
 
+<div class="config-panel" id="config-panel">
+  <div class="config-toggle-row" onclick="toggleConfig()">
+    <div style="display:flex;align-items:center;gap:0;">
+      <span class="config-toggle-title">⚙ Lab Configuration</span>
+      <span class="config-toggle-summary" id="config-toggle-summary"></span>
+    </div>
+    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
+      <span class="chevron">▲</span> Collapse
+    </button>
+  </div>
+  <div class="config-body" id="config-body">
+    <div class="config-grid">
+      <div class="config-field">
+        <label for="prefix-input">Student Prefix</label>
+        <div class="config-field-row">
+          <input type="text" id="prefix-input" placeholder="e.g. ptcb32" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-field">
+        <label for="pass-input">Session Password</label>
+        <div class="config-field-row">
+          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
+          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
+        </div>
+      </div>
+      <div class="config-actions">
+        <button class="config-btn" onclick="saveConfig()">Save</button>
+        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
+      </div>
+    </div>
+    <div class="config-derived" id="config-derived">
+      <span><strong>ZIA Admin:</strong> <code id="d-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></span>
+      <span><strong>IT Dept:</strong> <code id="d-it">ptcb32-IT@thezerotrustexchange.com</code></span>
+      <span><strong>HR Dept:</strong> <code id="d-hr">ptcb32-HR@thezerotrustexchange.com</code></span>
+      <span><strong>MKT Dept:</strong> <code id="d-mkt">ptcb32-MKT@thezerotrustexchange.com</code></span>
+      <span><strong>Contractor:</strong> <code id="d-con">ptcb32-CON@thezerotrustexchange.com</code></span>
+      <span><strong>OT User:</strong> <code id="d-ot">ptcb32-OT@thezerotrustexchange.com</code></span>
+      <span><strong>Sales:</strong> <code id="d-sales">ptcb32-SALES@thezerotrustlab.com</code></span>
+    </div>
+  </div>
+</div>
+
 <div class="hub-main">
 <details class="zscaler-one-min">
   <summary>&#9432; Zscaler in one minute — key terms</summary>
@@ -176,8 +219,71 @@
   <span>©2015–24 Zscaler, Inc. All rights reserved.</span>
 </footer>
 <script>
+const CONFIG_KEY='edu260-expc-lab-config';
+const CONFIG_COLLAPSED_KEY='edu260-config-collapsed';
+
+function toggleConfig(){
+  var panel=document.getElementById('config-panel');
+  var btn=document.getElementById('config-toggle-btn');
+  var collapsed=panel.classList.toggle('collapsed');
+  btn.innerHTML=collapsed?'<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand':'<span class="chevron">▲</span> Collapse';
+  try{localStorage.setItem(CONFIG_COLLAPSED_KEY,collapsed?'1':'0');}catch(e){}
+}
+function updateToggleSummary(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var s=document.getElementById('config-toggle-summary');
+  if(s)s.textContent=prefix?' — '+prefix:'';
+}
+function applyConfig(){
+  var prefix=document.getElementById('prefix-input').value.trim();
+  var pass=document.getElementById('pass-input').value.trim();
+  var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';
+  var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;
+  var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;
+  var hr=prefix?prefix+'-HR@'+d1:'ptcb32-HR@'+d1;
+  var mkt=prefix?prefix+'-MKT@'+d1:'ptcb32-MKT@'+d1;
+  var con=prefix?prefix+'-CON@'+d1:'ptcb32-CON@'+d1;
+  var ot=prefix?prefix+'-OT@'+d1:'ptcb32-OT@'+d1;
+  var sales=prefix?prefix+'-SALES@'+d2:'ptcb32-SALES@'+d2;
+  ['d-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});
+  ['d-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});
+  ['d-hr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=hr;});
+  ['d-mkt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=mkt;});
+  ['d-con'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=con;});
+  ['d-ot'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ot;});
+  ['d-sales'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=sales;});
+}
+function loadConfig(){
+  try{
+    var saved=localStorage.getItem(CONFIG_KEY);
+    if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}
+    else{document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='';}
+    if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}
+  }catch(e){document.getElementById('prefix-input').value='ptcb32';}
+  applyConfig();updateToggleSummary();
+}
+function saveConfig(){
+  var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};
+  try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}
+  applyConfig();updateToggleSummary();
+  var btn=document.querySelector('.config-btn');var orig=btn.textContent;
+  btn.textContent='✓ Saved';btn.style.background='var(--green)';
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);
+}
+function clearConfig(){
+  document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';
+  try{localStorage.removeItem(CONFIG_KEY);}catch(e){}
+  applyConfig();updateToggleSummary();
+}
+function copyConfigField(id,btn){
+  var val=document.getElementById(id).value.trim();if(!val)return;
+  navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});
+}
+['prefix-input','pass-input'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',applyConfig);});
+
 document.addEventListener('DOMContentLoaded',function(){
   document.body.style.opacity='1';
+  loadConfig();
 });
 document.querySelectorAll('a[href]').forEach(function(a){
   a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});

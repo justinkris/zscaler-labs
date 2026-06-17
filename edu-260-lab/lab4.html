@@ -27,46 +27,6 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </div>
 </header>
 
-<div class="config-panel" id="config-panel">
-  <div class="config-toggle-row" onclick="toggleConfig()">
-    <div style="display:flex;align-items:center;gap:0;">
-      <span class="config-toggle-title">⚙ Lab Configuration</span>
-      <span class="config-toggle-summary" id="config-toggle-summary"></span>
-    </div>
-    <button class="config-toggle-btn" id="config-toggle-btn" onclick="event.stopPropagation();toggleConfig()">
-      <span class="chevron">▲</span> Collapse
-    </button>
-  </div>
-  <div class="config-body" id="config-body">
-    <div class="config-grid">
-      <div class="config-field">
-        <label for="prefix-input">Student Prefix</label>
-        <div class="config-field-row">
-          <input type="text" id="prefix-input" placeholder="e.g. ptcb32" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('prefix-input',this)" title="Copy">⎘</button>
-        </div>
-      </div>
-      <div class="config-field">
-        <label for="pass-input">Session Password</label>
-        <div class="config-field-row">
-          <input type="text" id="pass-input" placeholder="(from Resources tab)" autocomplete="off">
-          <button class="config-copy-btn" onclick="copyConfigField('pass-input',this)" title="Copy">⎘</button>
-        </div>
-      </div>
-      <div class="config-actions">
-        <button class="config-btn" onclick="saveConfig()">Save</button>
-        <button class="config-btn secondary" onclick="clearConfig()">Clear</button>
-      </div>
-    </div>
-    <div class="config-derived" id="config-derived">
-      <span><strong>ZIA Admin:</strong> <code id="d-admin">ptcb32-ADMIN@thezerotrustexchange.com</code></span>
-      <span><strong>IT Dept:</strong> <code id="d-it">ptcb32-IT@thezerotrustexchange.com</code></span>
-      <span><strong>HR Dept:</strong> <code id="d-hr">ptcb32-HR@thezerotrustexchange.com</code></span>
-      <span><strong>MKT Dept:</strong> <code id="d-mkt">ptcb32-MKT@thezerotrustexchange.com</code></span>
-    </div>
-  </div>
-</div>
-
 <div class="top-panels">
   <div class="qpanel">
     <button class="qpanel-header" onclick="toggleQPanel(this)">
@@ -363,45 +323,43 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
   </div><!-- /.content-col -->
 
   <aside class="sidebar">
-    <a class="hub-link" href="index.html">← Back to Lab Hub</a>
-
-    <div class="checklist-card">
-      <div class="checklist-title">LAB 4 PROGRESS</div>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-1" onchange="saveChecklist()"><span>Task 4.1 SSL: Zscaler cert viewed on microsoft.com</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-2" onchange="saveChecklist()"><span>healthcare.org shows Do Not Inspect in logs</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-3" onchange="saveChecklist()"><span>Zscaler Root CA verified in MMC cert store</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-4" onchange="saveChecklist()"><span>Task 4.1 ZIA: Cloud App Control policies reviewed</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-5" onchange="saveChecklist()"><span>MKT user tested (888.com blocked, LinkedIn isolated)</span></label>
-      <label class="checklist-item"><input type="checkbox" id="chk-4-6" onchange="saveChecklist()"><span>Task 4.2: ZPA policy block investigated in Diagnostics</span></label>
+    <div class="sidebar-section">
+      <a class="hub-link" href="index.html">← Back to EDU-260 Labs</a>
     </div>
 
-    <div class="quick-ref" id="quick-ref">
-      <div class="quick-ref-title" onclick="document.getElementById('quick-ref').classList.toggle('open')">
-        QUICK REFERENCE <span class="qr-chevron">▲</span>
-      </div>
-      <div class="qr-body">
-        <div class="qr-item">
-          <div class="qr-term">SSL Inspection Chain</div>
-          <div class="qr-def">ZIA intercepts HTTPS → inspects plaintext → re-signs with Zscaler Intermediate Root CA → sends to browser. Browser trusts it only if Zscaler Root CA is in the OS/browser cert store.</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-term">Install Zscaler SSL Certificate</div>
-          <div class="qr-def">App Profile toggle that auto-installs the Zscaler Root CA on managed devices via ZCC. If missing, all SSL-inspected sites show cert errors.</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-term">SSL Policy Reason</div>
-          <div class="qr-def">Column in Web Insights Logs. Values: <em>Inspected</em>, <em>Do Not Inspect</em>, <em>Bypass</em>. Useful for verifying inspection exemption rules.</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-term">Tenancy Restriction</div>
-          <div class="qr-def">Restricts cloud app access to business accounts only (e.g. only allow Zscaler&rsquo;s YouTube channel, block personal channels). Configured in Administration → Tenant Profiles.</div>
-        </div>
-        <div class="qr-item">
-          <div class="qr-term">ZPA Deny All Else</div>
-          <div class="qr-def">Catch-all ZPA Access Policy rule at the bottom. Users hitting it means no preceding allow rule matched. Check SAML attributes, SCIM group membership, and Client Type in Diagnostics logs.</div>
+    <div class="sidebar-section">
+      <div class="sidebar-fqdn-card">
+        <div class="sidebar-fqdn-label">Student Prefix</div>
+        <div class="sidebar-fqdn-row">
+          <input type="text" class="sidebar-fqdn-input" id="sidebar-fqdn-input"
+            placeholder="e.g. ptcb32" autocomplete="off"
+            onkeydown="if(event.key==='Enter')saveSidebarFqdn(document.querySelector('.sidebar-fqdn-save'))">
+          <button class="sidebar-fqdn-save" onclick="saveSidebarFqdn(this)">Save</button>
+          <button class="sidebar-fqdn-copy" onclick="copySidebarFqdn(this)" title="Copy">⧘</button>
         </div>
       </div>
     </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Virtual Machines</div>
+      <div class="sidebar-cred-list">
+
+        <div class="sidebar-cred-item">
+          <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Client PC<span class="sidebar-cred-chevron">▾</span></button>
+          <div class="sidebar-cred-body">
+            <div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">student</code><button class="scr-copy" onclick="copySidebarCred('student',this)" title="Copy">⎘</button></div>
+            <div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">Admin-123!</code><button class="scr-copy" onclick="copySidebarCred('Admin-123!',this)" title="Copy">⎘</button></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Portal Accounts</div>
+      <div class="sidebar-cred-list sidebar-portal-creds"></div>
+    </div>
+
   </aside>
 </main>
 
@@ -426,8 +384,36 @@ function toggleConfig(){var panel=document.getElementById('config-panel');var bt
 function updateSidebarOffset(){var panel=document.getElementById('config-panel');var h=panel?panel.offsetHeight:52;document.documentElement.style.setProperty('--config-h',(h+16)+'px');}
 (function(){var cb=document.getElementById('config-body');if(cb)cb.addEventListener('transitionend',function(e){if(e.propertyName==='max-height')updateSidebarOffset();});})();
 function updateToggleSummary(){var prefix=document.getElementById('prefix-input').value.trim();var s=document.getElementById('config-toggle-summary');s.textContent=prefix?' — '+prefix:'';}
-function applyConfig(){var prefix=document.getElementById('prefix-input').value.trim();var pass=document.getElementById('pass-input').value.trim();var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';var admin=prefix?prefix+'-ADMIN@'+d1:'ptcb32-ADMIN@'+d1;var it=prefix?prefix+'-IT@'+d1:'ptcb32-IT@'+d1;var hr=prefix?prefix+'-HR@'+d1:'ptcb32-HR@'+d1;var mkt=prefix?prefix+'-MKT@'+d1:'ptcb32-MKT@'+d1;['d-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});['d-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});['d-hr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=hr;});['d-mkt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=mkt;});document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});document.querySelectorAll('.d-username-hr').forEach(function(el){el.textContent=hr;});document.querySelectorAll('.d-username-mkt').forEach(function(el){el.textContent=mkt;});document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});}
-function loadConfig(){try{var saved=localStorage.getItem(CONFIG_KEY);if(saved){var cfg=JSON.parse(saved);document.getElementById('prefix-input').value=cfg.prefix||'';document.getElementById('pass-input').value=cfg.pass||'';}else{document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}if(localStorage.getItem(CONFIG_COLLAPSED_KEY)==='1'){var panel=document.getElementById('config-panel');var btn=document.getElementById('config-toggle-btn');panel.classList.add('collapsed');btn.innerHTML='<span class="chevron" style="transform:rotate(180deg);display:inline-block;">▲</span> Expand';}}catch(e){document.getElementById('prefix-input').value='ptcb32';document.getElementById('pass-input').value='9UnV@7-g';}applyConfig();updateToggleSummary();updateSidebarOffset();}
+function applyConfig(){
+  try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');
+  var prefix=d.prefix||'ptcb32';var pass=d.pass||'';
+  var d1='thezerotrustexchange.com',d2='thezerotrustlab.com';
+  var admin=prefix+'-ADMIN@'+d1;
+  var it=prefix+'-IT@'+d1;
+  var hr=prefix+'-HR@'+d1;
+  var mkt=prefix+'-MKT@'+d1;
+  var con=prefix+'-CON@'+d1;
+  var ot=prefix+'-OT@'+d1;
+  var sales=prefix+'-SALES@'+d2;
+  ['d-admin','t-admin'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=admin;});
+  ['d-it','t-it'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=it;});
+  ['d-hr','t-hr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=hr;});
+  ['d-mkt','t-mkt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=mkt;});
+  ['d-con','t-con'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=con;});
+  ['d-ot','t-ot'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=ot;});
+  ['d-sales','t-sales'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=sales;});
+  if(document.getElementById('t-pass')&&pass)document.getElementById('t-pass').textContent=pass;
+  document.querySelectorAll('.d-username-admin').forEach(function(el){el.textContent=admin;});
+  document.querySelectorAll('.d-username-it').forEach(function(el){el.textContent=it;});
+  document.querySelectorAll('.d-username-hr').forEach(function(el){el.textContent=hr;});
+  document.querySelectorAll('.d-username-mkt').forEach(function(el){el.textContent=mkt;});
+  document.querySelectorAll('.var-pass').forEach(function(el){if(pass){el.textContent=pass;el.classList.add('filled');}else{el.textContent='<Session Password>';el.classList.remove('filled');}});
+  var sfi=document.getElementById('sidebar-fqdn-input');if(sfi)sfi.value=prefix;}catch(e){}
+  try{renderPortalCreds();}catch(e){}
+}
+function loadConfig(){
+  try{applyConfig();}catch(e){}
+}
 function saveConfig(){var cfg={prefix:document.getElementById('prefix-input').value.trim(),pass:document.getElementById('pass-input').value.trim()};try{localStorage.setItem(CONFIG_KEY,JSON.stringify(cfg));}catch(e){}applyConfig();updateToggleSummary();var btn=document.querySelector('.config-btn');var orig=btn.textContent;btn.textContent='✓ Saved';btn.style.background='var(--green)';setTimeout(function(){btn.textContent=orig;btn.style.background='';},1200);}
 function clearConfig(){document.getElementById('prefix-input').value='';document.getElementById('pass-input').value='';try{localStorage.removeItem(CONFIG_KEY);}catch(e){}applyConfig();updateToggleSummary();}
 function copyConfigField(id,btn){var val=document.getElementById(id).value.trim();if(!val)return;navigator.clipboard.writeText(val).then(function(){var orig=btn.textContent;btn.textContent='✓';btn.classList.add('copied');setTimeout(function(){btn.textContent=orig;btn.classList.remove('copied');},1200);}).catch(function(){});}
@@ -465,6 +451,98 @@ function toggleSectionQA(btn){var block=btn.closest('.section-qa');block.classLi
 document.addEventListener('DOMContentLoaded',function(){document.body.style.opacity='1';loadConfig();loadFooterState();loadQList();loadNList();loadChecklist();injectCopyButtons();SECTION_IDS.forEach(function(id){renderSectionQ(id);renderSectionN(id);});});
 
 document.querySelectorAll('.socratic-header').forEach(function(h){h.addEventListener('click',function(){h.closest('.socratic-block').classList.toggle('soc-open');});});
+function toggleSCred(btn){var item=btn.closest('.sidebar-cred-item');var list=item.closest('.sidebar-cred-list');var isOpen=item.classList.contains('open');list.querySelectorAll('.sidebar-cred-item').forEach(function(el){el.classList.remove('open');});if(!isOpen)item.classList.add('open');}
+function copySidebarCred(val,btn){try{navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
+var PORTAL_CREDS_KEY='edu260-portal-creds';
+var DEFAULT_PORTAL_CREDS=[{id:'zia-admin',title:'ZIA Admin',user:'{{prefix}}-ADMIN@thezerotrustexchange.com',pass:'{{pass}}'},{id:'it-dept',title:'IT Dept',user:'{{prefix}}-IT@thezerotrustexchange.com',pass:'{{pass}}'},{id:'hr-dept',title:'HR Dept',user:'{{prefix}}-HR@thezerotrustexchange.com',pass:'{{pass}}'},{id:'mkt-dept',title:'MKT Dept',user:'{{prefix}}-MKT@thezerotrustexchange.com',pass:'{{pass}}'},{id:'contractor',title:'Contractor',user:'{{prefix}}-CON@thezerotrustexchange.com',pass:'{{pass}}'},{id:'ot-user',title:'OT User',user:'{{prefix}}-OT@thezerotrustexchange.com',pass:'{{pass}}'},{id:'sales-user',title:'Sales User',user:'{{prefix}}-SALES@thezerotrustlab.com',pass:'{{pass}}'}];
+function getPortalCreds(){try{var s=localStorage.getItem(PORTAL_CREDS_KEY);if(s)return JSON.parse(s);}catch(e){}return DEFAULT_PORTAL_CREDS.map(function(c){return{id:c.id,title:c.title,user:c.user,pass:c.pass};});}
+function savePortalCreds(creds){try{localStorage.setItem(PORTAL_CREDS_KEY,JSON.stringify(creds));}catch(e){}}
+function resolveCredToken(val){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');return(val||'').replace('{{prefix}}',d.prefix||'').replace('{{pass}}',d.pass||'');}catch(e){return val||'';}}
+function escPC(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function renderPortalCreds(){
+  var list=document.querySelector('.sidebar-portal-creds');
+  if(!list)return;
+  var creds=getPortalCreds();
+  var html='';
+  creds.forEach(function(cred){
+    var ru=resolveCredToken(cred.user);
+    var rp=resolveCredToken(cred.pass);
+    html+='<div class="sidebar-cred-item" data-cred-id="'+escPC(cred.id)+'">';
+    html+='<button class="sidebar-cred-header" onclick="toggleSCred(this)">';
+    html+='<span class="scr-cred-title">'+escPC(cred.title)+'</span>';
+    html+='<span class="sidebar-cred-actions">';
+    html+='<button class="scr-edit-btn" onclick="event.stopPropagation();editPortalCred(this)" title="Edit">✎</button>';
+    if(cred.id!=='zia-admin'){html+='<button class="scr-del-btn" onclick="event.stopPropagation();delPortalCred(this)" title="Delete">✕</button>';}
+    html+='</span><span class="sidebar-cred-chevron">▾</span></button>';
+    html+='<div class="sidebar-cred-body">';
+    if(ru){html+='<div class="sidebar-cred-row"><span class="scr-label">User</span><code class="scr-value">'+escPC(ru)+'</code><button class="scr-copy" data-copy="'+escPC(ru)+'" onclick="copySCVal(this)" title="Copy">⎘</button></div>';}
+    if(rp){html+='<div class="sidebar-cred-row"><span class="scr-label">Pass</span><code class="scr-value">'+escPC(rp)+'</code><button class="scr-copy" data-copy="'+escPC(rp)+'" onclick="copySCVal(this)" title="Copy">⎘</button></div>';}
+    html+='</div></div>';
+  });
+  html+='<button class="scr-add-btn" onclick="addPortalCred()">+ Add account</button>';
+  list.innerHTML=html;
+}
+function copySCVal(btn){copySidebarCred(btn.getAttribute('data-copy'),btn);}
+function getCredItemId(el){var item=el.closest('.sidebar-cred-item');return item?item.getAttribute('data-cred-id'):null;}
+function editPortalCred(btn){
+  var id=getCredItemId(btn);
+  var creds=getPortalCreds();var cred=null;
+  creds.forEach(function(c){if(c.id===id)cred=c;});
+  if(!cred)return;
+  var item=btn.closest('.sidebar-cred-item');
+  item.innerHTML='<div class="scr-edit-form">'
+    +'<input class="scr-edit-input" id="spe-t-'+id+'" placeholder="Title" value="'+escPC(cred.title)+'">'
+    +'<input class="scr-edit-input" id="spe-u-'+id+'" placeholder="Username" value="'+escPC(cred.user)+'">'
+    +'<input class="scr-edit-input" id="spe-p-'+id+'" placeholder="Password" value="'+escPC(cred.pass)+'">'
+    +'<div class="scr-edit-actions">'
+    +'<button class="scr-save-btn" onclick="savePortalCredEdit(\''+id+'\')" >Save</button>'
+    +(id!=='zia-admin'?'<button class="scr-del-btn-form" onclick="delPortalCredById(\''+id+'\')" >Delete</button>':'')
+    +'<button class="scr-cancel-btn" onclick="renderPortalCreds()">Cancel</button>'
+    +'</div></div>';
+}
+function savePortalCredEdit(id){
+  var t=document.getElementById('spe-t-'+id);
+  var u=document.getElementById('spe-u-'+id);
+  var p=document.getElementById('spe-p-'+id);
+  if(!t)return;
+  var creds=getPortalCreds();
+  creds.forEach(function(c){if(c.id===id){c.title=t.value;c.user=u.value;c.pass=p.value;}});
+  savePortalCreds(creds);renderPortalCreds();
+}
+function delPortalCred(btn){delPortalCredById(getCredItemId(btn));}
+function delPortalCredById(id){
+  savePortalCreds(getPortalCreds().filter(function(c){return c.id!==id;}));
+  renderPortalCreds();
+}
+function addPortalCred(){
+  var list=document.querySelector('.sidebar-portal-creds');
+  if(!list)return;
+  var addBtn=list.querySelector('.scr-add-btn');
+  if(!addBtn||list.querySelector('.scr-adding'))return;
+  var form=document.createElement('div');
+  form.className='sidebar-cred-item scr-adding';
+  form.innerHTML='<div class="scr-edit-form">'
+    +'<input class="scr-edit-input" id="spe-new-t" placeholder="Title">'
+    +'<input class="scr-edit-input" id="spe-new-u" placeholder="Username">'
+    +'<input class="scr-edit-input" id="spe-new-p" placeholder="Password">'
+    +'<div class="scr-edit-actions">'
+    +'<button class="scr-save-btn" onclick="saveNewPortalCred()">Save</button>'
+    +'<button class="scr-cancel-btn" onclick="renderPortalCreds()">Cancel</button>'
+    +'</div></div>';
+  list.insertBefore(form,addBtn);
+  document.getElementById('spe-new-t').focus();
+}
+function saveNewPortalCred(){
+  var t=document.getElementById('spe-new-t');
+  var u=document.getElementById('spe-new-u');
+  var p=document.getElementById('spe-new-p');
+  if(!t||!t.value.trim())return;
+  var creds=getPortalCreds();
+  creds.push({id:'cred-'+Date.now(),title:t.value.trim(),user:u.value.trim(),pass:p.value.trim()});
+  savePortalCreds(creds);renderPortalCreds();
+}
+function saveSidebarFqdn(btn){var inp=document.getElementById('sidebar-fqdn-input');if(!inp)return;try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');d.prefix=inp.value.trim();localStorage.setItem(CONFIG_KEY,JSON.stringify(d));}catch(e){}applyConfig();if(btn){var orig=btn.textContent;btn.textContent='✓';btn.style.background='var(--green,#1a7c4a)';btn.style.color='#fff';setTimeout(function(){btn.textContent=orig;btn.style.background='';btn.style.color='';},1200);}}
+function copySidebarFqdn(btn){var inp=document.getElementById('sidebar-fqdn-input');var val=inp?inp.value.trim():'';if(!val)try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');val=d.prefix||'';}catch(e){}if(val)try{navigator.clipboard.writeText(val);}catch(e){}if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⧘';},1200);}}
 </script>
 </body>
 </html>
