@@ -215,6 +215,10 @@ code{background:var(--surface-2);color:var(--blue-deep);border:1px solid var(--b
 .sidebar-section{margin-bottom:16px;}
 .sidebar-section .hub-link{margin-bottom:0;}
 .sidebar-label{font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.sidebar-label-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0;background:none;border:none;cursor:pointer;font-family:inherit;font-size:10px;letter-spacing:0.14em;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.sidebar-label-toggle:hover{color:var(--text-soft);}
+.sidebar-section-chevron{font-size:9px;opacity:0.6;transition:transform 0.18s;flex-shrink:0;}
+.ss-collapsed{display:none;}
 
 /* SIDEBAR CREDENTIAL ACCORDION */
 .sidebar-topology{margin-top:6px;}

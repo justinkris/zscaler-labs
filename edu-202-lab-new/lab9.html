@@ -344,15 +344,15 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
     </div>
 
     <div class="sidebar-section">
-      <div class="sidebar-label">Lab Topology</div>
-      <div class="sidebar-topology">
+      <button class="sidebar-label sidebar-label-toggle" onclick="toggleSidebarSection(this)">Lab Topology<span class="sidebar-section-chevron">&#9658;</span></button>
+      <div class="sidebar-topology ss-collapsed">
         <img src="images/topology.png" alt="Lab topology diagram — click to expand" onclick="openLightbox(this.src,this.alt)" title="Click to expand">
       </div>
     </div>
 
     <div class="sidebar-section">
-      <div class="sidebar-label">Virtual Machines</div>
-      <div class="sidebar-cred-list">
+      <button class="sidebar-label sidebar-label-toggle" onclick="toggleSidebarSection(this)">Virtual Machines<span class="sidebar-section-chevron">&#9658;</span></button>
+      <div class="sidebar-cred-list ss-collapsed">
 
         <div class="sidebar-cred-item">
           <button class="sidebar-cred-header" onclick="toggleSCred(this)">Corp: Client PC 1<span class="sidebar-cred-chevron">▾</span></button>
@@ -421,8 +421,8 @@ function copyAllNs(){try{var all=[];SECTION_IDS.forEach(function(id){try{var ns=
     </div>
 
     <div class="sidebar-section">
-      <div class="sidebar-label">Portal Credentials</div>
-      <div class="sidebar-cred-list sidebar-portal-creds"></div>
+      <button class="sidebar-label sidebar-label-toggle" onclick="toggleSidebarSection(this)">Portal Credentials<span class="sidebar-section-chevron">&#9658;</span></button>
+      <div class="sidebar-cred-list sidebar-portal-creds ss-collapsed"></div>
     </div>
 
   </aside>
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('.page-nav-btn[href]').forEach(function(a){a.addEventListener('click',function(){sessionStorage.setItem('pt','1');});});
   document.body.style.opacity='1';
 });
-function toggleSCred(btn){var item=btn.closest('.sidebar-cred-item');var list=item.closest('.sidebar-cred-list');var isOpen=item.classList.contains('open');list.querySelectorAll('.sidebar-cred-item').forEach(function(el){el.classList.remove('open');});if(!isOpen)item.classList.add('open');}
+function toggleSidebarSection(btn){var body=btn.nextElementSibling;var collapsed=body.classList.toggle('ss-collapsed');btn.querySelector('.sidebar-section-chevron').style.transform=collapsed?'rotate(0deg)':'rotate(90deg)';}function toggleSCred(btn){var item=btn.closest('.sidebar-cred-item');var list=item.closest('.sidebar-cred-list');var isOpen=item.classList.contains('open');list.querySelectorAll('.sidebar-cred-item').forEach(function(el){el.classList.remove('open');});if(!isOpen)item.classList.add('open');}
 function copySidebarCred(val,btn){try{navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
 function copyPortalCred(type,btn){try{var d=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');var val='';if(type==='student-user')val=d.fqdn?'student@'+d.fqdn:'';else if(type==='hvac-user')val=d.fqdn?'hvac@'+d.fqdn:'';else if(type==='pass')val=d.pass||'';if(val)navigator.clipboard.writeText(val);if(btn){btn.textContent='✓';setTimeout(function(){btn.textContent='⎘';},1200);}}catch(e){}}
 var PORTAL_CREDS_KEY='edu202-portal-creds';
